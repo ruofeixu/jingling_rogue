@@ -4,6 +4,8 @@
  */
 import { MOTION, TYPE, type Rgb } from "./tokens.ts";
 
+export type { Rgb } from "./tokens.ts";
+
 /** 最小可点区域，规格要求 44×44。 */
 export const MIN_HIT_SIZE = 44;
 

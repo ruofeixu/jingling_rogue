@@ -59,6 +59,8 @@ import {
   type ScreenLayout,
   type SettingsTab,
 } from "./vendor/jinglingCore";
+import { AppShell } from "./app/AppShell";
+import { createProductDriver } from "./app/product-run";
 import { makeArtSlip, makeBoonCard, makeHelpButton, makeLabel, makeSlipButton, makeSpiritCard } from "./ui/kit";
 import { addText, flashNode, lungeNode, paintBackdrop, paintFloatNum, paintNameplate, paintPartyTray, paintPortrait, paintWindow, playCatchFx, INK } from "./ui/paint";
 import {
@@ -74,6 +76,9 @@ import {
 } from "./ui/lobby";
 
 const { ccclass } = _decorator;
+
+/** 产品入口走 AppShell。改成 true 才回退到本文件的旧绘制。 */
+const LEGACY_BOOT = false;
 
 const REALM_NAME: Record<string, string> = {
   town_ruins: "镇墟",
@@ -140,6 +145,10 @@ export class Boot extends Component implements LobbyHost {
   private relicId = "";
 
   start(): void {
+    if (!LEGACY_BOOT) {
+      this.launchProductShell();
+      return;
+    }
     console.log("jingling boot");
     this.canvas = this.findCanvas();
     this.applyViewport();
@@ -147,6 +156,13 @@ export class Boot extends Component implements LobbyHost {
     screen.on("window-resize", this.onCanvasResize, this);
     this.rebuildChrome();
     void this.restore().then(() => this.showTitle());
+  }
+
+  private launchProductShell(): void {
+    const shell = this.getComponent(AppShell) ?? this.addComponent(AppShell);
+    shell.adoptProductEntry();
+    shell.setRunController(createProductDriver());
+    shell.route("title");
   }
 
   onDestroy(): void {

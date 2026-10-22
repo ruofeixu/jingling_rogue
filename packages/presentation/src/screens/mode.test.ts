@@ -44,7 +44,6 @@ describe("mode screen model", () => {
     expect(() =>
       buildModeModel({
         state: "normal",
-        // @ts-expect-error 运行时守卫：locked 必须给原因
         modes: [{ id: "spliced", label: "长夜·合体", locked: true }],
       }),
     ).toThrow(/reason/);

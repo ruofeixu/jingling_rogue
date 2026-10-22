@@ -12,6 +12,7 @@
     "sim:bench": "esbuild src/sim/cli.ts --bundle --platform=node --format=esm --outfile=dist/sim-cli.mjs && node dist/sim-cli.mjs"
   },
   "devDependencies": {
+    "@types/node": "^26.6.5",
     "esbuild": "^0.28.2",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"

@@ -3,7 +3,9 @@
   "private": true,
   "packageManager": "pnpm@9.15.0",
   "scripts": {
-    "test": "pnpm --filter @jingling/core test && pnpm --filter @jingling/presentation test && pnpm --filter @jingling/platform test",
+    "typecheck": "pnpm --filter @jingling/core exec tsc --noEmit && pnpm --filter @jingling/presentation exec tsc --noEmit && pnpm --filter @jingling/platform exec tsc --noEmit",
+    "check:vendor": "uv run --project tools python tools/check_vendor_drift.py",
+    "test": "pnpm typecheck && pnpm check:vendor && pnpm --filter @jingling/core test && pnpm --filter @jingling/presentation test && pnpm --filter @jingling/platform test",
     "test:bench": "pnpm --filter @jingling/core exec vitest run src/sim/bench.test.ts",
     "sim:bench": "pnpm --filter @jingling/core sim:bench",
     "smoke": "pnpm --filter @jingling/core exec vitest run src/ui/preview-app.test.ts",

@@ -111,6 +111,7 @@ export {
   type CommandIntent,
   type RouteIntent,
 } from "./dispatch.ts";
+export { routeAfterCommand } from "./route-after.ts";
 export {
   OVERLAY_SCREENS,
   closeOverlay,

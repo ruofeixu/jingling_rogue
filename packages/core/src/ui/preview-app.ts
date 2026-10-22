@@ -1064,10 +1064,11 @@ export function runUiSmoke(seed: string): { screens: string[]; taps: string[]; d
   mapped.skipTo(10);
   for (let i = 0; i < 8 && mapped.screen === "battle"; i += 1) {
     tap(mapped, "走");
-    if (mapped.screen === "catch") {
+    // tap 会改 screen；for 条件里的收窄到这里已经过期。
+    if ((mapped.screen as string) === "catch") {
       tap(mapped, "放过");
     }
-    if (mapped.screen === "shop") {
+    if ((mapped.screen as string) === "shop") {
       const boon = mapped.labels().find((label) => !["再择", "小药", "摘要", "奇遇", "合体", "空地", "回厅"].includes(label));
       if (boon) {
         tap(mapped, boon);

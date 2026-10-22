@@ -1,4 +1,6 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { forceOutcomeForTest, openShopForTest } from "./run-controller-testkit.ts";
 import { RunController } from "./run-controller.ts";
 import { emptyAccount } from "./run-session.ts";
 
@@ -7,6 +9,15 @@ function newRun(): RunController {
   controller.startRun({ seed: "u12-test", starterId: "zao_li", mode: "classic" });
   return controller;
 }
+
+describe("RunController shipping surface", () => {
+  it("does not declare test hooks on the class that gets bundled", () => {
+    const src = readFileSync(new URL("./run-controller.ts", import.meta.url), "utf8");
+
+    expect(src).not.toContain("forceOutcomeForTest");
+    expect(src).not.toContain("openShopForTest");
+  });
+});
 
 describe("RunController drives a real run", () => {
   it("opens a battle after startRun and projects a battle view", () => {
@@ -52,7 +63,7 @@ describe("RunController drives a real run", () => {
   it("commits an outcome only once (idempotent account write)", () => {
     const controller = newRun();
     // 直接推到胜局用于测试提交幂等
-    controller.forceOutcomeForTest(true);
+    forceOutcomeForTest(controller, true);
     const revBefore = controller.account().revision;
 
     controller.commitOutcome();
@@ -112,7 +123,7 @@ describe("RunController real pricing and save IO (U13)", () => {
     const { stockForWave } = await import("../shop/shop.ts");
     const controller = newRun();
     // 推到 boon/shop 相位：直接用测试钩子打开货摊
-    controller.openShopForTest();
+    openShopForTest(controller);
     const view = controller.progressView("shop");
     const wave = controller.snapshot().run.wave;
     const realCosts = new Set(stockForWave(wave).map((s) => s.cost));

@@ -16814,7 +16814,8 @@ var RunController = class {
       starterId: opts.starterId,
       mode: opts.mode ?? "classic",
       account: opts.account ?? emptyAccount(),
-      relicId: opts.relicId
+      relicId: opts.relicId,
+      sprint: opts.sprint
     });
     this.slice.beginWave();
     this.battle = openBattle(this.slice);
@@ -17164,16 +17165,6 @@ var RunController = class {
       art: "ready"
     });
   }
-  // --- 测试辅助 ---
-  /** 仅供测试：强制把结局定为胜/负，用于验证提交幂等。 */
-  forceOutcomeForTest(won) {
-    this.forcedWin = won;
-  }
-  /** 仅供测试：把相位置为 boon（货摊），用于验证 shop 投影定价。 */
-  openShopForTest() {
-    const slice = this.requireSlice();
-    slice.phase = "boon";
-  }
   requireSlice() {
     if (!this.slice) {
       throw new Error("run not started");
@@ -17181,6 +17172,21 @@ var RunController = class {
     return this.slice;
   }
 };
+
+// src/run/product-start.ts
+var RUN_MODES = /* @__PURE__ */ new Set(["classic", "daily", "endless", "spliced", "challenge"]);
+function resolveProductStart(input) {
+  const sprint = input.mode === "sprint";
+  const mode = RUN_MODES.has(input.mode) ? input.mode : "classic";
+  return {
+    seed: input.seed,
+    starterId: input.starterId || "zao_li",
+    mode,
+    account: input.account,
+    sprint,
+    relicId: sprint ? pickStartRelic(input.account, "", input.relicSeed) : void 0
+  };
+}
 export {
   AFFINITY_CN,
   ART_SLIP,
@@ -17284,6 +17290,7 @@ export {
   recordSeen,
   redeemVoucher,
   remoteManifest,
+  resolveProductStart,
   runSim,
   runUiSmoke,
   saveAccountLocal,

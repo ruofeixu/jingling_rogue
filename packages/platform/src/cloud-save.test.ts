@@ -22,7 +22,7 @@ describe("CloudSaveClient", () => {
     const put = await client.putAccount(0, { codex: ["zao_li"] });
     expect(put.revision).toBe(1);
     const got = await client.getAccount();
-    expect(got.payload.codex).toEqual(["zao_li"]);
+    expect(got.payload?.codex).toEqual(["zao_li"]);
     expect(calls[0]?.init?.headers).toMatchObject({ Authorization: "Bearer tok" });
   });
 

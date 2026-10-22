@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { closeOverlay, emptyOverlayStack, openOverlay, topOverlay } from "./overlay-stack.ts";
+import { closeOverlay, emptyOverlayStack, openOverlay, topOverlay, type OverlayScreenId } from "./overlay-stack.ts";
 
 describe("overlay stack", () => {
   it("starts empty", () => {
@@ -51,7 +51,7 @@ describe("overlay stack", () => {
 
   it("rejects an unknown overlay screen", () => {
     expect(() =>
-      openOverlay(emptyOverlayStack(), { screenId: "title", triggerActionId: "x" }),
+      openOverlay(emptyOverlayStack(), { screenId: "title" as OverlayScreenId, triggerActionId: "x" }),
     ).toThrow(/overlay/);
   });
 

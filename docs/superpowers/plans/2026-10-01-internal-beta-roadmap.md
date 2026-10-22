@@ -28,11 +28,9 @@
 
 ### B2：单一 UI 入口决策与落地
 
-在两种方案中只保留一个运行时所有者：
-- A：把已迁移 presentation/AppShell 接入 `boot.scene` 并补齐真实流程；
-- B：继续由 Boot 发货，把新皮肤/布局组件接回 Boot。
+**决策（2026-10-22）：方案 A。** `boot.scene` 仍挂 `Boot`，但 `LEGACY_BOOT = false` 时 `Boot.start` 只创建 `AppShell`、注入 `RunController`，并从 title 进入。旧绘制留在 `Boot.ts`，把常量改回 `true` 即回退。两个入口不会同时画 UI。
 
-以“最少重复状态机、可在本地真实点击闭环”为准做决定；另一条仅保留受控回退，禁止双挂载。
+模式选择、初始确认和相位变化由 `routeAfterCommand` 决定下一页。短征映射成带契印的经典局。商店、背包、换位等未处理命令仍归 B3。
 
 ### B3：真实用户流程与功能缺口
 
@@ -50,12 +48,10 @@
 
 两平台新鲜构建；真实入口固定种子旅程；包体/内存/Draw Call；存档；错误恢复；clean-room；截图说明；独立复核。无 Critical，Important 有明确接受记录，方可称内测版。
 
-## 当前事实基线（审计）
+## 当前事实基线（2026-10-22 复测）
 
-- TS：core 246 / presentation 294 / platform 17 通过。
-- Python：40 通过、2 失败（禁用词与源码静态包体）。
-- 实际入口仍是 `boot.scene → Boot`；AppShell 未挂场景。
-- `assets/ui-art` 约 44MB，其中 `incoming` 约 39.6MB，被正式 bundle 收入。
-- 新鲜微信构建仅分包 portraits 时主包约 58.7MB；同时移出 ui-art 后主包约 3.39MB，但检查器尚未校验分包预算。
-- title 首帧可能把缺失帧永久负缓存，背景保持纯色；battle 后续路由才加载背景/图标。
-- 2026-09-30 截图为 750×1247，非要求的 750×1334，且验证脚本异常仍可 exit 0。
+- TS：core 249 / presentation 302 / platform 17 通过。`pnpm test` 先跑 `tsc --noEmit` 和 vendor 漂移检查。
+- Python：tools 54 / server 9 通过。禁用词扫描通过。
+- 实际入口是 `boot.scene → Boot`。`LEGACY_BOOT = false` 时 Boot 只启动 AppShell，并从 title 进入。旧绘制仍在，改回 `true` 即回退。
+- `assets/ui-art` 约 4.4MB，已无 `incoming`。静态主包检查约 0.6MB，低于 4MB。
+- 商店、背包、换位等未接上的命令仍归 B3。本次没有在 Cocos 里点完一整局。

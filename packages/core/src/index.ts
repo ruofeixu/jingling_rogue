@@ -75,7 +75,7 @@ export {
   saveAccountLocal,
   loadAccountLocal,
 } from "./save/local-store.ts";
-export type { BattleEvent, BattleView } from "./view/battle-view.ts";
+export type { BattleEvent } from "./view/battle-view.ts";
 export type { GameTables, SpiritRow, ArtRow, BoonRow } from "./tables/types.ts";
 export type { RunSession, AccountProgress } from "./run/run-session.ts";
 export { defaultSettings, SETTINGS_TABS } from "./meta/settings.ts";
@@ -177,3 +177,4 @@ export type { SimResult } from "./sim/run-sim.ts";
 export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIRD_PORTRAITS, PORTRAIT_IDS, CARTOON_PORTRAIT_IDS, hasPortrait, hasCartoonPortrait, portraitPath, portraitTexturePath } from "./assets/manifest.ts";
 export type { RemoteManifest, RemoteAsset, PortraitStyle } from "./assets/manifest.ts";
 export { RunController, type StartRunOpts, type SlotInfo } from "./run/run-controller.ts";
+export { resolveProductStart } from "./run/product-start.ts";

@@ -25,6 +25,7 @@ import {
   buildStarterModel,
   buildStatsModel,
   resolveAction,
+  routeAfterCommand,
   selectRenderer,
   withRenderer,
   type RendererKind,
@@ -94,6 +95,7 @@ export interface RunControllerLike {
   overlaysView(): BattleOverlaysView;
   progressView(kind: "summary" | "shop" | "omen" | "map"): RunProgressView;
   outcomeView(kind: "defeat" | "victory" | "hatch"): OutcomeView;
+  phase?(): string;
 }
 
 /** 没有战斗时的占位投影，只用于 battle 页 empty 态。 */
@@ -148,7 +150,8 @@ const EMPTY_BATTLE_VIEW: BattleView = {
  * 只管 manifest、页面宿主、viewport、安全区与新旧 renderer 选择。
  * 不含页面坐标，不做玩法判断，不持有玩法状态。
  *
- * U1：manifest 25 页全部 legacy，产品页仍由 Boot 承载；本壳只运行诊断路由。
+ * 产品入口由 Boot.launchProductShell 挂入，从 title 开始。
+ * 诊断页仍是未接管时的默认路由。LEGACY_BOOT 打开时，旧绘制由 Boot 自己负责。
  */
 @ccclass("AppShell")
 export class AppShell extends Component {
@@ -241,8 +244,10 @@ export class AppShell extends Component {
     }
     this.battleView = c.battleView();
     this.overlayView = c.overlaysView();
-    this.progressView = c.progressView("summary");
-    this.outcomeView = c.outcomeView(this.routeId === "defeat" ? "defeat" : this.routeId === "hatch" ? "hatch" : "victory");
+    const progressKind = (["summary", "shop", "omen", "map"] as const).find((id) => id === this.routeId) ?? "summary";
+    this.progressView = c.progressView(progressKind);
+    const outcomeKind = this.routeId === "defeat" ? "defeat" : this.routeId === "hatch" ? "hatch" : "victory";
+    this.outcomeView = c.outcomeView(outcomeKind);
   }
 
   private progressView: RunProgressView | null = null;
@@ -302,6 +307,7 @@ export class AppShell extends Component {
   }
   /** 起始选择的瞬时 UI 状态：选中项与立绘资源状态，属于壳层。 */
   private starterSelectedId: string | null = null;
+  private pendingMode: string | null = null;
   private starterArt: "ready" | "loading" | "error" = "ready";
 
   /**
@@ -432,10 +438,29 @@ export class AppShell extends Component {
       return;
     }
     // command 意图：接真实回合驱动。有 controller 就执行并重投影；否则退回演示日志。
+    if (intent.command === "starter.pick" && intent.payload.id) {
+      this.starterSelectedId = intent.payload.id;
+    }
+    if (intent.command === "select-mode" && intent.payload.mode) {
+      this.pendingMode = intent.payload.mode;
+    }
     if (this.runController) {
-      this.runController.execute(intent.command, intent.payload);
+      const payload = intent.command === "starter.confirm"
+        ? {
+            ...intent.payload,
+            ...(this.pendingMode ? { mode: this.pendingMode } : {}),
+            ...(this.starterSelectedId ? { starterId: this.starterSelectedId } : {}),
+          }
+        : intent.payload;
+      this.runController.execute(intent.command, payload);
+      const next = routeAfterCommand({
+        command: intent.command,
+        phase: this.runController.phase?.() ?? "",
+        current: this.routeId,
+      });
+      this.routeId = next;
       this.refreshFromController();
-      this.route(this.routeId);
+      this.route(next);
       return;
     }
     console.log("[AppShell] command", intent.command, JSON.stringify(intent.payload));
@@ -455,9 +480,23 @@ export class AppShell extends Component {
     this.route(this.routeId);
   }
 
+  private productOwned = false;
+  private shellStarted = false;
+
+  /** Boot 在产品入口调用：首帧进标题，而不是诊断页。 */
+  adoptProductEntry(): void {
+    this.productOwned = true;
+    this.routeId = "title";
+    if (this.shellStarted) {
+      this.route("title");
+    }
+  }
+
   start(): void {
     this.refreshViewport();
-    this.route(DIAGNOSTICS_SCREEN_ID);
+    if (!this.shellStarted) {
+      this.route(this.productOwned ? this.routeId : DIAGNOSTICS_SCREEN_ID);
+    }
     view.on("canvas-resize", this.onResize, this);
     // UI 贴图皮肤在 Panel/Button 首次用到时自动异步加载（UiSkin.shared 内触发）；
     // bundle 不存在则安静回退到 Graphics。加载完成后 UiSkin 派发事件，这里重刷一次当前页。
@@ -476,6 +515,7 @@ export class AppShell extends Component {
 
   /** 切路由：先卸载旧 renderer，再挂载新 renderer，禁止同时存在两个。 */
   route(screenId: string): void {
+    this.shellStarted = true;
     const renderer =
       screenId === DIAGNOSTICS_SCREEN_ID || screenId === GALLERY_ROUTE_ID
         ? "presentation"

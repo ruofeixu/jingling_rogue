@@ -60,10 +60,10 @@ describe("U3 screen renderer contract", () => {
     expect(shell).toContain("selectRenderer");
   });
 
-  it("keeps Boot untouched as the legacy renderer", () => {
+  it("keeps Boot from drawing presentation pages itself", () => {
     const boot = readFileSync(resolve(REPO, "assets/scripts/Boot.ts"), "utf8");
 
-    expect(boot.includes("AppShell")).toBe(false);
+    expect(boot).toContain("LEGACY_BOOT = false");
     expect(boot.includes("jinglingPresentation")).toBe(false);
   });
 });

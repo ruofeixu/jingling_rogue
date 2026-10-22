@@ -82,10 +82,15 @@ describe("AppShell contract", () => {
     expect(src).toContain("presentation");
   });
 
-  it("keeps the legacy Boot as the product renderer in U1", () => {
+  it("launches AppShell from Boot and keeps the legacy draw path behind a flag", () => {
     const boot = readFileSync(resolve(REPO, "assets/scripts/Boot.ts"), "utf8");
+    const shell = shellSource();
 
-    // U1 不得让 Boot 依赖壳层，否则产品页行为会被牵动
-    expect(boot.includes("AppShell")).toBe(false);
+    expect(boot).toContain("launchProductShell");
+    expect(boot).toContain("LEGACY_BOOT = false");
+    expect(boot).toContain("AppShell");
+    expect(boot).toContain("flashNode(");
+    expect(shell).toContain("adoptProductEntry");
+    expect(shell).toContain("routeAfterCommand");
   });
 });

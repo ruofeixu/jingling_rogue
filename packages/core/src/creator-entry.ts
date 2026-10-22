@@ -98,3 +98,4 @@ export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIR
 export type { PortraitStyle } from "./assets/manifest.ts";
 export type { Affinity } from "./tables/types.ts";
 export { RunController, type StartRunOpts, type SlotInfo } from "./run/run-controller.ts";
+export { resolveProductStart } from "./run/product-start.ts";

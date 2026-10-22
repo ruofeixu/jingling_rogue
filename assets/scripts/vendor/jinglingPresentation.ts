@@ -1135,6 +1135,46 @@ function resolveLobbyAction(actionId) {
   return null;
 }
 
+// src/route-after.ts
+var OVERLAY_PREFIXES = ["arts.", "switch.", "party.", "bag.", "target.", "catch."];
+function staysOnOverlay(command2) {
+  return OVERLAY_PREFIXES.some((prefix) => command2.startsWith(prefix));
+}
+var nextScreen = {
+  battle: "battle",
+  catch: "catch",
+  map: "map",
+  omen: "omen",
+  victory: "victory",
+  defeat: "defeat"
+};
+function routeAfterCommand(input) {
+  switch (input.command) {
+    case "select-mode":
+    case "starter.pick":
+      return "starter";
+    case "starter.back":
+      return "mode";
+    case "outcome.lobby":
+      return "title";
+    case "battle.party":
+      return "party";
+    case "battle.bag":
+      return "bag";
+    case "overlay.cancel":
+      return input.phase === "catch" ? "catch" : "battle";
+    default:
+      break;
+  }
+  if (staysOnOverlay(input.command) && (input.phase === "battle" || input.phase === "catch")) {
+    return input.current;
+  }
+  if (input.phase === "boon") {
+    return input.current === "shop" ? "shop" : "summary";
+  }
+  return nextScreen[input.phase] ?? input.current;
+}
+
 // src/overlay-stack.ts
 var OVERLAY_SCREENS = ["arts", "switch", "party", "bag", "target", "catch"];
 var OVERLAY_SET = new Set(OVERLAY_SCREENS);
@@ -1419,6 +1459,7 @@ export {
   openOverlay,
   relativeLuminance,
   resolveAction,
+  routeAfterCommand,
   selectRenderer,
   thresholdFor,
   toHex,

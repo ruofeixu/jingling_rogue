@@ -45,6 +45,7 @@ export interface StartRunOpts {
   mode?: RunMode;
   account?: AccountProgress;
   relicId?: string;
+  sprint?: boolean;
 }
 
 export interface SlotInfo {
@@ -81,6 +82,7 @@ export class RunController {
       mode: opts.mode ?? "classic",
       account: opts.account ?? emptyAccount(),
       relicId: opts.relicId,
+      sprint: opts.sprint,
     });
     this.slice.beginWave();
     this.battle = openBattle(this.slice);
@@ -472,19 +474,6 @@ export class RunController {
       hatched: kind === "hatch" ? [{ label: "孵出", value: slice?.run.starterId ?? "" }] : [],
       art: "ready",
     });
-  }
-
-  // --- 测试辅助 ---
-
-  /** 仅供测试：强制把结局定为胜/负，用于验证提交幂等。 */
-  forceOutcomeForTest(won: boolean): void {
-    this.forcedWin = won;
-  }
-
-  /** 仅供测试：把相位置为 boon（货摊），用于验证 shop 投影定价。 */
-  openShopForTest(): void {
-    const slice = this.requireSlice();
-    (slice as unknown as { phase: string }).phase = "boon";
   }
 
   private requireSlice(): ClassicSlice {

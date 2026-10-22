@@ -1,0 +1,605 @@
+[
+  {
+    "id": "inn_rest",
+    "kind": "heal",
+    "name": "荒店一宿",
+    "body": "店主添了灯油，问你可住一晚。",
+    "options": [
+      {
+        "label": "住下",
+        "heal": true
+      },
+      {
+        "label": "赶路"
+      }
+    ]
+  },
+  {
+    "id": "well_bone",
+    "kind": "bone",
+    "name": "古井赌骨",
+    "body": "井底有人低语，要拿骨相来换。",
+    "options": [
+      {
+        "label": "伸手",
+        "bone": 1
+      },
+      {
+        "label": "退开"
+      }
+    ]
+  },
+  {
+    "id": "opera_fight",
+    "kind": "battle",
+    "name": "社戏开战",
+    "body": "戏台上跳下一名花脸，要与你比试。",
+    "options": [
+      {
+        "label": "应战",
+        "battle": true
+      },
+      {
+        "label": "离席"
+      }
+    ]
+  },
+  {
+    "id": "stele_pact",
+    "kind": "pact",
+    "name": "碑刻改契",
+    "body": "残碑上的契文未干。",
+    "options": [
+      {
+        "label": "改契",
+        "pact": true
+      },
+      {
+        "label": "不碰"
+      }
+    ]
+  },
+  {
+    "id": "lamp_egg",
+    "kind": "egg",
+    "name": "渔灯得卵",
+    "body": "河上渔灯照出一枚温卵。",
+    "options": [
+      {
+        "label": "收下",
+        "voucher": "fan"
+      },
+      {
+        "label": "放回"
+      }
+    ]
+  },
+  {
+    "id": "paper_fuse",
+    "kind": "fuse",
+    "name": "纸马合体",
+    "body": "纸马要与队中精怪叠成一身。",
+    "options": [
+      {
+        "label": "允了",
+        "fuse": true
+      },
+      {
+        "label": "撕开"
+      }
+    ]
+  },
+  {
+    "id": "bell_swap",
+    "kind": "swap",
+    "name": "铜钟换人",
+    "body": "钟响一次，队中首位与末位对调。",
+    "options": [
+      {
+        "label": "敲钟",
+        "swap": true
+      },
+      {
+        "label": "捂耳"
+      }
+    ]
+  },
+  {
+    "id": "lost_charm",
+    "kind": "lost",
+    "name": "荒驿失物",
+    "body": "包袱少了一件机缘。",
+    "options": [
+      {
+        "label": "认了",
+        "lost": true
+      },
+      {
+        "label": "翻找"
+      }
+    ]
+  },
+  {
+    "id": "night_market",
+    "kind": "shop",
+    "name": "夜市商店",
+    "body": "摊主只收夜间来客。",
+    "options": [
+      {
+        "label": "逛摊",
+        "shop": true
+      },
+      {
+        "label": "走过"
+      }
+    ]
+  },
+  {
+    "id": "grave_offer",
+    "kind": "offer",
+    "name": "墓树献祭",
+    "body": "树根要一口精血。",
+    "options": [
+      {
+        "label": "献血",
+        "hp": -0.2,
+        "gold": 40
+      },
+      {
+        "label": "绕开"
+      }
+    ]
+  },
+  {
+    "id": "gamble_luck",
+    "kind": "luck",
+    "name": "赌命加运",
+    "body": "骰子停在你掌心。",
+    "options": [
+      {
+        "label": "掷",
+        "luck": 1
+      },
+      {
+        "label": "不赌"
+      }
+    ]
+  },
+  {
+    "id": "release_carp",
+    "kind": "gold",
+    "name": "放生得钱",
+    "body": "篮里的河鱼还想回水里。",
+    "options": [
+      {
+        "label": "放生",
+        "gold": 80
+      },
+      {
+        "label": "不放"
+      }
+    ]
+  },
+  {
+    "id": "tutor_scroll",
+    "kind": "exp",
+    "name": "野馆学术",
+    "body": "先生愿教一课。",
+    "options": [
+      {
+        "label": "听讲",
+        "exp": 1
+      },
+      {
+        "label": "告辞"
+      }
+    ]
+  },
+  {
+    "id": "lock_omen",
+    "kind": "omen",
+    "name": "天时锁",
+    "body": "云层被符纸钉住。",
+    "options": [
+      {
+        "label": "落符",
+        "lockOmen": true
+      },
+      {
+        "label": "不管"
+      }
+    ]
+  },
+  {
+    "id": "force_pair",
+    "kind": "dual",
+    "name": "双人强制",
+    "body": "山路只容两人并肩。",
+    "options": [
+      {
+        "label": "并走",
+        "dual": true
+      },
+      {
+        "label": "单行"
+      }
+    ]
+  },
+  {
+    "id": "temp_ban",
+    "kind": "illegal",
+    "name": "非法体暂用",
+    "body": "匣中精怪暂可上场一战。",
+    "options": [
+      {
+        "label": "启用",
+        "temp": true
+      },
+      {
+        "label": "封匣"
+      }
+    ]
+  },
+  {
+    "id": "inn_rest_2",
+    "kind": "heal",
+    "name": "社仓歇脚",
+    "body": "仓里有余粮。",
+    "options": [
+      {
+        "label": "吃饱",
+        "heal": true
+      },
+      {
+        "label": "不吃"
+      }
+    ]
+  },
+  {
+    "id": "well_bone_2",
+    "kind": "bone",
+    "name": "石槽问骨",
+    "body": "槽水映出骨纹。",
+    "options": [
+      {
+        "label": "探水",
+        "bone": 1
+      },
+      {
+        "label": "走开"
+      }
+    ]
+  },
+  {
+    "id": "opera_fight_2",
+    "kind": "battle",
+    "name": "傩队拦路",
+    "body": "傩面要你比武。",
+    "options": [
+      {
+        "label": "比武",
+        "battle": true
+      },
+      {
+        "label": "让路"
+      }
+    ]
+  },
+  {
+    "id": "lamp_egg_2",
+    "kind": "egg",
+    "name": "芦花拾卵",
+    "body": "芦丛里温着一卵。",
+    "options": [
+      {
+        "label": "拾起",
+        "voucher": "fan"
+      },
+      {
+        "label": "留下"
+      }
+    ]
+  },
+  {
+    "id": "release_carp_2",
+    "kind": "gold",
+    "name": "桥下铜钱",
+    "body": "有人把钱投入桥洞。",
+    "options": [
+      {
+        "label": "也投",
+        "gold": 50
+      },
+      {
+        "label": "不投"
+      }
+    ]
+  },
+  {
+    "id": "night_market_2",
+    "kind": "shop",
+    "name": "灯会夜摊",
+    "body": "灯会里还能买到货。",
+    "options": [
+      {
+        "label": "买",
+        "shop": true
+      },
+      {
+        "label": "逛过"
+      }
+    ]
+  },
+  {
+    "id": "gamble_luck_2",
+    "kind": "luck",
+    "name": "香案求签",
+    "body": "签筒轻轻一颤。",
+    "options": [
+      {
+        "label": "求签",
+        "luck": 1
+      },
+      {
+        "label": "不求"
+      }
+    ]
+  },
+  {
+    "id": "force_pair_2",
+    "kind": "dual",
+    "name": "双桥并渡",
+    "body": "两桥必须同时过。",
+    "options": [
+      {
+        "label": "并渡",
+        "dual": true
+      },
+      {
+        "label": "单桥"
+      }
+    ]
+  },
+  {
+    "id": "shrine_oil",
+    "kind": "heal",
+    "name": "社油添灯",
+    "body": "社公灯盏将尽，问你可添一勺油。",
+    "options": [
+      {
+        "label": "添油",
+        "heal": true
+      },
+      {
+        "label": "不添"
+      }
+    ]
+  },
+  {
+    "id": "mill_tax",
+    "kind": "gold",
+    "name": "碾房抽税",
+    "body": "石碾旁坐着收税的纸人。",
+    "options": [
+      {
+        "label": "交税",
+        "gold": -20
+      },
+      {
+        "label": "硬闯",
+        "gold": 30
+      }
+    ]
+  },
+  {
+    "id": "ferry_bell",
+    "kind": "luck",
+    "name": "渡口问钟",
+    "body": "渡船铁钟只响半声。",
+    "options": [
+      {
+        "label": "再敲",
+        "luck": 1
+      },
+      {
+        "label": "上船"
+      }
+    ]
+  },
+  {
+    "id": "kiln_ash",
+    "kind": "bone",
+    "name": "窑灰暖骨",
+    "body": "冷窑里还剩一把温灰。",
+    "options": [
+      {
+        "label": "埋骨",
+        "bone": 1
+      },
+      {
+        "label": "不碰"
+      }
+    ]
+  },
+  {
+    "id": "fox_lantern",
+    "kind": "shop",
+    "name": "狐火夜市",
+    "body": "林间一串狐火排成摊位。",
+    "options": [
+      {
+        "label": "跟去",
+        "shop": true
+      },
+      {
+        "label": "不跟"
+      }
+    ]
+  },
+  {
+    "id": "reed_nest",
+    "kind": "egg",
+    "name": "芦窝温卵",
+    "body": "芦花堆里有一枚未冷的卵。",
+    "options": [
+      {
+        "label": "揣走",
+        "voucher": "fan"
+      },
+      {
+        "label": "盖好"
+      }
+    ]
+  },
+  {
+    "id": "drum_duel",
+    "kind": "battle",
+    "name": "社鼓约战",
+    "body": "鼓手要你按节拍出手。",
+    "options": [
+      {
+        "label": "应鼓",
+        "battle": true
+      },
+      {
+        "label": "退场"
+      }
+    ]
+  },
+  {
+    "id": "vine_twin",
+    "kind": "dual",
+    "name": "藤桥并走",
+    "body": "桥索只容两人同踏。",
+    "options": [
+      {
+        "label": "并走",
+        "dual": true
+      },
+      {
+        "label": "等一等"
+      }
+    ]
+  },
+  {
+    "id": "stele_lesson",
+    "kind": "exp",
+    "name": "残碑夜课",
+    "body": "碑阴有人用炭笔教字。",
+    "options": [
+      {
+        "label": "跟着念",
+        "exp": 1
+      },
+      {
+        "label": "不学"
+      }
+    ]
+  },
+  {
+    "id": "grave_wine",
+    "kind": "offer",
+    "name": "墓酒换血",
+    "body": "坟前一碗浊酒，要一口精血。",
+    "options": [
+      {
+        "label": "饮了",
+        "hp": -0.2,
+        "gold": 45
+      },
+      {
+        "label": "不饮"
+      }
+    ]
+  },
+  {
+    "id": "paper_shift",
+    "kind": "swap",
+    "name": "纸马换位",
+    "body": "纸马绕场一周，队首队尾对调。",
+    "options": [
+      {
+        "label": "允了",
+        "swap": true
+      },
+      {
+        "label": "撕马"
+      }
+    ]
+  },
+  {
+    "id": "nail_cloud",
+    "kind": "omen",
+    "name": "符钉层云",
+    "body": "有人要把天时钉死在这一层。",
+    "options": [
+      {
+        "label": "落钉",
+        "lockOmen": true
+      },
+      {
+        "label": "不管"
+      }
+    ]
+  },
+  {
+    "id": "cinnabar_pact",
+    "kind": "pact",
+    "name": "丹书改契",
+    "body": "丹砂未干，契文可改半行。",
+    "options": [
+      {
+        "label": "改契",
+        "pact": true
+      },
+      {
+        "label": "盖印"
+      }
+    ]
+  },
+  {
+    "id": "shadow_fold",
+    "kind": "fuse",
+    "name": "影叠一体",
+    "body": "两道影子要叠成一条。",
+    "options": [
+      {
+        "label": "叠影",
+        "fuse": true
+      },
+      {
+        "label": "分开"
+      }
+    ]
+  },
+  {
+    "id": "night_pouch",
+    "kind": "lost",
+    "name": "夜路丢囊",
+    "body": "山风掀开包袱，少了一件机缘。",
+    "options": [
+      {
+        "label": "认了",
+        "lost": true
+      },
+      {
+        "label": "沿路找"
+      }
+    ]
+  },
+  {
+    "id": "mask_borrow",
+    "kind": "illegal",
+    "name": "傩面暂借",
+    "body": "匣中傩面说可替你打一仗。",
+    "options": [
+      {
+        "label": "戴上",
+        "temp": true
+      },
+      {
+        "label": "封匣"
+      }
+    ]
+  }
+]

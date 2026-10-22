@@ -1,0 +1,5 @@
+{
+  "platform": "web-mobile",
+  "debug": true,
+  "buildPath": "project://.u0-build3/web"
+}

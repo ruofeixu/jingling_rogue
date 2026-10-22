@@ -1,0 +1,1390 @@
+[
+  {
+    "id": "iron_claw",
+    "name": "铁爪",
+    "kind": "atk",
+    "value": 4,
+    "weight": 10,
+    "tier": "fan"
+  },
+  {
+    "id": "ox_hide",
+    "name": "牛皮",
+    "kind": "def",
+    "value": 4,
+    "weight": 10,
+    "tier": "fan"
+  },
+  {
+    "id": "swift_talisman",
+    "name": "疾符",
+    "kind": "spd",
+    "value": 4,
+    "weight": 8,
+    "tier": "fan"
+  },
+  {
+    "id": "gourd_life",
+    "name": "命葫",
+    "kind": "hp",
+    "value": 12,
+    "weight": 10,
+    "tier": "fan"
+  },
+  {
+    "id": "binder_thread",
+    "name": "缚线",
+    "kind": "catch",
+    "value": 0.08,
+    "weight": 8,
+    "tier": "fan"
+  },
+  {
+    "id": "coin_toad",
+    "name": "金蟾",
+    "kind": "gold",
+    "value": 20,
+    "weight": 8,
+    "tier": "fan"
+  },
+  {
+    "id": "lesson_scroll",
+    "name": "课卷",
+    "kind": "exp",
+    "value": 0.15,
+    "weight": 8,
+    "tier": "fan"
+  },
+  {
+    "id": "small_draught",
+    "name": "小药",
+    "kind": "potion",
+    "value": 20,
+    "weight": 0,
+    "tier": "fan"
+  },
+  {
+    "id": "flame_seal",
+    "name": "炎印",
+    "kind": "atk",
+    "value": 6,
+    "weight": 6,
+    "tier": "fan"
+  },
+  {
+    "id": "tide_seal",
+    "name": "潮印",
+    "kind": "atk",
+    "value": 6,
+    "weight": 6,
+    "tier": "fan"
+  },
+  {
+    "id": "wood_seal",
+    "name": "木印",
+    "kind": "def",
+    "value": 6,
+    "weight": 6,
+    "tier": "fan"
+  },
+  {
+    "id": "stone_seal",
+    "name": "岩印",
+    "kind": "def",
+    "value": 6,
+    "weight": 6,
+    "tier": "fan"
+  },
+  {
+    "id": "bolt_seal",
+    "name": "霆印",
+    "kind": "spd",
+    "value": 6,
+    "weight": 6,
+    "tier": "fan"
+  },
+  {
+    "id": "frost_seal",
+    "name": "霜印",
+    "kind": "atk",
+    "value": 6,
+    "weight": 6,
+    "tier": "fan"
+  },
+  {
+    "id": "shade_seal",
+    "name": "影印",
+    "kind": "atk",
+    "value": 6,
+    "weight": 6,
+    "tier": "fan"
+  },
+  {
+    "id": "light_seal",
+    "name": "光印",
+    "kind": "atk",
+    "value": 6,
+    "weight": 6,
+    "tier": "fan"
+  },
+  {
+    "id": "thick_gourd",
+    "name": "厚葫",
+    "kind": "hp",
+    "value": 20,
+    "weight": 5,
+    "tier": "shang"
+  },
+  {
+    "id": "silver_toad",
+    "name": "银蟾",
+    "kind": "gold",
+    "value": 40,
+    "weight": 5,
+    "tier": "shang"
+  },
+  {
+    "id": "master_scroll",
+    "name": "师卷",
+    "kind": "exp",
+    "value": 0.25,
+    "weight": 5,
+    "tier": "shang"
+  },
+  {
+    "id": "spirit_snare",
+    "name": "灵套",
+    "kind": "catch",
+    "value": 0.15,
+    "weight": 5,
+    "tier": "shang"
+  },
+  {
+    "id": "temple_bell",
+    "name": "寺钟",
+    "kind": "def",
+    "value": 8,
+    "weight": 4,
+    "tier": "shang"
+  },
+  {
+    "id": "wind_flag",
+    "name": "风旗",
+    "kind": "spd",
+    "value": 8,
+    "weight": 4,
+    "tier": "shang"
+  },
+  {
+    "id": "battle_drum",
+    "name": "战鼓",
+    "kind": "atk",
+    "value": 8,
+    "weight": 4,
+    "tier": "te"
+  },
+  {
+    "id": "long_life",
+    "name": "长命",
+    "kind": "hp",
+    "value": 28,
+    "weight": 3,
+    "tier": "te"
+  },
+  {
+    "id": "thunder_banner",
+    "name": "霆纛",
+    "kind": "spd",
+    "value": 8,
+    "weight": 3,
+    "tier": "te"
+  },
+  {
+    "id": "iron_pagoda",
+    "name": "铁塔",
+    "kind": "def",
+    "value": 8,
+    "weight": 3,
+    "tier": "te"
+  },
+  {
+    "id": "fate_knot",
+    "name": "缘结",
+    "kind": "catch",
+    "value": 0.2,
+    "weight": 3,
+    "tier": "qi"
+  },
+  {
+    "id": "ley_chart",
+    "name": "山河图",
+    "kind": "map",
+    "value": 1,
+    "weight": 3,
+    "tier": "qi"
+  },
+  {
+    "id": "soul_glass",
+    "name": "魂鉴",
+    "kind": "hp",
+    "value": 32,
+    "weight": 3,
+    "tier": "qi"
+  },
+  {
+    "id": "void_latch",
+    "name": "劫扣",
+    "kind": "atk",
+    "value": 12,
+    "weight": 1,
+    "tier": "jie"
+  },
+  {
+    "id": "lure_fan",
+    "name": "凡饵",
+    "kind": "lure",
+    "value": 0.1,
+    "weight": 4,
+    "tier": "fan"
+  },
+  {
+    "id": "lure_shang",
+    "name": "上饵",
+    "kind": "lure",
+    "value": 0.25,
+    "weight": 3,
+    "tier": "shang"
+  },
+  {
+    "id": "catalog_boon_1",
+    "name": "闲缘1",
+    "kind": "def",
+    "value": 3,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_2",
+    "name": "闲缘2",
+    "kind": "spd",
+    "value": 4,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_3",
+    "name": "闲缘3",
+    "kind": "hp",
+    "value": 5,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_4",
+    "name": "闲缘4",
+    "kind": "catch",
+    "value": 0.02,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_5",
+    "name": "闲缘5",
+    "kind": "gold",
+    "value": 7,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_6",
+    "name": "闲缘6",
+    "kind": "exp",
+    "value": 8,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_7",
+    "name": "闲缘7",
+    "kind": "atk",
+    "value": 9,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_8",
+    "name": "闲缘8",
+    "kind": "def",
+    "value": 2,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_9",
+    "name": "闲缘9",
+    "kind": "spd",
+    "value": 3,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_10",
+    "name": "闲缘10",
+    "kind": "hp",
+    "value": 4,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_11",
+    "name": "闲缘11",
+    "kind": "catch",
+    "value": 0.02,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_12",
+    "name": "闲缘12",
+    "kind": "gold",
+    "value": 6,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_13",
+    "name": "闲缘13",
+    "kind": "exp",
+    "value": 7,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_14",
+    "name": "闲缘14",
+    "kind": "atk",
+    "value": 8,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_15",
+    "name": "闲缘15",
+    "kind": "def",
+    "value": 9,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_16",
+    "name": "闲缘16",
+    "kind": "spd",
+    "value": 2,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_17",
+    "name": "闲缘17",
+    "kind": "hp",
+    "value": 3,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_18",
+    "name": "闲缘18",
+    "kind": "catch",
+    "value": 0.02,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_19",
+    "name": "闲缘19",
+    "kind": "gold",
+    "value": 5,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_20",
+    "name": "闲缘20",
+    "kind": "exp",
+    "value": 6,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_21",
+    "name": "闲缘21",
+    "kind": "atk",
+    "value": 7,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_22",
+    "name": "闲缘22",
+    "kind": "def",
+    "value": 8,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_23",
+    "name": "闲缘23",
+    "kind": "spd",
+    "value": 9,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_24",
+    "name": "闲缘24",
+    "kind": "hp",
+    "value": 2,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_25",
+    "name": "闲缘25",
+    "kind": "catch",
+    "value": 0.02,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_26",
+    "name": "闲缘26",
+    "kind": "gold",
+    "value": 4,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_27",
+    "name": "闲缘27",
+    "kind": "exp",
+    "value": 5,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_28",
+    "name": "闲缘28",
+    "kind": "atk",
+    "value": 6,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_29",
+    "name": "闲缘29",
+    "kind": "def",
+    "value": 7,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_30",
+    "name": "闲缘30",
+    "kind": "spd",
+    "value": 8,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_31",
+    "name": "闲缘31",
+    "kind": "hp",
+    "value": 9,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_32",
+    "name": "闲缘32",
+    "kind": "catch",
+    "value": 0.02,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_33",
+    "name": "闲缘33",
+    "kind": "gold",
+    "value": 3,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_34",
+    "name": "闲缘34",
+    "kind": "exp",
+    "value": 4,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_35",
+    "name": "闲缘35",
+    "kind": "atk",
+    "value": 5,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_36",
+    "name": "闲缘36",
+    "kind": "def",
+    "value": 6,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_37",
+    "name": "闲缘37",
+    "kind": "spd",
+    "value": 7,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_38",
+    "name": "闲缘38",
+    "kind": "hp",
+    "value": 8,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_39",
+    "name": "闲缘39",
+    "kind": "catch",
+    "value": 0.02,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_40",
+    "name": "闲缘40",
+    "kind": "gold",
+    "value": 2,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_41",
+    "name": "闲缘41",
+    "kind": "exp",
+    "value": 3,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_42",
+    "name": "闲缘42",
+    "kind": "atk",
+    "value": 4,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_43",
+    "name": "闲缘43",
+    "kind": "def",
+    "value": 5,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_44",
+    "name": "闲缘44",
+    "kind": "spd",
+    "value": 6,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_45",
+    "name": "闲缘45",
+    "kind": "hp",
+    "value": 7,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_46",
+    "name": "闲缘46",
+    "kind": "catch",
+    "value": 0.02,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_47",
+    "name": "闲缘47",
+    "kind": "gold",
+    "value": 9,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_48",
+    "name": "闲缘48",
+    "kind": "exp",
+    "value": 2,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_49",
+    "name": "闲缘49",
+    "kind": "atk",
+    "value": 3,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_50",
+    "name": "闲缘50",
+    "kind": "def",
+    "value": 4,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_51",
+    "name": "闲缘51",
+    "kind": "spd",
+    "value": 5,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_52",
+    "name": "闲缘52",
+    "kind": "hp",
+    "value": 6,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_53",
+    "name": "闲缘53",
+    "kind": "catch",
+    "value": 0.02,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_54",
+    "name": "闲缘54",
+    "kind": "gold",
+    "value": 8,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_55",
+    "name": "闲缘55",
+    "kind": "exp",
+    "value": 9,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_56",
+    "name": "闲缘56",
+    "kind": "atk",
+    "value": 2,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_57",
+    "name": "闲缘57",
+    "kind": "def",
+    "value": 3,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "catalog_boon_58",
+    "name": "闲缘58",
+    "kind": "spd",
+    "value": 4,
+    "weight": 2,
+    "tier": "fan"
+  },
+  {
+    "id": "soul_return",
+    "name": "还魂",
+    "kind": "revive",
+    "value": 1,
+    "weight": 0,
+    "tier": "fan"
+  },
+  {
+    "id": "seal_pouch",
+    "name": "凡镇匣",
+    "kind": "sealPack",
+    "value": 5,
+    "weight": 4,
+    "tier": "fan"
+  },
+  {
+    "id": "sanctify_cuff",
+    "name": "显圣镯",
+    "kind": "form",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "colossus_band",
+    "name": "巨灵带",
+    "kind": "form",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "hidden_pact_charm",
+    "name": "隐契符",
+    "kind": "hiddenPact",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "seal_pouch_shang",
+    "name": "上镇匣",
+    "kind": "sealPack",
+    "value": 4,
+    "weight": 3,
+    "tier": "shang",
+    "slot": 1
+  },
+  {
+    "id": "seal_pouch_te",
+    "name": "特镇匣",
+    "kind": "sealPack",
+    "value": 3,
+    "weight": 2,
+    "tier": "te",
+    "slot": 2
+  },
+  {
+    "id": "seal_pouch_qi",
+    "name": "奇镇匣",
+    "kind": "sealPack",
+    "value": 2,
+    "weight": 1,
+    "tier": "qi",
+    "slot": 3
+  },
+  {
+    "id": "seal_pouch_jie",
+    "name": "劫镇匣",
+    "kind": "sealPack",
+    "value": 1,
+    "weight": 1,
+    "tier": "jie",
+    "slot": 4
+  },
+  {
+    "id": "cleanse_talisman",
+    "name": "净体",
+    "kind": "cleanse",
+    "value": 1,
+    "weight": 4,
+    "tier": "fan"
+  },
+  {
+    "id": "ether_dew",
+    "name": "灵露",
+    "kind": "ether",
+    "value": 10,
+    "weight": 4,
+    "tier": "fan"
+  },
+  {
+    "id": "rare_sugar",
+    "name": "稀糖",
+    "kind": "candy",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang"
+  },
+  {
+    "id": "party_sugar",
+    "name": "众糖",
+    "kind": "candy",
+    "value": 1,
+    "weight": 2,
+    "tier": "te",
+    "tag": "party"
+  },
+  {
+    "id": "sugar_jar",
+    "name": "糖瓮",
+    "kind": "candy",
+    "value": 10,
+    "weight": 2,
+    "tier": "te",
+    "tag": "jar"
+  },
+  {
+    "id": "bone_dose_atk",
+    "name": "攻骨药",
+    "kind": "vitamin",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "atk"
+  },
+  {
+    "id": "temper_mint",
+    "name": "性灵丹",
+    "kind": "mint",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "fierce"
+  },
+  {
+    "id": "focus_up",
+    "name": "灵力升",
+    "kind": "ppUp",
+    "value": 5,
+    "weight": 4,
+    "tier": "fan"
+  },
+  {
+    "id": "focus_full",
+    "name": "灵力满",
+    "kind": "ppMax",
+    "value": 1,
+    "weight": 2,
+    "tier": "shang"
+  },
+  {
+    "id": "war_hit",
+    "name": "命中符",
+    "kind": "warToken",
+    "value": 5,
+    "weight": 4,
+    "tier": "fan",
+    "tag": "hit"
+  },
+  {
+    "id": "war_atk",
+    "name": "攻战符",
+    "kind": "warToken",
+    "value": 5,
+    "weight": 4,
+    "tier": "fan",
+    "tag": "atk"
+  },
+  {
+    "id": "war_crit",
+    "name": "会心符",
+    "kind": "warToken",
+    "value": 5,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "crit"
+  },
+  {
+    "id": "lure_te",
+    "name": "特饵",
+    "kind": "lure",
+    "value": 10,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "lure_gold",
+    "name": "金饵",
+    "kind": "lure",
+    "value": 10,
+    "weight": 1,
+    "tier": "qi"
+  },
+  {
+    "id": "tm_fan",
+    "name": "凡秘卷",
+    "kind": "tm",
+    "value": 1,
+    "weight": 4,
+    "tier": "fan"
+  },
+  {
+    "id": "tm_shang",
+    "name": "上秘卷",
+    "kind": "tm",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang"
+  },
+  {
+    "id": "evo_dust",
+    "name": "化尘",
+    "kind": "evolve",
+    "value": 1,
+    "weight": 2,
+    "tier": "shang"
+  },
+  {
+    "id": "sanctify_stone",
+    "name": "显圣石",
+    "kind": "formItem",
+    "value": 1,
+    "weight": 2,
+    "tier": "te",
+    "tag": "sanctify"
+  },
+  {
+    "id": "colossus_shroom",
+    "name": "巨灵菇",
+    "kind": "formItem",
+    "value": 1,
+    "weight": 2,
+    "tier": "te",
+    "tag": "colossus"
+  },
+  {
+    "id": "apex_crystal",
+    "name": "灵极晶",
+    "kind": "formItem",
+    "value": 1,
+    "weight": 1,
+    "tier": "qi",
+    "tag": "apex"
+  },
+  {
+    "id": "twin_pact",
+    "name": "双生契",
+    "kind": "splicer",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "unsplice_charm",
+    "name": "解合体",
+    "kind": "unsplice",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "voucher_fan",
+    "name": "凡孵券",
+    "kind": "voucher",
+    "value": 1,
+    "weight": 8,
+    "tier": "fan",
+    "tag": "fan"
+  },
+  {
+    "id": "voucher_shang",
+    "name": "上孵券",
+    "kind": "voucher",
+    "value": 1,
+    "weight": 4,
+    "tier": "shang",
+    "tag": "shang"
+  },
+  {
+    "id": "voucher_te",
+    "name": "特孵券",
+    "kind": "voucher",
+    "value": 1,
+    "weight": 2,
+    "tier": "te",
+    "tag": "te"
+  },
+  {
+    "id": "fruit_heal",
+    "name": "回血果",
+    "kind": "fruit",
+    "value": 2,
+    "weight": 4,
+    "tier": "fan"
+  },
+  {
+    "id": "fruit_cleanse",
+    "name": "净体果",
+    "kind": "fruit",
+    "value": 2,
+    "weight": 3,
+    "tier": "fan"
+  },
+  {
+    "id": "fruit_focus",
+    "name": "补灵果",
+    "kind": "fruit",
+    "value": 2,
+    "weight": 3,
+    "tier": "fan"
+  },
+  {
+    "id": "fruit_pinch",
+    "name": "急智果",
+    "kind": "fruit",
+    "value": 3,
+    "weight": 3,
+    "tier": "shang"
+  },
+  {
+    "id": "type_boost_flame",
+    "name": "炎催",
+    "kind": "typeBoost",
+    "value": 20,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "flame"
+  },
+  {
+    "id": "type_boost_tide",
+    "name": "潮催",
+    "kind": "typeBoost",
+    "value": 20,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "tide"
+  },
+  {
+    "id": "type_boost_stone",
+    "name": "岩催",
+    "kind": "typeBoost",
+    "value": 20,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "stone"
+  },
+  {
+    "id": "type_boost_wood",
+    "name": "木催",
+    "kind": "typeBoost",
+    "value": 20,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "wood"
+  },
+  {
+    "id": "type_boost_bolt",
+    "name": "霆催",
+    "kind": "typeBoost",
+    "value": 20,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "bolt"
+  },
+  {
+    "id": "type_boost_frost",
+    "name": "霜催",
+    "kind": "typeBoost",
+    "value": 20,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "frost"
+  },
+  {
+    "id": "type_boost_shade",
+    "name": "影催",
+    "kind": "typeBoost",
+    "value": 20,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "shade"
+  },
+  {
+    "id": "type_boost_light",
+    "name": "光催",
+    "kind": "typeBoost",
+    "value": 20,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "light"
+  },
+  {
+    "id": "species_boost_zao_li",
+    "name": "灶狸催",
+    "kind": "speciesBoost",
+    "value": 20,
+    "weight": 2,
+    "tier": "te",
+    "tag": "zao_li"
+  },
+  {
+    "id": "leftover_meal",
+    "name": "剩饭",
+    "kind": "charm",
+    "value": 1,
+    "weight": 3,
+    "tier": "fan",
+    "tag": "meal"
+  },
+  {
+    "id": "focus_knot",
+    "name": "焦点",
+    "kind": "charm",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang"
+  },
+  {
+    "id": "momentum_band",
+    "name": "气势",
+    "kind": "charm",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang"
+  },
+  {
+    "id": "king_bead",
+    "name": "王者",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "shell_chime",
+    "name": "壳铃",
+    "kind": "charm",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang"
+  },
+  {
+    "id": "soothe_chime",
+    "name": "安抚铃",
+    "kind": "charm",
+    "value": 1,
+    "weight": 3,
+    "tier": "fan"
+  },
+  {
+    "id": "temper_dew",
+    "name": "性灵露",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "shang"
+  },
+  {
+    "id": "spirit_mirror",
+    "name": "镜",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "shang"
+  },
+  {
+    "id": "wide_mirror",
+    "name": "广镜",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "revive_seed",
+    "name": "还魂种",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "relay_rod",
+    "name": "接力棒",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "shang"
+  },
+  {
+    "id": "grip_nail",
+    "name": "攫爪",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "shang"
+  },
+  {
+    "id": "first_nail",
+    "name": "先制爪",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "shang"
+  },
+  {
+    "id": "burn_bead",
+    "name": "灼珠",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "shang"
+  },
+  {
+    "id": "toxic_bead",
+    "name": "毒珠",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "shang"
+  },
+  {
+    "id": "young_bone",
+    "name": "未化骨",
+    "kind": "charm",
+    "value": 1,
+    "weight": 1,
+    "tier": "qi"
+  },
+  {
+    "id": "lost_swallow",
+    "name": "迷途吞",
+    "kind": "charm",
+    "value": 1,
+    "weight": 1,
+    "tier": "jie",
+    "tag": "lost_swallow"
+  },
+  {
+    "id": "multi_mirror",
+    "name": "多击镜",
+    "kind": "charm",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "lock_casket",
+    "name": "封匣",
+    "kind": "passive",
+    "value": 1,
+    "weight": 2,
+    "tier": "te",
+    "tag": "lock"
+  },
+  {
+    "id": "coin_charm",
+    "name": "金钱符",
+    "kind": "passive",
+    "value": 1,
+    "weight": 4,
+    "tier": "fan",
+    "tag": "gold"
+  },
+  {
+    "id": "exp_share",
+    "name": "经验均沾",
+    "kind": "exp",
+    "value": 1,
+    "weight": 4,
+    "tier": "fan"
+  },
+  {
+    "id": "exp_balance",
+    "name": "经验平衡",
+    "kind": "exp",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang"
+  },
+  {
+    "id": "exp_charm",
+    "name": "经验符",
+    "kind": "exp",
+    "value": 1,
+    "weight": 4,
+    "tier": "fan"
+  },
+  {
+    "id": "exp_charm_shang",
+    "name": "经验上符",
+    "kind": "exp",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang"
+  },
+  {
+    "id": "exp_charm_gold",
+    "name": "经验金符",
+    "kind": "exp",
+    "value": 1,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "shiny_charm",
+    "name": "异相符",
+    "kind": "passive",
+    "value": 2,
+    "weight": 2,
+    "tier": "te",
+    "tag": "shiny"
+  },
+  {
+    "id": "bone_mirror",
+    "name": "骨相镜",
+    "kind": "passive",
+    "value": 1,
+    "weight": 2,
+    "tier": "te",
+    "tag": "bone"
+  },
+  {
+    "id": "apex_vessel",
+    "name": "灵极器",
+    "kind": "passive",
+    "value": 1,
+    "weight": 1,
+    "tier": "qi",
+    "tag": "apex"
+  },
+  {
+    "id": "fruit_pouch",
+    "name": "果袋",
+    "kind": "passive",
+    "value": 1,
+    "weight": 3,
+    "tier": "shang",
+    "tag": "fruit"
+  },
+  {
+    "id": "heal_charm",
+    "name": "愈符",
+    "kind": "passive",
+    "value": 1,
+    "weight": 3,
+    "tier": "fan",
+    "tag": "heal"
+  },
+  {
+    "id": "catch_charm",
+    "name": "捕捉符",
+    "kind": "catch",
+    "value": 0.2,
+    "weight": 2,
+    "tier": "te"
+  },
+  {
+    "id": "golden_slot",
+    "name": "金契槽",
+    "kind": "passive",
+    "value": 1,
+    "weight": 2,
+    "tier": "qi",
+    "tag": "slot"
+  }
+]

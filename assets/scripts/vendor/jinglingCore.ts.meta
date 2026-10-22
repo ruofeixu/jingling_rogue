@@ -1,0 +1,13 @@
+{
+  "ver": "4.0.23",
+  "importer": "typescript",
+  "imported": true,
+  "uuid": "a77c8ea6-7183-4294-df16-d34e8092b4c4",
+  "files": [],
+  "subMetas": {},
+  "userData": {
+    "moduleId": "project:///assets/scripts/vendor/jinglingCore.js",
+    "importerSettings": 7,
+    "simulateGlobals": []
+  }
+}

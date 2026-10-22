@@ -1,0 +1,122 @@
+[
+  {
+    "id": "disciple",
+    "name": "游方弟子"
+  },
+  {
+    "id": "rival",
+    "name": "同行者"
+  },
+  {
+    "id": "gym",
+    "name": "城主"
+  },
+  {
+    "id": "grunt",
+    "name": "邪社杂役"
+  },
+  {
+    "id": "admin",
+    "name": "邪社主"
+  },
+  {
+    "id": "e4",
+    "name": "四座"
+  },
+  {
+    "id": "champion",
+    "name": "盟主"
+  },
+  {
+    "id": "legend",
+    "name": "镇世兽"
+  },
+  {
+    "id": "lamp_vendor",
+    "name": "灯市贩"
+  },
+  {
+    "id": "shrine_witch",
+    "name": "社巫"
+  },
+  {
+    "id": "ferry_pole",
+    "name": "渡口篙工"
+  },
+  {
+    "id": "kiln_head",
+    "name": "窑工头"
+  },
+  {
+    "id": "stele_beggar",
+    "name": "碑下乞"
+  },
+  {
+    "id": "reed_fisher",
+    "name": "芦荡渔"
+  },
+  {
+    "id": "salt_hand",
+    "name": "盐丁"
+  },
+  {
+    "id": "beacon_watch",
+    "name": "烽卒"
+  },
+  {
+    "id": "script_monk",
+    "name": "写经僧"
+  },
+  {
+    "id": "loft_bell",
+    "name": "阁铃役"
+  },
+  {
+    "id": "moss_steward",
+    "name": "苔庭执事"
+  },
+  {
+    "id": "cliff_woodcut",
+    "name": "绝壁樵"
+  },
+  {
+    "id": "fog_guide",
+    "name": "雾岸引路"
+  },
+  {
+    "id": "well_guard",
+    "name": "泉眼守"
+  },
+  {
+    "id": "night_broker",
+    "name": "夜集牙人"
+  },
+  {
+    "id": "ore_hand",
+    "name": "矿脉役"
+  },
+  {
+    "id": "pagoda_ward",
+    "name": "塔林护"
+  },
+  {
+    "id": "isle_helm",
+    "name": "海屿舵"
+  },
+  {
+    "id": "forge_hand",
+    "name": "工坊锻"
+  },
+  {
+    "id": "grave_watch",
+    "name": "墓园守夜"
+  },
+  {
+    "id": "star_offering",
+    "name": "星潭祭"
+  },
+  {
+    "id": "ford_clerk",
+    "name": "津渡吏"
+  }
+]

@@ -1,0 +1,29 @@
+node_modules/
+dist/
+.venv/
+__pycache__/
+.pytest_cache/
+.DS_Store
+*.pyc
+library/
+temp/
+local/
+build/
+game/library/
+game/temp/
+game/local/
+server/.venv/
+tools/.venv/
+coverage/
+.shots/
+.u0-build/
+.u0-build2/
+.u0-build3/
+.u0-sim/
+extensions/funplay-cocos-mcp/
+
+# 环境变量（含 API key，绝不提交）
+.env
+.env.local
+# 素材生成中间产物（位于 Cocos assets 外，原始大图不进入构建）
+.artifacts/

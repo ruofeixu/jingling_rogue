@@ -1,0 +1,14 @@
+[
+  { "id": "ox_mark", "name": "牛记", "kind": "def", "value": 4, "unlock": "start" },
+  { "id": "spare_gourd", "name": "备葫", "kind": "potion", "value": 1, "unlock": "start" },
+  { "id": "lesson_bead", "name": "课珠", "kind": "exp", "value": 1, "unlock": "start" },
+  { "id": "kiln_purse", "name": "窑囊", "kind": "gold", "value": 250, "unlock": "codex" },
+  { "id": "first_pouch", "name": "初囊", "kind": "sealPack", "value": 3, "unlock": "codex" },
+  { "id": "iron_mark", "name": "铁记", "kind": "atk", "value": 4, "unlock": "codex" },
+  { "id": "swift_mark", "name": "疾记", "kind": "spd", "value": 4, "unlock": "codex" },
+  { "id": "gourd_mark", "name": "命记", "kind": "hp", "value": 12, "unlock": "codex" },
+  { "id": "binder_mark", "name": "缚记", "kind": "catch", "value": 0.08, "unlock": "clear" },
+  { "id": "mist_fan", "name": "雾扇", "kind": "lure", "value": 1, "unlock": "clear" },
+  { "id": "river_chart", "name": "河图", "kind": "map", "value": 1, "unlock": "clear" },
+  { "id": "night_knot", "name": "夜结", "kind": "catch", "value": 0.12, "unlock": "clear" }
+]

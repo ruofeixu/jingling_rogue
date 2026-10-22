@@ -1,0 +1,9 @@
+{
+  "request": [
+    "https://save.example.com",
+    "https://cdn.example.com"
+  ],
+  "download": [
+    "https://cdn.example.com"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "terms": [
+    "pokemon",
+    "pokémon",
+    "pokedex",
+    "pokeball",
+    "nintendo",
+    "game freak",
+    "gamefreak",
+    "宝可梦",
+    "口袋妖怪",
+    "神奇宝贝",
+    "皮卡丘",
+    "精灵球",
+    "phaser",
+    "pokerogue",
+    "pagefault",
+    "rogueserver",
+    "battlescene",
+    "phasemanager",
+    "moveeffectphase",
+    "globalscene"
+  ],
+  "wordBoundaries": ["poke"]
+}

@@ -1,0 +1,4974 @@
+[
+  {
+    "id": "zao_li",
+    "name": "灶狸",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 36,
+    "baseAtk": 20,
+    "baseDef": 14,
+    "baseSpd": 18,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "hearth_watch",
+    "evolveTo": "dan_li",
+    "starter": true,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "dan_li",
+    "name": "丹狸",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 52,
+    "baseAtk": 28,
+    "baseDef": 20,
+    "baseSpd": 24,
+    "artIds": [
+      "cinder_claw",
+      "kiln_burst",
+      "ash_veil",
+      "hearth_spit"
+    ],
+    "pactId": "hearth_watch",
+    "evolveTo": "huo_de_li",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "huo_de_li",
+    "name": "火德吏",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 74,
+    "baseAtk": 38,
+    "baseDef": 28,
+    "baseSpd": 30,
+    "artIds": [
+      "kiln_burst",
+      "cinder_claw",
+      "ash_veil",
+      "hearth_spit"
+    ],
+    "pactId": "hearth_watch",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "jing_zhu",
+    "name": "井蛛",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 34,
+    "baseAtk": 18,
+    "baseDef": 16,
+    "baseSpd": 20,
+    "artIds": [
+      "well_thread",
+      "drip_fang",
+      "tide_lash",
+      "cistern_pull"
+    ],
+    "pactId": "cistern_lurk",
+    "evolveTo": "quan_ji",
+    "starter": true,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "quan_ji",
+    "name": "泉姬",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 50,
+    "baseAtk": 26,
+    "baseDef": 22,
+    "baseSpd": 26,
+    "artIds": [
+      "well_thread",
+      "tide_lash",
+      "drip_fang",
+      "cistern_pull"
+    ],
+    "pactId": "cistern_lurk",
+    "evolveTo": "he_bo_cong",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "he_bo_cong",
+    "name": "河伯从事",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 72,
+    "baseAtk": 34,
+    "baseDef": 30,
+    "baseSpd": 32,
+    "artIds": [
+      "tide_lash",
+      "well_thread",
+      "drip_fang",
+      "cistern_pull"
+    ],
+    "pactId": "cistern_lurk",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "tao_geng",
+    "name": "桃梗",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 38,
+    "baseAtk": 16,
+    "baseDef": 20,
+    "baseSpd": 14,
+    "artIds": [
+      "peach_strike",
+      "ward_bark",
+      "mask_slam",
+      "root_snare"
+    ],
+    "pactId": "grove_ward",
+    "evolveTo": "nuo_mian",
+    "starter": true,
+    "realm": "woods"
+  },
+  {
+    "id": "nuo_mian",
+    "name": "傩面",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 56,
+    "baseAtk": 24,
+    "baseDef": 28,
+    "baseSpd": 18,
+    "artIds": [
+      "peach_strike",
+      "mask_slam",
+      "ward_bark",
+      "root_snare"
+    ],
+    "pactId": "grove_ward",
+    "evolveTo": "she_mu",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "she_mu",
+    "name": "社木",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 80,
+    "baseAtk": 32,
+    "baseDef": 38,
+    "baseSpd": 22,
+    "artIds": [
+      "mask_slam",
+      "ward_bark",
+      "peach_strike",
+      "root_snare"
+    ],
+    "pactId": "grove_ward",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "luan_shi",
+    "name": "卵石精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 40,
+    "baseAtk": 17,
+    "baseDef": 22,
+    "baseSpd": 10,
+    "artIds": [
+      "pebble_toss",
+      "ridge_guard",
+      "crag_fall",
+      "millstone"
+    ],
+    "pactId": "bedrock",
+    "evolveTo": "zhang_yan",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "zhang_yan",
+    "name": "嶂岩",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 60,
+    "baseAtk": 25,
+    "baseDef": 32,
+    "baseSpd": 14,
+    "artIds": [
+      "pebble_toss",
+      "crag_fall",
+      "ridge_guard",
+      "millstone"
+    ],
+    "pactId": "bedrock",
+    "evolveTo": "zhen_yue",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "zhen_yue",
+    "name": "镇岳兽",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 86,
+    "baseAtk": 34,
+    "baseDef": 42,
+    "baseSpd": 16,
+    "artIds": [
+      "crag_fall",
+      "ridge_guard",
+      "pebble_toss",
+      "millstone"
+    ],
+    "pactId": "bedrock",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "dian_zhu",
+    "name": "电蛛",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 32,
+    "baseAtk": 21,
+    "baseDef": 12,
+    "baseSpd": 24,
+    "artIds": [
+      "spark_cut",
+      "static_web",
+      "thunder_coil",
+      "bell_spark"
+    ],
+    "pactId": "storm_silk",
+    "evolveTo": "pi_li",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "pi_li",
+    "name": "霹雳蜈",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 48,
+    "baseAtk": 30,
+    "baseDef": 18,
+    "baseSpd": 32,
+    "artIds": [
+      "spark_cut",
+      "thunder_coil",
+      "static_web",
+      "bell_spark"
+    ],
+    "pactId": "storm_silk",
+    "evolveTo": "lei_ying",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "lei_ying",
+    "name": "雷公残影",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 68,
+    "baseAtk": 40,
+    "baseDef": 24,
+    "baseSpd": 40,
+    "artIds": [
+      "thunder_coil",
+      "spark_cut",
+      "static_web",
+      "bell_spark"
+    ],
+    "pactId": "storm_silk",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "shuang_ming",
+    "name": "霜螟",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 33,
+    "baseAtk": 19,
+    "baseDef": 15,
+    "baseSpd": 19,
+    "artIds": [
+      "rime_needle",
+      "chill_dust",
+      "glacier_silk",
+      "snow_bite"
+    ],
+    "pactId": "winter_husk",
+    "evolveTo": "bing_can",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "bing_can",
+    "name": "冰蚕",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 50,
+    "baseAtk": 27,
+    "baseDef": 22,
+    "baseSpd": 24,
+    "artIds": [
+      "rime_needle",
+      "glacier_silk",
+      "chill_dust",
+      "snow_bite"
+    ],
+    "pactId": "winter_husk",
+    "evolveTo": "xuan_dong",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "xuan_dong",
+    "name": "玄冬",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 70,
+    "baseAtk": 36,
+    "baseDef": 30,
+    "baseSpd": 28,
+    "artIds": [
+      "glacier_silk",
+      "rime_needle",
+      "chill_dust",
+      "snow_bite"
+    ],
+    "pactId": "winter_husk",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "mo_mao",
+    "name": "墨猫",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 34,
+    "baseAtk": 22,
+    "baseDef": 13,
+    "baseSpd": 22,
+    "artIds": [
+      "ink_swipe",
+      "shade_nudge",
+      "wail_mark",
+      "ledger_cut"
+    ],
+    "pactId": "night_ledger",
+    "evolveTo": "ye_ti",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "ye_ti",
+    "name": "夜啼",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 50,
+    "baseAtk": 31,
+    "baseDef": 18,
+    "baseSpd": 28,
+    "artIds": [
+      "ink_swipe",
+      "wail_mark",
+      "shade_nudge",
+      "ledger_cut"
+    ],
+    "pactId": "night_ledger",
+    "evolveTo": "wu_mian",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "wu_mian",
+    "name": "无面簿吏",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 72,
+    "baseAtk": 40,
+    "baseDef": 24,
+    "baseSpd": 34,
+    "artIds": [
+      "wail_mark",
+      "ink_swipe",
+      "shade_nudge",
+      "ledger_cut"
+    ],
+    "pactId": "night_ledger",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "deng_e",
+    "name": "灯蛾",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 32,
+    "baseAtk": 18,
+    "baseDef": 14,
+    "baseSpd": 23,
+    "artIds": [
+      "lamp_dust",
+      "halo_cut",
+      "solar_bead",
+      "wick_flare"
+    ],
+    "pactId": "lantern_vow",
+    "evolveTo": "jin_hui",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "jin_hui",
+    "name": "金辉雀",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 48,
+    "baseAtk": 27,
+    "baseDef": 20,
+    "baseSpd": 30,
+    "artIds": [
+      "halo_cut",
+      "solar_bead",
+      "lamp_dust",
+      "wick_flare"
+    ],
+    "pactId": "lantern_vow",
+    "evolveTo": "yao_lun",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "yao_lun",
+    "name": "曜轮",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 68,
+    "baseAtk": 36,
+    "baseDef": 26,
+    "baseSpd": 36,
+    "artIds": [
+      "solar_bead",
+      "halo_cut",
+      "lamp_dust",
+      "wick_flare"
+    ],
+    "pactId": "lantern_vow",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "yao_shu",
+    "name": "窑鼠",
+    "affinities": [
+      "flame",
+      "stone"
+    ],
+    "baseHp": 35,
+    "baseAtk": 19,
+    "baseDef": 18,
+    "baseSpd": 16,
+    "artIds": [
+      "cinder_claw",
+      "pebble_toss",
+      "ash_veil",
+      "kiln_burst"
+    ],
+    "pactId": "kiln_heart",
+    "evolveTo": "tao_quan",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "tao_quan",
+    "name": "陶犬",
+    "affinities": [
+      "flame",
+      "stone"
+    ],
+    "baseHp": 54,
+    "baseAtk": 27,
+    "baseDef": 26,
+    "baseSpd": 20,
+    "artIds": [
+      "kiln_burst",
+      "ridge_guard",
+      "cinder_claw",
+      "ash_veil"
+    ],
+    "pactId": "kiln_heart",
+    "evolveTo": "dan_zao",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "dan_zao",
+    "name": "丹灶公",
+    "affinities": [
+      "flame",
+      "stone"
+    ],
+    "baseHp": 76,
+    "baseAtk": 36,
+    "baseDef": 34,
+    "baseSpd": 24,
+    "artIds": [
+      "kiln_burst",
+      "crag_fall",
+      "cinder_claw",
+      "ash_veil"
+    ],
+    "pactId": "kiln_heart",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "ping_yu",
+    "name": "萍鱼",
+    "affinities": [
+      "tide",
+      "wood"
+    ],
+    "baseHp": 36,
+    "baseAtk": 17,
+    "baseDef": 17,
+    "baseSpd": 17,
+    "artIds": [
+      "drip_fang",
+      "peach_strike",
+      "well_thread",
+      "tide_lash"
+    ],
+    "pactId": "lotus_drift",
+    "evolveTo": "he_hun",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "he_hun",
+    "name": "荷魂",
+    "affinities": [
+      "tide",
+      "wood"
+    ],
+    "baseHp": 54,
+    "baseAtk": 25,
+    "baseDef": 24,
+    "baseSpd": 23,
+    "artIds": [
+      "tide_lash",
+      "ward_bark",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "lotus_drift",
+    "evolveTo": "lian_xin",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "lian_xin",
+    "name": "莲心蛟",
+    "affinities": [
+      "tide",
+      "wood"
+    ],
+    "baseHp": 78,
+    "baseAtk": 34,
+    "baseDef": 32,
+    "baseSpd": 28,
+    "artIds": [
+      "tide_lash",
+      "mask_slam",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "lotus_drift",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "zhi_ren",
+    "name": "纸人",
+    "affinities": [
+      "shade",
+      "frost"
+    ],
+    "baseHp": 30,
+    "baseAtk": 20,
+    "baseDef": 12,
+    "baseSpd": 21,
+    "artIds": [
+      "shade_nudge",
+      "rime_needle",
+      "ink_swipe",
+      "wail_mark"
+    ],
+    "pactId": "folded_night",
+    "evolveTo": "jian_ying",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "jian_ying",
+    "name": "剪影",
+    "affinities": [
+      "shade",
+      "frost"
+    ],
+    "baseHp": 46,
+    "baseAtk": 29,
+    "baseDef": 16,
+    "baseSpd": 29,
+    "artIds": [
+      "wail_mark",
+      "chill_dust",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "folded_night",
+    "evolveTo": "zang_shu",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "zang_shu",
+    "name": "葬书鬼",
+    "affinities": [
+      "shade",
+      "frost"
+    ],
+    "baseHp": 66,
+    "baseAtk": 38,
+    "baseDef": 22,
+    "baseSpd": 34,
+    "artIds": [
+      "wail_mark",
+      "glacier_silk",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "folded_night",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "tong_ling",
+    "name": "铜铃",
+    "affinities": [
+      "light",
+      "bolt"
+    ],
+    "baseHp": 33,
+    "baseAtk": 19,
+    "baseDef": 15,
+    "baseSpd": 22,
+    "artIds": [
+      "lamp_dust",
+      "spark_cut",
+      "halo_cut",
+      "solar_bead"
+    ],
+    "pactId": "bell_oath",
+    "evolveTo": "ming_duo",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "ming_duo",
+    "name": "鸣铎",
+    "affinities": [
+      "light",
+      "bolt"
+    ],
+    "baseHp": 50,
+    "baseAtk": 28,
+    "baseDef": 21,
+    "baseSpd": 29,
+    "artIds": [
+      "halo_cut",
+      "thunder_coil",
+      "lamp_dust",
+      "solar_bead"
+    ],
+    "pactId": "bell_oath",
+    "evolveTo": "jing_zhong",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "jing_zhong",
+    "name": "景钟",
+    "affinities": [
+      "light",
+      "bolt"
+    ],
+    "baseHp": 74,
+    "baseAtk": 37,
+    "baseDef": 28,
+    "baseSpd": 33,
+    "artIds": [
+      "solar_bead",
+      "thunder_coil",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "bell_oath",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "luo_yan_a",
+    "name": "落雁幼",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 32,
+    "baseAtk": 16,
+    "baseDef": 14,
+    "baseSpd": 14,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "hearth_watch",
+    "evolveTo": "luo_yan_b",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "luo_yan_b",
+    "name": "落雁精",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 48,
+    "baseAtk": 24,
+    "baseDef": 20,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "hearth_watch",
+    "evolveTo": "luo_yan_c",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "luo_yan_c",
+    "name": "落雁君",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 66,
+    "baseAtk": 32,
+    "baseDef": 26,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "hearth_watch",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "qing_wu_a",
+    "name": "青芜幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 33,
+    "baseAtk": 17,
+    "baseDef": 15,
+    "baseSpd": 15,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "cistern_lurk",
+    "evolveTo": "qing_wu_b",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "qing_wu_b",
+    "name": "青芜精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 49,
+    "baseAtk": 25,
+    "baseDef": 21,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "cistern_lurk",
+    "evolveTo": "qing_wu_c",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "qing_wu_c",
+    "name": "青芜君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 67,
+    "baseAtk": 33,
+    "baseDef": 27,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "cistern_lurk",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "han_quan_a",
+    "name": "寒泉幼",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 34,
+    "baseAtk": 18,
+    "baseDef": 16,
+    "baseSpd": 16,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "grove_ward",
+    "evolveTo": "han_quan_b",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "han_quan_b",
+    "name": "寒泉精",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 50,
+    "baseAtk": 26,
+    "baseDef": 22,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "grove_ward",
+    "evolveTo": "han_quan_c",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "han_quan_c",
+    "name": "寒泉君",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 68,
+    "baseAtk": 34,
+    "baseDef": 28,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "grove_ward",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "chi_ya_a",
+    "name": "齿崖幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 35,
+    "baseAtk": 19,
+    "baseDef": 17,
+    "baseSpd": 17,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "bedrock",
+    "evolveTo": "chi_ya_b",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "chi_ya_b",
+    "name": "齿崖精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 51,
+    "baseAtk": 27,
+    "baseDef": 23,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "bedrock",
+    "evolveTo": "chi_ya_c",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "chi_ya_c",
+    "name": "齿崖君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 69,
+    "baseAtk": 35,
+    "baseDef": 29,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "bedrock",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "lei_mao_a",
+    "name": "雷猫幼",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 36,
+    "baseAtk": 20,
+    "baseDef": 18,
+    "baseSpd": 18,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "storm_silk",
+    "evolveTo": "lei_mao_b",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "lei_mao_b",
+    "name": "雷猫精",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 52,
+    "baseAtk": 28,
+    "baseDef": 24,
+    "baseSpd": 24,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "storm_silk",
+    "evolveTo": "lei_mao_c",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "lei_mao_c",
+    "name": "雷猫君",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 70,
+    "baseAtk": 36,
+    "baseDef": 30,
+    "baseSpd": 30,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "storm_silk",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "xue_hu_a",
+    "name": "雪狐幼",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 37,
+    "baseAtk": 21,
+    "baseDef": 19,
+    "baseSpd": 19,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "winter_husk",
+    "evolveTo": "xue_hu_b",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "xue_hu_b",
+    "name": "雪狐精",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 53,
+    "baseAtk": 29,
+    "baseDef": 25,
+    "baseSpd": 25,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "winter_husk",
+    "evolveTo": "xue_hu_c",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "xue_hu_c",
+    "name": "雪狐君",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 71,
+    "baseAtk": 37,
+    "baseDef": 31,
+    "baseSpd": 31,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "winter_husk",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "you_deng_a",
+    "name": "幽灯幼",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 38,
+    "baseAtk": 22,
+    "baseDef": 14,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "night_ledger",
+    "evolveTo": "you_deng_b",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "you_deng_b",
+    "name": "幽灯精",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 54,
+    "baseAtk": 30,
+    "baseDef": 20,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "night_ledger",
+    "evolveTo": "you_deng_c",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "you_deng_c",
+    "name": "幽灯君",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 72,
+    "baseAtk": 38,
+    "baseDef": 26,
+    "baseSpd": 32,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "night_ledger",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "hao_que_a",
+    "name": "皓雀幼",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 39,
+    "baseAtk": 23,
+    "baseDef": 15,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "lantern_vow",
+    "evolveTo": "hao_que_b",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "hao_que_b",
+    "name": "皓雀精",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 55,
+    "baseAtk": 31,
+    "baseDef": 21,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "lantern_vow",
+    "evolveTo": "hao_que_c",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "hao_que_c",
+    "name": "皓雀君",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 73,
+    "baseAtk": 39,
+    "baseDef": 27,
+    "baseSpd": 33,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "lantern_vow",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "tao_ni_a",
+    "name": "陶泥幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 40,
+    "baseAtk": 16,
+    "baseDef": 16,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "kiln_heart",
+    "evolveTo": "tao_ni_b",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "tao_ni_b",
+    "name": "陶泥精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 56,
+    "baseAtk": 24,
+    "baseDef": 22,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "kiln_heart",
+    "evolveTo": "tao_ni_c",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "tao_ni_c",
+    "name": "陶泥君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 74,
+    "baseAtk": 32,
+    "baseDef": 28,
+    "baseSpd": 34,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "kiln_heart",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "he_lan_a",
+    "name": "荷澜幼",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 41,
+    "baseAtk": 17,
+    "baseDef": 17,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "lotus_drift",
+    "evolveTo": "he_lan_b",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "he_lan_b",
+    "name": "荷澜精",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 57,
+    "baseAtk": 25,
+    "baseDef": 23,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "lotus_drift",
+    "evolveTo": "he_lan_c",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "he_lan_c",
+    "name": "荷澜君",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 75,
+    "baseAtk": 33,
+    "baseDef": 29,
+    "baseSpd": 35,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "lotus_drift",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "song_hun_a",
+    "name": "松魂幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 42,
+    "baseAtk": 18,
+    "baseDef": 18,
+    "baseSpd": 14,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "folded_night",
+    "evolveTo": "song_hun_b",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "song_hun_b",
+    "name": "松魂精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 58,
+    "baseAtk": 26,
+    "baseDef": 24,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "folded_night",
+    "evolveTo": "song_hun_c",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "song_hun_c",
+    "name": "松魂君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 76,
+    "baseAtk": 34,
+    "baseDef": 30,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "folded_night",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "jin_chan_a",
+    "name": "烬蝉幼",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 43,
+    "baseAtk": 19,
+    "baseDef": 19,
+    "baseSpd": 15,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "bell_oath",
+    "evolveTo": "jin_chan_b",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "jin_chan_b",
+    "name": "烬蝉精",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 59,
+    "baseAtk": 27,
+    "baseDef": 25,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "bell_oath",
+    "evolveTo": "jin_chan_c",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "jin_chan_c",
+    "name": "烬蝉君",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 77,
+    "baseAtk": 35,
+    "baseDef": 31,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "bell_oath",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "shi_wen_a",
+    "name": "石纹幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 44,
+    "baseAtk": 20,
+    "baseDef": 14,
+    "baseSpd": 16,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "ruin_echo",
+    "evolveTo": "shi_wen_b",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "shi_wen_b",
+    "name": "石纹精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 60,
+    "baseAtk": 28,
+    "baseDef": 20,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "ruin_echo",
+    "evolveTo": "shi_wen_c",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "shi_wen_c",
+    "name": "石纹君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 78,
+    "baseAtk": 36,
+    "baseDef": 26,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "ruin_echo",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "yu_si_a",
+    "name": "雨丝幼",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 45,
+    "baseAtk": 21,
+    "baseDef": 15,
+    "baseSpd": 17,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "wild_wind",
+    "evolveTo": "yu_si_b",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "yu_si_b",
+    "name": "雨丝精",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 61,
+    "baseAtk": 29,
+    "baseDef": 21,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "wild_wind",
+    "evolveTo": "yu_si_c",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "yu_si_c",
+    "name": "雨丝君",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 79,
+    "baseAtk": 37,
+    "baseDef": 27,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "wild_wind",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "feng_ling_a",
+    "name": "风铃幼",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 46,
+    "baseAtk": 22,
+    "baseDef": 16,
+    "baseSpd": 18,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "deep_shade",
+    "evolveTo": "feng_ling_b",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "feng_ling_b",
+    "name": "风铃精",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 62,
+    "baseAtk": 30,
+    "baseDef": 22,
+    "baseSpd": 24,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "deep_shade",
+    "evolveTo": "feng_ling_c",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "feng_ling_c",
+    "name": "风铃君",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 80,
+    "baseAtk": 38,
+    "baseDef": 28,
+    "baseSpd": 30,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "deep_shade",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "bing_hua_a",
+    "name": "冰花幼",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 47,
+    "baseAtk": 23,
+    "baseDef": 17,
+    "baseSpd": 19,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "city_ward",
+    "evolveTo": "bing_hua_b",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "bing_hua_b",
+    "name": "冰花精",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 63,
+    "baseAtk": 31,
+    "baseDef": 23,
+    "baseSpd": 25,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "city_ward",
+    "evolveTo": "bing_hua_c",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "bing_hua_c",
+    "name": "冰花君",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 81,
+    "baseAtk": 39,
+    "baseDef": 29,
+    "baseSpd": 31,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "city_ward",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "mo_he_a",
+    "name": "墨鹤幼",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 48,
+    "baseAtk": 16,
+    "baseDef": 18,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_1",
+    "evolveTo": "mo_he_b",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "mo_he_b",
+    "name": "墨鹤精",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 64,
+    "baseAtk": 24,
+    "baseDef": 24,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_1",
+    "evolveTo": "mo_he_c",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "mo_he_c",
+    "name": "墨鹤君",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 82,
+    "baseAtk": 32,
+    "baseDef": 30,
+    "baseSpd": 32,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_1",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "ri_gui_a",
+    "name": "日晷幼",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 49,
+    "baseAtk": 17,
+    "baseDef": 19,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_2",
+    "evolveTo": "ri_gui_b",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "ri_gui_b",
+    "name": "日晷精",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 65,
+    "baseAtk": 25,
+    "baseDef": 25,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_2",
+    "evolveTo": "ri_gui_c",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "ri_gui_c",
+    "name": "日晷君",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 83,
+    "baseAtk": 33,
+    "baseDef": 31,
+    "baseSpd": 33,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_2",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "yao_yan_a",
+    "name": "窑烟幼",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 50,
+    "baseAtk": 18,
+    "baseDef": 14,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_3",
+    "evolveTo": "yao_yan_b",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "yao_yan_b",
+    "name": "窑烟精",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 66,
+    "baseAtk": 26,
+    "baseDef": 20,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_3",
+    "evolveTo": "yao_yan_c",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "yao_yan_c",
+    "name": "窑烟君",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 84,
+    "baseAtk": 34,
+    "baseDef": 26,
+    "baseSpd": 34,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_3",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "zhu_lin_a",
+    "name": "竹霖幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 51,
+    "baseAtk": 19,
+    "baseDef": 15,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_4",
+    "evolveTo": "zhu_lin_b",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "zhu_lin_b",
+    "name": "竹霖精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 67,
+    "baseAtk": 27,
+    "baseDef": 21,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_4",
+    "evolveTo": "zhu_lin_c",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "zhu_lin_c",
+    "name": "竹霖君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 85,
+    "baseAtk": 35,
+    "baseDef": 27,
+    "baseSpd": 35,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_4",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "jing_bo_a",
+    "name": "井波幼",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 52,
+    "baseAtk": 20,
+    "baseDef": 16,
+    "baseSpd": 14,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_5",
+    "evolveTo": "jing_bo_b",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "jing_bo_b",
+    "name": "井波精",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 68,
+    "baseAtk": 28,
+    "baseDef": 22,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_5",
+    "evolveTo": "jing_bo_c",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "jing_bo_c",
+    "name": "井波君",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 86,
+    "baseAtk": 36,
+    "baseDef": 28,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_5",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "ya_shi_a",
+    "name": "崖石幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 53,
+    "baseAtk": 21,
+    "baseDef": 17,
+    "baseSpd": 15,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_6",
+    "evolveTo": "ya_shi_b",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "ya_shi_b",
+    "name": "崖石精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 69,
+    "baseAtk": 29,
+    "baseDef": 23,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_6",
+    "evolveTo": "ya_shi_c",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "ya_shi_c",
+    "name": "崖石君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 87,
+    "baseAtk": 37,
+    "baseDef": 29,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_6",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "shan_dian_a",
+    "name": "闪钿幼",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 54,
+    "baseAtk": 22,
+    "baseDef": 18,
+    "baseSpd": 16,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_7",
+    "evolveTo": "shan_dian_b",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "shan_dian_b",
+    "name": "闪钿精",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 70,
+    "baseAtk": 30,
+    "baseDef": 24,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_7",
+    "evolveTo": "shan_dian_c",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "shan_dian_c",
+    "name": "闪钿君",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 88,
+    "baseAtk": 38,
+    "baseDef": 30,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_7",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "shuang_lu_a",
+    "name": "霜露幼",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 55,
+    "baseAtk": 23,
+    "baseDef": 19,
+    "baseSpd": 17,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_8",
+    "evolveTo": "shuang_lu_b",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "shuang_lu_b",
+    "name": "霜露精",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 71,
+    "baseAtk": 31,
+    "baseDef": 25,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_8",
+    "evolveTo": "shuang_lu_c",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "shuang_lu_c",
+    "name": "霜露君",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 89,
+    "baseAtk": 39,
+    "baseDef": 31,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_8",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "gui_ying_a",
+    "name": "桂影幼",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 56,
+    "baseAtk": 16,
+    "baseDef": 14,
+    "baseSpd": 18,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_9",
+    "evolveTo": "gui_ying_b",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "gui_ying_b",
+    "name": "桂影精",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 72,
+    "baseAtk": 24,
+    "baseDef": 20,
+    "baseSpd": 24,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_9",
+    "evolveTo": "gui_ying_c",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "gui_ying_c",
+    "name": "桂影君",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 90,
+    "baseAtk": 32,
+    "baseDef": 26,
+    "baseSpd": 30,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_9",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "xing_hui_a",
+    "name": "星辉幼",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 57,
+    "baseAtk": 17,
+    "baseDef": 15,
+    "baseSpd": 19,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_10",
+    "evolveTo": "xing_hui_b",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "xing_hui_b",
+    "name": "星辉精",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 73,
+    "baseAtk": 25,
+    "baseDef": 21,
+    "baseSpd": 25,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_10",
+    "evolveTo": "xing_hui_c",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "xing_hui_c",
+    "name": "星辉君",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 91,
+    "baseAtk": 33,
+    "baseDef": 27,
+    "baseSpd": 31,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_10",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "lu_wei_a",
+    "name": "芦苇幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 58,
+    "baseAtk": 18,
+    "baseDef": 16,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_11",
+    "evolveTo": "lu_wei_b",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "lu_wei_b",
+    "name": "芦苇精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 74,
+    "baseAtk": 26,
+    "baseDef": 22,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_11",
+    "evolveTo": "lu_wei_c",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "lu_wei_c",
+    "name": "芦苇君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 92,
+    "baseAtk": 34,
+    "baseDef": 28,
+    "baseSpd": 32,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_11",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "tong_lu_a",
+    "name": "铜炉幼",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 59,
+    "baseAtk": 19,
+    "baseDef": 17,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_12",
+    "evolveTo": "tong_lu_b",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "tong_lu_b",
+    "name": "铜炉精",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 75,
+    "baseAtk": 27,
+    "baseDef": 23,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_12",
+    "evolveTo": "tong_lu_c",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "tong_lu_c",
+    "name": "铜炉君",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 93,
+    "baseAtk": 35,
+    "baseDef": 29,
+    "baseSpd": 33,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_12",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "wan_deng_a",
+    "name": "碗灯幼",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 60,
+    "baseAtk": 20,
+    "baseDef": 18,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_13",
+    "evolveTo": "wan_deng_b",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "wan_deng_b",
+    "name": "碗灯精",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 76,
+    "baseAtk": 28,
+    "baseDef": 24,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_13",
+    "evolveTo": "wan_deng_c",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "wan_deng_c",
+    "name": "碗灯君",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 94,
+    "baseAtk": 36,
+    "baseDef": 30,
+    "baseSpd": 34,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_13",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "qiao_mu_a",
+    "name": "桥木幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 61,
+    "baseAtk": 21,
+    "baseDef": 19,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_14",
+    "evolveTo": "qiao_mu_b",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "qiao_mu_b",
+    "name": "桥木精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 77,
+    "baseAtk": 29,
+    "baseDef": 25,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_14",
+    "evolveTo": "qiao_mu_c",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "qiao_mu_c",
+    "name": "桥木君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 95,
+    "baseAtk": 37,
+    "baseDef": 31,
+    "baseSpd": 35,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_14",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "yu_jian_a",
+    "name": "渔鉴幼",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 62,
+    "baseAtk": 22,
+    "baseDef": 14,
+    "baseSpd": 14,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_15",
+    "evolveTo": "yu_jian_b",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "yu_jian_b",
+    "name": "渔鉴精",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 78,
+    "baseAtk": 30,
+    "baseDef": 20,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_15",
+    "evolveTo": "yu_jian_c",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "yu_jian_c",
+    "name": "渔鉴君",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 96,
+    "baseAtk": 38,
+    "baseDef": 26,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_15",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "bei_hun_a",
+    "name": "碑魂幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 63,
+    "baseAtk": 23,
+    "baseDef": 15,
+    "baseSpd": 15,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_16",
+    "evolveTo": "bei_hun_b",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "bei_hun_b",
+    "name": "碑魂精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 79,
+    "baseAtk": 31,
+    "baseDef": 21,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_16",
+    "evolveTo": "bei_hun_c",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "bei_hun_c",
+    "name": "碑魂君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 97,
+    "baseAtk": 39,
+    "baseDef": 27,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_16",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "jiao_lei_a",
+    "name": "角雷幼",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 64,
+    "baseAtk": 16,
+    "baseDef": 16,
+    "baseSpd": 16,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_17",
+    "evolveTo": "jiao_lei_b",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "jiao_lei_b",
+    "name": "角雷精",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 80,
+    "baseAtk": 24,
+    "baseDef": 22,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_17",
+    "evolveTo": "jiao_lei_c",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "jiao_lei_c",
+    "name": "角雷君",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 98,
+    "baseAtk": 32,
+    "baseDef": 28,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_17",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "bing_si_a",
+    "name": "冰丝幼",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 65,
+    "baseAtk": 17,
+    "baseDef": 17,
+    "baseSpd": 17,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_18",
+    "evolveTo": "bing_si_b",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "bing_si_b",
+    "name": "冰丝精",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 81,
+    "baseAtk": 25,
+    "baseDef": 23,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_18",
+    "evolveTo": "bing_si_c",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "bing_si_c",
+    "name": "冰丝君",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 99,
+    "baseAtk": 33,
+    "baseDef": 29,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_18",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "ye_fan_a",
+    "name": "夜幡幼",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 66,
+    "baseAtk": 18,
+    "baseDef": 18,
+    "baseSpd": 18,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_19",
+    "evolveTo": "ye_fan_b",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "ye_fan_b",
+    "name": "夜幡精",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 82,
+    "baseAtk": 26,
+    "baseDef": 24,
+    "baseSpd": 24,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_19",
+    "evolveTo": "ye_fan_c",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "ye_fan_c",
+    "name": "夜幡君",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 100,
+    "baseAtk": 34,
+    "baseDef": 30,
+    "baseSpd": 30,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_19",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "zhao_que_a",
+    "name": "照阙幼",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 67,
+    "baseAtk": 19,
+    "baseDef": 19,
+    "baseSpd": 19,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_20",
+    "evolveTo": "zhao_que_b",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "zhao_que_b",
+    "name": "照阙精",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 83,
+    "baseAtk": 27,
+    "baseDef": 25,
+    "baseSpd": 25,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_20",
+    "evolveTo": "zhao_que_c",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "zhao_que_c",
+    "name": "照阙君",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 101,
+    "baseAtk": 35,
+    "baseDef": 31,
+    "baseSpd": 31,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_20",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "yan_wa_a",
+    "name": "檐瓦幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 68,
+    "baseAtk": 20,
+    "baseDef": 14,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_21",
+    "evolveTo": "yan_wa_b",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "yan_wa_b",
+    "name": "檐瓦精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 84,
+    "baseAtk": 28,
+    "baseDef": 20,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_21",
+    "evolveTo": "yan_wa_c",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "yan_wa_c",
+    "name": "檐瓦君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 102,
+    "baseAtk": 36,
+    "baseDef": 26,
+    "baseSpd": 32,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_21",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "lian_zhou_a",
+    "name": "莲舟幼",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 69,
+    "baseAtk": 21,
+    "baseDef": 15,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_22",
+    "evolveTo": "lian_zhou_b",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "lian_zhou_b",
+    "name": "莲舟精",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 85,
+    "baseAtk": 29,
+    "baseDef": 21,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_22",
+    "evolveTo": "lian_zhou_c",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "lian_zhou_c",
+    "name": "莲舟君",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 103,
+    "baseAtk": 37,
+    "baseDef": 27,
+    "baseSpd": 33,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_22",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "sang_gui_a",
+    "name": "桑鬼幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 70,
+    "baseAtk": 22,
+    "baseDef": 16,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_23",
+    "evolveTo": "sang_gui_b",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "sang_gui_b",
+    "name": "桑鬼精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 86,
+    "baseAtk": 30,
+    "baseDef": 22,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_23",
+    "evolveTo": "sang_gui_c",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "sang_gui_c",
+    "name": "桑鬼君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 104,
+    "baseAtk": 38,
+    "baseDef": 28,
+    "baseSpd": 34,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_23",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "huo_que_a",
+    "name": "火鹊幼",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 71,
+    "baseAtk": 23,
+    "baseDef": 17,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_24",
+    "evolveTo": "huo_que_b",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "huo_que_b",
+    "name": "火鹊精",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 87,
+    "baseAtk": 31,
+    "baseDef": 23,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_24",
+    "evolveTo": "huo_que_c",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "huo_que_c",
+    "name": "火鹊君",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 105,
+    "baseAtk": 39,
+    "baseDef": 29,
+    "baseSpd": 35,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_24",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "ta_ling_a",
+    "name": "塔铃幼",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 72,
+    "baseAtk": 16,
+    "baseDef": 18,
+    "baseSpd": 14,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_25",
+    "evolveTo": "ta_ling_b",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "ta_ling_b",
+    "name": "塔铃精",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 88,
+    "baseAtk": 24,
+    "baseDef": 24,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_25",
+    "evolveTo": "ta_ling_c",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "ta_ling_c",
+    "name": "塔铃君",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 106,
+    "baseAtk": 32,
+    "baseDef": 30,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_25",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "xue_deng_a",
+    "name": "雪灯幼",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 73,
+    "baseAtk": 17,
+    "baseDef": 19,
+    "baseSpd": 15,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_26",
+    "evolveTo": "xue_deng_b",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "xue_deng_b",
+    "name": "雪灯精",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 89,
+    "baseAtk": 25,
+    "baseDef": 25,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_26",
+    "evolveTo": "xue_deng_c",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "xue_deng_c",
+    "name": "雪灯君",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 107,
+    "baseAtk": 33,
+    "baseDef": 31,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_26",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "mo_yu_a",
+    "name": "墨鱼幼",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 74,
+    "baseAtk": 18,
+    "baseDef": 14,
+    "baseSpd": 16,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_27",
+    "evolveTo": "mo_yu_b",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "mo_yu_b",
+    "name": "墨鱼精",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 90,
+    "baseAtk": 26,
+    "baseDef": 20,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_27",
+    "evolveTo": "mo_yu_c",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "mo_yu_c",
+    "name": "墨鱼君",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 108,
+    "baseAtk": 34,
+    "baseDef": 26,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_27",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "ri_hua_a",
+    "name": "日花幼",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 75,
+    "baseAtk": 19,
+    "baseDef": 15,
+    "baseSpd": 17,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_28",
+    "evolveTo": "ri_hua_b",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "ri_hua_b",
+    "name": "日花精",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 91,
+    "baseAtk": 27,
+    "baseDef": 21,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_28",
+    "evolveTo": "ri_hua_c",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "ri_hua_c",
+    "name": "日花君",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 109,
+    "baseAtk": 35,
+    "baseDef": 27,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_28",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "sui_shi_a",
+    "name": "燧石幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 76,
+    "baseAtk": 20,
+    "baseDef": 16,
+    "baseSpd": 18,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_29",
+    "evolveTo": "sui_shi_b",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "sui_shi_b",
+    "name": "燧石精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 92,
+    "baseAtk": 28,
+    "baseDef": 22,
+    "baseSpd": 24,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_29",
+    "evolveTo": "sui_shi_c",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "sui_shi_c",
+    "name": "燧石君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 110,
+    "baseAtk": 36,
+    "baseDef": 28,
+    "baseSpd": 30,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_29",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "zhu_ying_a",
+    "name": "竹影幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 77,
+    "baseAtk": 21,
+    "baseDef": 17,
+    "baseSpd": 19,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_30",
+    "evolveTo": "zhu_ying_b",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "zhu_ying_b",
+    "name": "竹影精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 93,
+    "baseAtk": 29,
+    "baseDef": 23,
+    "baseSpd": 25,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_30",
+    "evolveTo": "zhu_ying_c",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "zhu_ying_c",
+    "name": "竹影君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 111,
+    "baseAtk": 37,
+    "baseDef": 29,
+    "baseSpd": 31,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_30",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "jing_shen_a",
+    "name": "井神幼",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 78,
+    "baseAtk": 22,
+    "baseDef": 18,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_31",
+    "evolveTo": "jing_shen_b",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "jing_shen_b",
+    "name": "井神精",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 94,
+    "baseAtk": 30,
+    "baseDef": 24,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_31",
+    "evolveTo": "jing_shen_c",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "jing_shen_c",
+    "name": "井神君",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 112,
+    "baseAtk": 38,
+    "baseDef": 30,
+    "baseSpd": 32,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_31",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "ya_yun_a",
+    "name": "崖云幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 79,
+    "baseAtk": 23,
+    "baseDef": 19,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_32",
+    "evolveTo": "ya_yun_b",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "ya_yun_b",
+    "name": "崖云精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 95,
+    "baseAtk": 31,
+    "baseDef": 25,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_32",
+    "evolveTo": "ya_yun_c",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "ya_yun_c",
+    "name": "崖云君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 113,
+    "baseAtk": 39,
+    "baseDef": 31,
+    "baseSpd": 33,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_32",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "shuang_ya_a",
+    "name": "霜鸦幼",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 80,
+    "baseAtk": 16,
+    "baseDef": 14,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_33",
+    "evolveTo": "shuang_ya_b",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "shuang_ya_b",
+    "name": "霜鸦精",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 96,
+    "baseAtk": 24,
+    "baseDef": 20,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_33",
+    "evolveTo": "shuang_ya_c",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "shuang_ya_c",
+    "name": "霜鸦君",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 114,
+    "baseAtk": 32,
+    "baseDef": 26,
+    "baseSpd": 34,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_33",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "gui_deng_a",
+    "name": "鬼灯幼",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 81,
+    "baseAtk": 17,
+    "baseDef": 15,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_34",
+    "evolveTo": "gui_deng_b",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "gui_deng_b",
+    "name": "鬼灯精",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 97,
+    "baseAtk": 25,
+    "baseDef": 21,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_34",
+    "evolveTo": "gui_deng_c",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "gui_deng_c",
+    "name": "鬼灯君",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 115,
+    "baseAtk": 33,
+    "baseDef": 27,
+    "baseSpd": 35,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_34",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "xing_shi_a",
+    "name": "星石幼",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 82,
+    "baseAtk": 18,
+    "baseDef": 16,
+    "baseSpd": 14,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_35",
+    "evolveTo": "xing_shi_b",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "xing_shi_b",
+    "name": "星石精",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 98,
+    "baseAtk": 26,
+    "baseDef": 22,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_35",
+    "evolveTo": "xing_shi_c",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "xing_shi_c",
+    "name": "星石君",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 116,
+    "baseAtk": 34,
+    "baseDef": 28,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_35",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "lu_yan_a",
+    "name": "炉焰幼",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 83,
+    "baseAtk": 19,
+    "baseDef": 17,
+    "baseSpd": 15,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_36",
+    "evolveTo": "lu_yan_b",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "lu_yan_b",
+    "name": "炉焰精",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 99,
+    "baseAtk": 27,
+    "baseDef": 23,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_36",
+    "evolveTo": "lu_yan_c",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "lu_yan_c",
+    "name": "炉焰君",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 117,
+    "baseAtk": 35,
+    "baseDef": 29,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_36",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "tong_que_a",
+    "name": "铜雀幼",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 84,
+    "baseAtk": 20,
+    "baseDef": 18,
+    "baseSpd": 16,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_37",
+    "evolveTo": "tong_que_b",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "tong_que_b",
+    "name": "铜雀精",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 100,
+    "baseAtk": 28,
+    "baseDef": 24,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_37",
+    "evolveTo": "tong_que_c",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "tong_que_c",
+    "name": "铜雀君",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 118,
+    "baseAtk": 36,
+    "baseDef": 30,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_37",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "wei_she_a",
+    "name": "苇蛇幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 85,
+    "baseAtk": 21,
+    "baseDef": 19,
+    "baseSpd": 17,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_38",
+    "evolveTo": "wei_she_b",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "wei_she_b",
+    "name": "苇蛇精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 101,
+    "baseAtk": 29,
+    "baseDef": 25,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_38",
+    "evolveTo": "wei_she_c",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "wei_she_c",
+    "name": "苇蛇君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 119,
+    "baseAtk": 37,
+    "baseDef": 31,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_38",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "bo_chen_a",
+    "name": "波尘幼",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 86,
+    "baseAtk": 22,
+    "baseDef": 14,
+    "baseSpd": 18,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_39",
+    "evolveTo": "bo_chen_b",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "bo_chen_b",
+    "name": "波尘精",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 102,
+    "baseAtk": 30,
+    "baseDef": 20,
+    "baseSpd": 24,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_39",
+    "evolveTo": "bo_chen_c",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "bo_chen_c",
+    "name": "波尘君",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 120,
+    "baseAtk": 38,
+    "baseDef": 26,
+    "baseSpd": 30,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_39",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "shi_hu_a",
+    "name": "石虎幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 87,
+    "baseAtk": 23,
+    "baseDef": 15,
+    "baseSpd": 19,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_40",
+    "evolveTo": "shi_hu_b",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "shi_hu_b",
+    "name": "石虎精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 103,
+    "baseAtk": 31,
+    "baseDef": 21,
+    "baseSpd": 25,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_40",
+    "evolveTo": "shi_hu_c",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "shi_hu_c",
+    "name": "石虎君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 121,
+    "baseAtk": 39,
+    "baseDef": 27,
+    "baseSpd": 31,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_40",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "lei_gu_a",
+    "name": "雷鼓幼",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 88,
+    "baseAtk": 16,
+    "baseDef": 16,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_41",
+    "evolveTo": "lei_gu_b",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "lei_gu_b",
+    "name": "雷鼓精",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 104,
+    "baseAtk": 24,
+    "baseDef": 22,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_41",
+    "evolveTo": "lei_gu_c",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "lei_gu_c",
+    "name": "雷鼓君",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 122,
+    "baseAtk": 32,
+    "baseDef": 28,
+    "baseSpd": 32,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_41",
+    "starter": false,
+    "realm": "cavern"
+  },
+  {
+    "id": "han_mei_a",
+    "name": "寒梅幼",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 89,
+    "baseAtk": 17,
+    "baseDef": 17,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_42",
+    "evolveTo": "han_mei_b",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "han_mei_b",
+    "name": "寒梅精",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 105,
+    "baseAtk": 25,
+    "baseDef": 23,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_42",
+    "evolveTo": "han_mei_c",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "han_mei_c",
+    "name": "寒梅君",
+    "affinities": [
+      "frost"
+    ],
+    "baseHp": 123,
+    "baseAtk": 33,
+    "baseDef": 29,
+    "baseSpd": 33,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "rime_needle",
+      "chill_dust"
+    ],
+    "pactId": "catalog_pact_42",
+    "starter": false,
+    "realm": "snow"
+  },
+  {
+    "id": "you_lan_a",
+    "name": "幽兰幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 90,
+    "baseAtk": 18,
+    "baseDef": 18,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_43",
+    "evolveTo": "you_lan_b",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "you_lan_b",
+    "name": "幽兰精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 106,
+    "baseAtk": 26,
+    "baseDef": 24,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_43",
+    "evolveTo": "you_lan_c",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "you_lan_c",
+    "name": "幽兰君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 124,
+    "baseAtk": 34,
+    "baseDef": 30,
+    "baseSpd": 34,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_43",
+    "starter": false,
+    "realm": "tide"
+  },
+  {
+    "id": "hao_zhong_a",
+    "name": "皓钟幼",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 91,
+    "baseAtk": 19,
+    "baseDef": 19,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_44",
+    "evolveTo": "hao_zhong_b",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "hao_zhong_b",
+    "name": "皓钟精",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 107,
+    "baseAtk": 27,
+    "baseDef": 25,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_44",
+    "evolveTo": "hao_zhong_c",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "hao_zhong_c",
+    "name": "皓钟君",
+    "affinities": [
+      "light"
+    ],
+    "baseHp": 125,
+    "baseAtk": 35,
+    "baseDef": 31,
+    "baseSpd": 35,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "lamp_dust",
+      "halo_cut"
+    ],
+    "pactId": "catalog_pact_44",
+    "starter": false,
+    "realm": "void"
+  },
+  {
+    "id": "tao_wa_a",
+    "name": "陶瓦幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 92,
+    "baseAtk": 20,
+    "baseDef": 14,
+    "baseSpd": 14,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_45",
+    "evolveTo": "tao_wa_b",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "tao_wa_b",
+    "name": "陶瓦精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 108,
+    "baseAtk": 28,
+    "baseDef": 20,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_45",
+    "evolveTo": "tao_wa_c",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "tao_wa_c",
+    "name": "陶瓦君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 126,
+    "baseAtk": 36,
+    "baseDef": 26,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_45",
+    "starter": false,
+    "realm": "town_ruins"
+  },
+  {
+    "id": "he_ye_a",
+    "name": "荷叶幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 93,
+    "baseAtk": 21,
+    "baseDef": 15,
+    "baseSpd": 15,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_46",
+    "evolveTo": "he_ye_b",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "he_ye_b",
+    "name": "荷叶精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 109,
+    "baseAtk": 29,
+    "baseDef": 21,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_46",
+    "evolveTo": "he_ye_c",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "he_ye_c",
+    "name": "荷叶君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 127,
+    "baseAtk": 37,
+    "baseDef": 27,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_46",
+    "starter": false,
+    "realm": "wilds"
+  },
+  {
+    "id": "song_ta_a",
+    "name": "松塔幼",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 94,
+    "baseAtk": 22,
+    "baseDef": 16,
+    "baseSpd": 16,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_47",
+    "evolveTo": "song_ta_b",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "song_ta_b",
+    "name": "松塔精",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 110,
+    "baseAtk": 30,
+    "baseDef": 22,
+    "baseSpd": 22,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_47",
+    "evolveTo": "song_ta_c",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "song_ta_c",
+    "name": "松塔君",
+    "affinities": [
+      "wood"
+    ],
+    "baseHp": 128,
+    "baseAtk": 38,
+    "baseDef": 28,
+    "baseSpd": 28,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "peach_strike",
+      "ward_bark"
+    ],
+    "pactId": "catalog_pact_47",
+    "starter": false,
+    "realm": "woods"
+  },
+  {
+    "id": "jin_lu_a",
+    "name": "烬炉幼",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 95,
+    "baseAtk": 23,
+    "baseDef": 17,
+    "baseSpd": 17,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_48",
+    "evolveTo": "jin_lu_b",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "jin_lu_b",
+    "name": "烬炉精",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 111,
+    "baseAtk": 31,
+    "baseDef": 23,
+    "baseSpd": 23,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_48",
+    "evolveTo": "jin_lu_c",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "jin_lu_c",
+    "name": "烬炉君",
+    "affinities": [
+      "flame"
+    ],
+    "baseHp": 129,
+    "baseAtk": 39,
+    "baseDef": 29,
+    "baseSpd": 29,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "kiln_burst",
+      "hearth_spit"
+    ],
+    "pactId": "catalog_pact_48",
+    "starter": false,
+    "realm": "market"
+  },
+  {
+    "id": "shi_deng_a",
+    "name": "石灯幼",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 96,
+    "baseAtk": 16,
+    "baseDef": 18,
+    "baseSpd": 18,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_49",
+    "evolveTo": "shi_deng_b",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "shi_deng_b",
+    "name": "石灯精",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 112,
+    "baseAtk": 24,
+    "baseDef": 24,
+    "baseSpd": 24,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_49",
+    "evolveTo": "shi_deng_c",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "shi_deng_c",
+    "name": "石灯君",
+    "affinities": [
+      "stone"
+    ],
+    "baseHp": 130,
+    "baseAtk": 32,
+    "baseDef": 30,
+    "baseSpd": 30,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "pebble_toss",
+      "ridge_guard"
+    ],
+    "pactId": "catalog_pact_49",
+    "starter": false,
+    "realm": "marsh"
+  },
+  {
+    "id": "yu_deng_a",
+    "name": "渔灯幼",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 97,
+    "baseAtk": 17,
+    "baseDef": 19,
+    "baseSpd": 19,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_50",
+    "evolveTo": "yu_deng_b",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "yu_deng_b",
+    "name": "渔灯精",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 113,
+    "baseAtk": 25,
+    "baseDef": 25,
+    "baseSpd": 25,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_50",
+    "evolveTo": "yu_deng_c",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "yu_deng_c",
+    "name": "渔灯君",
+    "affinities": [
+      "tide"
+    ],
+    "baseHp": 131,
+    "baseAtk": 33,
+    "baseDef": 31,
+    "baseSpd": 31,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "well_thread",
+      "drip_fang"
+    ],
+    "pactId": "catalog_pact_50",
+    "starter": false,
+    "realm": "waste"
+  },
+  {
+    "id": "feng_duo_a",
+    "name": "风铎幼",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 98,
+    "baseAtk": 18,
+    "baseDef": 14,
+    "baseSpd": 20,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_51",
+    "evolveTo": "feng_duo_b",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "feng_duo_b",
+    "name": "风铎精",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 114,
+    "baseAtk": 26,
+    "baseDef": 20,
+    "baseSpd": 26,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_51",
+    "evolveTo": "feng_duo_c",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "feng_duo_c",
+    "name": "风铎君",
+    "affinities": [
+      "bolt"
+    ],
+    "baseHp": 132,
+    "baseAtk": 34,
+    "baseDef": 26,
+    "baseSpd": 32,
+    "artIds": [
+      "cinder_claw",
+      "ash_veil",
+      "spark_cut",
+      "static_web"
+    ],
+    "pactId": "catalog_pact_51",
+    "starter": false,
+    "realm": "foothill"
+  },
+  {
+    "id": "mie_zhu_a",
+    "name": "灭烛幼",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 99,
+    "baseAtk": 19,
+    "baseDef": 15,
+    "baseSpd": 21,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_52",
+    "evolveTo": "mie_zhu_b",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "mie_zhu_b",
+    "name": "灭烛精",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 115,
+    "baseAtk": 27,
+    "baseDef": 21,
+    "baseSpd": 27,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_52",
+    "evolveTo": "mie_zhu_c",
+    "starter": false,
+    "realm": "shrine"
+  },
+  {
+    "id": "mie_zhu_c",
+    "name": "灭烛君",
+    "affinities": [
+      "shade"
+    ],
+    "baseHp": 133,
+    "baseAtk": 35,
+    "baseDef": 27,
+    "baseSpd": 33,
+    "artIds": [
+      "ash_veil",
+      "cinder_claw",
+      "ink_swipe",
+      "shade_nudge"
+    ],
+    "pactId": "catalog_pact_52",
+    "starter": false,
+    "realm": "shrine"
+  }
+]

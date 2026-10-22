@@ -1,0 +1,366 @@
+{
+  "generatedAt": "2026-09-01T04:24:27.167Z",
+  "journeys": {
+    "portrait": {
+      "orientation": "portrait",
+      "device": {
+        "width": 750,
+        "height": 1334,
+        "dpr": 2
+      },
+      "steps": [
+        {
+          "order": 1,
+          "screenshot": "u11-journey-portrait-01-title.png",
+          "route": "title",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "title.start-run",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 8,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "portrait",
+            "width": 750,
+            "height": 1334,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:24:32.245Z"
+          }
+        },
+        {
+          "order": 2,
+          "screenshot": "u11-journey-portrait-02-mode.png",
+          "route": "mode",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "mode.select.sprint",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 6,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "portrait",
+            "width": 750,
+            "height": 1334,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:24:35.438Z"
+          }
+        },
+        {
+          "order": 3,
+          "screenshot": "u11-journey-portrait-03-starter.png",
+          "route": "starter",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "starter.confirm",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 5,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "portrait",
+            "width": 750,
+            "height": 1334,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:24:38.745Z"
+          }
+        },
+        {
+          "order": 4,
+          "screenshot": "u11-journey-portrait-04-battle.png",
+          "route": "battle",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "battle.art",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 4,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "portrait",
+            "width": 750,
+            "height": 1334,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:24:42.019Z"
+          }
+        },
+        {
+          "order": 5,
+          "screenshot": "u11-journey-portrait-05-summary.png",
+          "route": "summary",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "summary.continue",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 1,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "portrait",
+            "width": 750,
+            "height": 1334,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:24:45.218Z"
+          }
+        },
+        {
+          "order": 6,
+          "screenshot": "u11-journey-portrait-06-map.png",
+          "route": "map",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "map.rest",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 3,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "portrait",
+            "width": 750,
+            "height": 1334,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:24:48.394Z"
+          }
+        },
+        {
+          "order": 7,
+          "screenshot": "u11-journey-portrait-07-victory.png",
+          "route": "victory",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "outcome.commit",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 2,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "portrait",
+            "width": 750,
+            "height": 1334,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:24:52.125Z"
+          }
+        },
+        {
+          "order": 8,
+          "screenshot": "u11-journey-portrait-08-title.png",
+          "route": "title",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "title.start-run",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 8,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "portrait",
+            "width": 750,
+            "height": 1334,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:24:55.965Z"
+          }
+        }
+      ]
+    },
+    "landscape": {
+      "orientation": "landscape",
+      "device": {
+        "width": 1334,
+        "height": 750,
+        "dpr": 2
+      },
+      "steps": [
+        {
+          "order": 1,
+          "screenshot": "u11-journey-landscape-01-title.png",
+          "route": "title",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "title.start-run",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 8,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "landscape",
+            "width": 1334,
+            "height": 750,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:25:00.678Z"
+          }
+        },
+        {
+          "order": 2,
+          "screenshot": "u11-journey-landscape-02-mode.png",
+          "route": "mode",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "mode.select.sprint",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 6,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "landscape",
+            "width": 1334,
+            "height": 750,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:25:04.602Z"
+          }
+        },
+        {
+          "order": 3,
+          "screenshot": "u11-journey-landscape-03-starter.png",
+          "route": "starter",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "starter.confirm",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 5,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "landscape",
+            "width": 1334,
+            "height": 750,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:25:07.810Z"
+          }
+        },
+        {
+          "order": 4,
+          "screenshot": "u11-journey-landscape-04-battle.png",
+          "route": "battle",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "battle.art",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 4,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "landscape",
+            "width": 1334,
+            "height": 750,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:25:10.971Z"
+          }
+        },
+        {
+          "order": 5,
+          "screenshot": "u11-journey-landscape-05-summary.png",
+          "route": "summary",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "summary.continue",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 1,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "landscape",
+            "width": 1334,
+            "height": 750,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:25:14.042Z"
+          }
+        },
+        {
+          "order": 6,
+          "screenshot": "u11-journey-landscape-06-map.png",
+          "route": "map",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "map.rest",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 3,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "landscape",
+            "width": 1334,
+            "height": 750,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:25:17.583Z"
+          }
+        },
+        {
+          "order": 7,
+          "screenshot": "u11-journey-landscape-07-victory.png",
+          "route": "victory",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "outcome.commit",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 2,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "landscape",
+            "width": 1334,
+            "height": 750,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:25:21.570Z"
+          }
+        },
+        {
+          "order": 8,
+          "screenshot": "u11-journey-landscape-08-title.png",
+          "route": "title",
+          "renderer": "presentation",
+          "state": "normal",
+          "primary": "title.start-run",
+          "hostCount": 1,
+          "hosts": [
+            "shell-host-presentation"
+          ],
+          "actionCount": 8,
+          "meta": {
+            "platform": "web-mobile",
+            "orientation": "landscape",
+            "width": 1334,
+            "height": 750,
+            "dpr": 2,
+            "capturedAt": "2026-09-01T04:25:24.782Z"
+          }
+        }
+      ]
+    }
+  },
+  "reachability": {
+    "total": 25,
+    "legacy": [],
+    "noModel": []
+  }
+}

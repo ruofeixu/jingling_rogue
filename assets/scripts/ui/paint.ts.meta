@@ -1,0 +1,13 @@
+{
+  "ver": "4.0.23",
+  "importer": "typescript",
+  "imported": true,
+  "uuid": "d4e5f6a7-b8c9-4012-bdef-0123456789ab",
+  "files": [],
+  "subMetas": {},
+  "userData": {
+    "moduleId": "project:///assets/scripts/ui/paint.js",
+    "importerSettings": 7,
+    "simulateGlobals": []
+  }
+}

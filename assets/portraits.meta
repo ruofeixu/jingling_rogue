@@ -1,0 +1,21 @@
+{
+  "ver": "1.2.0",
+  "importer": "directory",
+  "imported": true,
+  "uuid": "36b74e15-43e9-4809-a221-ec24e0e9540e",
+  "files": [],
+  "subMetas": {},
+  "userData": {
+    "isBundle": true,
+    "bundleName": "portraits",
+    "priority": 1,
+    "compressionType": {
+      "wechatgame": "subpackage",
+      "bytedance-mini-game": "subpackage"
+    },
+    "isRemoteBundle": {
+      "wechatgame": false,
+      "bytedance-mini-game": false
+    }
+  }
+}

@@ -1,0 +1,116 @@
+/*
+ * 卡通厚涂可爱风底座 v2（参考洛克王国世界）。
+ * v2 目标：去廉价感 —— 多层光影（高光条+主体+暗部）、描边带内发光、
+ * 更饱满的糖果色、地面投影、轻量场景装饰。仅用于设计稿选型。
+ */
+
+:root {
+  --paper: #eaf4fd;
+  --paper-2: #cfe6fb;
+  --panel: #fffdf6;
+  --ink: #4a3b2f;
+  --ink-soft: #8a7561;
+  --edge: #7cc3f2;
+  --edge-deep: #3f8ed0;
+  --accent: #ff9a4d;
+  --accent-lo: #ffbf80;
+  --accent-deep: #f0761a;
+  --accent-edge: #c9560f;
+  --slip: #fff0d6;
+  --slip-edge: #e0ad63;
+  --slip-deep: #f6dcae;
+  --hp: #6ed07a;
+  --hp-deep: #3ba24d;
+  --hp-track: #e6efe6;
+  --foe: #ff8f8f; --foe-deep: #d84c4c;
+  --field-hi: #d7f0bd; --field: #b6e394; --field-2: #97cf72; --field-lo: #7bb659;
+  --gold: #ffd24d;
+  --shadow: rgba(58, 44, 32, 0.22);
+  --r-sm: 14px; --r-md: 22px; --r-lg: 34px; --r-pill: 999px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; -webkit-font-smoothing: antialiased; }
+
+.phone {
+  width: 375px; height: 667px; position: relative; overflow: hidden;
+  background:
+    radial-gradient(120% 60% at 50% 0%, #f4fbff 0%, var(--paper) 40%, var(--paper-2) 100%);
+  border-radius: 30px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.28);
+}
+
+/* 背景装饰：飘云 + 顶部柔光 */
+.deco-cloud {
+  position:absolute; border-radius:var(--r-pill);
+  background:rgba(255,255,255,.7); filter: blur(0.3px);
+  box-shadow: 0 6px 14px rgba(120,160,200,.25);
+}
+.deco-cloud::before, .deco-cloud::after{
+  content:""; position:absolute; border-radius:50%; background:inherit;
+}
+
+/* 厚涂面板：外深边阴影 + 描边 + 顶部高光条 + 底部暗部 */
+.panel {
+  position: relative;
+  background:
+    linear-gradient(180deg, #ffffff 0%, var(--panel) 22%, #fdf3e0 100%);
+  border: 5px solid var(--edge);
+  border-radius: var(--r-lg);
+  box-shadow:
+    0 8px 0 var(--edge-deep),
+    0 14px 24px var(--shadow),
+    inset 0 4px 0 rgba(255,255,255,0.95),
+    inset 0 -10px 18px rgba(224,173,99,0.18);
+}
+
+/* 厚涂按钮：立体厚度（底深边）+ 顶高光 + 内发光描边 */
+.btn {
+  position: relative; display:flex; align-items:center; justify-content:center;
+  font-weight: 900; color: var(--ink); letter-spacing: 1px;
+  background: linear-gradient(180deg, #fff7e8 0%, var(--slip) 55%, var(--slip-deep) 100%);
+  border: 5px solid var(--slip-edge);
+  border-radius: var(--r-pill);
+  box-shadow:
+    0 6px 0 var(--slip-edge),
+    0 11px 16px var(--shadow),
+    inset 0 3px 0 rgba(255,255,255,0.95),
+    inset 0 -6px 10px rgba(224,173,99,0.25);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+}
+.btn--primary {
+  color: #fff;
+  background: linear-gradient(180deg, #ffd0a0 0%, var(--accent) 45%, var(--accent-deep) 100%);
+  border-color: var(--accent-edge);
+  box-shadow:
+    0 7px 0 var(--accent-edge),
+    0 13px 20px rgba(201,86,15,0.4),
+    inset 0 3px 0 rgba(255,255,255,0.6),
+    inset 0 -7px 12px rgba(201,86,15,0.35);
+  text-shadow: 0 2px 0 rgba(201,86,15,0.7);
+}
+.btn--disabled { color: var(--ink-soft); background: linear-gradient(180deg,#f3ece0,#e6dccb); border-color:#cdbfa8; box-shadow:0 5px 0 #cdbfa8, 0 8px 12px var(--shadow); }
+
+/* HP 条：厚描边 + 高光 + 分段光泽 */
+.hpbar { position:relative; height:15px; border-radius:var(--r-pill);
+  background: linear-gradient(180deg,#dfe8df,var(--hp-track)); border:3px solid rgba(58,44,32,0.28);
+  box-shadow: inset 0 2px 3px rgba(0,0,0,.15); overflow:hidden; }
+.hpbar > i { display:block; height:100%; border-radius:var(--r-pill);
+  background: linear-gradient(180deg,#c4f3cb 0%, var(--hp) 45%, var(--hp-deep) 100%);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.6); }
+.hpbar.foe > i { background: linear-gradient(180deg,#ffc2c2 0%, var(--foe) 45%, var(--foe-deep) 100%); }
+
+/* 名牌 */
+.nameplate {
+  background: linear-gradient(180deg,#fff,#fdf3e0);
+  border: 5px solid var(--edge); border-radius: var(--r-md);
+  box-shadow: 0 6px 0 var(--edge-deep), 0 9px 14px var(--shadow), inset 0 3px 0 rgba(255,255,255,.95);
+  padding: 9px 15px;
+}
+
+.title-badge {
+  font-weight: 900; color: #fff;
+  -webkit-text-stroke: 8px var(--edge-deep); paint-order: stroke fill;
+  text-shadow: 0 7px 0 rgba(63,142,208,0.55), 0 10px 2px rgba(0,0,0,.15);
+  letter-spacing: 5px;
+}

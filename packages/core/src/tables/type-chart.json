@@ -1,0 +1,10 @@
+{
+  "flame": { "flame": 1, "tide": 0.5, "stone": 0.5, "wood": 2, "bolt": 1, "frost": 2, "shade": 1, "light": 1 },
+  "tide": { "flame": 2, "tide": 1, "stone": 2, "wood": 0.5, "bolt": 0.5, "frost": 1, "shade": 1, "light": 1 },
+  "stone": { "flame": 2, "tide": 0.5, "stone": 1, "wood": 0.5, "bolt": 2, "frost": 1, "shade": 1, "light": 1 },
+  "wood": { "flame": 0.5, "tide": 2, "stone": 2, "wood": 1, "bolt": 1, "frost": 0.5, "shade": 1, "light": 1 },
+  "bolt": { "flame": 1, "tide": 2, "stone": 0.5, "wood": 1, "bolt": 1, "frost": 1, "shade": 2, "light": 0.5 },
+  "frost": { "flame": 0.5, "tide": 1, "stone": 1, "wood": 2, "bolt": 1, "frost": 1, "shade": 1, "light": 2 },
+  "shade": { "flame": 1, "tide": 1, "stone": 1, "wood": 1, "bolt": 0.5, "frost": 1, "shade": 1, "light": 2 },
+  "light": { "flame": 1, "tide": 1, "stone": 1, "wood": 1, "bolt": 2, "frost": 0.5, "shade": 2, "light": 1 }
+}

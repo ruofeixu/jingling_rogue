@@ -1,0 +1,62 @@
+[
+  {
+    "id": "town_ruins",
+    "name": "镇墟",
+    "spiritIds": ["zao_li", "jing_zhu", "dian_zhu", "mo_mao", "deng_e", "yao_shu", "dan_li", "ye_ti", "tao_quan"]
+  },
+  {
+    "id": "wilds",
+    "name": "野原",
+    "spiritIds": ["quan_ji", "luan_shi", "pi_li", "jin_hui", "tong_ling", "he_bo_cong", "zhang_yan", "lei_ying", "ming_duo"]
+  },
+  {
+    "id": "woods",
+    "name": "密林",
+    "spiritIds": ["tao_geng", "nuo_mian", "shuang_ming", "ping_yu", "zhi_ren", "bing_can", "he_hun", "jian_ying", "she_mu"]
+  },
+  {
+    "id": "market",
+    "name": "坊市",
+    "spiritIds": ["dian_zhu", "mo_mao", "deng_e", "yao_shu", "tong_ling", "jin_hui", "tao_quan", "dan_li", "ye_ti"]
+  },
+  {
+    "id": "marsh",
+    "name": "河泽",
+    "spiritIds": ["jing_zhu", "quan_ji", "ping_yu", "he_hun", "he_bo_cong", "lian_xin", "shuang_ming", "bing_can", "tao_geng"]
+  },
+  {
+    "id": "waste",
+    "name": "荒原",
+    "spiritIds": ["luan_shi", "zhang_yan", "zhen_yue", "yao_shu", "tao_quan", "dan_zao", "zao_li", "dan_li", "huo_de_li"]
+  },
+  {
+    "id": "foothill",
+    "name": "山腹",
+    "spiritIds": ["zhang_yan", "zhen_yue", "pi_li", "lei_ying", "nuo_mian", "she_mu", "luan_shi", "zhi_ren", "jian_ying"]
+  },
+  {
+    "id": "shrine",
+    "name": "社坛",
+    "spiritIds": ["tao_geng", "nuo_mian", "she_mu", "deng_e", "jin_hui", "yao_lun", "tong_ling", "ming_duo", "jing_zhong"]
+  },
+  {
+    "id": "cavern",
+    "name": "洞窟",
+    "spiritIds": ["mo_mao", "ye_ti", "wu_mian", "zhi_ren", "jian_ying", "zang_shu", "luan_shi", "zhang_yan", "dian_zhu"]
+  },
+  {
+    "id": "snow",
+    "name": "雪原",
+    "spiritIds": ["shuang_ming", "bing_can", "xuan_dong", "zhi_ren", "jian_ying", "zang_shu", "ping_yu", "he_hun", "nuo_mian"]
+  },
+  {
+    "id": "tide",
+    "name": "潮汐",
+    "spiritIds": ["jing_zhu", "quan_ji", "he_bo_cong", "ping_yu", "he_hun", "lian_xin", "shuang_ming", "bing_can", "xuan_dong"]
+  },
+  {
+    "id": "void",
+    "name": "归墟",
+    "spiritIds": ["huo_de_li", "he_bo_cong", "she_mu", "zhen_yue", "lei_ying", "xuan_dong", "wu_mian", "yao_lun", "jing_zhong"]
+  }
+]

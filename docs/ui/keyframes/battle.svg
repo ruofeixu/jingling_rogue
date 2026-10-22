@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 1334" width="750" height="1334" role="img" aria-labelledby="battleFrameTitle battleFrameDesc">
+  <title id="battleFrameTitle">精怪战斗关键帧</title>
+  <desc id="battleFrameDesc">明亮河泽中景里灶狸与原创精怪苔鼓兽对峙，顶部有队伍、囊与镇物，右侧为竖列术签，底部显示战况。</desc>
+  <defs>
+    <linearGradient id="battleSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9efff"/>
+      <stop offset="0.57" stop-color="#eef8dc"/>
+      <stop offset="1" stop-color="#f8e5b8"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fd6d1"/>
+      <stop offset="1" stop-color="#4ea8a8"/>
+    </linearGradient>
+    <linearGradient id="logPaper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffdf7"/>
+      <stop offset="1" stop-color="#fff0cf"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#244d42" flood-opacity="0.21"/>
+    </filter>
+    <filter id="unitShadow" x="-40%" y="-40%" width="180%" height="190%">
+      <feDropShadow dx="0" dy="12" stdDeviation="8" flood-color="#233f36" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="750" height="1334" fill="url(#battleSky)"/>
+  <circle cx="626" cy="125" r="61" fill="#fff3a5"/>
+  <g fill="#ffffff" opacity="0.78">
+    <path d="M32 175 Q54 143 91 166 Q116 130 162 163 Q180 174 181 194 L29 194 Z"/>
+    <path d="M451 227 Q476 191 514 219 Q538 181 588 214 Q605 225 607 245 L447 245 Z"/>
+  </g>
+
+  <!-- 顶部行动入口，使用方形工具牌而非战况名牌 -->
+  <g filter="url(#shadow)">
+    <path d="M18 25 H732 V154 Q375 178 18 154 Z" fill="#fffdf7" stroke="#59afd2" stroke-width="5"/>
+    <g transform="translate(37 49)">
+      <rect width="148" height="76" rx="20" fill="#e9f6e5" stroke="#6aaa67" stroke-width="4"/>
+      <g transform="translate(16 16)" fill="#76b96d" stroke="#3e633f" stroke-width="3">
+        <circle cx="21" cy="18" r="12"/><circle cx="42" cy="18" r="12"/><circle cx="31" cy="38" r="12"/>
+      </g>
+      <text x="96" y="47" text-anchor="middle" fill="#3d523d" font-size="24" font-weight="900">队伍</text>
+      <text x="122" y="67" text-anchor="middle" fill="#638060" font-size="14" font-weight="800">3 / 6</text>
+    </g>
+    <g transform="translate(201 49)">
+      <rect width="148" height="76" rx="20" fill="#fff2d7" stroke="#dd9c4b" stroke-width="4"/>
+      <path d="M20 21 H52 L57 58 H15 Z" fill="#f0bd59" stroke="#755733" stroke-width="3"/>
+      <path d="M26 22 Q36 7 46 22" fill="none" stroke="#755733" stroke-width="4"/>
+      <text x="101" y="48" text-anchor="middle" fill="#5c4932" font-size="24" font-weight="900">囊</text>
+      <text x="124" y="67" text-anchor="middle" fill="#806d4b" font-size="14" font-weight="800">8</text>
+    </g>
+    <g transform="translate(365 49)">
+      <rect width="148" height="76" rx="20" fill="#e7f4ff" stroke="#5da9d2" stroke-width="4"/>
+      <path d="M17 18 Q35 5 54 18 L49 53 Q35 65 21 53 Z" fill="#70bddd" stroke="#3c6680" stroke-width="3"/>
+      <path d="M26 30 L35 21 L44 30 L35 43 Z" fill="#fff0a7"/>
+      <text x="102" y="47" text-anchor="middle" fill="#38576b" font-size="24" font-weight="900">镇物</text>
+      <text x="124" y="67" text-anchor="middle" fill="#58778a" font-size="14" font-weight="800">5</text>
+    </g>
+    <g transform="translate(529 49)">
+      <rect width="184" height="76" rx="20" fill="#f4efff" stroke="#8c7ac5" stroke-width="4"/>
+      <circle cx="33" cy="38" r="17" fill="none" stroke="#675695" stroke-width="5"/>
+      <path d="M33 28 V40 L43 46" fill="none" stroke="#675695" stroke-width="5" stroke-linecap="round"/>
+      <text x="115" y="36" text-anchor="middle" fill="#51466f" font-size="18" font-weight="900">河泽 · 第 12 波</text>
+      <text x="115" y="60" text-anchor="middle" fill="#756a8b" font-size="14" font-weight="800">天时：晴</text>
+    </g>
+  </g>
+
+  <!-- 背景、中景、前景三层世界 -->
+  <path d="M0 319 Q107 206 207 316 Q313 189 428 320 Q553 225 750 311 L750 488 L0 488 Z" fill="#9dd2bd"/>
+  <path d="M0 384 Q122 303 250 385 Q391 281 515 388 Q630 318 750 370 L750 523 L0 523 Z" fill="#73b58a"/>
+  <g fill="#edf4cf">
+    <path d="M80 365 Q111 327 145 367"/><path d="M344 342 Q380 298 417 347"/><path d="M588 363 Q622 326 660 366"/>
+  </g>
+  <path d="M0 474 Q166 408 320 484 Q518 396 750 462 L750 902 L0 902 Z" fill="#9ccc78"/>
+  <path d="M0 633 Q148 567 313 640 Q481 560 750 620 L750 957 L0 957 Z" fill="url(#water)"/>
+  <g fill="none" stroke="#d8f5df" stroke-width="9" stroke-linecap="round" opacity="0.74">
+    <path d="M23 710 Q111 681 199 710"/><path d="M304 756 Q402 724 500 756"/><path d="M526 685 Q626 653 726 685"/>
+    <path d="M74 840 Q170 808 266 840"/><path d="M423 868 Q530 834 637 868"/>
+  </g>
+  <g fill="#539a68" stroke="#326c55" stroke-width="5">
+    <path d="M17 623 Q54 557 89 625 Q47 648 17 623 Z"/>
+    <path d="M248 682 Q281 620 318 681 Q282 706 248 682 Z"/>
+    <path d="M534 630 Q569 564 606 628 Q568 655 534 630 Z"/>
+    <path d="M682 758 Q714 700 744 756 Q713 780 682 758 Z"/>
+  </g>
+  <g stroke="#3f7558" stroke-width="7" stroke-linecap="round">
+    <path d="M37 644 V540 M65 631 V518 M696 655 V529 M724 646 V549"/>
+  </g>
+  <g fill="#f59a85" stroke="#784c42" stroke-width="4">
+    <ellipse cx="65" cy="511" rx="24" ry="15"/><ellipse cx="697" cy="521" rx="24" ry="15"/>
+  </g>
+
+  <!-- 敌方名牌：不对称旗牌 -->
+  <g transform="translate(45 205)" filter="url(#shadow)">
+    <path d="M0 0 H330 L360 34 L330 68 H0 Z" fill="#fffdf6" stroke="#596754" stroke-width="5"/>
+    <circle cx="29" cy="25" r="10" fill="#7ca65b"/>
+    <text x="51" y="32" fill="#3d3228" font-size="26" font-weight="900">苔鼓兽</text>
+    <text x="286" y="31" text-anchor="end" fill="#5f6957" font-size="17" font-weight="800">岩 · Lv. 11</text>
+    <rect x="27" y="43" width="278" height="13" rx="7" fill="#ddd8c4"/>
+    <rect x="27" y="43" width="202" height="13" rx="7" fill="#71b866"/>
+    <text x="337" y="57" text-anchor="end" fill="#4b5747" font-size="13" font-weight="800">72%</text>
+  </g>
+
+  <!-- 敌方原创轮廓：鼓身石兽、苔冠、三足，不采用常见蛙龟龙剪影 -->
+  <g transform="translate(124 340)" filter="url(#unitShadow)">
+    <path d="M57 57 Q65 2 112 18 Q144 -8 179 25 Q228 7 234 64 Q205 91 149 83 Q94 94 57 57 Z" fill="#72a95c" stroke="#3f4939" stroke-width="10" stroke-linejoin="round"/>
+    <circle cx="89" cy="37" r="17" fill="#9cce6c"/><circle cx="148" cy="24" r="20" fill="#8dc365"/><circle cx="207" cy="42" r="17" fill="#a7d578"/>
+    <path d="M55 90 Q145 47 241 93 L248 218 Q151 274 49 216 Z" fill="#8c8065" stroke="#3f4939" stroke-width="11"/>
+    <path d="M71 109 Q147 78 227 109 L222 191 Q149 230 75 191 Z" fill="#d1b779" stroke="#3f4939" stroke-width="8"/>
+    <ellipse cx="149" cy="150" rx="56" ry="43" fill="#e7cf8e" stroke="#716445" stroke-width="7"/>
+    <circle cx="117" cy="99" r="9" fill="#2e322c"/><circle cx="186" cy="99" r="9" fill="#2e322c"/>
+    <path d="M132 119 Q151 131 170 119" fill="none" stroke="#41392f" stroke-width="7" stroke-linecap="round"/>
+    <path d="M68 206 Q26 230 37 282 Q65 299 89 273 L99 225 M151 231 Q133 281 157 310 Q188 309 198 273 L188 226 M229 205 Q271 226 266 277 Q239 296 214 270 L205 222" fill="#786e59" stroke="#3f4939" stroke-width="11" stroke-linejoin="round"/>
+    <path d="M88 83 Q111 67 126 83 M176 81 Q197 66 214 81" fill="none" stroke="#eef3bc" stroke-width="7" stroke-linecap="round" opacity="0.65"/>
+  </g>
+
+  <!-- 我方名牌：左切角，与敌牌方向相反 -->
+  <g transform="translate(271 703)" filter="url(#shadow)">
+    <path d="M30 0 H225 V73 H30 L0 36 Z" fill="#fffdf6" stroke="#d9734a" stroke-width="5"/>
+    <circle cx="57" cy="25" r="10" fill="#ff7d4d"/>
+    <text x="80" y="32" fill="#3d3228" font-size="26" font-weight="900">灶狸</text>
+    <text x="209" y="31" text-anchor="end" fill="#8e4f3c" font-size="15" font-weight="800">炎 · Lv.12</text>
+    <rect x="58" y="47" width="110" height="13" rx="7" fill="#e4d8c4"/>
+    <rect x="58" y="47" width="97" height="13" rx="7" fill="#67b96a"/>
+    <text x="211" y="60" text-anchor="end" fill="#4e654c" font-size="13" font-weight="800">44 / 50</text>
+  </g>
+
+  <!-- 我方灶狸，中景全身 -->
+  <g transform="translate(64 648) scale(1.18)" filter="url(#unitShadow)">
+    <path d="M48 91 L39 23 L91 57 L138 20 L131 96 Z" fill="#d65b42" stroke="#52372f" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M54 49 L58 76 L77 61 Z M125 46 L121 76 L103 61 Z" fill="#ffd36b"/>
+    <path d="M47 96 Q88 58 136 99 L143 199 Q102 248 39 205 Z" fill="#ed8054" stroke="#52372f" stroke-width="10"/>
+    <path d="M64 149 Q91 126 121 151 Q119 184 91 194 Q65 183 64 149 Z" fill="#ffe0a0"/>
+    <circle cx="70" cy="121" r="8" fill="#3c3029"/><circle cx="116" cy="121" r="8" fill="#3c3029"/>
+    <path d="M91 136 L99 145 L85 145 Z" fill="#713b36"/>
+    <path d="M130 188 Q183 183 161 132 Q199 160 180 211 Q160 251 126 215" fill="#ffad45" stroke="#52372f" stroke-width="10" stroke-linecap="round"/>
+    <path d="M162 143 Q181 177 155 199" fill="none" stroke="#fff18a" stroke-width="9" stroke-linecap="round"/>
+    <path d="M48 197 Q28 224 25 263 M132 205 Q144 232 142 263" fill="none" stroke="#52372f" stroke-width="12" stroke-linecap="round"/>
+    <ellipse cx="48" cy="267" rx="35" ry="15" fill="#bc553e" stroke="#52372f" stroke-width="8"/>
+    <ellipse cx="138" cy="267" rx="35" ry="15" fill="#bc553e" stroke="#52372f" stroke-width="8"/>
+    <path d="M56 103 Q89 76 127 102" fill="none" stroke="#ffc38a" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- 右侧竖列术签：悬挂签形，不做底栏四格 -->
+  <g transform="translate(512 304)" filter="url(#shadow)">
+    <text x="104" y="-19" text-anchor="middle" fill="#435747" font-size="19" font-weight="900" letter-spacing="4">选择术法</text>
+    <g>
+      <path d="M20 0 H190 L209 46 L190 92 H20 L0 46 Z" fill="#ffe2ce" stroke="#df724a" stroke-width="6"/>
+      <circle cx="31" cy="46" r="13" fill="#ff7849"/>
+      <text x="57" y="39" fill="#533c34" font-size="23" font-weight="900">灶星跃</text>
+      <text x="57" y="67" fill="#8b5745" font-size="15" font-weight="800">炎 · 威力 45</text>
+      <text x="183" y="67" text-anchor="end" fill="#8b5745" font-size="14" font-weight="900">9/12</text>
+    </g>
+    <g transform="translate(0 108)">
+      <path d="M20 0 H190 L209 46 L190 92 H20 L0 46 Z" fill="#fff1c8" stroke="#d5a047" stroke-width="5"/>
+      <circle cx="31" cy="46" r="13" fill="#efb64e"/>
+      <text x="57" y="39" fill="#55462f" font-size="23" font-weight="900">炉门守</text>
+      <text x="57" y="67" fill="#806b43" font-size="15" font-weight="800">护 · 先制</text>
+      <text x="183" y="67" text-anchor="end" fill="#806b43" font-size="14" font-weight="900">6/8</text>
+    </g>
+    <g transform="translate(0 216)">
+      <path d="M20 0 H190 L209 46 L190 92 H20 L0 46 Z" fill="#e4f4dc" stroke="#70a85c" stroke-width="5"/>
+      <circle cx="31" cy="46" r="13" fill="#6cb65c"/>
+      <text x="57" y="39" fill="#3e5438" font-size="23" font-weight="900">轻爪</text>
+      <text x="57" y="67" fill="#5f7a57" font-size="15" font-weight="800">凡 · 威力 35</text>
+      <text x="183" y="67" text-anchor="end" fill="#5f7a57" font-size="14" font-weight="900">15/16</text>
+    </g>
+    <g transform="translate(0 324)">
+      <path d="M20 0 H190 L209 46 L190 92 H20 L0 46 Z" fill="#e3f1fb" stroke="#5fa4c4" stroke-width="5"/>
+      <circle cx="31" cy="46" r="13" fill="#5bb3cf"/>
+      <text x="57" y="39" fill="#385260" font-size="23" font-weight="900">烟步</text>
+      <text x="57" y="67" fill="#587484" font-size="15" font-weight="800">身法提升</text>
+      <text x="183" y="67" text-anchor="end" fill="#587484" font-size="14" font-weight="900">7/8</text>
+    </g>
+    <g transform="translate(27 442)">
+      <path d="M0 0 H156 L174 32 L156 64 H0 L16 32 Z" fill="#fffdf7" stroke="#807364" stroke-width="4"/>
+      <text x="87" y="41" text-anchor="middle" fill="#5a5148" font-size="20" font-weight="900">走</text>
+    </g>
+  </g>
+
+  <!-- 前景芦草增强空间深度 -->
+  <g stroke="#2f6c4e" stroke-width="9" stroke-linecap="round">
+    <path d="M14 1041 Q28 903 57 818 M36 1041 Q75 925 108 871 M730 1039 Q723 911 695 821 M708 1040 Q670 938 641 889"/>
+  </g>
+  <g fill="#78ad55" stroke="#315c42" stroke-width="4">
+    <ellipse cx="58" cy="818" rx="16" ry="39" transform="rotate(12 58 818)"/>
+    <ellipse cx="108" cy="871" rx="16" ry="39" transform="rotate(27 108 871)"/>
+    <ellipse cx="695" cy="821" rx="16" ry="39" transform="rotate(-12 695 821)"/>
+    <ellipse cx="641" cy="889" rx="16" ry="39" transform="rotate(-28 641 889)"/>
+  </g>
+
+  <!-- 底部战况卷轴 -->
+  <g transform="translate(23 1004)" filter="url(#shadow)">
+    <path d="M17 22 Q352 -8 687 22 L704 288 Q352 326 0 288 Z" fill="url(#logPaper)" stroke="#675647" stroke-width="7"/>
+    <path d="M39 79 Q352 51 665 79" fill="none" stroke="#edc273" stroke-width="4" stroke-dasharray="13 10"/>
+    <g transform="translate(42 25)">
+      <circle cx="24" cy="23" r="15" fill="#ff8553"/>
+      <text x="54" y="32" fill="#3d3228" font-size="25" font-weight="900">战况</text>
+      <rect x="458" y="3" width="157" height="40" rx="20" fill="#e8f4de" stroke="#77a866" stroke-width="3"/>
+      <text x="536" y="30" text-anchor="middle" fill="#4d6d48" font-size="17" font-weight="900">我方行动</text>
+    </g>
+    <text x="55" y="125" fill="#493d34" font-size="25" font-weight="800">苔鼓兽敲响胸甲，水面泛起石纹。</text>
+    <text x="55" y="166" fill="#6a594b" font-size="21" font-weight="700">灶狸的灵攻略微降低。</text>
+    <g transform="translate(47 199)">
+      <path d="M0 0 H438 Q454 0 454 16 V63 Q454 79 438 79 H0 Z" fill="#fff5df" stroke="#dd9a59" stroke-width="4"/>
+      <circle cx="29" cy="39" r="12" fill="#ff7d4c"/>
+      <text x="56" y="48" fill="#5b4237" font-size="23" font-weight="900">请为灶狸选择下一步行动</text>
+      <path d="M407 28 L422 39 L407 51" fill="none" stroke="#8a5c43" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g transform="translate(522 199)">
+      <rect width="132" height="79" rx="23" fill="#eef4f7" stroke="#7793a1" stroke-width="4"/>
+      <text x="66" y="31" text-anchor="middle" fill="#526773" font-size="15" font-weight="800">战斗倍速</text>
+      <text x="66" y="61" text-anchor="middle" fill="#354a54" font-size="25" font-weight="900">× 1</text>
+    </g>
+  </g>
+</svg>

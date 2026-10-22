@@ -1,0 +1,36 @@
+{
+  "executed": [
+    "battle.art",
+    "battle.art"
+  ],
+  "fired": [
+    true,
+    true
+  ],
+  "fireError": null,
+  "firedName": "button-battle.art",
+  "allButtons": [
+    {
+      "name": "button-battle.art",
+      "hasTouch": true
+    },
+    {
+      "name": "button-battle.party",
+      "hasTouch": false
+    },
+    {
+      "name": "button-battle.bag",
+      "hasTouch": false
+    },
+    {
+      "name": "button-battle.flee",
+      "hasTouch": true
+    }
+  ],
+  "beforeFoeLine": "第波1 金 0 敌 灯蛾 Lv 1 20/20 常态 我 灶狸 Lv 1 30/30 常态 队伍 1 第 0 次命令后",
+  "after1Line": "第波1 金 0 敌 灯蛾 Lv 1 15/20 常态 我 灶狸 Lv 1 30/30 常态 队伍 1 第 1 次命令后",
+  "after2Line": "第波1 金 0 敌 灯蛾 Lv 1 10/20 常态 我 灶狸 Lv 1 30/30 常态 队伍 1 第 2 次命令后",
+  "foeHpNow": 10,
+  "hosts": 1,
+  "rendered": "shell-host-presentation"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@jingling/presentation",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "@jingling/core": "workspace:^"
+  }
+}

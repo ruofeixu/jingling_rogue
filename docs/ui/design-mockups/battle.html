@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="base.css">
+<style>
+  body { background:#cddff0; padding:24px; display:flex; gap:28px; }
+  .cap { position:absolute; top:-22px; left:50%; transform:translateX(-50%); font-weight:800; color:#4a3b2f; white-space:nowrap; }
+  .wrap { position:relative; }
+
+  /* 顶部状态条 */
+  .topbar {
+    position:absolute; top:14px; left:14px; right:14px; height:40px;
+    display:flex; align-items:center; gap:10px; padding:0 14px;
+    background:var(--panel); border:var(--stroke) solid var(--edge); border-radius:var(--r-pill);
+    box-shadow:0 4px 0 var(--edge-deep), 0 6px 10px var(--shadow);
+    font-weight:800; color:var(--ink); font-size:14px;
+  }
+  .topbar .chip { display:flex; align-items:center; gap:4px; }
+  .topbar .chip b { color:var(--accent-deep); }
+
+  /* 战场：草地 + 敌我立绘位 + 名牌 */
+  .field {
+    position:absolute; top:66px; left:14px; right:14px; height:300px;
+    background:linear-gradient(180deg,#d3efc0,var(--field) 55%,var(--field-2));
+    border:var(--stroke) solid #8fc472; border-radius:var(--r-lg);
+    box-shadow:inset 0 4px 0 rgba(255,255,255,.5), 0 6px 12px var(--shadow);
+    overflow:hidden;
+  }
+  .field::after{ content:""; position:absolute; inset:0; background:
+    radial-gradient(ellipse 120px 30px at 76% 40%, rgba(0,0,0,.08), transparent),
+    radial-gradient(ellipse 120px 30px at 26% 82%, rgba(0,0,0,.08), transparent); }
+  .foeSpot { position:absolute; right:34px; top:40px; }
+  .allySpot{ position:absolute; left:34px; bottom:30px; }
+  .mon { width:120px; height:120px; font-size:78px; }
+  .mon.small{ width:100px; height:100px; font-size:64px; }
+
+  .np { position:absolute; width:172px; }
+  .np .row1 { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:5px; }
+  .np .nm { font-weight:900; color:var(--ink); font-size:15px; }
+  .np .lv { font-size:12px; color:var(--ink-soft); font-weight:800; }
+  .np .hpnum { font-size:11px; color:var(--ink-soft); font-weight:800; text-align:right; margin-top:3px; }
+  .npFoe { left:16px; top:14px; }
+  .npAlly{ right:16px; bottom:14px; }
+
+  /* 战况气泡 */
+  .log {
+    position:absolute; left:14px; right:14px; top:378px; height:46px;
+    display:flex; align-items:center; padding:0 16px;
+    background:#fff; border:var(--stroke) solid var(--edge); border-radius:var(--r-md);
+    box-shadow:0 4px 0 var(--edge-deep); color:var(--ink); font-weight:700; font-size:14px;
+  }
+
+  /* 命令区 */
+  .cmds { position:absolute; left:14px; right:14px; bottom:20px; }
+  .cmdgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .cmd { height:60px; font-size:20px; gap:10px; }
+  .cmd .ico{ font-size:22px; }
+
+  /* 变体B：底部横排四按钮 + 命令在半透明托盘 */
+  .b .tray {
+    position:absolute; left:0; right:0; bottom:0; padding:16px 14px 20px;
+    background:linear-gradient(180deg, rgba(111,189,240,0) , rgba(111,189,240,.25));
+  }
+  .b .cmdrow { display:flex; gap:10px; }
+  .b .cmd { flex:1; height:66px; flex-direction:column; gap:2px; font-size:15px; }
+  .b .cmd .ico{ font-size:24px; }
+</style>
+</head>
+<body>
+
+<!-- 变体 A：2x2 命令网格 -->
+<div class="wrap"><div class="cap">战斗 · 变体 A（2×2 命令）</div>
+<div class="phone a">
+  <div class="topbar">
+    <div class="chip">🌀 第 <b>3</b> 波</div>
+    <div class="chip">💰 <b>1200</b></div>
+    <div class="chip">👥 队伍 <b>2</b></div>
+  </div>
+  <div class="field">
+    <div class="np npFoe">
+      <div class="row1"><span class="nm">灯蛾</span><span class="lv">Lv 1</span></div>
+      <div class="hpbar foe"><i style="width:38%"></i></div>
+      <div class="hpnum">12 / 32</div>
+    </div>
+    <div class="foeSpot"><div class="avatar mon small">🦋</div></div>
+    <div class="allySpot"><div class="avatar mon">🦊</div></div>
+    <div class="np npAlly">
+      <div class="row1"><span class="nm">灶狸</span><span class="lv">Lv 5</span></div>
+      <div class="hpbar"><i style="width:83%"></i></div>
+      <div class="hpnum">40 / 48</div>
+    </div>
+  </div>
+  <div class="log">💬 灯蛾 出现了。点「术」出第一张。</div>
+  <div class="cmds">
+    <div class="cmdgrid">
+      <div class="btn btn--primary cmd"><span class="ico">✨</span>术</div>
+      <div class="btn cmd"><span class="ico">🔄</span>队伍</div>
+      <div class="btn cmd"><span class="ico">🎒</span>囊</div>
+      <div class="btn cmd"><span class="ico">🏃</span>走</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- 变体 B：底部横排托盘 -->
+<div class="wrap"><div class="cap">战斗 · 变体 B（横排托盘）</div>
+<div class="phone b">
+  <div class="topbar">
+    <div class="chip">🌀 第 <b>3</b> 波</div>
+    <div class="chip">💰 <b>1200</b></div>
+    <div class="chip">👥 队伍 <b>2</b></div>
+  </div>
+  <div class="field" style="height:340px">
+    <div class="np npFoe">
+      <div class="row1"><span class="nm">灯蛾</span><span class="lv">Lv 1</span></div>
+      <div class="hpbar foe"><i style="width:38%"></i></div>
+      <div class="hpnum">12 / 32</div>
+    </div>
+    <div class="foeSpot"><div class="avatar mon small">🦋</div></div>
+    <div class="allySpot"><div class="avatar mon">🦊</div></div>
+    <div class="np npAlly">
+      <div class="row1"><span class="nm">灶狸</span><span class="lv">Lv 5</span></div>
+      <div class="hpbar"><i style="width:83%"></i></div>
+      <div class="hpnum">40 / 48</div>
+    </div>
+  </div>
+  <div class="log" style="top:418px">💬 灯蛾 出现了。点「术」出第一张。</div>
+  <div class="tray">
+    <div class="cmdrow">
+      <div class="btn btn--primary cmd"><span class="ico">✨</span>术</div>
+      <div class="btn cmd"><span class="ico">🔄</span>队伍</div>
+      <div class="btn cmd"><span class="ico">🎒</span>囊</div>
+      <div class="btn cmd"><span class="ico">🏃</span>走</div>
+    </div>
+  </div>
+</div></div>
+
+</body>
+</html>

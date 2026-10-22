@@ -1,0 +1,987 @@
+[
+  {
+    "id": "hearth_watch",
+    "name": "守灶",
+    "description": "炎伤微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.2
+      }
+    ],
+    "hiddenHooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.5
+      },
+      {
+        "when": "take",
+        "mul": 0.9
+      }
+    ]
+  },
+  {
+    "id": "cistern_lurk",
+    "name": "伏井",
+    "description": "潮伤微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.2
+      }
+    ]
+  },
+  {
+    "id": "grove_ward",
+    "name": "守社",
+    "description": "木防微增",
+    "hooks": [
+      {
+        "when": "take",
+        "mul": 0.95
+      }
+    ]
+  },
+  {
+    "id": "bedrock",
+    "name": "盘石",
+    "description": "岩防微增",
+    "hooks": [
+      {
+        "when": "take",
+        "mul": 0.95
+      }
+    ]
+  },
+  {
+    "id": "storm_silk",
+    "name": "雷丝",
+    "description": "霆速微增",
+    "hooks": [
+      {
+        "when": "switchIn",
+        "stat": "spd",
+        "delta": 1
+      }
+    ]
+  },
+  {
+    "id": "winter_husk",
+    "name": "冬茧",
+    "description": "霜伤微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.2
+      }
+    ]
+  },
+  {
+    "id": "night_ledger",
+    "name": "夜簿",
+    "description": "影伤微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.2
+      }
+    ]
+  },
+  {
+    "id": "lantern_vow",
+    "name": "灯誓",
+    "description": "光伤微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.2
+      }
+    ]
+  },
+  {
+    "id": "kiln_heart",
+    "name": "窑心",
+    "description": "炎岩双修",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.1
+      },
+      {
+        "when": "deal",
+        "affinity": "stone",
+        "mul": 1.1
+      }
+    ]
+  },
+  {
+    "id": "lotus_drift",
+    "name": "萍踪",
+    "description": "潮木双修",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.1
+      },
+      {
+        "when": "deal",
+        "affinity": "wood",
+        "mul": 1.1
+      }
+    ]
+  },
+  {
+    "id": "folded_night",
+    "name": "折夜",
+    "description": "影霜双修",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.1
+      },
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.1
+      }
+    ]
+  },
+  {
+    "id": "bell_oath",
+    "name": "铃誓",
+    "description": "光霆双修",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.1
+      },
+      {
+        "when": "deal",
+        "affinity": "bolt",
+        "mul": 1.1
+      }
+    ]
+  },
+  {
+    "id": "ruin_echo",
+    "name": "墟响",
+    "description": "镇墟出战加成",
+    "hooks": [
+      {
+        "when": "deal",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "wild_wind",
+    "name": "野风",
+    "description": "野原出战加成",
+    "hooks": [
+      {
+        "when": "deal",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "deep_shade",
+    "name": "密荫",
+    "description": "密林出战加成",
+    "hooks": [
+      {
+        "when": "deal",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "city_ward",
+    "name": "坊卫",
+    "description": "受击减免微弱",
+    "hooks": [
+      {
+        "when": "take",
+        "mul": 0.9
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_1",
+    "name": "潮纹1",
+    "description": "潮系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_2",
+    "name": "岩纹2",
+    "description": "岩系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "stone",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_3",
+    "name": "木纹3",
+    "description": "木系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "wood",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_4",
+    "name": "霆纹4",
+    "description": "霆系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "bolt",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_5",
+    "name": "霜纹5",
+    "description": "霜系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_6",
+    "name": "影纹6",
+    "description": "影系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_7",
+    "name": "光纹7",
+    "description": "光系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_8",
+    "name": "炎纹8",
+    "description": "炎系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_9",
+    "name": "潮纹9",
+    "description": "潮系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_10",
+    "name": "岩纹10",
+    "description": "岩系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "stone",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_11",
+    "name": "木纹11",
+    "description": "木系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "wood",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_12",
+    "name": "霆纹12",
+    "description": "霆系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "bolt",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_13",
+    "name": "霜纹13",
+    "description": "霜系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_14",
+    "name": "影纹14",
+    "description": "影系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_15",
+    "name": "光纹15",
+    "description": "光系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_16",
+    "name": "炎纹16",
+    "description": "炎系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_17",
+    "name": "潮纹17",
+    "description": "潮系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_18",
+    "name": "岩纹18",
+    "description": "岩系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "stone",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_19",
+    "name": "木纹19",
+    "description": "木系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "wood",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_20",
+    "name": "霆纹20",
+    "description": "霆系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "bolt",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_21",
+    "name": "霜纹21",
+    "description": "霜系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_22",
+    "name": "影纹22",
+    "description": "影系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_23",
+    "name": "光纹23",
+    "description": "光系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_24",
+    "name": "炎纹24",
+    "description": "炎系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_25",
+    "name": "潮纹25",
+    "description": "潮系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_26",
+    "name": "岩纹26",
+    "description": "岩系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "stone",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_27",
+    "name": "木纹27",
+    "description": "木系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "wood",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_28",
+    "name": "霆纹28",
+    "description": "霆系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "bolt",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_29",
+    "name": "霜纹29",
+    "description": "霜系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_30",
+    "name": "影纹30",
+    "description": "影系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_31",
+    "name": "光纹31",
+    "description": "光系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_32",
+    "name": "炎纹32",
+    "description": "炎系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_33",
+    "name": "潮纹33",
+    "description": "潮系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_34",
+    "name": "岩纹34",
+    "description": "岩系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "stone",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_35",
+    "name": "木纹35",
+    "description": "木系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "wood",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_36",
+    "name": "霆纹36",
+    "description": "霆系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "bolt",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_37",
+    "name": "霜纹37",
+    "description": "霜系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_38",
+    "name": "影纹38",
+    "description": "影系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_39",
+    "name": "光纹39",
+    "description": "光系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_40",
+    "name": "炎纹40",
+    "description": "炎系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_41",
+    "name": "潮纹41",
+    "description": "潮系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_42",
+    "name": "岩纹42",
+    "description": "岩系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "stone",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_43",
+    "name": "木纹43",
+    "description": "木系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "wood",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_44",
+    "name": "霆纹44",
+    "description": "霆系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "bolt",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_45",
+    "name": "霜纹45",
+    "description": "霜系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_46",
+    "name": "影纹46",
+    "description": "影系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_47",
+    "name": "光纹47",
+    "description": "光系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_48",
+    "name": "炎纹48",
+    "description": "炎系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_49",
+    "name": "潮纹49",
+    "description": "潮系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_50",
+    "name": "岩纹50",
+    "description": "岩系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "stone",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_51",
+    "name": "木纹51",
+    "description": "木系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "wood",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_52",
+    "name": "霆纹52",
+    "description": "霆系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "bolt",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_53",
+    "name": "霜纹53",
+    "description": "霜系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_54",
+    "name": "影纹54",
+    "description": "影系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_55",
+    "name": "光纹55",
+    "description": "光系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_56",
+    "name": "炎纹56",
+    "description": "炎系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_57",
+    "name": "潮纹57",
+    "description": "潮系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "tide",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_58",
+    "name": "岩纹58",
+    "description": "岩系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "stone",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_59",
+    "name": "木纹59",
+    "description": "木系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "wood",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_60",
+    "name": "霆纹60",
+    "description": "霆系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "bolt",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_61",
+    "name": "霜纹61",
+    "description": "霜系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "frost",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_62",
+    "name": "影纹62",
+    "description": "影系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "shade",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_63",
+    "name": "光纹63",
+    "description": "光系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "light",
+        "mul": 1.05
+      }
+    ]
+  },
+  {
+    "id": "catalog_pact_64",
+    "name": "炎纹64",
+    "description": "炎系微增",
+    "hooks": [
+      {
+        "when": "deal",
+        "affinity": "flame",
+        "mul": 1.05
+      }
+    ]
+  }
+]

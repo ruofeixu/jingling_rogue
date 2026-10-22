@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="base.css">
+<style>
+  body { background: #cddff0; padding: 24px; display: flex; gap: 28px; }
+  .cap { position:absolute; top:-22px; left:50%; transform:translateX(-50%); font-weight:800; color:#4a3b2f; white-space:nowrap; }
+  .wrap { position: relative; }
+
+  /* 顶部飘带标题 */
+  .hero { position:absolute; top:34px; left:0; right:0; text-align:center; }
+  .hero .game { font-size:44px; }
+  .hero .sub {
+    display:inline-block; margin-top:10px; padding:4px 18px;
+    background:#fff; border:3px solid var(--edge); border-radius:var(--r-pill);
+    color:var(--ink-soft); font-weight:800; font-size:15px;
+    box-shadow:0 3px 0 var(--edge-deep);
+  }
+  .mascot {
+    position:absolute; left:50%; top:150px; transform:translateX(-50%);
+    width:150px; height:150px; font-size:96px;
+  }
+
+  /* 大厅按钮网格 */
+  .lobby { position:absolute; left:22px; right:22px; bottom:26px; }
+  .lobby .play {
+    width:100%; height:64px; font-size:24px; margin-bottom:14px;
+  }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .cell {
+    height:56px; font-size:17px; gap:8px;
+  }
+  .cell .ico {
+    width:26px; height:26px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:15px;
+    border:2px solid rgba(255,255,255,.7);
+  }
+
+  /* 变体B：木牌/告示板风 */
+  .b .panelboard {
+    position:absolute; left:20px; right:20px; bottom:24px; padding:18px 16px 20px;
+    background:linear-gradient(180deg,#fff8ec,#ffe9c9);
+    border:5px solid #e0a24a; border-radius:var(--r-lg);
+    box-shadow:0 7px 0 #c07f2c, 0 12px 20px var(--shadow), inset 0 3px 0 rgba(255,255,255,.8);
+  }
+  .b .boardcap {
+    position:absolute; top:-18px; left:50%; transform:translateX(-50%);
+    background:var(--accent); color:#fff; font-weight:900; font-size:16px;
+    padding:4px 22px; border:3px solid var(--accent-edge); border-radius:var(--r-pill);
+    box-shadow:0 4px 0 var(--accent-edge);
+  }
+
+  /* 变体C：竖排大按钮 */
+  .c .stack { position:absolute; left:30px; right:30px; bottom:30px; display:flex; flex-direction:column; gap:14px; }
+  .c .stack .btn { height:58px; font-size:19px; justify-content:flex-start; padding-left:22px; gap:14px; }
+</style>
+</head>
+<body>
+
+<!-- 变体 A：网格大厅（当前结构的精致化） -->
+<div class="wrap"><div class="cap">变体 A · 网格大厅</div>
+<div class="phone a">
+  <div class="hero">
+    <div class="game title-badge">契灵志怪</div>
+    <div class="sub">精怪肉鸽 · 收集回合</div>
+  </div>
+  <div class="avatar mascot">🦊</div>
+  <div class="lobby">
+    <div class="btn btn--primary play">▶ 新的旅途</div>
+    <div class="grid">
+      <div class="btn cell"><span class="ico" style="background:#a6c8ff">⚙</span>设置</div>
+      <div class="btn cell"><span class="ico" style="background:#ffd27f">📖</span>契录</div>
+      <div class="btn cell"><span class="ico" style="background:#ffc1d6">🥚</span>卵房</div>
+      <div class="btn cell"><span class="ico" style="background:#bfe6a8">🏆</span>成就</div>
+      <div class="btn cell"><span class="ico" style="background:#c9b8ff">📊</span>统计</div>
+      <div class="btn cell"><span class="ico" style="background:#ffb0a0">💾</span>存档</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- 变体 B：告示板 -->
+<div class="wrap"><div class="cap">变体 B · 告示板</div>
+<div class="phone b">
+  <div class="hero">
+    <div class="game title-badge">契灵志怪</div>
+    <div class="sub">精怪肉鸽 · 收集回合</div>
+  </div>
+  <div class="avatar mascot">🦊</div>
+  <div class="panelboard">
+    <div class="boardcap">主 菜 单</div>
+    <div class="btn btn--primary play" style="height:60px;font-size:22px;margin-bottom:12px">▶ 新的旅途</div>
+    <div class="grid">
+      <div class="btn cell"><span class="ico" style="background:#a6c8ff">⚙</span>设置</div>
+      <div class="btn cell"><span class="ico" style="background:#ffd27f">📖</span>契录</div>
+      <div class="btn cell"><span class="ico" style="background:#ffc1d6">🥚</span>卵房</div>
+      <div class="btn cell"><span class="ico" style="background:#bfe6a8">🏆</span>成就</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- 变体 C：竖排大按钮 -->
+<div class="wrap"><div class="cap">变体 C · 竖排大按钮</div>
+<div class="phone c">
+  <div class="hero">
+    <div class="game title-badge">契灵志怪</div>
+    <div class="sub">精怪肉鸽 · 收集回合</div>
+  </div>
+  <div class="avatar mascot" style="top:180px">🦊</div>
+  <div class="stack">
+    <div class="btn btn--primary" style="height:66px;font-size:22px;justify-content:center">▶ 新的旅途</div>
+    <div class="btn"><span class="ico" style="background:#ffd27f;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center">📖</span>契录图鉴</div>
+    <div class="btn"><span class="ico" style="background:#ffc1d6;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center">🥚</span>孵化卵房</div>
+    <div class="btn"><span class="ico" style="background:#a6c8ff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center">⚙</span>设置与存档</div>
+  </div>
+</div></div>
+
+</body>
+</html>

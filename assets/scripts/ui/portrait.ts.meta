@@ -1,0 +1,13 @@
+{
+  "ver": "4.0.23",
+  "importer": "typescript",
+  "imported": true,
+  "uuid": "0776b726-bb1f-4ad6-b699-4ce0e1c31b62",
+  "files": [],
+  "subMetas": {},
+  "userData": {
+    "moduleId": "project:///assets/scripts/ui/portrait.js",
+    "importerSettings": 7,
+    "simulateGlobals": []
+  }
+}

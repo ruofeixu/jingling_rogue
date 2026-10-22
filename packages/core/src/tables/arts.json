@@ -1,0 +1,2514 @@
+[
+  {
+    "id": "cinder_claw",
+    "name": "灶爪",
+    "affinity": "flame",
+    "power": 40,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "ash_veil",
+    "name": "灰幔",
+    "affinity": "flame",
+    "power": 20,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "kiln_burst",
+    "name": "窑爆",
+    "affinity": "flame",
+    "power": 35,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "well_thread",
+    "name": "井丝",
+    "affinity": "tide",
+    "power": 35,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "drip_fang",
+    "name": "滴牙",
+    "affinity": "tide",
+    "power": 45,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "status",
+        "status": "toxic",
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "tide_lash",
+    "name": "潮鞭",
+    "affinity": "tide",
+    "power": 65,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "peach_strike",
+    "name": "桃击",
+    "affinity": "wood",
+    "power": 40,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "ward_bark",
+    "name": "护皮",
+    "affinity": "wood",
+    "power": 0,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "heal",
+        "ratio": 0.25
+      }
+    ]
+  },
+  {
+    "id": "mask_slam",
+    "name": "傩撞",
+    "affinity": "wood",
+    "power": 60,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "pebble_toss",
+    "name": "投砾",
+    "affinity": "stone",
+    "power": 35,
+    "focus": 30,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "ridge_guard",
+    "name": "岭卫",
+    "affinity": "stone",
+    "power": 20,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "crag_fall",
+    "name": "嶂落",
+    "affinity": "stone",
+    "power": 75,
+    "focus": 8,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "spark_cut",
+    "name": "电剪",
+    "affinity": "bolt",
+    "power": 40,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "static_web",
+    "name": "静网",
+    "affinity": "bolt",
+    "power": 30,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "thunder_coil",
+    "name": "雷绞",
+    "affinity": "bolt",
+    "power": 70,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "rime_needle",
+    "name": "霜针",
+    "affinity": "frost",
+    "power": 40,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "chill_dust",
+    "name": "寒粉",
+    "affinity": "frost",
+    "power": 25,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "glacier_silk",
+    "name": "冰缫",
+    "affinity": "frost",
+    "power": 65,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "ink_swipe",
+    "name": "墨扫",
+    "affinity": "shade",
+    "power": 40,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "shade_nudge",
+    "name": "影推",
+    "affinity": "shade",
+    "power": 30,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "wail_mark",
+    "name": "夜记",
+    "affinity": "shade",
+    "power": 65,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "lamp_dust",
+    "name": "灯屑",
+    "affinity": "light",
+    "power": 35,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "halo_cut",
+    "name": "晕裁",
+    "affinity": "light",
+    "power": 45,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "solar_bead",
+    "name": "日珠",
+    "affinity": "light",
+    "power": 70,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "hearth_spit",
+    "name": "灶唾",
+    "affinity": "flame",
+    "power": 50,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "status",
+        "status": "burn",
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "cistern_pull",
+    "name": "汲井",
+    "affinity": "tide",
+    "power": 50,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.5
+      }
+    ]
+  },
+  {
+    "id": "root_snare",
+    "name": "根绊",
+    "affinity": "wood",
+    "power": 50,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "stage",
+        "stat": "spd",
+        "delta": -1,
+        "on": "target"
+      }
+    ]
+  },
+  {
+    "id": "millstone",
+    "name": "磨盘",
+    "affinity": "stone",
+    "power": 55,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "bell_spark",
+    "name": "铃火",
+    "affinity": "bolt",
+    "power": 55,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "snow_bite",
+    "name": "雪啮",
+    "affinity": "frost",
+    "power": 55,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "ledger_cut",
+    "name": "簿裁",
+    "affinity": "shade",
+    "power": 55,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "wick_flare",
+    "name": "芯焰",
+    "affinity": "light",
+    "power": 55,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "clay_shot",
+    "name": "陶丸",
+    "affinity": "stone",
+    "power": 45,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "lotus_slap",
+    "name": "荷拍",
+    "affinity": "wood",
+    "power": 45,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "paper_edge",
+    "name": "纸刃",
+    "affinity": "shade",
+    "power": 45,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "bronze_hum",
+    "name": "铜鸣",
+    "affinity": "light",
+    "power": 45,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "ember_mend",
+    "name": "烬养",
+    "affinity": "flame",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "heal",
+        "ratio": 0.3
+      }
+    ]
+  },
+  {
+    "id": "spring_mend",
+    "name": "泉养",
+    "affinity": "tide",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "heal",
+        "ratio": 0.3
+      }
+    ]
+  },
+  {
+    "id": "grove_mend",
+    "name": "林养",
+    "affinity": "wood",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "heal",
+        "ratio": 0.3
+      }
+    ]
+  },
+  {
+    "id": "dawn_mend",
+    "name": "晓养",
+    "affinity": "light",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "heal",
+        "ratio": 0.3
+      }
+    ]
+  },
+  {
+    "id": "twin_peck",
+    "name": "连啄",
+    "affinity": "wood",
+    "power": 15,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 3
+      }
+    ]
+  },
+  {
+    "id": "veil_guard",
+    "name": "幕守",
+    "affinity": "stone",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "life_sip",
+    "name": "汲命",
+    "affinity": "shade",
+    "power": 60,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.5
+      }
+    ]
+  },
+  {
+    "id": "decoy_paper",
+    "name": "纸俑",
+    "affinity": "shade",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "substitute"
+      }
+    ]
+  },
+  {
+    "id": "cinder_rain",
+    "name": "炭雨",
+    "affinity": "flame",
+    "power": 20,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "soot_brand",
+    "name": "灰印",
+    "affinity": "flame",
+    "power": 40,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "status",
+        "status": "burn",
+        "chance": 0.3
+      }
+    ]
+  },
+  {
+    "id": "kiln_guard",
+    "name": "窑守",
+    "affinity": "flame",
+    "power": 0,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "stage",
+        "stat": "def",
+        "delta": 1,
+        "on": "user"
+      }
+    ]
+  },
+  {
+    "id": "hearth_drain",
+    "name": "灶汲",
+    "affinity": "flame",
+    "power": 45,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.4
+      }
+    ]
+  },
+  {
+    "id": "well_coil",
+    "name": "井绞",
+    "affinity": "tide",
+    "power": 18,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "mire_spit",
+    "name": "淖唾",
+    "affinity": "tide",
+    "power": 40,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "status",
+        "status": "poison",
+        "chance": 0.3
+      }
+    ]
+  },
+  {
+    "id": "tide_guard",
+    "name": "潮守",
+    "affinity": "tide",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "foam_veil",
+    "name": "沫幕",
+    "affinity": "tide",
+    "power": 0,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "stage",
+        "stat": "spd",
+        "delta": 1,
+        "on": "user"
+      }
+    ]
+  },
+  {
+    "id": "bark_spike",
+    "name": "皮刺",
+    "affinity": "wood",
+    "power": 40,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "leaf_bind",
+    "name": "叶缚",
+    "affinity": "wood",
+    "power": 35,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "stage",
+        "stat": "atk",
+        "delta": -1,
+        "on": "target"
+      }
+    ]
+  },
+  {
+    "id": "grove_guard",
+    "name": "林守",
+    "affinity": "wood",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "sap_sip",
+    "name": "液汲",
+    "affinity": "wood",
+    "power": 50,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.5
+      }
+    ]
+  },
+  {
+    "id": "gravel_burst",
+    "name": "砾爆",
+    "affinity": "stone",
+    "power": 18,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "stone_stare",
+    "name": "岩凝",
+    "affinity": "stone",
+    "power": 0,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "stage",
+        "stat": "atk",
+        "delta": -2,
+        "on": "target"
+      }
+    ]
+  },
+  {
+    "id": "cairn_guard",
+    "name": "冢守",
+    "affinity": "stone",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "slate_sub",
+    "name": "碑俑",
+    "affinity": "stone",
+    "power": 0,
+    "focus": 8,
+    "effects": [
+      {
+        "kind": "substitute"
+      }
+    ]
+  },
+  {
+    "id": "spark_fan",
+    "name": "电扇",
+    "affinity": "bolt",
+    "power": 18,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "static_bite",
+    "name": "静噬",
+    "affinity": "bolt",
+    "power": 40,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "status",
+        "status": "paralyze",
+        "chance": 0.3
+      }
+    ]
+  },
+  {
+    "id": "coil_guard",
+    "name": "绞守",
+    "affinity": "bolt",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "wire_sip",
+    "name": "丝汲",
+    "affinity": "bolt",
+    "power": 50,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.4
+      }
+    ]
+  },
+  {
+    "id": "frost_needles",
+    "name": "霜簇",
+    "affinity": "frost",
+    "power": 15,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 3
+      }
+    ]
+  },
+  {
+    "id": "rime_brand",
+    "name": "冰印",
+    "affinity": "frost",
+    "power": 40,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "stage",
+        "stat": "spd",
+        "delta": -1,
+        "on": "target"
+      }
+    ]
+  },
+  {
+    "id": "ice_guard",
+    "name": "冰守",
+    "affinity": "frost",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "hail_sip",
+    "name": "雹汲",
+    "affinity": "frost",
+    "power": 50,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.4
+      }
+    ]
+  },
+  {
+    "id": "ink_spray",
+    "name": "墨溅",
+    "affinity": "shade",
+    "power": 18,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "night_bind",
+    "name": "夜缚",
+    "affinity": "shade",
+    "power": 40,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "status",
+        "status": "poison",
+        "chance": 0.3
+      }
+    ]
+  },
+  {
+    "id": "shade_guard",
+    "name": "影守",
+    "affinity": "shade",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "ghost_sub",
+    "name": "魂俑",
+    "affinity": "shade",
+    "power": 0,
+    "focus": 8,
+    "effects": [
+      {
+        "kind": "substitute"
+      }
+    ]
+  },
+  {
+    "id": "lamp_burst",
+    "name": "灯爆",
+    "affinity": "light",
+    "power": 55,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "halo_guard",
+    "name": "晕守",
+    "affinity": "light",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "bead_rain",
+    "name": "珠雨",
+    "affinity": "light",
+    "power": 18,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "wick_sip",
+    "name": "芯汲",
+    "affinity": "light",
+    "power": 50,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.4
+      }
+    ]
+  },
+  {
+    "id": "clay_bind",
+    "name": "陶缚",
+    "affinity": "stone",
+    "power": 40,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "stage",
+        "stat": "def",
+        "delta": -1,
+        "on": "target"
+      }
+    ]
+  },
+  {
+    "id": "lotus_drain",
+    "name": "荷汲",
+    "affinity": "wood",
+    "power": 45,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.5
+      }
+    ]
+  },
+  {
+    "id": "paper_guard",
+    "name": "纸守",
+    "affinity": "shade",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "bronze_guard",
+    "name": "铜守",
+    "affinity": "light",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "ember_stack",
+    "name": "烬叠",
+    "affinity": "flame",
+    "power": 12,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 4
+      }
+    ]
+  },
+  {
+    "id": "spring_coil",
+    "name": "泉绞",
+    "affinity": "tide",
+    "power": 55,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "grove_spike",
+    "name": "林刺",
+    "affinity": "wood",
+    "power": 55,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "void_cannon",
+    "name": "归墟炮",
+    "affinity": "bolt",
+    "power": 80,
+    "focus": 5,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_1",
+    "name": "闲术1",
+    "affinity": "tide",
+    "power": 31,
+    "focus": 11,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_2",
+    "name": "闲术2",
+    "affinity": "stone",
+    "power": 32,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_3",
+    "name": "闲术3",
+    "affinity": "wood",
+    "power": 33,
+    "focus": 13,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_4",
+    "name": "闲术4",
+    "affinity": "bolt",
+    "power": 34,
+    "focus": 14,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_5",
+    "name": "闲术5",
+    "affinity": "frost",
+    "power": 35,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_6",
+    "name": "闲术6",
+    "affinity": "shade",
+    "power": 36,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_7",
+    "name": "闲术7",
+    "affinity": "light",
+    "power": 37,
+    "focus": 17,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_8",
+    "name": "闲术8",
+    "affinity": "flame",
+    "power": 38,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_9",
+    "name": "闲术9",
+    "affinity": "tide",
+    "power": 39,
+    "focus": 19,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_10",
+    "name": "闲术10",
+    "affinity": "stone",
+    "power": 40,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_11",
+    "name": "闲术11",
+    "affinity": "wood",
+    "power": 41,
+    "focus": 21,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_12",
+    "name": "闲术12",
+    "affinity": "bolt",
+    "power": 42,
+    "focus": 22,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_13",
+    "name": "闲术13",
+    "affinity": "frost",
+    "power": 43,
+    "focus": 23,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_14",
+    "name": "闲术14",
+    "affinity": "shade",
+    "power": 44,
+    "focus": 24,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_15",
+    "name": "闲术15",
+    "affinity": "light",
+    "power": 45,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_16",
+    "name": "闲术16",
+    "affinity": "flame",
+    "power": 46,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_17",
+    "name": "闲术17",
+    "affinity": "tide",
+    "power": 47,
+    "focus": 11,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_18",
+    "name": "闲术18",
+    "affinity": "stone",
+    "power": 48,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_19",
+    "name": "闲术19",
+    "affinity": "wood",
+    "power": 49,
+    "focus": 13,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_20",
+    "name": "闲术20",
+    "affinity": "bolt",
+    "power": 50,
+    "focus": 14,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_21",
+    "name": "闲术21",
+    "affinity": "frost",
+    "power": 51,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_22",
+    "name": "闲术22",
+    "affinity": "shade",
+    "power": 52,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_23",
+    "name": "闲术23",
+    "affinity": "light",
+    "power": 53,
+    "focus": 17,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_24",
+    "name": "闲术24",
+    "affinity": "flame",
+    "power": 54,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_25",
+    "name": "闲术25",
+    "affinity": "tide",
+    "power": 55,
+    "focus": 19,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_26",
+    "name": "闲术26",
+    "affinity": "stone",
+    "power": 56,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_27",
+    "name": "闲术27",
+    "affinity": "wood",
+    "power": 57,
+    "focus": 21,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_28",
+    "name": "闲术28",
+    "affinity": "bolt",
+    "power": 58,
+    "focus": 22,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_29",
+    "name": "闲术29",
+    "affinity": "frost",
+    "power": 59,
+    "focus": 23,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_30",
+    "name": "闲术30",
+    "affinity": "shade",
+    "power": 60,
+    "focus": 24,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_31",
+    "name": "闲术31",
+    "affinity": "light",
+    "power": 61,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_32",
+    "name": "闲术32",
+    "affinity": "flame",
+    "power": 62,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_33",
+    "name": "闲术33",
+    "affinity": "tide",
+    "power": 63,
+    "focus": 11,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_34",
+    "name": "闲术34",
+    "affinity": "stone",
+    "power": 64,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_35",
+    "name": "闲术35",
+    "affinity": "wood",
+    "power": 65,
+    "focus": 13,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_36",
+    "name": "闲术36",
+    "affinity": "bolt",
+    "power": 66,
+    "focus": 14,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_37",
+    "name": "闲术37",
+    "affinity": "frost",
+    "power": 67,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_38",
+    "name": "闲术38",
+    "affinity": "shade",
+    "power": 68,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_39",
+    "name": "闲术39",
+    "affinity": "light",
+    "power": 69,
+    "focus": 17,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_40",
+    "name": "闲术40",
+    "affinity": "flame",
+    "power": 30,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_41",
+    "name": "闲术41",
+    "affinity": "tide",
+    "power": 31,
+    "focus": 19,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_42",
+    "name": "闲术42",
+    "affinity": "stone",
+    "power": 32,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_43",
+    "name": "闲术43",
+    "affinity": "wood",
+    "power": 33,
+    "focus": 21,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_44",
+    "name": "闲术44",
+    "affinity": "bolt",
+    "power": 34,
+    "focus": 22,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_45",
+    "name": "闲术45",
+    "affinity": "frost",
+    "power": 35,
+    "focus": 23,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_46",
+    "name": "闲术46",
+    "affinity": "shade",
+    "power": 36,
+    "focus": 24,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_47",
+    "name": "闲术47",
+    "affinity": "light",
+    "power": 37,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_48",
+    "name": "闲术48",
+    "affinity": "flame",
+    "power": 38,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_49",
+    "name": "闲术49",
+    "affinity": "tide",
+    "power": 39,
+    "focus": 11,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_50",
+    "name": "闲术50",
+    "affinity": "stone",
+    "power": 40,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_51",
+    "name": "闲术51",
+    "affinity": "wood",
+    "power": 41,
+    "focus": 13,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_52",
+    "name": "闲术52",
+    "affinity": "bolt",
+    "power": 42,
+    "focus": 14,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_53",
+    "name": "闲术53",
+    "affinity": "frost",
+    "power": 43,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_54",
+    "name": "闲术54",
+    "affinity": "shade",
+    "power": 44,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_55",
+    "name": "闲术55",
+    "affinity": "light",
+    "power": 45,
+    "focus": 17,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_56",
+    "name": "闲术56",
+    "affinity": "flame",
+    "power": 46,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_57",
+    "name": "闲术57",
+    "affinity": "tide",
+    "power": 47,
+    "focus": 19,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_58",
+    "name": "闲术58",
+    "affinity": "stone",
+    "power": 48,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_59",
+    "name": "闲术59",
+    "affinity": "wood",
+    "power": 49,
+    "focus": 21,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_60",
+    "name": "闲术60",
+    "affinity": "bolt",
+    "power": 50,
+    "focus": 22,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_61",
+    "name": "闲术61",
+    "affinity": "frost",
+    "power": 51,
+    "focus": 23,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_62",
+    "name": "闲术62",
+    "affinity": "shade",
+    "power": 52,
+    "focus": 24,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_63",
+    "name": "闲术63",
+    "affinity": "light",
+    "power": 53,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_64",
+    "name": "闲术64",
+    "affinity": "flame",
+    "power": 54,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_65",
+    "name": "闲术65",
+    "affinity": "tide",
+    "power": 55,
+    "focus": 11,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_66",
+    "name": "闲术66",
+    "affinity": "stone",
+    "power": 56,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_67",
+    "name": "闲术67",
+    "affinity": "wood",
+    "power": 57,
+    "focus": 13,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_68",
+    "name": "闲术68",
+    "affinity": "bolt",
+    "power": 58,
+    "focus": 14,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_69",
+    "name": "闲术69",
+    "affinity": "frost",
+    "power": 59,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_70",
+    "name": "闲术70",
+    "affinity": "shade",
+    "power": 60,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_71",
+    "name": "闲术71",
+    "affinity": "light",
+    "power": 61,
+    "focus": 17,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_72",
+    "name": "闲术72",
+    "affinity": "flame",
+    "power": 62,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_73",
+    "name": "闲术73",
+    "affinity": "tide",
+    "power": 63,
+    "focus": 19,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_74",
+    "name": "闲术74",
+    "affinity": "stone",
+    "power": 64,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_75",
+    "name": "闲术75",
+    "affinity": "wood",
+    "power": 65,
+    "focus": 21,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_76",
+    "name": "闲术76",
+    "affinity": "bolt",
+    "power": 66,
+    "focus": 22,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_77",
+    "name": "闲术77",
+    "affinity": "frost",
+    "power": 67,
+    "focus": 23,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_78",
+    "name": "闲术78",
+    "affinity": "shade",
+    "power": 68,
+    "focus": 24,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_79",
+    "name": "闲术79",
+    "affinity": "light",
+    "power": 69,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_80",
+    "name": "闲术80",
+    "affinity": "flame",
+    "power": 30,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_81",
+    "name": "闲术81",
+    "affinity": "tide",
+    "power": 31,
+    "focus": 11,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_82",
+    "name": "闲术82",
+    "affinity": "stone",
+    "power": 32,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_83",
+    "name": "闲术83",
+    "affinity": "wood",
+    "power": 33,
+    "focus": 13,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_84",
+    "name": "闲术84",
+    "affinity": "bolt",
+    "power": 34,
+    "focus": 14,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_85",
+    "name": "闲术85",
+    "affinity": "frost",
+    "power": 35,
+    "focus": 15,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_86",
+    "name": "闲术86",
+    "affinity": "shade",
+    "power": 36,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_87",
+    "name": "闲术87",
+    "affinity": "light",
+    "power": 37,
+    "focus": 17,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_88",
+    "name": "闲术88",
+    "affinity": "flame",
+    "power": 38,
+    "focus": 18,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_89",
+    "name": "闲术89",
+    "affinity": "tide",
+    "power": 39,
+    "focus": 19,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_90",
+    "name": "闲术90",
+    "affinity": "stone",
+    "power": 40,
+    "focus": 20,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_91",
+    "name": "闲术91",
+    "affinity": "wood",
+    "power": 41,
+    "focus": 21,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_92",
+    "name": "闲术92",
+    "affinity": "bolt",
+    "power": 42,
+    "focus": 22,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_93",
+    "name": "闲术93",
+    "affinity": "frost",
+    "power": 43,
+    "focus": 23,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_94",
+    "name": "闲术94",
+    "affinity": "shade",
+    "power": 44,
+    "focus": 24,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_95",
+    "name": "闲术95",
+    "affinity": "light",
+    "power": 45,
+    "focus": 25,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "catalog_art_96",
+    "name": "闲术96",
+    "affinity": "flame",
+    "power": 46,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "kiln_gate",
+    "name": "窑门",
+    "affinity": "flame",
+    "power": 0,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "ember_sip",
+    "name": "余烬汲",
+    "affinity": "flame",
+    "power": 40,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.5
+      }
+    ]
+  },
+  {
+    "id": "kiln_heart",
+    "name": "灶心爆",
+    "affinity": "flame",
+    "power": 25,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "well_flood",
+    "name": "井满",
+    "affinity": "tide",
+    "power": 0,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "heal",
+        "ratio": 0.5
+      }
+    ]
+  },
+  {
+    "id": "triple_tide",
+    "name": "潮三叠",
+    "affinity": "tide",
+    "power": 20,
+    "focus": 8,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 3
+      }
+    ]
+  },
+  {
+    "id": "mire_toxin",
+    "name": "浊沼",
+    "affinity": "tide",
+    "power": 30,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "status",
+        "status": "poison",
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "stele_press",
+    "name": "碑压",
+    "affinity": "stone",
+    "power": 0,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "stage",
+        "stat": "def",
+        "delta": 1,
+        "on": "user"
+      }
+    ]
+  },
+  {
+    "id": "cliff_fang",
+    "name": "裂崖牙",
+    "affinity": "stone",
+    "power": 55,
+    "focus": 14,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "mount_palm",
+    "name": "镇岳掌",
+    "affinity": "stone",
+    "power": 70,
+    "focus": 8,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "peach_rain",
+    "name": "桃刺雨",
+    "affinity": "wood",
+    "power": 25,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage",
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "grove_breath",
+    "name": "林息",
+    "affinity": "wood",
+    "power": 0,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "heal",
+        "ratio": 0.4
+      }
+    ]
+  },
+  {
+    "id": "vine_bind",
+    "name": "蔓缚",
+    "affinity": "wood",
+    "power": 0,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "stage",
+        "stat": "atk",
+        "delta": -1,
+        "on": "target"
+      }
+    ]
+  },
+  {
+    "id": "gold_thread",
+    "name": "金线刺",
+    "affinity": "bolt",
+    "power": 50,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "numb_web",
+    "name": "麻络",
+    "affinity": "bolt",
+    "power": 35,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      },
+      {
+        "kind": "status",
+        "status": "paralyze",
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "id": "frost_seal",
+    "name": "霜封",
+    "affinity": "frost",
+    "power": 0,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "stage",
+        "stat": "spd",
+        "delta": -1,
+        "on": "target"
+      }
+    ]
+  },
+  {
+    "id": "cold_tooth",
+    "name": "寒齿",
+    "affinity": "frost",
+    "power": 55,
+    "focus": 14,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  },
+  {
+    "id": "shade_stand",
+    "name": "影替",
+    "affinity": "shade",
+    "power": 0,
+    "focus": 10,
+    "effects": [
+      {
+        "kind": "substitute"
+      }
+    ]
+  },
+  {
+    "id": "ink_sip",
+    "name": "墨噬",
+    "affinity": "shade",
+    "power": 40,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "drain",
+        "ratio": 0.5
+      }
+    ]
+  },
+  {
+    "id": "lamp_guard",
+    "name": "灯守",
+    "affinity": "light",
+    "power": 0,
+    "focus": 16,
+    "effects": [
+      {
+        "kind": "guard"
+      }
+    ]
+  },
+  {
+    "id": "pale_blade",
+    "name": "皓刃",
+    "affinity": "light",
+    "power": 60,
+    "focus": 12,
+    "effects": [
+      {
+        "kind": "damage"
+      }
+    ]
+  }
+]

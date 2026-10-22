@@ -1,0 +1,6 @@
+{
+  "fan": ["zao_li", "jing_zhu", "tao_geng", "luan_shi", "dian_zhu", "shuang_ming", "mo_mao", "deng_e", "yao_shu", "ping_yu", "zhi_ren", "tong_ling"],
+  "shang": ["dan_li", "quan_ji", "nuo_mian", "zhang_yan", "pi_li", "bing_can", "ye_ti", "jin_hui", "tao_quan", "he_hun", "jian_ying", "ming_duo"],
+  "te": ["huo_de_li", "he_bo_cong", "she_mu", "zhen_yue", "lei_ying", "xuan_dong", "wu_mian", "yao_lun"],
+  "epic": ["dan_zao", "lian_xin", "zang_shu", "jing_zhong"]
+}

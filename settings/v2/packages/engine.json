@@ -1,0 +1,18 @@
+{
+  "__version__": "1.0.8",
+  "modules": {
+    "includeModules": [
+      "base",
+      "gfx-webgl",
+      "gfx-webgl2",
+      "3d",
+      "primitive",
+      "2d",
+      "ui",
+      "tween",
+      "animation",
+      "intersection-2d",
+      "audio"
+    ]
+  }
+}

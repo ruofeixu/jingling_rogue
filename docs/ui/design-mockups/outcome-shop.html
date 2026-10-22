@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="base.css">
+<style>
+  body { background:#cddff0; padding:24px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cap { position:absolute; top:-22px; left:50%; transform:translateX(-50%); font-weight:800; color:#4a3b2f; white-space:nowrap; }
+  .wrap { position:relative; }
+
+  .ribbon {
+    position:absolute; top:40px; left:50%; transform:translateX(-50%);
+    padding:8px 34px; font-size:26px; font-weight:900; color:#fff;
+    background:linear-gradient(180deg,#ffd76b,var(--gold)); 
+    border:4px solid #e0a324; border-radius:var(--r-pill);
+    box-shadow:0 6px 0 #c07f2c, 0 10px 16px var(--shadow);
+    text-shadow:0 2px 0 rgba(192,127,44,.7);
+  }
+  .win-mon { position:absolute; top:112px; left:50%; transform:translateX(-50%); width:150px; height:150px; font-size:96px; }
+
+  .stats {
+    position:absolute; left:34px; right:34px; top:284px; padding:18px 20px;
+  }
+  .stats .r { display:flex; justify-content:space-between; align-items:center; padding:9px 4px; font-weight:800; color:var(--ink); font-size:16px; border-bottom:2px dashed #e6d8c2; }
+  .stats .r:last-child{ border-bottom:none; }
+  .stats .r .v { color:var(--accent-deep); font-size:18px; }
+
+  .foot { position:absolute; left:34px; right:34px; bottom:28px; }
+  .foot .btn { height:60px; font-size:20px; margin-top:12px; }
+
+  /* 货摊 */
+  .shopwrap .head { position:absolute; top:22px; left:0; right:0; text-align:center; }
+  .shopwrap .head .t { font-size:30px; }
+  .shopwrap .head .g { display:inline-block; margin-top:8px; padding:4px 16px; background:#fff; border:3px solid var(--gold); border-radius:var(--r-pill); font-weight:900; color:var(--accent-deep); box-shadow:0 3px 0 #e0a324; }
+  .shelf { position:absolute; left:22px; right:22px; top:110px; bottom:96px; padding:16px 14px; overflow:hidden; }
+  .item { display:flex; align-items:center; gap:14px; padding:12px 14px; margin-bottom:12px;
+    background:var(--slip); border:3px solid var(--slip-edge); border-radius:var(--r-md);
+    box-shadow:0 4px 0 var(--slip-edge); }
+  .item.locked{ background:#efe7db; border-color:#d8cbb8; box-shadow:0 4px 0 #d8cbb8; opacity:.85; }
+  .item .ic{ width:44px; height:44px; border-radius:14px; background:#fff; border:3px solid var(--edge); display:flex; align-items:center; justify-content:center; font-size:26px; }
+  .item .nm{ font-weight:900; color:var(--ink); font-size:17px; }
+  .item .price{ margin-left:auto; font-weight:900; color:var(--accent-deep); font-size:16px; }
+  .item.locked .price{ color:var(--ink-soft); }
+  .shopfoot { position:absolute; left:22px; right:22px; bottom:24px; }
+</style>
+</head>
+<body>
+
+<!-- 胜局结算 -->
+<div class="wrap"><div class="cap">结算 · 胜局</div>
+<div class="phone">
+  <div class="ribbon">🎉 胜 局</div>
+  <div class="avatar win-mon">🦊</div>
+  <div class="panel stats">
+    <div class="r"><span>结果</span><span class="v">赢了这一局</span></div>
+    <div class="r"><span>最深波数</span><span class="v">第 12 波</span></div>
+    <div class="r"><span>获得金钱</span><span class="v">240</span></div>
+    <div class="r"><span>收服精怪</span><span class="v">3 只</span></div>
+  </div>
+  <div class="foot">
+    <div class="btn btn--primary">✔ 收下这一局</div>
+    <div class="btn">回大厅</div>
+  </div>
+</div></div>
+
+<!-- 货摊 -->
+<div class="wrap shopwrap"><div class="cap">货摊</div>
+<div class="phone">
+  <div class="head">
+    <div class="t title-badge" style="-webkit-text-stroke-width:4px">🛒 货摊</div>
+    <div class="g">💰 30 钱 · 第 4 波</div>
+  </div>
+  <div class="panel shelf">
+    <div class="item">
+      <div class="ic">🧪</div><div class="nm">灵露</div><div class="price">20 钱</div>
+    </div>
+    <div class="item locked">
+      <div class="ic">🔒</div><div class="nm">金印</div><div class="price">80 钱 · 还差 50</div>
+    </div>
+    <div class="item">
+      <div class="ic">📜</div><div class="nm">残卷</div><div class="price">40 钱</div>
+    </div>
+  </div>
+  <div class="shopfoot">
+    <div class="btn btn--primary" style="height:58px;font-size:19px">离开货摊，继续赶路</div>
+  </div>
+</div></div>
+
+</body>
+</html>

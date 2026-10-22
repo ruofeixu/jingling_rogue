@@ -1,0 +1,82 @@
+{
+  "town_ruins": {
+    "neighbors": [
+      { "id": "wilds", "weight": 1 },
+      { "id": "market", "weight": 1 },
+      { "id": "marsh", "weight": 1 }
+    ]
+  },
+  "wilds": {
+    "neighbors": [
+      { "id": "town_ruins", "weight": 1 },
+      { "id": "woods", "weight": 1 },
+      { "id": "waste", "weight": 1 }
+    ]
+  },
+  "woods": {
+    "neighbors": [
+      { "id": "wilds", "weight": 1 },
+      { "id": "shrine", "weight": 1 },
+      { "id": "snow", "weight": 1 }
+    ]
+  },
+  "market": {
+    "neighbors": [
+      { "id": "town_ruins", "weight": 1 },
+      { "id": "cavern", "weight": 1 },
+      { "id": "shrine", "weight": 1 }
+    ]
+  },
+  "marsh": {
+    "neighbors": [
+      { "id": "town_ruins", "weight": 1 },
+      { "id": "tide", "weight": 1 },
+      { "id": "market", "weight": 1 }
+    ]
+  },
+  "waste": {
+    "neighbors": [
+      { "id": "wilds", "weight": 1 },
+      { "id": "foothill", "weight": 1 },
+      { "id": "cavern", "weight": 1 }
+    ]
+  },
+  "foothill": {
+    "neighbors": [
+      { "id": "waste", "weight": 1 },
+      { "id": "snow", "weight": 1 },
+      { "id": "shrine", "weight": 1 }
+    ]
+  },
+  "shrine": {
+    "neighbors": [
+      { "id": "woods", "weight": 1 },
+      { "id": "foothill", "weight": 1 },
+      { "id": "market", "weight": 1 }
+    ]
+  },
+  "cavern": {
+    "neighbors": [
+      { "id": "market", "weight": 1 },
+      { "id": "waste", "weight": 1 },
+      { "id": "tide", "weight": 1 }
+    ]
+  },
+  "snow": {
+    "neighbors": [
+      { "id": "woods", "weight": 1 },
+      { "id": "foothill", "weight": 1 },
+      { "id": "tide", "weight": 1 }
+    ]
+  },
+  "tide": {
+    "neighbors": [
+      { "id": "marsh", "weight": 1 },
+      { "id": "cavern", "weight": 1 },
+      { "id": "snow", "weight": 1 }
+    ]
+  },
+  "void": {
+    "neighbors": []
+  }
+}

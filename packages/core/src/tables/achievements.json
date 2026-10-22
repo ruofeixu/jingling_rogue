@@ -1,0 +1,631 @@
+[
+  {
+    "id": "clear_classic",
+    "name": "初渡归墟",
+    "hidden": false,
+    "when": {
+      "type": "victory"
+    }
+  },
+  {
+    "id": "catch_1",
+    "name": "初契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 1
+    }
+  },
+  {
+    "id": "catch_2",
+    "name": "再契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 2
+    }
+  },
+  {
+    "id": "catch_3",
+    "name": "三契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 3
+    }
+  },
+  {
+    "id": "catch_5",
+    "name": "五契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 5
+    }
+  },
+  {
+    "id": "catch_8",
+    "name": "八契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 8
+    }
+  },
+  {
+    "id": "catch_10",
+    "name": "十契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 10
+    }
+  },
+  {
+    "id": "catch_15",
+    "name": "十五契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 15
+    }
+  },
+  {
+    "id": "catch_20",
+    "name": "廿契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 20
+    }
+  },
+  {
+    "id": "catch_25",
+    "name": "廿五契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 25
+    }
+  },
+  {
+    "id": "catch_30",
+    "name": "三十契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 30
+    }
+  },
+  {
+    "id": "catch_35",
+    "name": "三十五契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 35
+    }
+  },
+  {
+    "id": "catch_40",
+    "name": "四十契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 40
+    }
+  },
+  {
+    "id": "catch_45",
+    "name": "四十五契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 45
+    }
+  },
+  {
+    "id": "catch_50",
+    "name": "五十契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 50
+    }
+  },
+  {
+    "id": "catch_60",
+    "name": "六十契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 60
+    }
+  },
+  {
+    "id": "catch_70",
+    "name": "七十契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 70
+    }
+  },
+  {
+    "id": "catch_80",
+    "name": "八十契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 80
+    }
+  },
+  {
+    "id": "catch_90",
+    "name": "九十契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 90
+    }
+  },
+  {
+    "id": "catch_100",
+    "name": "百契",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 100
+    }
+  },
+  {
+    "id": "catch_120",
+    "name": "满卷",
+    "hidden": false,
+    "when": {
+      "type": "catch",
+      "count": 120
+    }
+  },
+  {
+    "id": "seen_5",
+    "name": "初见五",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 5
+    }
+  },
+  {
+    "id": "seen_10",
+    "name": "见十",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 10
+    }
+  },
+  {
+    "id": "seen_15",
+    "name": "见十五",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 15
+    }
+  },
+  {
+    "id": "seen_20",
+    "name": "见二十",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 20
+    }
+  },
+  {
+    "id": "seen_30",
+    "name": "见三十",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 30
+    }
+  },
+  {
+    "id": "seen_40",
+    "name": "见四十",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 40
+    }
+  },
+  {
+    "id": "seen_50",
+    "name": "见五十",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 50
+    }
+  },
+  {
+    "id": "seen_60",
+    "name": "见六十",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 60
+    }
+  },
+  {
+    "id": "seen_80",
+    "name": "见八十",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 80
+    }
+  },
+  {
+    "id": "seen_120",
+    "name": "见满",
+    "hidden": false,
+    "when": {
+      "type": "seen",
+      "count": 120
+    }
+  },
+  {
+    "id": "hatch_1",
+    "name": "开卵",
+    "hidden": false,
+    "when": {
+      "type": "hatch"
+    }
+  },
+  {
+    "id": "candy_cost",
+    "name": "降费",
+    "hidden": false,
+    "when": {
+      "type": "candy",
+      "kind": "cost"
+    }
+  },
+  {
+    "id": "candy_pact",
+    "name": "第二魂契",
+    "hidden": false,
+    "when": {
+      "type": "candy",
+      "kind": "pact"
+    }
+  },
+  {
+    "id": "candy_egg",
+    "name": "专属卵",
+    "hidden": false,
+    "when": {
+      "type": "candy",
+      "kind": "egg"
+    }
+  },
+  {
+    "id": "daily_1",
+    "name": "试炼一战",
+    "hidden": false,
+    "when": {
+      "type": "daily",
+      "wave": 1
+    }
+  },
+  {
+    "id": "daily_5",
+    "name": "试炼五波",
+    "hidden": false,
+    "when": {
+      "type": "daily",
+      "wave": 5
+    }
+  },
+  {
+    "id": "daily_10",
+    "name": "试炼十波",
+    "hidden": false,
+    "when": {
+      "type": "daily",
+      "wave": 10
+    }
+  },
+  {
+    "id": "daily_15",
+    "name": "试炼十五波",
+    "hidden": false,
+    "when": {
+      "type": "daily",
+      "wave": 15
+    }
+  },
+  {
+    "id": "daily_20",
+    "name": "试炼廿波",
+    "hidden": false,
+    "when": {
+      "type": "daily",
+      "wave": 20
+    }
+  },
+  {
+    "id": "ribbon_1",
+    "name": "第一缎",
+    "hidden": false,
+    "when": {
+      "type": "ribbon",
+      "count": 1
+    }
+  },
+  {
+    "id": "ribbon_2",
+    "name": "第二缎",
+    "hidden": false,
+    "when": {
+      "type": "ribbon",
+      "count": 2
+    }
+  },
+  {
+    "id": "ribbon_3",
+    "name": "三缎",
+    "hidden": false,
+    "when": {
+      "type": "ribbon",
+      "count": 3
+    }
+  },
+  {
+    "id": "ribbon_6",
+    "name": "六缎",
+    "hidden": false,
+    "when": {
+      "type": "ribbon",
+      "count": 6
+    }
+  },
+  {
+    "id": "carry_young",
+    "name": "携幼",
+    "hidden": true,
+    "when": {
+      "type": "baby"
+    }
+  },
+  {
+    "id": "ribbon_full",
+    "name": "全缎",
+    "hidden": true,
+    "when": {
+      "type": "ribbon",
+      "count": 12
+    }
+  },
+  {
+    "id": "catch_all",
+    "name": "契录尽收",
+    "hidden": true,
+    "when": {
+      "type": "catch",
+      "count": 120
+    }
+  },
+  {
+    "id": "seen_all",
+    "name": "尽见山野",
+    "hidden": true,
+    "when": {
+      "type": "seen",
+      "count": 200
+    }
+  },
+  {
+    "id": "daily_30",
+    "name": "试炼三十",
+    "hidden": true,
+    "when": {
+      "type": "daily",
+      "wave": 30
+    }
+  },
+  {
+    "id": "daily_40",
+    "name": "试炼四十",
+    "hidden": true,
+    "when": {
+      "type": "daily",
+      "wave": 40
+    }
+  },
+  {
+    "id": "hatch_gold",
+    "name": "金卵之兆",
+    "hidden": true,
+    "when": {
+      "type": "hatch"
+    }
+  },
+  {
+    "id": "candy_floor",
+    "name": "费用见底",
+    "hidden": true,
+    "when": {
+      "type": "candy",
+      "kind": "cost"
+    }
+  },
+  {
+    "id": "hidden_pact_all",
+    "name": "隐契暗开",
+    "hidden": true,
+    "when": {
+      "type": "candy",
+      "kind": "pact"
+    }
+  },
+  {
+    "id": "species_egg_three",
+    "name": "三专卵",
+    "hidden": true,
+    "when": {
+      "type": "candy",
+      "kind": "egg"
+    }
+  },
+  {
+    "id": "fuse_clear",
+    "name": "合体通关",
+    "hidden": true,
+    "when": {
+      "type": "fuse"
+    }
+  },
+  {
+    "id": "night_mark",
+    "name": "长夜一印",
+    "hidden": true,
+    "when": {
+      "type": "endless"
+    }
+  },
+  {
+    "id": "void_walk",
+    "name": "归墟夜行",
+    "hidden": true,
+    "when": {
+      "type": "victory"
+    }
+  },
+  {
+    "id": "starter_three",
+    "name": "三初始齐",
+    "hidden": true,
+    "when": {
+      "type": "catch",
+      "count": 3
+    }
+  },
+  {
+    "id": "catch_200",
+    "name": "二百契",
+    "hidden": true,
+    "when": {
+      "type": "catch",
+      "count": 200
+    }
+  },
+  {
+    "id": "ribbon_9",
+    "name": "九缎",
+    "hidden": true,
+    "when": {
+      "type": "ribbon",
+      "count": 9
+    }
+  },
+  {
+    "id": "daily_50",
+    "name": "试炼五十",
+    "hidden": true,
+    "when": {
+      "type": "daily",
+      "wave": 50
+    }
+  },
+  {
+    "id": "seen_150",
+    "name": "见百五",
+    "hidden": true,
+    "when": {
+      "type": "seen",
+      "count": 150
+    }
+  },
+  {
+    "id": "hatch_many",
+    "name": "连开",
+    "hidden": true,
+    "when": {
+      "type": "hatch"
+    }
+  },
+  {
+    "id": "candy_pact_2",
+    "name": "再开魂契",
+    "hidden": true,
+    "when": {
+      "type": "candy",
+      "kind": "pact"
+    }
+  },
+  {
+    "id": "candy_egg_2",
+    "name": "再买专卵",
+    "hidden": true,
+    "when": {
+      "type": "candy",
+      "kind": "egg"
+    }
+  },
+  {
+    "id": "baby_duo",
+    "name": "双幼同行",
+    "hidden": true,
+    "when": {
+      "type": "baby"
+    }
+  },
+  {
+    "id": "clear_again",
+    "name": "再渡",
+    "hidden": true,
+    "when": {
+      "type": "victory"
+    }
+  },
+  {
+    "id": "ribbon_1_hidden",
+    "name": "暗缎",
+    "hidden": true,
+    "when": {
+      "type": "ribbon",
+      "count": 1
+    }
+  },
+  {
+    "id": "catch_1_hidden",
+    "name": "暗契",
+    "hidden": true,
+    "when": {
+      "type": "catch",
+      "count": 1
+    }
+  },
+  {
+    "id": "seen_1_hidden",
+    "name": "暗见",
+    "hidden": true,
+    "when": {
+      "type": "seen",
+      "count": 1
+    }
+  },
+  {
+    "id": "daily_1_hidden",
+    "name": "暗试炼",
+    "hidden": true,
+    "when": {
+      "type": "daily",
+      "wave": 1
+    }
+  }
+]

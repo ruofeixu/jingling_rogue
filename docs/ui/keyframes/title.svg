@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 1334" width="750" height="1334" role="img" aria-labelledby="titleFrameTitle titleFrameDesc">
+  <title id="titleFrameTitle">契灵志怪标题页关键帧</title>
+  <desc id="titleFrameDesc">明亮童话山野聚落，三只原创精怪在前景陪伴，中央有一个醒目的踏入山隙按钮。</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9efff"/>
+      <stop offset="0.58" stop-color="#f4fbef"/>
+      <stop offset="1" stop-color="#fff2c9"/>
+    </linearGradient>
+    <linearGradient id="farHill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#acd9d2"/>
+      <stop offset="1" stop-color="#75b9a1"/>
+    </linearGradient>
+    <linearGradient id="nearHill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#82c883"/>
+      <stop offset="1" stop-color="#47936c"/>
+    </linearGradient>
+    <linearGradient id="cta" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb65f"/>
+      <stop offset="1" stop-color="#ff7f4c"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#355846" flood-opacity="0.2"/>
+    </filter>
+    <filter id="smallShadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#294839" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+
+  <!-- 背景：浅色天光 -->
+  <rect width="750" height="1334" fill="url(#sky)"/>
+  <circle cx="620" cy="150" r="68" fill="#fff5a8" opacity="0.9"/>
+  <circle cx="620" cy="150" r="92" fill="none" stroke="#fff9cf" stroke-width="18" opacity="0.55"/>
+  <g fill="#ffffff" opacity="0.78">
+    <path d="M30 196 C52 160 92 165 104 194 C127 169 174 180 179 214 L29 214 Z"/>
+    <path d="M500 276 C518 246 556 246 570 270 C596 239 648 254 650 290 L494 290 Z"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity="0.7">
+    <path d="M95 305 Q125 283 155 305"/>
+    <path d="M180 254 Q205 236 230 254"/>
+    <path d="M548 353 Q577 333 605 353"/>
+  </g>
+
+  <!-- 标题徽记 -->
+  <g filter="url(#smallShadow)">
+    <path d="M145 76 Q375 16 605 76 L582 231 Q375 276 168 231 Z" fill="#fffdf7" stroke="#5bb8d7" stroke-width="6"/>
+    <path d="M185 91 Q375 48 565 91" fill="none" stroke="#ffc85a" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="176" cy="107" r="10" fill="#ff8b5e"/>
+    <circle cx="574" cy="107" r="10" fill="#7dcf7c"/>
+    <text x="375" y="157" text-anchor="middle" fill="#3d3228" font-size="68" font-weight="800" letter-spacing="8">契灵志怪</text>
+    <text x="375" y="204" text-anchor="middle" fill="#4b765f" font-size="22" font-weight="700" letter-spacing="5">山 隙 里 的 明 亮 奇 遇</text>
+  </g>
+
+  <!-- 远景山体 -->
+  <path d="M0 452 Q88 331 178 430 Q282 278 390 430 Q503 302 750 452 L750 712 L0 712 Z" fill="url(#farHill)"/>
+  <path d="M100 426 Q142 371 178 430 Q208 378 249 398" fill="none" stroke="#dff3dc" stroke-width="15" stroke-linecap="round" opacity="0.8"/>
+  <path d="M324 388 Q361 333 392 430 Q425 378 467 399" fill="none" stroke="#dff3dc" stroke-width="15" stroke-linecap="round" opacity="0.72"/>
+  <path d="M0 516 Q110 459 220 520 Q357 425 476 524 Q620 436 750 504 L750 807 L0 807 Z" fill="#79bd91"/>
+
+  <!-- 中景聚落与蜿蜒小路 -->
+  <path d="M309 1334 Q264 1060 339 844 Q387 700 408 584 Q427 716 389 857 Q336 1065 446 1334 Z" fill="#ffe8ad" opacity="0.92"/>
+  <g stroke="#5c6b55" stroke-width="5" stroke-linejoin="round" filter="url(#smallShadow)">
+    <g transform="translate(82 548)">
+      <path d="M0 58 L58 11 L122 58 Z" fill="#f27d5f"/>
+      <rect x="16" y="56" width="91" height="69" rx="8" fill="#fff1c6"/>
+      <rect x="53" y="82" width="25" height="43" rx="5" fill="#69a88c"/>
+      <circle cx="29" cy="81" r="8" fill="#ffd76c" stroke="none"/>
+    </g>
+    <g transform="translate(533 526)">
+      <path d="M0 58 L62 8 L129 58 Z" fill="#6fb8c6"/>
+      <rect x="17" y="56" width="96" height="72" rx="8" fill="#fff8dc"/>
+      <rect x="55" y="83" width="27" height="45" rx="5" fill="#bc7656"/>
+      <circle cx="98" cy="81" r="8" fill="#ffd76c" stroke="none"/>
+    </g>
+    <g transform="translate(254 521) scale(.82)">
+      <path d="M0 58 L62 8 L129 58 Z" fill="#f0a45b"/>
+      <rect x="17" y="56" width="96" height="72" rx="8" fill="#fff8dc"/>
+      <rect x="56" y="83" width="26" height="45" rx="5" fill="#7eaa76"/>
+    </g>
+  </g>
+  <g fill="#4f986d">
+    <circle cx="59" cy="670" r="67"/><circle cx="128" cy="680" r="57"/><circle cx="690" cy="651" r="72"/><circle cx="611" cy="677" r="55"/>
+  </g>
+  <path d="M0 711 Q160 653 298 739 Q465 640 750 713 L750 1334 L0 1334 Z" fill="url(#nearHill)"/>
+  <g fill="#a8dc8a" opacity="0.9">
+    <path d="M0 762 Q145 699 271 763 Q397 696 525 756 Q639 702 750 740 L750 808 Q626 762 515 805 Q379 749 265 812 Q123 755 0 824 Z"/>
+  </g>
+
+  <!-- 陪伴区，不使用外部角色资产 -->
+  <g aria-label="原创精怪陪伴区" filter="url(#softShadow)">
+    <path d="M83 849 Q143 773 227 839 Q251 874 232 960 Q209 1038 114 1013 Q52 978 83 849 Z" fill="#fff7e2" stroke="#583f35" stroke-width="9"/>
+    <!-- 灶狸：锅耳、火尾的原创轮廓 -->
+    <g transform="translate(91 797)">
+      <path d="M34 83 L28 25 L73 55 L111 25 L106 87 Z" fill="#d95f43" stroke="#52372f" stroke-width="9" stroke-linejoin="round"/>
+      <path d="M41 48 L43 70 L60 58 Z M98 48 L96 70 L80 58 Z" fill="#ffd56d"/>
+      <path d="M34 89 Q70 54 108 89 L116 163 Q79 204 28 166 Z" fill="#ef8054" stroke="#52372f" stroke-width="9"/>
+      <path d="M47 129 Q71 108 96 129 Q95 160 70 167 Q47 158 47 129 Z" fill="#ffe1a0"/>
+      <circle cx="54" cy="104" r="7" fill="#3d3228"/><circle cx="91" cy="104" r="7" fill="#3d3228"/>
+      <path d="M70 117 L76 124 L67 124 Z" fill="#6a3b37"/>
+      <path d="M107 151 Q147 145 132 112 Q160 129 148 164 Q134 196 103 177" fill="#ffad45" stroke="#52372f" stroke-width="9" stroke-linecap="round"/>
+      <path d="M132 117 Q146 143 128 157" fill="none" stroke="#fff087" stroke-width="8" stroke-linecap="round"/>
+      <ellipse cx="47" cy="186" rx="28" ry="13" fill="#bd583f" stroke="#52372f" stroke-width="7"/>
+      <ellipse cx="97" cy="186" rx="28" ry="13" fill="#bd583f" stroke="#52372f" stroke-width="7"/>
+    </g>
+
+    <path d="M504 840 Q582 776 668 849 Q706 932 647 1006 Q556 1042 507 970 Q481 906 504 840 Z" fill="#f2fbff" stroke="#583f35" stroke-width="9"/>
+    <!-- 井蛛：井沿腹甲、叶桨足 -->
+    <g transform="translate(512 803)">
+      <path d="M52 79 Q20 48 28 23 Q59 27 72 61 M103 79 Q134 47 129 21 Q99 25 85 61" fill="#76c6c9" stroke="#3e4f4e" stroke-width="9" stroke-linecap="round"/>
+      <path d="M44 120 Q5 104 2 73 M44 142 Q4 151 7 183 M111 120 Q150 103 154 73 M111 142 Q151 151 148 184" fill="none" stroke="#3e4f4e" stroke-width="11" stroke-linecap="round"/>
+      <path d="M40 93 Q75 52 115 92 L122 159 Q82 198 35 160 Z" fill="#56b7bf" stroke="#3e4f4e" stroke-width="9"/>
+      <ellipse cx="78" cy="102" rx="42" ry="22" fill="#d4f2dc" stroke="#3e4f4e" stroke-width="8"/>
+      <ellipse cx="78" cy="104" rx="25" ry="11" fill="#468e92"/>
+      <circle cx="59" cy="132" r="7" fill="#263a3a"/><circle cx="96" cy="132" r="7" fill="#263a3a"/>
+      <path d="M67 151 Q78 160 90 151" fill="none" stroke="#263a3a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M36 164 Q75 190 121 160" fill="#318a92" opacity="0.55"/>
+    </g>
+
+    <path d="M275 815 Q375 754 472 826 Q506 916 445 1009 Q350 1050 274 985 Q233 896 275 815 Z" fill="#fff9e8" stroke="#583f35" stroke-width="10"/>
+    <!-- 桃梗：桃核躯干、枝冠轮廓 -->
+    <g transform="translate(294 759)">
+      <path d="M82 87 Q28 65 35 17 Q72 20 89 53 Q111 8 153 20 Q157 63 110 89" fill="#74bd67" stroke="#4d4937" stroke-width="9" stroke-linejoin="round"/>
+      <circle cx="43" cy="31" r="16" fill="#ff9ca3"/><circle cx="145" cy="34" r="17" fill="#ff9ca3"/>
+      <path d="M58 87 Q93 56 129 87 L137 169 Q111 211 66 197 Q36 170 58 87 Z" fill="#d88956" stroke="#4d4937" stroke-width="9"/>
+      <path d="M76 108 Q94 92 119 109 L118 158 Q95 178 73 157 Z" fill="#f4b77d"/>
+      <circle cx="82" cy="119" r="7" fill="#3d3228"/><circle cx="111" cy="119" r="7" fill="#3d3228"/>
+      <path d="M87 143 Q96 150 105 143" fill="none" stroke="#3d3228" stroke-width="5" stroke-linecap="round"/>
+      <path d="M61 172 L32 210 M130 171 L157 207" stroke="#4d4937" stroke-width="11" stroke-linecap="round"/>
+      <path d="M56 190 L49 230 L82 231 M127 190 L139 230 L107 231" fill="#d88956" stroke="#4d4937" stroke-width="9" stroke-linejoin="round"/>
+      <path d="M57 95 Q91 120 132 92" fill="none" stroke="#fff0b1" stroke-width="7" stroke-linecap="round" opacity="0.7"/>
+    </g>
+  </g>
+
+  <!-- 前景植物制造景深 -->
+  <g stroke="#315e48" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M28 1334 Q27 1165 91 1053 M50 1223 Q90 1189 128 1176 M56 1167 Q30 1127 24 1091" fill="none"/>
+    <path d="M722 1334 Q726 1161 662 1051 M703 1214 Q664 1180 628 1170 M695 1153 Q723 1117 730 1080" fill="none"/>
+  </g>
+  <g fill="#66ad58" stroke="#315e48" stroke-width="5">
+    <ellipse cx="100" cy="1167" rx="45" ry="19" transform="rotate(-24 100 1167)"/>
+    <ellipse cx="39" cy="1112" rx="43" ry="18" transform="rotate(48 39 1112)"/>
+    <ellipse cx="646" cy="1163" rx="46" ry="19" transform="rotate(25 646 1163)"/>
+    <ellipse cx="714" cy="1100" rx="43" ry="18" transform="rotate(-47 714 1100)"/>
+  </g>
+  <g fill="#ffe46b" stroke="#754d37" stroke-width="4">
+    <circle cx="100" cy="1083" r="18"/><circle cx="74" cy="1097" r="18"/><circle cx="88" cy="1119" r="18"/><circle cx="112" cy="1107" r="18"/><circle cx="94" cy="1103" r="9" fill="#f07b52"/>
+    <circle cx="653" cy="1084" r="18"/><circle cx="678" cy="1096" r="18"/><circle cx="666" cy="1118" r="18"/><circle cx="640" cy="1107" r="18"/><circle cx="659" cy="1103" r="9" fill="#f07b52"/>
+  </g>
+
+  <!-- 主次入口：语义强弱明确 -->
+  <g filter="url(#softShadow)">
+    <path d="M120 1067 Q375 1019 630 1067 L614 1192 Q375 1234 136 1192 Z" fill="url(#cta)" stroke="#633b30" stroke-width="8"/>
+    <path d="M159 1086 Q375 1050 591 1086" fill="none" stroke="#ffd98b" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+    <text x="375" y="1151" text-anchor="middle" fill="#3b2c27" font-size="44" font-weight="800" letter-spacing="6">踏入山隙</text>
+    <path d="M558 1120 L582 1141 L558 1163" fill="none" stroke="#3b2c27" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <path d="M235 1231 Q375 1212 515 1231 L506 1292 Q375 1310 244 1292 Z" fill="#fffdf5" fill-opacity="0.86" stroke="#4b765f" stroke-width="4"/>
+    <text x="375" y="1273" text-anchor="middle" fill="#486554" font-size="24" font-weight="700" letter-spacing="4">契录 · 设置</text>
+  </g>
+  <text x="375" y="1318" text-anchor="middle" fill="#315e48" font-size="16" font-weight="700" opacity="0.82">游方契士 · 长征由此启程</text>
+</svg>

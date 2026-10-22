@@ -1,0 +1,29 @@
+{
+  "name": "jingling-rogue",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "test": "pnpm --filter @jingling/core test && pnpm --filter @jingling/presentation test && pnpm --filter @jingling/platform test",
+    "test:bench": "pnpm --filter @jingling/core exec vitest run src/sim/bench.test.ts",
+    "sim:bench": "pnpm --filter @jingling/core sim:bench",
+    "smoke": "pnpm --filter @jingling/core exec vitest run src/ui/preview-app.test.ts",
+    "sync:core": "pnpm --filter @jingling/core exec esbuild src/creator-entry.ts --bundle --format=esm --platform=neutral --outfile=../../assets/scripts/vendor/jinglingCore.ts --banner:js='/* generated from packages/core — do not edit */'",
+    "sync:presentation": "pnpm --filter @jingling/presentation exec esbuild src/index.ts --bundle --format=esm --platform=neutral --outfile=../../assets/scripts/vendor/jinglingPresentation.ts --banner:js='/* generated from packages/presentation — do not edit */'",
+    "test:py": "uv run --directory tools --extra dev pytest && uv run --directory server --extra dev pytest",
+    "check:forbidden": "uv run --project tools python tools/check_forbidden.py",
+    "validate:game": "node game/scripts/validate-templates.mjs",
+    "validate:catalog": "uv run --project tools python tools/validate_catalog.py",
+    "check:pack": "uv run --project tools python tools/check_main_pack.py",
+    "check:ui-productization": "uv run --project tools python tools/check_ui_productization.py",
+    "check:cocos-build": "uv run --project tools python tools/check_cocos_build.py",
+    "pack:subpackages": "uv run --project tools python tools/pack_subpackages.py",
+    "pack:minigame": "node --experimental-strip-types packages/platform/src/pack-cli.ts",
+    "shot": "pnpm --filter @jingling/platform shot",
+    "check:release": "uv run --project tools python tools/check_release_acceptance.py --evidence docs/ui/baselines/evidence/2026-09-01"
+  },
+  "version": "3.8.2",
+  "creator": {
+    "version": "3.8.2"
+  },
+  "uuid": "f2549709-e4bd-48f4-93c6-fc748b9b4e5d"
+}

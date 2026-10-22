@@ -1,0 +1,399 @@
+[
+  {
+    "id": "title",
+    "screen": "title",
+    "kind": "lobby",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "开始新的旅途",
+    "demo": "标题大厅与主行动层级",
+    "phase": "U3"
+  },
+  {
+    "id": "mode",
+    "screen": "mode",
+    "kind": "lobby",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "选择可用游玩模式",
+    "demo": "模式解锁与选择反馈",
+    "phase": "U3"
+  },
+  {
+    "id": "starter",
+    "screen": "starter",
+    "kind": "lobby",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "selected"
+    ],
+    "primaryTask": "组建初始精怪队伍",
+    "demo": "初始卡、费用与确认行动",
+    "phase": "U5"
+  },
+  {
+    "id": "settings",
+    "screen": "settings",
+    "kind": "lobby",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "saved"
+    ],
+    "primaryTask": "调整并保存体验设置",
+    "demo": "设置分组与保存反馈",
+    "phase": "U4"
+  },
+  {
+    "id": "codex-list",
+    "screen": "codex",
+    "kind": "collection",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "浏览契录收集进度",
+    "demo": "契录列表、筛选与空态",
+    "phase": "U4"
+  },
+  {
+    "id": "codex-entry",
+    "screen": "codex",
+    "kind": "detail",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "查看单只精怪契录详情",
+    "demo": "契录详情与未解锁信息",
+    "phase": "U4"
+  },
+  {
+    "id": "eggs",
+    "screen": "eggs",
+    "kind": "collection",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "管理卵槽与孵券",
+    "demo": "卵槽进度和无库存空态",
+    "phase": "U4"
+  },
+  {
+    "id": "achievements",
+    "screen": "achievements",
+    "kind": "collection",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "查看成就与领取状态",
+    "demo": "成就分组、进度与锁定态",
+    "phase": "U4"
+  },
+  {
+    "id": "stats",
+    "screen": "stats",
+    "kind": "collection",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "回顾账号与旅途统计",
+    "demo": "统计摘要与无记录空态",
+    "phase": "U4"
+  },
+  {
+    "id": "slots",
+    "screen": "slots",
+    "kind": "lobby",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "conflict"
+    ],
+    "primaryTask": "载入或管理旅途存档",
+    "demo": "五槽存档与云端冲突",
+    "phase": "U4"
+  },
+  {
+    "id": "glossary",
+    "screen": "glossary",
+    "kind": "detail",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "查询原创玩法名词",
+    "demo": "名词索引与解释详情",
+    "phase": "U4"
+  },
+  {
+    "id": "hatch",
+    "screen": "hatch",
+    "kind": "reward",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "revealing",
+      "complete"
+    ],
+    "primaryTask": "观看并确认孵化结果",
+    "demo": "孵化揭晓与结果确认",
+    "phase": "U9"
+  },
+  {
+    "id": "battle",
+    "screen": "battle",
+    "kind": "run",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "acting",
+      "targeting",
+      "resolving"
+    ],
+    "primaryTask": "读取战况并选择本回合指令",
+    "demo": "中景战斗、术签与战况反馈",
+    "phase": "U6"
+  },
+  {
+    "id": "arts",
+    "screen": "arts",
+    "kind": "run-overlay",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "disabled"
+    ],
+    "primaryTask": "选择可用术法",
+    "demo": "右侧术签、灵力与禁用态",
+    "phase": "U7"
+  },
+  {
+    "id": "switch",
+    "screen": "switch",
+    "kind": "run-overlay",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "required",
+      "disabled"
+    ],
+    "primaryTask": "选择换入精怪",
+    "demo": "战斗换人与强制选择态",
+    "phase": "U7"
+  },
+  {
+    "id": "party",
+    "screen": "party",
+    "kind": "run",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "disabled"
+    ],
+    "primaryTask": "查看和管理当前队伍",
+    "demo": "六席队伍、状态与操作入口",
+    "phase": "U7"
+  },
+  {
+    "id": "bag",
+    "screen": "bag",
+    "kind": "run-overlay",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "disabled"
+    ],
+    "primaryTask": "选择可用囊中物",
+    "demo": "物品分类、数量与不可用态",
+    "phase": "U7"
+  },
+  {
+    "id": "catch",
+    "screen": "catch",
+    "kind": "run-overlay",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "success",
+      "failure",
+      "disabled"
+    ],
+    "primaryTask": "选择镇物或放过精怪",
+    "demo": "收契选择与结果反馈",
+    "phase": "U7"
+  },
+  {
+    "id": "shop",
+    "screen": "shop",
+    "kind": "run",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "insufficient"
+    ],
+    "primaryTask": "选择机缘并继续旅途",
+    "demo": "战后选项、购买与再择反馈",
+    "phase": "U8"
+  },
+  {
+    "id": "summary",
+    "screen": "summary",
+    "kind": "run-overlay",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "核对本局队伍与资源摘要",
+    "demo": "旅途摘要与资源层级",
+    "phase": "U8"
+  },
+  {
+    "id": "omen",
+    "screen": "omen",
+    "kind": "run-overlay",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "resolved"
+    ],
+    "primaryTask": "阅读并处理奇遇选择",
+    "demo": "奇遇叙事、选项与结果",
+    "phase": "U8"
+  },
+  {
+    "id": "map",
+    "screen": "map",
+    "kind": "run",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked"
+    ],
+    "primaryTask": "选择下一处境域",
+    "demo": "山河图邻接与路线选择",
+    "phase": "U8"
+  },
+  {
+    "id": "target",
+    "screen": "target",
+    "kind": "run-overlay",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "required",
+      "invalid"
+    ],
+    "primaryTask": "指定术法目标",
+    "demo": "双人战目标选择与无效反馈",
+    "phase": "U7"
+  },
+  {
+    "id": "defeat",
+    "screen": "defeat",
+    "kind": "result",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "saving"
+    ],
+    "primaryTask": "查看败北结算并返回大厅",
+    "demo": "败北信息、保留进度与返回行动",
+    "phase": "U9"
+  },
+  {
+    "id": "victory",
+    "screen": "victory",
+    "kind": "result",
+    "states": [
+      "normal",
+      "loading",
+      "empty",
+      "error",
+      "locked",
+      "saving"
+    ],
+    "primaryTask": "查看通关结算并返回大厅",
+    "demo": "胜利奖励、战绩与返回行动",
+    "phase": "U9"
+  }
+]

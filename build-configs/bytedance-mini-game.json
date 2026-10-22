@@ -1,0 +1,21 @@
+{
+  "platform": "bytedance-mini-game",
+  "debug": false,
+  "buildPath": "project://.u0-build3/bytedance",
+  "bundleConfigs": [
+    {
+      "root": "db://assets/portraits",
+      "name": "portraits",
+      "compressionType": "subpackage",
+      "isRemote": false,
+      "output": true
+    },
+    {
+      "root": "db://assets/ui-art",
+      "name": "ui-art",
+      "compressionType": "subpackage",
+      "isRemote": false,
+      "output": true
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "ver": "4.0.23",
+  "importer": "typescript",
+  "imported": true,
+  "uuid": "e55a6c84-5f61-4072-bd94-b12c6e7f8091",
+  "files": [],
+  "subMetas": {},
+  "userData": {
+    "moduleId": "project:///assets/scripts/Boot.js",
+    "importerSettings": 7,
+    "simulateGlobals": []
+  }
+}

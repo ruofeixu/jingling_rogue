@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 1334" width="750" height="1334" role="img" aria-labelledby="starterFrameTitle starterFrameDesc">
+  <title id="starterFrameTitle">选择初始精怪关键帧</title>
+  <desc id="starterFrameDesc">明亮山隙营地内展示灶狸、井蛛、桃梗三张原创卡，灶狸已选中并显示费用、灵性与魂契详情。</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9f3ff"/>
+      <stop offset="0.42" stop-color="#f3f9df"/>
+      <stop offset="1" stop-color="#fff1ce"/>
+    </linearGradient>
+    <linearGradient id="selectCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff7d8"/>
+      <stop offset="1" stop-color="#ffe2b5"/>
+    </linearGradient>
+    <linearGradient id="cta" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb95f"/>
+      <stop offset="1" stop-color="#ff7f4b"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#315743" flood-opacity="0.19"/>
+    </filter>
+    <filter id="lift" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#7b5533" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <rect width="750" height="1334" fill="url(#paper)"/>
+  <!-- 远景营地与山层 -->
+  <circle cx="650" cy="104" r="57" fill="#fff3a7"/>
+  <path d="M0 265 Q116 157 220 262 Q329 132 457 269 Q586 165 750 262 L750 442 L0 442 Z" fill="#a7d8c0"/>
+  <path d="M0 326 Q134 244 264 330 Q393 229 516 327 Q640 250 750 311 L750 474 L0 474 Z" fill="#7fbd8e"/>
+  <g fill="#ffffff" opacity="0.75">
+    <path d="M42 139 Q66 104 104 132 Q125 102 169 128 Q185 138 186 160 L39 160 Z"/>
+    <path d="M451 196 Q474 163 511 188 Q536 152 584 185 Q600 196 602 216 L447 216 Z"/>
+  </g>
+  <path d="M0 405 Q180 338 347 414 Q544 331 750 399 L750 1334 L0 1334 Z" fill="#d9e8b2"/>
+  <path d="M0 467 Q190 414 365 475 Q555 405 750 460 L750 1334 L0 1334 Z" fill="#f7ebc4"/>
+
+  <!-- 顶栏 -->
+  <g filter="url(#shadow)">
+    <path d="M28 34 H722 Q732 34 732 44 V151 Q732 161 722 161 H28 Q18 161 18 151 V44 Q18 34 28 34 Z" fill="#fffdf7" stroke="#59afd2" stroke-width="5"/>
+    <path d="M63 70 L39 96 L63 122" fill="none" stroke="#3d3228" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="375" y="91" text-anchor="middle" fill="#3d3228" font-size="38" font-weight="800" letter-spacing="5">择一位山隙伙伴</text>
+    <text x="375" y="129" text-anchor="middle" fill="#557060" font-size="20" font-weight="700">长征中仍可收契更多精怪</text>
+    <g transform="translate(594 56)">
+      <rect width="111" height="74" rx="24" fill="#fff0c8" stroke="#e38b4f" stroke-width="4"/>
+      <text x="55" y="29" text-anchor="middle" fill="#815038" font-size="16" font-weight="700">费用上限</text>
+      <text x="55" y="59" text-anchor="middle" fill="#3d3228" font-size="28" font-weight="900">4 / 10</text>
+    </g>
+  </g>
+
+  <!-- 三卡区：不同轮廓、灵性色与选中状态 -->
+  <!-- 灶狸（选中） -->
+  <g transform="translate(24 202)" filter="url(#lift)">
+    <path d="M8 22 Q102 -6 196 22 L204 334 Q106 361 8 334 Z" fill="url(#selectCard)" stroke="#ee7e4c" stroke-width="8"/>
+    <path d="M22 18 Q105 -2 189 18" fill="none" stroke="#ffd267" stroke-width="8" stroke-linecap="round"/>
+    <path d="M68 99 L61 45 L100 69 L134 43 L130 101 Z" fill="#d65b42" stroke="#52372f" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M71 62 L75 82 L88 71 Z M122 60 L119 82 L106 71 Z" fill="#ffd36b"/>
+    <path d="M67 100 Q98 75 133 101 L139 182 Q107 219 62 187 Z" fill="#ed8054" stroke="#52372f" stroke-width="8"/>
+    <path d="M78 142 Q99 126 121 143 Q119 169 98 176 Q79 167 78 142 Z" fill="#ffe0a0"/>
+    <circle cx="83" cy="119" r="6" fill="#3c3029"/><circle cx="116" cy="119" r="6" fill="#3c3029"/>
+    <path d="M99 132 L105 139 L95 139 Z" fill="#713b36"/>
+    <path d="M131 176 Q169 172 154 135 Q182 158 166 194 Q150 218 128 196" fill="#ffad45" stroke="#52372f" stroke-width="8" stroke-linecap="round"/>
+    <path d="M156 145 Q170 165 151 183" fill="none" stroke="#fff18a" stroke-width="7" stroke-linecap="round"/>
+    <ellipse cx="81" cy="207" rx="25" ry="11" fill="#bc553e" stroke="#52372f" stroke-width="6"/>
+    <ellipse cx="125" cy="207" rx="25" ry="11" fill="#bc553e" stroke="#52372f" stroke-width="6"/>
+    <rect x="25" y="235" width="164" height="79" rx="20" fill="#fffdf6" stroke="#e79a61" stroke-width="4"/>
+    <circle cx="47" cy="257" r="10" fill="#ff7e4f"/>
+    <text x="105" y="266" text-anchor="middle" fill="#3d3228" font-size="29" font-weight="900">灶狸</text>
+    <text x="105" y="296" text-anchor="middle" fill="#9c4e37" font-size="18" font-weight="800">炎 · 费用 4</text>
+    <circle cx="185" cy="38" r="20" fill="#ff8753" stroke="#ffffff" stroke-width="5"/>
+    <path d="M175 38 L183 46 L197 29" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- 井蛛 -->
+  <g transform="translate(269 214)" filter="url(#shadow)">
+    <path d="M8 22 Q102 -6 196 22 L204 322 Q106 347 8 322 Z" fill="#f3fbf8" stroke="#55aeb9" stroke-width="6"/>
+    <path d="M75 96 Q42 65 49 40 Q78 43 91 74 M125 96 Q157 64 151 38 Q123 42 109 74" fill="#78c9ca" stroke="#3e4f4e" stroke-width="8" stroke-linecap="round"/>
+    <path d="M66 127 Q29 110 28 82 M66 150 Q27 161 32 190 M135 127 Q172 110 175 82 M135 150 Q174 160 170 190" fill="none" stroke="#3e4f4e" stroke-width="10" stroke-linecap="round"/>
+    <path d="M62 103 Q98 67 139 103 L144 172 Q105 209 57 173 Z" fill="#55b7be" stroke="#3e4f4e" stroke-width="8"/>
+    <ellipse cx="101" cy="111" rx="42" ry="21" fill="#d7f2df" stroke="#3e4f4e" stroke-width="7"/>
+    <ellipse cx="101" cy="113" rx="24" ry="10" fill="#468f93"/>
+    <circle cx="81" cy="144" r="6" fill="#263a3a"/><circle cx="119" cy="144" r="6" fill="#263a3a"/>
+    <path d="M91 163 Q101 172 112 163" fill="none" stroke="#263a3a" stroke-width="5" stroke-linecap="round"/>
+    <rect x="25" y="223" width="164" height="79" rx="20" fill="#fffdf6" stroke="#73bdc1" stroke-width="4"/>
+    <circle cx="47" cy="245" r="10" fill="#48afbd"/>
+    <text x="105" y="254" text-anchor="middle" fill="#3d3228" font-size="29" font-weight="900">井蛛</text>
+    <text x="105" y="284" text-anchor="middle" fill="#367985" font-size="18" font-weight="800">潮 · 费用 3</text>
+  </g>
+
+  <!-- 桃梗 -->
+  <g transform="translate(514 214)" filter="url(#shadow)">
+    <path d="M8 22 Q102 -6 196 22 L204 322 Q106 347 8 322 Z" fill="#f8f9df" stroke="#72ad59" stroke-width="6"/>
+    <path d="M89 94 Q37 74 43 33 Q79 35 96 65 Q117 24 156 36 Q160 76 113 96" fill="#76bd67" stroke="#4d4937" stroke-width="8" stroke-linejoin="round"/>
+    <circle cx="50" cy="46" r="14" fill="#ff9ca3"/><circle cx="149" cy="49" r="15" fill="#ff9ca3"/>
+    <path d="M69 97 Q100 70 133 97 L139 169 Q117 205 75 193 Q48 169 69 97 Z" fill="#d88b57" stroke="#4d4937" stroke-width="8"/>
+    <path d="M84 118 Q101 104 121 119 L120 158 Q101 176 81 157 Z" fill="#f4b77d"/>
+    <circle cx="89" cy="130" r="6" fill="#3d3228"/><circle cx="115" cy="130" r="6" fill="#3d3228"/>
+    <path d="M94 151 Q102 158 110 151" fill="none" stroke="#3d3228" stroke-width="5" stroke-linecap="round"/>
+    <path d="M73 165 L51 195 M134 164 L153 194" stroke="#4d4937" stroke-width="9" stroke-linecap="round"/>
+    <path d="M72 181 L68 214 L93 214 M132 181 L138 214 L112 214" fill="#d88b57" stroke="#4d4937" stroke-width="8" stroke-linejoin="round"/>
+    <rect x="25" y="223" width="164" height="79" rx="20" fill="#fffdf6" stroke="#88ba69" stroke-width="4"/>
+    <circle cx="47" cy="245" r="10" fill="#70b95c"/>
+    <text x="105" y="254" text-anchor="middle" fill="#3d3228" font-size="29" font-weight="900">桃梗</text>
+    <text x="105" y="284" text-anchor="middle" fill="#4f8145" font-size="18" font-weight="800">木 · 费用 3</text>
+  </g>
+
+  <!-- 选中详情：卷页形状区别于卡片 -->
+  <g filter="url(#shadow)">
+    <path d="M31 582 Q52 555 86 567 Q375 600 664 567 Q698 555 719 582 L703 1020 Q375 1054 47 1020 Z" fill="#fffdf7" stroke="#75604d" stroke-width="6"/>
+    <path d="M47 646 Q375 675 703 646" fill="none" stroke="#f0c875" stroke-width="4" stroke-dasharray="12 10"/>
+    <g transform="translate(57 590)">
+      <circle cx="28" cy="27" r="18" fill="#ff8051"/>
+      <text x="61" y="37" fill="#3d3228" font-size="34" font-weight="900">灶狸</text>
+      <rect x="162" y="7" width="78" height="40" rx="20" fill="#ffe5cf" stroke="#e8784b" stroke-width="3"/>
+      <text x="201" y="34" text-anchor="middle" fill="#9c4e37" font-size="19" font-weight="900">炎</text>
+      <rect x="250" y="7" width="114" height="40" rx="20" fill="#fff0c4" stroke="#d99b45" stroke-width="3"/>
+      <text x="307" y="34" text-anchor="middle" fill="#765127" font-size="19" font-weight="900">费用 4</text>
+      <text x="582" y="34" text-anchor="end" fill="#557060" font-size="18" font-weight="700">骨相稳健 · 性灵爽朗</text>
+    </g>
+
+    <!-- 灵性与数值 -->
+    <g transform="translate(69 681)">
+      <text x="0" y="24" fill="#58483b" font-size="22" font-weight="900">成长概览</text>
+      <g transform="translate(0 48)">
+        <text x="0" y="20" fill="#66564a" font-size="17" font-weight="700">体魄</text>
+        <rect x="58" y="4" width="214" height="18" rx="9" fill="#eadfce"/>
+        <rect x="58" y="4" width="166" height="18" rx="9" fill="#71bd72"/>
+        <text x="287" y="20" fill="#4b5d49" font-size="16" font-weight="800">78</text>
+        <text x="0" y="59" fill="#66564a" font-size="17" font-weight="700">灵攻</text>
+        <rect x="58" y="43" width="214" height="18" rx="9" fill="#eadfce"/>
+        <rect x="58" y="43" width="186" height="18" rx="9" fill="#f08a52"/>
+        <text x="287" y="59" fill="#7f4934" font-size="16" font-weight="800">86</text>
+        <text x="0" y="98" fill="#66564a" font-size="17" font-weight="700">身法</text>
+        <rect x="58" y="82" width="214" height="18" rx="9" fill="#eadfce"/>
+        <rect x="58" y="82" width="142" height="18" rx="9" fill="#65b7cc"/>
+        <text x="287" y="98" fill="#3f7080" font-size="16" font-weight="800">67</text>
+      </g>
+      <path d="M324 3 V153" stroke="#dfd0ba" stroke-width="3"/>
+      <g transform="translate(352 0)">
+        <text x="0" y="24" fill="#58483b" font-size="22" font-weight="900">魂契 · 暖灶心</text>
+        <path d="M0 45 H273 Q287 45 287 59 V115 Q287 129 273 129 H0 Z" fill="#fff0dd" stroke="#e99b63" stroke-width="3"/>
+        <text x="17" y="76" fill="#624b3d" font-size="18" font-weight="700">体魄低于一半时，</text>
+        <text x="17" y="106" fill="#624b3d" font-size="18" font-weight="700">下一次炎术灵力消耗减 1。</text>
+      </g>
+    </g>
+
+    <!-- 初始术法签 -->
+    <g transform="translate(68 858)">
+      <text x="0" y="22" fill="#58483b" font-size="22" font-weight="900">随行术法</text>
+      <g transform="translate(0 39)">
+        <path d="M0 0 H191 L207 29 L191 58 H0 Q-10 29 0 0 Z" fill="#ffe1cd" stroke="#e77b50" stroke-width="3"/>
+        <circle cx="25" cy="29" r="10" fill="#ff7d4c"/>
+        <text x="47" y="37" fill="#5c4036" font-size="19" font-weight="900">灶星跃</text>
+        <text x="177" y="37" text-anchor="end" fill="#8d5a43" font-size="15" font-weight="800">灵力 12</text>
+      </g>
+      <g transform="translate(223 39)">
+        <path d="M0 0 H191 L207 29 L191 58 H0 Q-10 29 0 0 Z" fill="#fff0c7" stroke="#dca44a" stroke-width="3"/>
+        <circle cx="25" cy="29" r="10" fill="#efb94e"/>
+        <text x="47" y="37" fill="#5c4932" font-size="19" font-weight="900">炉门守</text>
+        <text x="177" y="37" text-anchor="end" fill="#806c43" font-size="15" font-weight="800">灵力 8</text>
+      </g>
+      <g transform="translate(446 39)">
+        <path d="M0 0 H132 L148 29 L132 58 H0 Q-10 29 0 0 Z" fill="#e8f5dc" stroke="#79aa62" stroke-width="3"/>
+        <circle cx="25" cy="29" r="10" fill="#74b85e"/>
+        <text x="47" y="37" fill="#425d3b" font-size="19" font-weight="900">轻爪</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- 费用提示与主 CTA -->
+  <g transform="translate(46 1061)">
+    <path d="M0 0 Q328 26 656 0 L646 75 Q328 98 10 75 Z" fill="#eaf6e4" stroke="#71a969" stroke-width="4"/>
+    <circle cx="37" cy="39" r="16" fill="#70b765"/>
+    <path d="M29 39 L35 45 L46 31" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="66" y="47" fill="#425d3e" font-size="21" font-weight="800">已选 1 位伙伴，还可使用 6 点费用</text>
+    <text x="624" y="47" text-anchor="end" fill="#567654" font-size="17" font-weight="700">点卡片可更换</text>
+  </g>
+  <g transform="translate(88 1168)" filter="url(#lift)">
+    <path d="M0 22 Q287 -16 574 22 L562 130 Q287 164 12 130 Z" fill="url(#cta)" stroke="#633b30" stroke-width="8"/>
+    <path d="M37 35 Q287 6 537 35" fill="none" stroke="#ffda8d" stroke-width="8" stroke-linecap="round"/>
+    <text x="287" y="93" text-anchor="middle" fill="#3b2c27" font-size="42" font-weight="900" letter-spacing="5">与灶狸结伴</text>
+    <path d="M486 67 L511 88 L486 110" fill="none" stroke="#3b2c27" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

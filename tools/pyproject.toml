@@ -1,0 +1,13 @@
+[project]
+name = "jingling-rogue-tools"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+art = ["pillow>=10.0", "openai>=1.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

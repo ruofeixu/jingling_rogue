@@ -81,6 +81,13 @@ describe("U16 skin skeleton: graceful fallback contract", () => {
     expect(read("ListView.ts")).toContain("heading: true");
   });
 
+  it("keeps the disabled reason out of the button label (B5b)", () => {
+    // "队伍（没有可换的伙伴）" 挤成一行；原因放到按钮下方一行小字。
+    const src = read("Button.ts");
+    expect(src).not.toMatch(/\$\{opts\.action\.label\}（\$\{opts\.action\.disabledReason\}）/);
+    expect(src).toContain("reason");
+  });
+
   it("ships the OFL license next to the subset title font", () => {
     expect(existsSync(resolve(REPO, "assets/ui-art/fonts/title.ttf"))).toBe(true);
     const license = readFileSync(resolve(REPO, "assets/ui-art/fonts/OFL.txt"), "utf8");

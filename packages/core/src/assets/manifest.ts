@@ -64,6 +64,25 @@ export const PORTRAIT_IDS = new Set([
   ...Array.from(THIRD_PORTRAITS),
 ]);
 
+/**
+ * 水墨立绘里朝左的那些（其余朝右或正面）。2026-11-01 按头部所在半边自动估出，再看图确认。
+ * 战斗里敌方在右上、我方在左下：敌方要朝左、我方要朝右，渲染器据此决定要不要水平翻转。
+ */
+export const PORTRAIT_FACES_LEFT: ReadonlySet<string> = new Set([
+  "bing_can",
+  "dan_li",
+  "he_hun",
+  "jin_hui",
+  "mo_mao",
+  "quan_ji",
+  "shuang_ming",
+  "zao_li",
+]);
+
+export function portraitFacesLeft(id: string): boolean {
+  return PORTRAIT_FACES_LEFT.has(id);
+}
+
 /** 立绘走独立 Asset Bundle，构建成小游戏分包，避免 15 MB 图片留在 4 MiB 主包里。 */
 export const PORTRAIT_BUNDLE = "portraits";
 

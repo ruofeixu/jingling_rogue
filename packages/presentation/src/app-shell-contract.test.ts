@@ -65,6 +65,25 @@ describe("AppShell contract", () => {
     expect(code).toContain("DESIGN_HEIGHT");
   });
 
+  it("re-lays out the current page when the window size or orientation changes (B5b)", () => {
+    const src = shellSource();
+    const body = src.slice(src.indexOf("private onResize("), src.indexOf("private refreshViewport("));
+    // 只对诊断页重挂会让产品页停在旧布局上（改窗口后内容缩成一小块或跑出屏幕）。
+    expect(body).not.toMatch(/if \(this\.routeId === DIAGNOSTICS_SCREEN_ID \|\| this\.routeId === GALLERY_ROUTE_ID\)/);
+    expect(body).toContain("this.route(this.routeId)");
+    // 设计尺寸没变就不重挂，避免拖动窗口时每帧重建。
+    expect(body).toMatch(/design\.width|sameDesign/);
+  });
+
+  it("re-aligns the Canvas and its camera right after changing the design resolution (B5b)", () => {
+    // 引擎的 Canvas Widget 不会立刻跟着新设计分辨率走：横屏时 Canvas 仍是 750×1334，画面缩在中间两侧灰边。
+    const src = shellSource();
+    const body = src.slice(src.indexOf("private refreshViewport("), src.indexOf("private readSafeArea("));
+    expect(body).toContain("setDesignResolutionSize");
+    expect(body).toContain("updateAlignment");
+    expect(body).toContain("_onResizeCamera");
+  });
+
   it("puts the shell on the UI_2D layer instead of inheriting the Boot node's layer", () => {
     // boot.scene 里 Boot 节点在 DEFAULT 层；UI 相机只看 UI_2D / UI_3D。
     // 继承 Boot 的层，整套界面都不会被 UI 相机画出来（预览一片空白）。

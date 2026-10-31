@@ -6,6 +6,9 @@ import { battleLayout } from "./battle-layout.ts";
 import { inside, overlaps, type LayoutBox } from "./box.ts";
 
 const SIZES = [
+  { width: 390, height: 844 },
+  { width: 768, height: 1024 },
+  { width: 1280, height: 720 },
   { width: 750, height: 1334 },
   { width: 640, height: 1136 },
   { width: 1334, height: 750 },
@@ -45,6 +48,14 @@ describe("battle layout", () => {
       }
     });
   }
+
+  it("fills the portrait field: the two portraits together cover most of its height (B5b)", () => {
+    const frame = buildResponsiveFrame(buildViewport({ width: 390, height: 844 }));
+    const l = battleLayout(frame);
+    const fieldH = l.topBar.y - l.topBar.height / 2 - (l.log.y + l.log.height / 2);
+    // 立绘和名牌同一行不能重叠，横向最多让出约 58% 给立绘；两张合起来至少占场地高度的 64%（原来 56%）。
+    expect(l.foeArt.height + l.allyArt.height).toBeGreaterThanOrEqual(fieldH * 0.64);
+  });
 
   it("puts commands in the bottom 35% of a portrait screen (thumb zone)", () => {
     const frame = buildResponsiveFrame(buildViewport({ width: 750, height: 1334 }));

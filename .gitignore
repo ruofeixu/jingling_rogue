@@ -27,3 +27,4 @@ extensions/funplay-cocos-mcp/
 .env.local
 # 素材生成中间产物（位于 Cocos assets 外，原始大图不进入构建）
 .artifacts/
+.playtest/

@@ -114,11 +114,27 @@ export function makeButton(parent: Node, opts: ButtonOptions, onTap?: () => void
   labelNode.addComponent(UITransform);
   labelNode.setPosition(labelX, 0, 0);
   const label = labelNode.addComponent(Label);
-  label.string = opts.action.enabled
-    ? opts.action.label
-    : `${opts.action.label}（${opts.action.disabledReason}）`;
+  // 按钮上只写动作名；禁用原因放在按钮里下半部一行小字，不和动作名挤在一行。
+  const reason = opts.action.enabled ? "" : (opts.action.disabledReason ?? "");
+  label.string = opts.action.label;
   label.fontSize = TYPE.body * (opts.textScale ?? 1);
   label.lineHeight = label.fontSize * TYPE.lineHeightRatio;
+  if (reason) {
+    labelNode.setPosition(labelX, opts.height * 0.14, 0);
+    const reasonNode = new Node("reason");
+    reasonNode.layer = parent.layer;
+    node.addChild(reasonNode);
+    reasonNode.addComponent(UITransform).setContentSize(opts.width - SPACE.md, TYPE.caption * TYPE.lineHeightRatio);
+    reasonNode.setPosition(labelX, -opts.height * 0.24, 0);
+    const reasonLabel = reasonNode.addComponent(Label);
+    reasonLabel.string = reason;
+    reasonLabel.fontSize = TYPE.caption * (opts.textScale ?? 1);
+    reasonLabel.lineHeight = reasonLabel.fontSize * TYPE.lineHeightRatio;
+    reasonLabel.color = color(COLOR.muted);
+    reasonLabel.horizontalAlign = Label.HorizontalAlign.CENTER;
+    reasonLabel.verticalAlign = Label.VerticalAlign.CENTER;
+    reasonLabel.overflow = Label.Overflow.SHRINK;
+  }
   // 朱砂底配宣纸色字（墨字压朱砂只有 2.29:1），其余墨字；禁用淡墨。
   label.color = !opts.action.enabled ? color(COLOR.muted) : opts.primary ? color(COLOR.paper) : color(COLOR.ink);
   label.horizontalAlign = Label.HorizontalAlign.CENTER;

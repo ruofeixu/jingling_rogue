@@ -6,10 +6,10 @@ import type { ResponsiveFrame } from "../responsive.ts";
 import { SPACE } from "../tokens.ts";
 import type { LayoutBox } from "./box.ts";
 
-const TOP_H = 52;
-const COMMAND_H = 88;
-const LOG_H = 72;
-const PLATE_H = 96;
+const TOP_H = 64;
+const COMMAND_H = 100;
+const LOG_H = 84;
+const PLATE_H = 112;
 
 export interface BattleLayout {
   readonly topBar: LayoutBox;
@@ -56,9 +56,11 @@ function fieldActors(
   const pad = SPACE.lg;
   const fieldW = fieldRight - fieldLeft;
   const fieldH = fieldTop - fieldBottom;
-  const plateW = spanW / 2 - pad;
-  const foeSize = Math.min(spanW * 0.42, fieldH * 0.45);
-  const allySize = Math.min(spanW * 0.46, fieldH * 0.5);
+  // 名牌窄一点（够放名字、血条和数字），把横向空间让给立绘；立绘和名牌同一行不重叠。
+  const plateW = Math.min(spanW / 2 - pad, Math.max(260, fieldW * 0.42));
+  const artRoom = fieldW - plateW - SPACE.md;
+  const foeSize = Math.min(artRoom, fieldH * 0.48);
+  const allySize = Math.min(artRoom, fieldH * 0.5);
 
   return {
     foePlate: box(fieldLeft + plateW / 2, fieldTop - PLATE_H / 2, plateW, PLATE_H),

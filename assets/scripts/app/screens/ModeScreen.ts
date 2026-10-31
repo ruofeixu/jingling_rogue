@@ -44,7 +44,7 @@ export class ModeScreen {
 
     const cols = frame.columns === 2 ? 3 : 2;
     const rows = Math.ceil(actions.length / cols);
-    const buttonHeight = SPACE.xl + SPACE.lg;
+    const buttonHeight = SPACE.xl * 2 + SPACE.md;
     const panelWidth = Math.min(frame.content.width - SPACE.lg, frame.content.width);
     const panelHeight = rows * (buttonHeight + SPACE.md) + SPACE.lg;
     const panel = makePanel(root, {

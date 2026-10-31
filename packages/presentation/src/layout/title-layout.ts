@@ -6,11 +6,11 @@ import type { ResponsiveFrame } from "../responsive.ts";
 import { SPACE } from "../tokens.ts";
 import type { LayoutBox } from "./box.ts";
 
-const TITLE_H = 56;
-const SUBTITLE_H = 40;
-const PRIMARY_H = 76;
-const CELL_H = 60;
-const HINT_H = 36;
+const TITLE_H = 104;
+const SUBTITLE_H = 52;
+const PRIMARY_H = 92;
+const CELL_H = 76;
+const HINT_H = 44;
 
 export interface TitleLayout {
   readonly title: LayoutBox;

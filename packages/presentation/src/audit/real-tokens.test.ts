@@ -32,8 +32,8 @@ const DISABLED_PAIRS: ContrastCase[] = [
   { label: "禁用文字 muted / slip", fg: COLOR.muted, bg: COLOR.slip, role: "large" },
 ];
 
-/** 实际按钮高度：SPACE.xl + SPACE.md = 56，最窄一栏宽度按 4 列横屏估。 */
-const BUTTON_HEIGHT = SPACE.xl + SPACE.md;
+/** 实际按钮高度：B5b 起列表与状态页按钮 SPACE.xl * 2 = 80，最窄一栏宽度按 4 列横屏估。 */
+const BUTTON_HEIGHT = SPACE.xl * 2;
 const REAL_HIT_AREAS: HitAreaCase[] = [
   { label: "战斗命令按钮（横屏 4 列）", box: { width: 260, height: BUTTON_HEIGHT } },
   { label: "列表行按钮", box: { width: 480, height: BUTTON_HEIGHT } },

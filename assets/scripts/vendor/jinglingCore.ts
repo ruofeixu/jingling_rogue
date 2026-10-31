@@ -14633,6 +14633,19 @@ var PORTRAIT_IDS = /* @__PURE__ */ new Set([
   ...Array.from(SECOND_PORTRAITS),
   ...Array.from(THIRD_PORTRAITS)
 ]);
+var PORTRAIT_FACES_LEFT = /* @__PURE__ */ new Set([
+  "bing_can",
+  "dan_li",
+  "he_hun",
+  "jin_hui",
+  "mo_mao",
+  "quan_ji",
+  "shuang_ming",
+  "zao_li"
+]);
+function portraitFacesLeft(id) {
+  return PORTRAIT_FACES_LEFT.has(id);
+}
 var PORTRAIT_BUNDLE = "portraits";
 function hasPortrait(id) {
   return PORTRAIT_IDS.has(id);
@@ -16515,7 +16528,8 @@ function selectStarter(account, seed) {
       id,
       name: row.name,
       cost: currentCost(id, account),
-      affinities: Array.from(row.affinities),
+      // 显示用中文灵性名（炎潮岩木霆霜影光），不把表 id 漏到界面上。
+      affinities: row.affinities.map((affinity) => AFFINITY_CN[affinity]),
       lockedReason: null
     };
   });
@@ -17373,6 +17387,7 @@ export {
   HUD,
   LOBBY_SCREENS,
   PORTRAIT_BUNDLE,
+  PORTRAIT_FACES_LEFT,
   PORTRAIT_IDS,
   RUN_SCREENS,
   RunController,
@@ -17454,6 +17469,7 @@ export {
   partyBattleKind,
   partyLevelBonus,
   pickStartRelic,
+  portraitFacesLeft,
   portraitFit,
   portraitPath,
   portraitTexturePath,

@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadTables } from "../tables/load-tables.ts";
-import { bundleForRealm, FIRST_PORTRAITS, PORTRAIT_BUNDLE, PORTRAIT_IDS, SECOND_PORTRAITS, THIRD_PORTRAITS, portraitPath, portraitTexturePath, remoteManifest } from "./manifest.ts";
+import { bundleForRealm, FIRST_PORTRAITS, PORTRAIT_FACES_LEFT, portraitFacesLeft, PORTRAIT_BUNDLE, PORTRAIT_IDS, SECOND_PORTRAITS, THIRD_PORTRAITS, portraitPath, portraitTexturePath, remoteManifest } from "./manifest.ts";
 import { decodeRgbaPng } from "./png-rgba.ts";
 
 describe("remote asset manifest", () => {
@@ -121,6 +121,15 @@ describe("remote asset manifest", () => {
     for (const id of PORTRAIT_IDS) {
       expect(existsSync(resolve(root, `${id}.png`)), id).toBe(true);
     }
+  });
+
+  it("records which portraits face left, so the battle can make the foe face the ally (B5b)", () => {
+    for (const id of PORTRAIT_FACES_LEFT) {
+      expect(PORTRAIT_IDS.has(id), id).toBe(true);
+    }
+    expect(portraitFacesLeft("zao_li")).toBe(true);
+    expect(portraitFacesLeft("jing_zhu")).toBe(false);
+    expect(portraitFacesLeft("no-such-spirit")).toBe(false);
   });
 
   it("ships a single portrait set; the nianhua set moved out of the project (2026-11-01)", () => {

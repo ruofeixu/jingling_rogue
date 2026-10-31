@@ -93,7 +93,7 @@ export class ListView {
 
     const rows: ScreenAction[] = model.secondaryActions.slice(0, maxRows);
     const cols = frame.columns;
-    const buttonHeight = SPACE.xl + SPACE.md;
+    const buttonHeight = SPACE.xl * 2;
     const listRows = Math.ceil(rows.length / cols);
     const panelWidth = Math.min(frame.content.width - SPACE.lg, frame.content.width);
     const panelHeight = Math.max(buttonHeight + SPACE.lg, listRows * (buttonHeight + SPACE.sm) + SPACE.lg);

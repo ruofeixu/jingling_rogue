@@ -179,7 +179,7 @@ export { runSim } from "./sim/run-sim.ts";
 export { benchSims, formatBench } from "./sim/bench.ts";
 export type { SimTier, SimObserve } from "./sim/observe.ts";
 export type { SimResult } from "./sim/run-sim.ts";
-export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIRD_PORTRAITS, PORTRAIT_IDS, hasPortrait, portraitPath, portraitTexturePath } from "./assets/manifest.ts";
+export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIRD_PORTRAITS, PORTRAIT_IDS, PORTRAIT_FACES_LEFT, portraitFacesLeft, hasPortrait, portraitPath, portraitTexturePath } from "./assets/manifest.ts";
 export type { RemoteManifest, RemoteAsset } from "./assets/manifest.ts";
 export { RunController, CURRENT_RUN_SLOT, type StartRunOpts, type SlotInfo } from "./run/run-controller.ts";
 export { resolveProductStart } from "./run/product-start.ts";

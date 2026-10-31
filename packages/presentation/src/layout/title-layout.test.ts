@@ -6,6 +6,9 @@ import { inside, overlaps, type LayoutBox } from "./box.ts";
 import { titleLayout } from "./title-layout.ts";
 
 const SIZES = [
+  { width: 390, height: 844 },
+  { width: 768, height: 1024 },
+  { width: 1280, height: 720 },
   { width: 750, height: 1334 },
   { width: 640, height: 1136 },
   { width: 1334, height: 750 },

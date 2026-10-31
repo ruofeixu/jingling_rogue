@@ -1,4 +1,4 @@
-import { Component, Layers, Node, ResolutionPolicy, UITransform, director, screen, view, _decorator } from "cc";
+import { Canvas, Component, Layers, Node, ResolutionPolicy, UITransform, Widget, director, screen, view, _decorator } from "cc";
 import {
   DESIGN_HEIGHT,
   DESIGN_WIDTH,
@@ -633,9 +633,10 @@ export class AppShell extends Component {
     // presentation 页是自足的独立画面：先铺一层不透明背景，遮住背后任何东西。
     // 按路由选背景贴图（有则用图，无则回退纯色）。legacy 回退不铺。
     if (renderer === "presentation") {
+      // 背景铺满当前设计尺寸（跟窗口同比例），不再固定 750×1334，长屏上下不留空。
       makeBackdrop(host, {
-        width: DESIGN_WIDTH,
-        height: DESIGN_HEIGHT,
+        width: this.viewport.design.width,
+        height: this.viewport.design.height,
         skin: backdropSkinFor(this.routeId),
       });
     }
@@ -837,10 +838,15 @@ export class AppShell extends Component {
   }
 
   private onResize(): void {
+    const before = this.viewport.design;
     this.refreshViewport();
-    if (this.routeId === DIAGNOSTICS_SCREEN_ID || this.routeId === GALLERY_ROUTE_ID) {
-      this.route(this.routeId);
+    const after = this.viewport.design;
+    const sameDesign = before.width === after.width && before.height === after.height;
+    if (sameDesign) {
+      return;
     }
+    // 设计尺寸变了（转屏、改窗口比例）：当前页按新尺寸重挂。壳层瞬时状态（弹层选中、未提交选择）保留。
+    this.route(this.routeId);
   }
 
   /** 方向变化只更新 viewport model；页面 state 与未提交选择不受影响。 */
@@ -853,6 +859,20 @@ export class AppShell extends Component {
     });
     const design = this.viewport.design;
     view.setDesignResolutionSize(design.width, design.height, ResolutionPolicy.EXACT_FIT);
+    this.realignCanvas();
+  }
+
+  /**
+   * 引擎的 Canvas Widget 不会在同一帧跟着新设计分辨率重排：横屏时 Canvas 仍是竖屏尺寸，
+   * UI 相机也停在旧位置，画面缩在中间、两侧留灰边。这里立刻对齐一次，并让 Canvas 把相机重新摆正。
+   */
+  private realignCanvas(): void {
+    const canvas = director.getScene()?.getComponentInChildren(Canvas);
+    if (!canvas) {
+      return;
+    }
+    canvas.getComponent(Widget)?.updateAlignment();
+    (canvas as unknown as { _onResizeCamera?: () => void })._onResizeCamera?.();
   }
 
   private readSafeArea(): { top: number; bottom: number; left: number; right: number } {

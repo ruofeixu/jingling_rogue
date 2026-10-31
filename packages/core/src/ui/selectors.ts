@@ -13,6 +13,7 @@ import {
 } from "../run/run-session.ts";
 import { SETTINGS_TABS, type SettingsTab } from "../meta/settings.ts";
 import { GLOSSARY } from "./copy.ts";
+import { AFFINITY_CN } from "./layout.ts";
 import { getSpirit, loadTables } from "../tables/load-tables.ts";
 import { currentCost } from "../meta/candy.ts";
 import { offerRelics, pickStartRelic } from "../meta/relics.ts";
@@ -272,7 +273,8 @@ export function selectStarter(account: AccountProgress, seed: string): StarterVi
       id,
       name: row.name,
       cost: currentCost(id, account),
-      affinities: Array.from(row.affinities),
+      // 显示用中文灵性名（炎潮岩木霆霜影光），不把表 id 漏到界面上。
+      affinities: row.affinities.map((affinity) => AFFINITY_CN[affinity]),
       lockedReason: null as string | null,
     };
   });

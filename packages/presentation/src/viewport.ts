@@ -43,16 +43,29 @@ function clampInset(value: number | undefined): number {
   return value;
 }
 
+/**
+ * 设计分辨率跟窗口同比例，配合 EXACT_FIT 铺满窗口且不拉伸。
+ * 短边固定为 750；长边按比例放大，最少 1334，保证布局不会被压扁。
+ * 比 750:1334 还"方"的窗口（如平板竖屏）改为固定长边 1334、放大短边。
+ */
+function designFor(orientation: Orientation, aspect: number): Size {
+  const short = DESIGN_WIDTH;
+  const long = DESIGN_HEIGHT;
+  if (orientation === "portrait") {
+    const height = Math.round(short / aspect);
+    return height >= long ? { width: short, height } : { width: Math.round(long * aspect), height: long };
+  }
+  const width = Math.round(short * aspect);
+  return width >= long ? { width, height: short } : { width: long, height: Math.round(long / aspect) };
+}
+
 export function buildViewport(input: ViewportInput): Viewport {
   if (!(input.width > 0) || !(input.height > 0)) {
     throw new Error(`viewport must be positive, got ${input.width}x${input.height}`);
   }
 
   const orientation: Orientation = input.width > input.height ? "landscape" : "portrait";
-  const design: Size =
-    orientation === "landscape"
-      ? { width: DESIGN_HEIGHT, height: DESIGN_WIDTH }
-      : { width: DESIGN_WIDTH, height: DESIGN_HEIGHT };
+  const design = designFor(orientation, input.width / input.height);
 
   const safe: Insets = Object.freeze({
     top: clampInset(input.safeArea?.top),

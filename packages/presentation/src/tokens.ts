@@ -32,11 +32,15 @@ export const COLOR = Object.freeze({
 
 export type ColorToken = keyof typeof COLOR;
 
+/**
+ * 字号（设计像素）。B5b 调大：390 宽手机上缩放约 0.52，正文 28 → 约 15 px、说明 24 → 约 12.5 px。
+ * display 只给游戏名（书法字），title 给页面大标题。
+ */
 export const TYPE = Object.freeze({
-  caption: 16,
-  body: 22,
-  title: 28,
-  display: 44,
+  caption: 24,
+  body: 28,
+  title: 40,
+  display: 76,
   lineHeightRatio: 1.35,
 });
 

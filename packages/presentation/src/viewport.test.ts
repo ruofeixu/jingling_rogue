@@ -21,6 +21,21 @@ describe("viewport model", () => {
     expect(vp.design).toEqual({ width: 1334, height: 750 });
   });
 
+  it("grows the long side to the window ratio so the page fills the window without bars (B5b)", () => {
+    // 390×844 手机：宽固定 750，高按比例 = 750 × 844 / 390 ≈ 1623。
+    expect(buildViewport({ width: 390, height: 844 }).design).toEqual({ width: 750, height: 1623 });
+    // 比 750:1334 还宽的竖屏不压扁：高最少 1334，宽按比例放大。
+    expect(buildViewport({ width: 768, height: 1024 }).design).toEqual({ width: 1001, height: 1334 });
+    // 横屏同理：高固定 750，宽按比例，最少 1334。
+    expect(buildViewport({ width: 2000, height: 750 }).design).toEqual({ width: 2000, height: 750 });
+    expect(buildViewport({ width: 1024, height: 768 }).design).toEqual({ width: 1334, height: 1001 });
+    // 设计分辨率的宽高比始终等于窗口宽高比（四舍五入后误差 <1%），所以 EXACT_FIT 不会拉伸。
+    for (const [w, h] of [[390, 844], [375, 667], [768, 1024], [1280, 720], [844, 390], [320, 700]]) {
+      const d = buildViewport({ width: w, height: h }).design;
+      expect(Math.abs(d.width / d.height - w / h) / (w / h), `${w}x${h}`).toBeLessThan(0.01);
+    }
+  });
+
   it("insets the safe area without changing the design resolution", () => {
     const vp = buildViewport({
       width: 750,

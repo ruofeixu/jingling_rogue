@@ -93,7 +93,7 @@ export class StateView {
           x: 0,
           y: -opts.height / 2 + SPACE.xl,
           width: Math.min(inner, opts.width * 0.7),
-          height: SPACE.xl + SPACE.md,
+          height: SPACE.xl * 2,
           primary: true,
           textScale: scale,
         },

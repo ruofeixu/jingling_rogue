@@ -134,16 +134,22 @@ export class StarterScreen {
       width: layout.detail.width,
       height: layout.detail.height,
     });
+    // 详情四项排成两列两行：第一行名字和费用，第二行灵性和契印。叠成四行会撑出面板。
     const detailLines = [...(model.reason ? [model.reason] : []), ...model.lines];
     const lineH = TYPE.body * scale * TYPE.lineHeightRatio;
+    const colW = (layout.detail.width - SPACE.lg * 3) / 2;
+    const rowsUsed = Math.ceil(detailLines.length / 2);
+    const top = (rowsUsed * lineH) / 2 - lineH / 2;
     detailLines.forEach((line, index) => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
       addLabel(detail, {
         text: line,
-        x: 0,
-        y: layout.detail.height / 2 - SPACE.md - lineH / 2 - index * lineH,
-        width: layout.detail.width - SPACE.lg,
+        x: (col === 0 ? -1 : 1) * (colW / 2 + SPACE.lg / 2),
+        y: top - row * lineH,
+        width: colW,
         fontSize: TYPE.body * scale,
-        tone: "ink",
+        tone: row === 0 && col === 0 ? "ink" : "muted",
       });
     });
 

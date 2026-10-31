@@ -12,6 +12,7 @@ import {
   type Viewport,
 } from "../../vendor/jinglingPresentation";
 import { attachPortraitSprite } from "../../ui/portrait";
+import { portraitFacesLeft } from "../../vendor/jinglingCore";
 import { makeButton } from "../ui/Button.ts";
 import { makeHpBar, type HpBarHandle, type HpBarTone } from "../ui/HpBar.ts";
 import { makePanel } from "../ui/Panel.ts";
@@ -84,8 +85,11 @@ export class BattleScreen {
       tone: "ink",
     });
 
-    this.placeFighter(root, "foe", model.plates.foe, layout.foeArt, layout.foePlate, true, scale, reduceMotion);
-    this.placeFighter(root, "ally", model.plates.ally, layout.allyArt, layout.allyPlate, false, scale, reduceMotion);
+    // 敌方在右上要朝左看我方，我方在左下要朝右看敌方；立绘本身朝向不一，按清单决定翻不翻。
+    const flipFoe = !portraitFacesLeft(model.plates.foe.spiritId);
+    const flipAlly = portraitFacesLeft(model.plates.ally.spiritId);
+    this.placeFighter(root, "foe", model.plates.foe, layout.foeArt, layout.foePlate, flipFoe, scale, reduceMotion);
+    this.placeFighter(root, "ally", model.plates.ally, layout.allyArt, layout.allyPlate, flipAlly, scale, reduceMotion);
 
     const logText = model.reason ?? logLine(model.lines);
     if (logText) {
@@ -165,7 +169,7 @@ export class BattleScreen {
     plate: Plate,
     art: { x: number; y: number; width: number; height: number },
     nameplate: { x: number; y: number; width: number; height: number },
-    faceLeft: boolean,
+    flip: boolean,
     scale: number,
     reduceMotion: boolean,
   ): void {
@@ -174,7 +178,7 @@ export class BattleScreen {
     root.addChild(holder);
     holder.addComponent(UITransform).setContentSize(art.width, art.height);
     holder.setPosition(art.x, art.y, 0);
-    if (faceLeft) {
+    if (flip) {
       holder.setScale(-1, 1, 1);
     }
     attachPortraitSprite(holder, plate.spiritId, art.width, art.height);

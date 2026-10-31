@@ -6,9 +6,9 @@ import type { ResponsiveFrame } from "../responsive.ts";
 import { SPACE } from "../tokens.ts";
 import type { LayoutBox } from "./box.ts";
 
-const TITLE_H = 52;
+const TITLE_H = 72;
 const DETAIL_H = 160;
-const BUTTON_H = 72;
+const BUTTON_H = 88;
 
 export interface StarterLayout {
   readonly title: LayoutBox;

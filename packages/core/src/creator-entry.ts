@@ -95,7 +95,7 @@ export { runSim } from "./sim/run-sim.ts";
 export { benchSims, formatBench } from "./sim/bench.ts";
 export { grantAchievement, listAchievements } from "./run/achievements.ts";
 export { SEAL_TIERS, speciesCatchRate } from "./catch/seal.ts";
-export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIRD_PORTRAITS, PORTRAIT_IDS, PORTRAIT_BUNDLE, hasPortrait, portraitPath, portraitTexturePath } from "./assets/manifest.ts";
+export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIRD_PORTRAITS, PORTRAIT_IDS, PORTRAIT_BUNDLE, PORTRAIT_FACES_LEFT, portraitFacesLeft, hasPortrait, portraitPath, portraitTexturePath } from "./assets/manifest.ts";
 export type { Affinity } from "./tables/types.ts";
 export { RunController, type StartRunOpts, type SlotInfo } from "./run/run-controller.ts";
 export { resolveProductStart } from "./run/product-start.ts";

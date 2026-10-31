@@ -150,12 +150,22 @@ function clampInset(value) {
   }
   return value;
 }
+function designFor(orientation, aspect) {
+  const short = DESIGN_WIDTH;
+  const long = DESIGN_HEIGHT;
+  if (orientation === "portrait") {
+    const height = Math.round(short / aspect);
+    return height >= long ? { width: short, height } : { width: Math.round(long * aspect), height: long };
+  }
+  const width = Math.round(short * aspect);
+  return width >= long ? { width, height: short } : { width: long, height: Math.round(long / aspect) };
+}
 function buildViewport(input) {
   if (!(input.width > 0) || !(input.height > 0)) {
     throw new Error(`viewport must be positive, got ${input.width}x${input.height}`);
   }
   const orientation = input.width > input.height ? "landscape" : "portrait";
-  const design = orientation === "landscape" ? { width: DESIGN_HEIGHT, height: DESIGN_WIDTH } : { width: DESIGN_WIDTH, height: DESIGN_HEIGHT };
+  const design = designFor(orientation, input.width / input.height);
   const safe = Object.freeze({
     top: clampInset(input.safeArea?.top),
     bottom: clampInset(input.safeArea?.bottom),
@@ -321,10 +331,10 @@ var COLOR = Object.freeze({
   slip: rgb(THEME.slip)
 });
 var TYPE = Object.freeze({
-  caption: 16,
-  body: 22,
-  title: 28,
-  display: 44,
+  caption: 24,
+  body: 28,
+  title: 40,
+  display: 76,
   lineHeightRatio: 1.35
 });
 var SPACE = Object.freeze({
@@ -1091,10 +1101,10 @@ function inside(inner, width, height) {
 }
 
 // src/layout/battle-layout.ts
-var TOP_H = 52;
-var COMMAND_H = 88;
-var LOG_H = 72;
-var PLATE_H = 96;
+var TOP_H = 64;
+var COMMAND_H = 100;
+var LOG_H = 84;
+var PLATE_H = 112;
 function box(x, y, width, height) {
   return { x, y, width, height };
 }
@@ -1115,9 +1125,10 @@ function fieldActors(fieldLeft, fieldRight, fieldTop, fieldBottom, spanW) {
   const pad = SPACE.lg;
   const fieldW = fieldRight - fieldLeft;
   const fieldH = fieldTop - fieldBottom;
-  const plateW = spanW / 2 - pad;
-  const foeSize = Math.min(spanW * 0.42, fieldH * 0.45);
-  const allySize = Math.min(spanW * 0.46, fieldH * 0.5);
+  const plateW = Math.min(spanW / 2 - pad, Math.max(260, fieldW * 0.42));
+  const artRoom = fieldW - plateW - SPACE.md;
+  const foeSize = Math.min(artRoom, fieldH * 0.48);
+  const allySize = Math.min(artRoom, fieldH * 0.5);
   return {
     foePlate: box(fieldLeft + plateW / 2, fieldTop - PLATE_H / 2, plateW, PLATE_H),
     foeArt: box(fieldRight - foeSize / 2, fieldTop - foeSize / 2, foeSize, foeSize),
@@ -1161,11 +1172,11 @@ function battleLayout(frame) {
 }
 
 // src/layout/title-layout.ts
-var TITLE_H = 56;
-var SUBTITLE_H = 40;
-var PRIMARY_H = 76;
-var CELL_H = 60;
-var HINT_H = 36;
+var TITLE_H = 104;
+var SUBTITLE_H = 52;
+var PRIMARY_H = 92;
+var CELL_H = 76;
+var HINT_H = 44;
 function box2(x, y, width, height) {
   return { x, y, width, height };
 }
@@ -1246,9 +1257,9 @@ function titleLayout(frame, secondaryCount) {
 }
 
 // src/layout/starter-layout.ts
-var TITLE_H2 = 52;
+var TITLE_H2 = 72;
 var DETAIL_H = 160;
-var BUTTON_H = 72;
+var BUTTON_H = 88;
 function box3(x, y, width, height) {
   return { x, y, width, height };
 }

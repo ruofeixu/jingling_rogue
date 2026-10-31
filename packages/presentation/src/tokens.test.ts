@@ -32,7 +32,9 @@ describe("design tokens", () => {
     for (let i = 1; i < sizes.length; i += 1) {
       expect(sizes[i], `step ${i}`).toBeGreaterThan(sizes[i - 1]);
     }
-    expect(TYPE.body).toBeGreaterThanOrEqual(16);
+    // B5b：在 390 宽手机（缩放约 0.52）上正文要 ≥14 px、说明 ≥10 px，所以设计像素正文 ≥27、说明 ≥20。
+    expect(TYPE.body).toBeGreaterThanOrEqual(27);
+    expect(TYPE.caption).toBeGreaterThanOrEqual(24);
     expect(TYPE.lineHeightRatio).toBeGreaterThanOrEqual(1.2);
   });
 

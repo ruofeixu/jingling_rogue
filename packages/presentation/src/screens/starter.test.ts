@@ -5,6 +5,17 @@ import { STARTER_ACTIONS, buildStarterModel } from "./starter.ts";
 const account = emptyAccount();
 const view = selectStarter(account, "seed-1");
 
+describe("B5b starter detail copy", () => {
+  it("shows affinities in Chinese, not table ids", async () => {
+    const { selectStarter, emptyAccount } = await import("@jingling/core");
+    const view = selectStarter(emptyAccount(), "s");
+    const model = buildStarterModel({ state: "normal", view, selectedId: "zao_li", art: "ready" });
+    const line = model.lines.find((l) => l.startsWith("属")) ?? "";
+    expect(line).not.toMatch(/[a-z]/);
+    expect(line).toContain("炎");
+  });
+});
+
 describe("starter selector", () => {
   it("offers a stable candidate order", () => {
     const a = selectStarter(account, "seed-1");

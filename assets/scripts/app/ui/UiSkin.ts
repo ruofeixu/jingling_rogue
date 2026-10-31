@@ -1,4 +1,4 @@
-import { Sprite, SpriteFrame, Texture2D, assetManager, director, type AssetManager } from "cc";
+import { Sprite, SpriteFrame, Texture2D, TTFFont, assetManager, director, type AssetManager } from "cc";
 import { UI_SKIN_READY_EVENT } from "./skin-event.ts";
 
 /**
@@ -44,6 +44,8 @@ export class UiSkin {
   private bundle: AssetManager.Bundle | null = null;
   private ready = false;
   private readonly frames = new Map<string, SpriteFrame | null>();
+  /** 标题书法字（马善政楷书子集，OFL）。undefined = 还没请求；null = 没有或加载失败。 */
+  private titleFont: TTFFont | null | undefined = undefined;
 
   static shared(): UiSkin {
     if (!UiSkin.instance) {
@@ -103,6 +105,28 @@ export class UiSkin {
       const sf = new SpriteFrame();
       sf.texture = texture;
       this.frames.set(name, sf);
+      director.emit(UI_SKIN_READY_EVENT);
+    });
+    return null;
+  }
+
+  /**
+   * 标题字体。同步接口，规则同 getFrame：已加载返回字体；未加载触发一次异步加载并返回 null，
+   * 加载完成后派发 ready 事件让 AppShell 重刷。调用方拿到 null 时用系统字体。
+   */
+  getTitleFont(): TTFFont | null {
+    if (this.titleFont !== undefined) {
+      return this.titleFont;
+    }
+    if (!this.bundle) {
+      return null;
+    }
+    this.titleFont = null;
+    this.bundle.load("fonts/title", TTFFont, (err, font) => {
+      if (err || !font) {
+        return;
+      }
+      this.titleFont = font;
       director.emit(UI_SKIN_READY_EVENT);
     });
     return null;

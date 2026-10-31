@@ -72,8 +72,13 @@ export { encodeRun, decodeRun, encodeAccount, decodeAccount } from "./save/codec
 export {
   saveRunLocal,
   loadRunLocal,
+  inspectRunLocal,
+  clearRunLocal,
   saveAccountLocal,
   loadAccountLocal,
+  CORRUPT_ACCOUNT_KEY,
+  type KvStore,
+  type SlotState,
 } from "./save/local-store.ts";
 export type { BattleEvent } from "./view/battle-view.ts";
 export type { GameTables, SpiritRow, ArtRow, BoonRow } from "./tables/types.ts";
@@ -174,7 +179,7 @@ export { runSim } from "./sim/run-sim.ts";
 export { benchSims, formatBench } from "./sim/bench.ts";
 export type { SimTier, SimObserve } from "./sim/observe.ts";
 export type { SimResult } from "./sim/run-sim.ts";
-export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIRD_PORTRAITS, PORTRAIT_IDS, CARTOON_PORTRAIT_IDS, hasPortrait, hasCartoonPortrait, portraitPath, portraitTexturePath } from "./assets/manifest.ts";
-export type { RemoteManifest, RemoteAsset, PortraitStyle } from "./assets/manifest.ts";
-export { RunController, type StartRunOpts, type SlotInfo } from "./run/run-controller.ts";
+export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIRD_PORTRAITS, PORTRAIT_IDS, hasPortrait, portraitPath, portraitTexturePath } from "./assets/manifest.ts";
+export type { RemoteManifest, RemoteAsset } from "./assets/manifest.ts";
+export { RunController, CURRENT_RUN_SLOT, type StartRunOpts, type SlotInfo } from "./run/run-controller.ts";
 export { resolveProductStart } from "./run/product-start.ts";

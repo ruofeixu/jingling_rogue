@@ -58,43 +58,11 @@ export const THIRD_PORTRAITS = new Set([
   "ming_duo",
 ]);
 
-export const CARTOON_PORTRAIT_IDS = new Set([
-  "zao_li",
-  "jing_zhu",
-  "tao_geng",
-  "dan_li",
-  "quan_ji",
-  "nuo_mian",
-  "mo_mao",
-  "deng_e",
-  "yao_shu",
-  "huo_de_li",
-  "he_bo_cong",
-  "she_mu",
-  "luan_shi",
-  "dian_zhu",
-  "ye_ti",
-  "tao_quan",
-  "zhi_ren",
-  "tong_ling",
-  "zhang_yan",
-  "pi_li",
-  "lei_ying",
-  "shuang_ming",
-  "bing_can",
-  "jin_hui",
-  "ping_yu",
-  "he_hun",
-  "ming_duo",
-]);
-
 export const PORTRAIT_IDS = new Set([
   ...Array.from(FIRST_PORTRAITS),
   ...Array.from(SECOND_PORTRAITS),
   ...Array.from(THIRD_PORTRAITS),
 ]);
-
-export type PortraitStyle = "play" | "folk" | "cartoon";
 
 /** 立绘走独立 Asset Bundle，构建成小游戏分包，避免 15 MB 图片留在 4 MiB 主包里。 */
 export const PORTRAIT_BUNDLE = "portraits";
@@ -103,22 +71,13 @@ export function hasPortrait(id: string): boolean {
   return PORTRAIT_IDS.has(id);
 }
 
-export function hasCartoonPortrait(id: string): boolean {
-  return CARTOON_PORTRAIT_IDS.has(id);
-}
-
-export function portraitPath(id: string, style: PortraitStyle = "play"): string {
-  if (style === "folk" && CARTOON_PORTRAIT_IDS.has(id)) {
-    return `spirits-folk/${id}.png`;
-  }
+/** 只有一套立绘（水墨）。年画版 2026-11-01 移出项目，见 docs/superpowers/plans/2026-11-01-I3-ink-portraits.md。 */
+export function portraitPath(id: string): string {
   return `spirits/${id}.png`;
 }
 
 /** 路径相对于 PORTRAIT_BUNDLE 这个 Asset Bundle 的根目录。 */
-export function portraitTexturePath(id: string, style: PortraitStyle = "play"): string {
-  if (style === "folk" && CARTOON_PORTRAIT_IDS.has(id)) {
-    return `spirits-folk/${id}/texture`;
-  }
+export function portraitTexturePath(id: string): string {
   return `spirits/${id}/texture`;
 }
 

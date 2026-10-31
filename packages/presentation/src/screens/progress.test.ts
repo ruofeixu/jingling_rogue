@@ -9,6 +9,10 @@ const view = selectRunProgress({
     { label: "钱", before: 10, after: 30 },
     { label: "等级", before: 4, after: 5 },
   ],
+  offers: [
+    { id: "b1", name: "淬火", hint: "本局全队攻+2" },
+    { id: "b2", name: "灵露", hint: "囊中小药+1" },
+  ],
   shop: [
     { id: "s1", name: "灵露", cost: 20 },
     { id: "s2", name: "金印", cost: 80 },
@@ -97,6 +101,22 @@ describe("run progress models", () => {
 
     expect(model.lines.join(" ")).toContain("10 → 30");
     expect(model.lines.join(" ")).toContain("4 → 5");
+  });
+
+  it("summary lists every offered boon as its own pick row", () => {
+    const model = buildProgressModel({ kind: "summary", state: "normal", view });
+    const rows = model.secondaryActions.map((a) => a.id);
+
+    expect(rows).toEqual([`${PROGRESS_ACTIONS.summaryPick}.b1`, `${PROGRESS_ACTIONS.summaryPick}.b2`]);
+    expect(model.secondaryActions[0].label).toBe("淬火 本局全队攻+2");
+  });
+
+  it("summary continue says it skips the reward when boons are on offer", () => {
+    const withOffers = buildProgressModel({ kind: "summary", state: "normal", view });
+    const without = buildProgressModel({ kind: "summary", state: "normal", view: empty });
+
+    expect(withOffers.primaryAction?.label).toBe("不领，继续赶路");
+    expect(without.primaryAction?.label).toBe("继续");
   });
 
   it("summary is empty when nothing changed but still continues", () => {

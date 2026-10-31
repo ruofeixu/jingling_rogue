@@ -141,7 +141,6 @@ export class Boot extends Component implements LobbyHost {
   slot = 0;
   codexPage = 0;
   codexId: string | null = null;
-  codexArt: "folk" | "cartoon" = "cartoon";
   private relicId = "";
 
   start(): void {
@@ -161,8 +160,11 @@ export class Boot extends Component implements LobbyHost {
   private launchProductShell(): void {
     const shell = this.getComponent(AppShell) ?? this.addComponent(AppShell);
     shell.adoptProductEntry();
-    shell.setRunController(createProductDriver());
+    const { driver, ready } = createProductDriver();
+    shell.setRunController(driver);
     shell.route("title");
+    // 账号读回后重进一次标题，大厅类页面拿到存档里的契录与进度。
+    void ready.then(() => shell.route("title"));
   }
 
   onDestroy(): void {

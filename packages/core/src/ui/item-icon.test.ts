@@ -24,7 +24,7 @@ describe("item icons", () => {
 
   it("gives every icon a fill dark enough to read on paper", () => {
     expect(ICON_IDS).toContain("gold");
-    expect(iconFill("gold")).toEqual(THEME.accent);
+    expect(iconFill("gold")).toEqual(THEME.gold);
     for (const id of ICON_IDS) {
       const fill = iconFill(id);
       expect(fill).toHaveLength(3);

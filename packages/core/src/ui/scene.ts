@@ -419,7 +419,7 @@ function codexSlips(app: PreviewApp, ui: ScreenLayout): Slip[] {
   if (app.codexId) {
     return app.labels().map((label) => ({
       label,
-      x: label === "卡通" ? -lobby.shopDx : label === "年画" ? lobby.shopDx : 0,
+      x: 0,
       y: nav,
     }));
   }

@@ -13,6 +13,7 @@ export const OVERLAY_ACTIONS = Object.freeze({
   bagUse: "bag.use",
   targetPick: "target.pick",
   catchThrow: "catch.throw",
+  catchSkip: "catch.skip",
   cancel: "overlay.cancel",
 });
 
@@ -121,8 +122,12 @@ export function buildOverlayModel(input: OverlayModelInput): ScreenModel {
       label: spec.primaryLabel,
       ...(block ? { enabled: false, disabledReason: block } : {}),
     },
-    // 取消永远可用：即使列表为空也能退出弹层。
-    secondaryActions: [...rows, { id: OVERLAY_ACTIONS.cancel, label: "返回" }],
+    // 取消永远可用：即使列表为空也能退出弹层。收契页另有「放过」，战后不收也能继续赶路。
+    secondaryActions: [
+      ...rows,
+      ...(spec.screenId === "catch" ? [{ id: OVERLAY_ACTIONS.catchSkip, label: "放过" }] : []),
+      { id: OVERLAY_ACTIONS.cancel, label: "返回" },
+    ],
     lines: [`共 ${items.length} 项`, selected ? `选中 ${selected.label}` : "未选中"],
   });
 }

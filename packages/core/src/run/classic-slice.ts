@@ -168,6 +168,15 @@ export class ClassicSlice {
 
   takeBoon(boonId: string): void {
     applyBoon(this.run, boonId, this.account);
+    this.leaveBoon();
+  }
+
+  /** 不领机缘直接赶路：推进规则与 takeBoon 相同。 */
+  skipBoon(): void {
+    this.leaveBoon();
+  }
+
+  private leaveBoon(): void {
     const cleared = this.run.wave;
     this.boonChoices = [];
     this.shop = null;

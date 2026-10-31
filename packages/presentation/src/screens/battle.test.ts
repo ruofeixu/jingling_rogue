@@ -45,6 +45,21 @@ describe("battle screen model", () => {
     );
   });
 
+  it("exposes structured plates so the renderer never parses text", () => {
+    const model = buildBattleModel({ state: "normal", view });
+
+    expect(model.plates.foe).toEqual({
+      spiritId: "deng_e",
+      name: "灯蛾",
+      level: 1,
+      hp: 32,
+      maxHp: 32,
+      status: "常态",
+    });
+    expect(model.plates.ally.spiritId).toBe("zao_li");
+    expect(Object.isFrozen(model)).toBe(true);
+  });
+
   it("shows both nameplates with hp and level", () => {
     const model = buildBattleModel({ state: "normal", view });
     const text = model.lines.join(" ");
@@ -115,7 +130,7 @@ describe("battle screen model", () => {
     const model = buildBattleModel({ state: "normal", view });
     const text = model.lines.join(" ");
 
-    expect(text).toMatch(/波\s*1/);
+    expect(text).toMatch(/第\s*1\s*波/);
     expect(text).toContain("1000");
   });
 });

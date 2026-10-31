@@ -1,5 +1,5 @@
 import { AssetManager, Node, Rect, Sprite, SpriteFrame, Texture2D, UITransform, assetManager } from "cc";
-import { PORTRAIT_BUNDLE, PORTRAIT_IDS, portraitFit, portraitTexturePath, type PortraitStyle } from "../vendor/jinglingCore";
+import { PORTRAIT_BUNDLE, PORTRAIT_IDS, portraitFit, portraitTexturePath } from "../vendor/jinglingCore";
 
 const frames = new Map<string, SpriteFrame>();
 let bundlePromise: Promise<AssetManager.Bundle | null> | undefined;
@@ -36,7 +36,6 @@ export function attachPortraitSprite(
   width: number,
   height: number,
   onFail?: () => void,
-  style: PortraitStyle = "play",
 ): void {
   if (!hasPortrait(spiritId) || !spiritId) {
     onFail?.();
@@ -67,7 +66,7 @@ export function attachPortraitSprite(
     const fitted = portraitFit(width, height, imgW, imgH);
     art.getComponent(UITransform)?.setContentSize(fitted.width, fitted.height);
   };
-  const key = `${style}:${spiritId}`;
+  const key = spiritId;
   const cached = frames.get(key);
   if (cached) {
     apply(cached);
@@ -78,9 +77,9 @@ export function attachPortraitSprite(
       onFail?.();
       return;
     }
-    bundle.load(portraitTexturePath(spiritId, style), Texture2D, (err, texture) => {
+    bundle.load(portraitTexturePath(spiritId), Texture2D, (err, texture) => {
       if (err || !texture) {
-        console.warn("[portrait] load failed", spiritId, style, err);
+        console.warn("[portrait] load failed", spiritId, err);
         onFail?.();
         return;
       }

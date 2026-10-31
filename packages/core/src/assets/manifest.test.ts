@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadTables } from "../tables/load-tables.ts";
-import { bundleForRealm, CARTOON_PORTRAIT_IDS, FIRST_PORTRAITS, PORTRAIT_BUNDLE, PORTRAIT_IDS, SECOND_PORTRAITS, THIRD_PORTRAITS, portraitPath, portraitTexturePath, remoteManifest } from "./manifest.ts";
+import { bundleForRealm, FIRST_PORTRAITS, PORTRAIT_BUNDLE, PORTRAIT_IDS, SECOND_PORTRAITS, THIRD_PORTRAITS, portraitPath, portraitTexturePath, remoteManifest } from "./manifest.ts";
 import { decodeRgbaPng } from "./png-rgba.ts";
 
 describe("remote asset manifest", () => {
@@ -99,8 +99,7 @@ describe("remote asset manifest", () => {
   it("keeps starter portraits with transparent corners", () => {
     const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../../../game/remote/spirits");
     const preview = resolve(dirname(fileURLToPath(import.meta.url)), "../../../../assets/portraits/spirits");
-    for (const id of CARTOON_PORTRAIT_IDS) {
-      expect(PORTRAIT_IDS.has(id), id).toBe(true);
+    for (const id of PORTRAIT_IDS) {
       for (const dir of [root, preview]) {
         const png = decodeRgbaPng(readFileSync(resolve(dir, `${id}.png`)));
         const corners = [
@@ -124,58 +123,12 @@ describe("remote asset manifest", () => {
     }
   });
 
-  it("keeps folk copies of the cartoon starters and names cartoon ids", () => {
-    expect([...CARTOON_PORTRAIT_IDS]).toEqual([
-      "zao_li",
-      "jing_zhu",
-      "tao_geng",
-      "dan_li",
-      "quan_ji",
-      "nuo_mian",
-      "mo_mao",
-      "deng_e",
-      "yao_shu",
-      "huo_de_li",
-      "he_bo_cong",
-      "she_mu",
-      "luan_shi",
-      "dian_zhu",
-      "ye_ti",
-      "tao_quan",
-      "zhi_ren",
-      "tong_ling",
-      "zhang_yan",
-      "pi_li",
-      "lei_ying",
-      "shuang_ming",
-      "bing_can",
-      "jin_hui",
-      "ping_yu",
-      "he_hun",
-      "ming_duo",
-    ]);
-    expect(CARTOON_PORTRAIT_IDS.size).toBe(PORTRAIT_IDS.size);
+  it("ships a single portrait set; the nianhua set moved out of the project (2026-11-01)", () => {
     expect(portraitTexturePath("zao_li")).toBe("spirits/zao_li/texture");
-    expect(portraitTexturePath("zao_li", "cartoon")).toBe("spirits/zao_li/texture");
-    expect(portraitTexturePath("zao_li", "folk")).toBe("spirits-folk/zao_li/texture");
-    expect(portraitPath("zao_li", "folk")).toBe("spirits-folk/zao_li.png");
-    expect(portraitTexturePath("dan_li", "folk")).toBe("spirits-folk/dan_li/texture");
-    expect(portraitTexturePath("mo_mao", "folk")).toBe("spirits-folk/mo_mao/texture");
-    expect(portraitTexturePath("huo_de_li", "folk")).toBe("spirits-folk/huo_de_li/texture");
-    expect(portraitTexturePath("luan_shi", "folk")).toBe("spirits-folk/luan_shi/texture");
-    expect(portraitTexturePath("tao_quan", "folk")).toBe("spirits-folk/tao_quan/texture");
-    expect(portraitTexturePath("zhang_yan", "folk")).toBe("spirits-folk/zhang_yan/texture");
-    expect(portraitTexturePath("shuang_ming", "folk")).toBe("spirits-folk/shuang_ming/texture");
-    expect(portraitTexturePath("ping_yu", "folk")).toBe("spirits-folk/ping_yu/texture");
-    expect(portraitTexturePath("zhen_yue", "folk")).toBe("spirits/zhen_yue/texture");
-    const folk = resolve(dirname(fileURLToPath(import.meta.url)), "../../../../game/remote/spirits-folk");
-    const preview = resolve(dirname(fileURLToPath(import.meta.url)), "../../../../assets/portraits/spirits-folk");
-    for (const id of CARTOON_PORTRAIT_IDS) {
-      for (const dir of [folk, preview]) {
-        expect(existsSync(resolve(dir, `${id}.png`)), `${dir} ${id}`).toBe(true);
-        const png = decodeRgbaPng(readFileSync(resolve(dir, `${id}.png`)));
-        expect(png.data[3]).toBeLessThan(32);
-      }
+    expect(portraitPath("zao_li")).toBe("spirits/zao_li.png");
+    for (const dir of ["../../../../game/remote/spirits-folk", "../../../../assets/portraits/spirits-folk", "../../../../archive/art/folk-portraits"]) {
+      const full = resolve(dirname(fileURLToPath(import.meta.url)), dir);
+      expect(existsSync(full), full).toBe(false);
     }
-  }, 60_000);
+  });
 });

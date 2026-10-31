@@ -318,17 +318,13 @@ export function formatCodexEntry(id: string): string {
   return [sheet.headline, sheet.stats, sheet.pact, sheet.arts, sheet.evo].filter((line) => line.length > 0).join("\n");
 }
 
-export function formatCodexLog(id: string, art?: "folk" | "cartoon"): string {
-  const entry = formatCodexEntry(id);
-  if (!art || !PORTRAIT_IDS.has(id)) {
-    return entry;
-  }
-  return `${entry}\n立绘·${art === "cartoon" ? "卡通" : "年画"}`;
+export function formatCodexLog(id: string): string {
+  return formatCodexEntry(id);
 }
 
 export const GLOSSARY: { term: string; body: string }[] = [
   { term: "精怪", body: "隙中的生灵。对战、收契、编队的对象。" },
-  { term: "契录", body: "精怪名册。大厅可翻全部，点开看数值与魂契；有立绘的可对照年画与卡通，无立绘的只看剪影。" },
+  { term: "契录", body: "精怪名册。大厅可翻全部，点开看数值与魂契；有立绘的看立绘，无立绘的只看剪影。" },
   { term: "灵性", body: "炎潮岩木霆霜影光八性。相克会改变术法伤害。" },
   { term: "术法", body: "战斗中先点「术」，再点术签使出。每张有灵力次数。" },
   { term: "灵力", body: "这局还能使出该术法的次数，用完会竭力一击。" },

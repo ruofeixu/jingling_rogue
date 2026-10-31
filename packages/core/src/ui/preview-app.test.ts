@@ -12,7 +12,6 @@ function fingerprint(app: PreviewApp): string {
     tab: app.settingsTab,
     slot: app.slot,
     relicId: app.relicId,
-    art: app.codexArt,
     codex: app.codexId,
     page: app.codexPage,
     wave: app.slice?.run.wave ?? 0,
@@ -111,9 +110,8 @@ describe("preview UI taps", () => {
     visit("契录");
     visit(getSpirit("zao_li").name);
     expect(app.log).toMatch(/体36/);
-    expect(app.labels()).toEqual(expect.arrayContaining(["卡通", "年画", "返回"]));
-    visit("年画");
-    expect(app.log).toMatch(/立绘·年画/);
+    // 只有一套立绘：详情页只剩「返回」，没有画风切换。
+    expect(app.labels()).toEqual(["返回"]);
     visit("返回");
     visit("下一页");
     visit(getSpirit("zhen_yue").name);
@@ -210,7 +208,7 @@ describe("preview UI taps", () => {
     expect(app.battle).toBeNull();
   });
 
-  it("lists unseen spirits in the lobby 契录 and hides missing cartoon art", () => {
+  it("lists unseen spirits in the lobby 契录; entries have no art-style switch", () => {
     const app = new PreviewApp({ seed: "ui-codex" });
     expect(app.account.codex).toHaveLength(0);
     app.tap("契录");
@@ -220,27 +218,26 @@ describe("preview UI taps", () => {
     expect(app.labels()).toContain("下一页");
     app.tap(getSpirit("zao_li").name);
     expect(app.log).toMatch(/魂契/);
-    expect(app.labels()).toContain("卡通");
+    expect(app.labels()).toEqual(["返回"]);
     app.tap("返回");
     app.tap(getSpirit("dan_li").name);
-    expect(app.labels()).toContain("卡通");
+    expect(app.labels()).toEqual(["返回"]);
     app.tap("返回");
     app.tap(getSpirit("huo_de_li").name);
-    expect(app.labels()).toContain("卡通");
+    expect(app.labels()).toEqual(["返回"]);
     app.tap("返回");
     app.tap(getSpirit("luan_shi").name);
-    expect(app.labels()).toContain("卡通");
+    expect(app.labels()).toEqual(["返回"]);
     app.tap("返回");
     app.tap(getSpirit("zhang_yan").name);
-    expect(app.labels()).toContain("卡通");
+    expect(app.labels()).toEqual(["返回"]);
     app.tap("返回");
     app.tap(getSpirit("shuang_ming").name);
-    expect(app.labels()).toContain("卡通");
+    expect(app.labels()).toEqual(["返回"]);
     app.tap("返回");
     app.tap("下一页");
     app.tap(getSpirit("ping_yu").name);
-    expect(app.labels()).toContain("卡通");
-    expect(app.labels()).toContain("年画");
+    expect(app.labels()).toEqual(["返回"]);
     app.tap("返回");
     app.tap(getSpirit("zhen_yue").name);
     expect(app.labels()).not.toContain("卡通");

@@ -135,6 +135,24 @@ describe("lobby screen models", () => {
     expect(new Set(ids).size).toBe(5);
   });
 
+  it("slots: a broken slot says so and cannot be loaded (B4)", () => {
+    const view = selectSlots(account, [{ slot: 2, wave: 0, mode: "", corrupt: true }]);
+    const model = buildSlotsModel({ state: "normal", view });
+    const row = [model.primaryAction, ...model.secondaryActions].find((a) => a?.id === "slots.load.2");
+
+    expect(row?.label).toBe("槽3 存档损坏");
+    expect(row?.enabled).toBe(false);
+    expect(row?.disabledReason).toMatch(/读不出/);
+  });
+
+  it("slots: explains the autosave rule and labels slot 1 as the current run (B4)", () => {
+    const view = selectSlots(account, [{ slot: 0, wave: 4, mode: "classic" }]);
+    const model = buildSlotsModel({ state: "normal", view });
+
+    expect(model.primaryAction?.label).toBe("槽1 当前旅途 波4");
+    expect(model.lines.join(" ")).toMatch(/每过一波自动存到槽1/);
+  });
+
   it("long lists report pagination instead of silently truncating", () => {
     const model = buildCodexListModel({ state: "normal", view: selectCodexList(caught), pageSize: 6 });
 

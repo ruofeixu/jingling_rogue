@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import * as entry from "./creator-entry.ts";
+import { THEME } from "./ui/theme.ts";
 
 function listTs(dir: string): string[] {
   const out: string[] = [];
@@ -114,7 +115,8 @@ describe("creator-entry bridge", () => {
     expect(body).toContain("g.lineWidth = 4");
     expect(body).not.toContain("g.lineWidth = 3");
     expect(body).toContain("g.stroke()");
-    expect(body).toContain("new Color(255, 255, 255, 90)");
+    // 水墨版：高光取 THEME.panel，不写颜色字面量。
+    expect(body).toContain("rgb(THEME.panel, 90)");
     expect(body).toContain("width * 0.07");
     expect(body).not.toContain("width * 0.05, height * 0.2, width * 0.05");
     expect(body).not.toContain("255, 255, 255, 40");
@@ -152,23 +154,23 @@ describe("creator-entry bridge", () => {
     expect(paint).not.toContain("wide ? 140 : 220, 8)");
     expect(paint).toContain("g.ellipse(wide ? 160 : 90");
     expect(paint).not.toContain("18, 22, 36");
-    expect(paint).toContain("new Color(255, 236, 214, 255)");
-    expect(paint).toContain("new Color(80, 70, 62, 255)");
-    expect(paint).not.toContain("new Color(90, 80, 70, 255)");
-    expect(paint).not.toContain("new Color(120, 108, 96, 255)");
-    expect(paint).toContain("new Color(208, 192, 180, 255)");
-    expect(paint).not.toContain("new Color(232, 220, 210, 255)");
-    expect(paint).toContain("new Color(220, 148, 28, 255)");
-    expect(paint).not.toContain("new Color(228, 188, 48, 255)");
+    // 水墨版：次级底、淡墨、血条色全部取 THEME（规格第 4 节），不再写死卡通色。
+    expect(paint).toContain("SLIP = rgb(THEME.slip)");
+    expect(paint).toContain("MUTED = rgb(THEME.muted)");
+    expect(paint).toContain("HP_BACK = rgb(THEME.hpBack)");
+    expect(paint).toContain("HP_MID = rgb(THEME.hpMid)");
+    expect(paint).not.toContain("new Color(255, 236, 214, 255)");
+    expect(paint).not.toContain("new Color(208, 192, 180, 255)");
     expect(paint).toContain("HP_BACK, 8)");
     expect(paint).not.toContain("HP_BACK, 6)");
     expect(paint).toContain("h - 6, 6)");
     expect(paint).not.toContain("h - 6, 4)");
     expect(paint).toContain("w - 10, h - 10");
-    expect(paint).toContain("new Color(255, 255, 255, 90)");
+    expect(paint).toContain("rgb(THEME.panel, 90)");
     expect(lobby).not.toContain("#1a1410");
-    expect(lobby).toContain("rgb(232,244,252)");
-    expect(lobby).toContain("rgb(61,50,40)");
+    // 小游戏首屏（引擎起来前）用宣纸底与浓墨字，和 THEME 一致。
+    expect(lobby).toContain(`rgb(${THEME.paper.join(",")})`);
+    expect(lobby).toContain(`rgb(${THEME.ink.join(",")})`);
     expect(lobby).toContain("fillText(START");
     expect(lobby).toContain('ctx.font = "bold 38px sans-serif"');
     expect(lobby).not.toContain('ctx.font = "bold 36px sans-serif"');
@@ -197,11 +199,13 @@ describe("creator-entry bridge", () => {
     expect(body).not.toContain("r * 0.56, r * 0.56, 4)");
     expect(body).toContain("r * 0.32, r * 0.28, 4)");
     expect(body).not.toContain("r * 0.32, r * 0.28, 3)");
-    expect(paint).toContain('"seal-jie": new Color(148, 116, 196, 255)');
+    // 图标色与 web 渲染共用 core 的 iconFill，Cocos 侧不再自带一份色表。
+    expect(paint).toContain("rgb(iconFill(kind))");
+    expect(paint).not.toContain("const ICON_FILL");
     expect(paint).not.toContain("64, 52, 88");
   });
 
-  it("paints party tray empty and fainted dots in light cartoon fills", () => {
+  it("paints party tray empty and fainted dots in light paper-toned fills", () => {
     const paint = readFileSync(
       join(fileURLToPath(new URL(".", import.meta.url)), "../../../assets/scripts/ui/paint.ts"),
       "utf8",
@@ -210,7 +214,7 @@ describe("creator-entry bridge", () => {
     const end = paint.indexOf("export function paintSplash");
     const body = paint.slice(start, end);
     expect(body).toContain("? PAPER");
-    expect(body).toContain("new Color(236, 180, 176, 255)");
+    expect(body).toContain("? HP_BACK");
     expect(body).toContain("? GOLD");
     expect(body).toContain(": MUTED");
     expect(body).toContain("* 26");

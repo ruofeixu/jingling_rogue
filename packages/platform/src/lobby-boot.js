@@ -2,9 +2,9 @@
   var TITLE = "契灵志怪";
   var START = "新的旅途";
   var api = typeof wx !== "undefined" ? wx : typeof tt !== "undefined" ? tt : null;
-  var PAPER = "rgb(232,244,252)";
-  var INK = "rgb(61,50,40)";
-  var ACCENT = "rgb(255,138,74)";
+  var PAPER = "rgb(242,236,222)";
+  var INK = "rgb(38,34,30)";
+  var ACCENT = "rgb(168,44,34)";
 
   function fillRound(ctx, x, y, w, h, r) {
     if (typeof ctx.roundRect === "function") {
@@ -29,7 +29,8 @@
     var by = h * 0.46;
     ctx.fillStyle = ACCENT;
     fillRound(ctx, bx, by, bw, bh, 16);
-    ctx.fillStyle = INK;
+    // 朱砂底配宣纸色字：墨字压朱砂只有 2.29:1。
+    ctx.fillStyle = PAPER;
     ctx.font = "26px sans-serif";
     ctx.fillText(START, w / 2, by + 38);
   }

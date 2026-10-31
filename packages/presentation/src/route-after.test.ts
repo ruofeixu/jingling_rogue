@@ -11,8 +11,29 @@ describe("routeAfterCommand", () => {
     expect(routeAfterCommand({ command: "battle.bag", phase: "battle", current: "battle" })).toBe("bag");
   });
 
-  it("stays on the battle screen when an art is used and the fight continues", () => {
-    expect(routeAfterCommand({ command: "battle.art", phase: "battle", current: "battle" })).toBe("battle");
+  it("opens the arts overlay from the battle command instead of using an art blindly (B3 #6)", () => {
+    expect(routeAfterCommand({ command: "battle.art", phase: "battle", current: "battle" })).toBe("arts");
+  });
+
+  it("returns to the battle once a picked art resolves the turn", () => {
+    expect(
+      routeAfterCommand({ command: "arts.confirm", phase: "battle", current: "arts", waitingFor: "command" }),
+    ).toBe("battle");
+  });
+
+  it("goes to the target screen when the art needs a target (B3 #3)", () => {
+    expect(
+      routeAfterCommand({ command: "arts.confirm", phase: "battle", current: "arts", waitingFor: "target" }),
+    ).toBe("target");
+    expect(
+      routeAfterCommand({ command: "target.confirm", phase: "battle", current: "target", waitingFor: "command" }),
+    ).toBe("battle");
+  });
+
+  it("forces the switch screen when the active fighter falls", () => {
+    expect(
+      routeAfterCommand({ command: "arts.confirm", phase: "battle", current: "arts", waitingFor: "switch" }),
+    ).toBe("switch");
   });
 
   it("keeps an overlay open while the fight is still in battle", () => {
@@ -29,6 +50,17 @@ describe("routeAfterCommand", () => {
 
   it("returns to the title when the outcome sends the player to the lobby", () => {
     expect(routeAfterCommand({ command: "outcome.lobby", phase: "victory", current: "victory" })).toBe("title");
+  });
+
+  it("leaves the catch screen once the catch is resolved", () => {
+    expect(routeAfterCommand({ command: "catch.confirm", phase: "boon", current: "catch" })).toBe("summary");
+    expect(routeAfterCommand({ command: "catch.skip", phase: "boon", current: "catch" })).toBe("summary");
+    expect(routeAfterCommand({ command: "catch.confirm", phase: "catch", current: "catch" })).toBe("catch");
+  });
+
+  it("enters the battle after a save is loaded, and stays put when it was not (B4)", () => {
+    expect(routeAfterCommand({ command: "slots.load", phase: "battle", current: "slots" })).toBe("battle");
+    expect(routeAfterCommand({ command: "slots.load", phase: "none", current: "slots" })).toBe("slots");
   });
 
   it("returns from an overlay to the live fight", () => {

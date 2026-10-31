@@ -14,6 +14,7 @@ export { getOmen, listOmens } from "./run/omen-event.ts";
 export { fuse } from "./run/fusion.ts";
 export { saveAccountLocal, saveRunLocal, loadAccountLocal, loadRunLocal } from "./save/local-store.ts";
 export type { KvStore } from "./save/local-store.ts";
+export type { AccountProgress } from "./run/run-session.ts";
 export { defaultSettings, SETTINGS_TABS } from "./meta/settings.ts";
 export type { GameSettings, SettingsTab } from "./meta/settings.ts";
 export { LOBBY_SCREENS, RUN_SCREENS, START_PATH } from "./ui/screens.ts";
@@ -87,15 +88,14 @@ export {
   type StatsView,
 } from "./ui/selectors.ts";
 export { THEME } from "./ui/theme.ts";
-export { itemIcon, sealIcon } from "./ui/item-icon.ts";
+export { iconFill, itemIcon, sealIcon } from "./ui/item-icon.ts";
 export type { ItemIconId } from "./ui/item-icon.ts";
 export { moveCharm } from "./run/move-charm.ts";
 export { runSim } from "./sim/run-sim.ts";
 export { benchSims, formatBench } from "./sim/bench.ts";
 export { grantAchievement, listAchievements } from "./run/achievements.ts";
 export { SEAL_TIERS, speciesCatchRate } from "./catch/seal.ts";
-export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIRD_PORTRAITS, PORTRAIT_IDS, CARTOON_PORTRAIT_IDS, PORTRAIT_BUNDLE, hasPortrait, hasCartoonPortrait, portraitPath, portraitTexturePath } from "./assets/manifest.ts";
-export type { PortraitStyle } from "./assets/manifest.ts";
+export { remoteManifest, bundleForRealm, FIRST_PORTRAITS, SECOND_PORTRAITS, THIRD_PORTRAITS, PORTRAIT_IDS, PORTRAIT_BUNDLE, hasPortrait, portraitPath, portraitTexturePath } from "./assets/manifest.ts";
 export type { Affinity } from "./tables/types.ts";
 export { RunController, type StartRunOpts, type SlotInfo } from "./run/run-controller.ts";
 export { resolveProductStart } from "./run/product-start.ts";

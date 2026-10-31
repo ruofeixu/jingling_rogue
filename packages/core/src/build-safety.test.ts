@@ -37,7 +37,7 @@ describe("build-safe iteration", () => {
         if (/\[\s*\.\.\.\s*new Set\s*\(/.test(line) || /\.\.\.\s*new Set\s*\(/.test(line)) {
           offenders.push(`${relative(SRC, file)}:${index + 1} ${line.trim()}`);
         }
-        if (/\.\.\.\s*(?:FIRST_PORTRAITS|SECOND_PORTRAITS|THIRD_PORTRAITS|PORTRAIT_IDS|CARTOON_PORTRAIT_IDS)\b/.test(line)) {
+        if (/\.\.\.\s*(?:FIRST_PORTRAITS|SECOND_PORTRAITS|THIRD_PORTRAITS|PORTRAIT_IDS)\b/.test(line)) {
           offenders.push(`${relative(SRC, file)}:${index + 1} ${line.trim()}`);
         }
       });

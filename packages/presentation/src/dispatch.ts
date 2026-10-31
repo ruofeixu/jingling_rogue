@@ -93,6 +93,7 @@ function resolveLiveRunAction(actionId: string): CommandIntent | null {
     "starter.back",
     "starter.retry-art",
     "overlay.cancel",
+    "catch.skip",
   ]);
   if (NULLARY.has(actionId)) {
     return command(actionId);
@@ -129,6 +130,7 @@ function resolveLiveRunAction(actionId: string): CommandIntent | null {
     ["map.enter.", "map.enter"],
     ["starter.pick.", "starter.pick"],
     ["omen.pick.", "omen.pick"],
+    ["summary.pick.", "summary.pick"],
   ] as const) {
     if (actionId.startsWith(prefix)) {
       const id = actionId.slice(prefix.length);

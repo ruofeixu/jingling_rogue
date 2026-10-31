@@ -6,6 +6,11 @@ import type { StarterView } from "@jingling/core";
 import { buildStateModel, type StateId } from "../states.ts";
 import type { ScreenActionInput, ScreenModel } from "../screen-model.ts";
 
+export interface StarterScreenModel extends ScreenModel {
+  /** 候选里真实存在的选中 id。未选或 id 不在候选中时为 null。 */
+  readonly selectedId: string | null;
+}
+
 export const STARTER_ACTIONS = Object.freeze({
   confirm: "starter.confirm",
   back: "starter.back",
@@ -24,7 +29,7 @@ export interface StarterModelInput {
   readonly reason?: string;
 }
 
-export function buildStarterModel(input: StarterModelInput): ScreenModel {
+export function buildStarterModel(input: StarterModelInput): StarterScreenModel {
   if (input.view.candidates.length === 0) {
     throw new Error("starter screen requires at least one candidate");
   }
@@ -64,18 +69,21 @@ export function buildStarterModel(input: StarterModelInput): ScreenModel {
     relic ? `契印 ${relic.name}` : "契印 —",
   ];
 
-  return buildStateModel({
-    screenId: "starter",
-    state: input.state,
-    accessibleName: "择一契灵",
-    reason: input.reason,
-    emptyHint: input.state === "empty" ? "没有可选的初始精怪" : undefined,
-    primaryAction: {
-      id: STARTER_ACTIONS.confirm,
-      label: "入世历劫",
-      ...(confirmBlock ? { enabled: false, disabledReason: confirmBlock } : {}),
-    },
-    secondaryActions: extras,
-    lines,
+  return Object.freeze({
+    ...buildStateModel({
+      screenId: "starter",
+      state: input.state,
+      accessibleName: "择一契灵",
+      reason: input.reason,
+      emptyHint: input.state === "empty" ? "没有可选的初始精怪" : undefined,
+      primaryAction: {
+        id: STARTER_ACTIONS.confirm,
+        label: "入世历劫",
+        ...(confirmBlock ? { enabled: false, disabledReason: confirmBlock } : {}),
+      },
+      secondaryActions: extras,
+      lines,
+    }),
+    selectedId: selected?.id ?? null,
   });
 }

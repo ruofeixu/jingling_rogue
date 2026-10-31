@@ -60,6 +60,14 @@ export const MOTION = Object.freeze({
   reducedMaxMs: 150,
 });
 
+/** 血条色。不进 COLOR：COLOR 与 core THEME 一一对应。水墨版：松烟绿 / 赭红 / 深朱，对血槽都 ≥3:1。 */
+export const HP_COLOR = Object.freeze({
+  track: rgb(THEME.hpBack),
+  ally: rgb(THEME.hpHigh),
+  foe: [176, 84, 60] as Rgb,
+  low: rgb(THEME.hpLow),
+});
+
 function channel(value: number): string {
   return Math.max(0, Math.min(255, Math.round(value))).toString(16).padStart(2, "0");
 }

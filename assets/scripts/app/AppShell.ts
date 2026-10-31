@@ -1,4 +1,4 @@
-import { Component, Node, ResolutionPolicy, UITransform, director, screen, view, _decorator } from "cc";
+import { Component, Layers, Node, ResolutionPolicy, UITransform, director, screen, view, _decorator } from "cc";
 import {
   DESIGN_HEIGHT,
   DESIGN_WIDTH,
@@ -90,12 +90,18 @@ function backdropSkinFor(routeId: string): string {
  * 从而保持"壳层不含玩法"的契约；具体实现由宿主（Boot/接线层）注入。
  */
 export interface RunControllerLike {
-  execute(command: string, payload: Readonly<Record<string, string>>): void;
+  /** 读档等要读存储的命令返回 Promise；壳层等它完成再路由。 */
+  execute(command: string, payload: Readonly<Record<string, string>>): void | Promise<void>;
   battleView(): BattleView | null;
   overlaysView(): BattleOverlaysView;
   progressView(kind: "summary" | "shop" | "omen" | "map"): RunProgressView;
   outcomeView(kind: "defeat" | "victory" | "hatch"): OutcomeView;
   phase?(): string;
+  /** 活动战斗在等什么（command / switch / target / over）；路由据此进目标或换位页。 */
+  waitingFor?(): string | null;
+  /** 当前账号与存档槽摘要；进大厅类页面前拉一次，大厅页只读。 */
+  account?(): AccountProgress;
+  slots?(): Promise<SlotSummary[]>;
 }
 
 /** 没有战斗时的占位投影，只用于 battle 页 empty 态。 */
@@ -107,11 +113,15 @@ const EMPTY_OUTCOME: OutcomeView = {
 };
 
 const PROGRESS_KINDS: ReadonlySet<string> = new Set(["summary", "shop", "omen", "map"]);
+/** 读账号或槽位的页面：进入前从 driver 刷新。 */
+const LOBBY_DATA_SCREENS: ReadonlySet<string> = new Set([
+  "title", "starter", "settings", "codex-list", "codex-entry", "eggs", "achievements", "stats", "slots",
+]);
 const EMPTY_PROGRESS: RunProgressView = {
-  gold: 0, wave: 0, deltas: [], shop: [], omens: [], nodes: [],
+  gold: 0, wave: 0, deltas: [], offers: [], shop: [], omens: [], nodes: [],
 };
 const PROGRESS_ITEMS: Record<string, (v: RunProgressView) => readonly unknown[]> = {
-  summary: (v) => v.deltas,
+  summary: (v) => [...v.deltas, ...v.offers],
   shop: (v) => v.shop,
   omen: (v) => v.omens,
   map: (v) => v.nodes,
@@ -444,6 +454,11 @@ export class AppShell extends Component {
     if (intent.command === "select-mode" && intent.payload.mode) {
       this.pendingMode = intent.payload.mode;
     }
+    // 弹层里点某一行只是"选中"：记下来，主按钮据此变为可用。
+    const picksRow = OVERLAY_KINDS.has(this.routeId) && !intent.command.endsWith(".confirm") && !!intent.payload.id;
+    if (picksRow) {
+      this.overlaySelectedId = intent.payload.id;
+    }
     if (this.runController) {
       const payload = intent.command === "starter.confirm"
         ? {
@@ -452,18 +467,38 @@ export class AppShell extends Component {
             ...(this.starterSelectedId ? { starterId: this.starterSelectedId } : {}),
           }
         : intent.payload;
-      this.runController.execute(intent.command, payload);
-      const next = routeAfterCommand({
-        command: intent.command,
-        phase: this.runController.phase?.() ?? "",
-        current: this.routeId,
-      });
-      this.routeId = next;
-      this.refreshFromController();
-      this.route(next);
+      const done = this.runController.execute(intent.command, payload);
+      if (done instanceof Promise) {
+        // 读档：等存储读完再路由；失败留在原页。
+        void done.then(
+          () => this.afterCommand(intent.command),
+          (error) => console.warn("[AppShell] command failed", intent.command, error),
+        );
+        return;
+      }
+      this.afterCommand(intent.command);
       return;
     }
     console.log("[AppShell] command", intent.command, JSON.stringify(intent.payload));
+  }
+
+  /** 命令落地后：按相位决定下一页，重投影，挂载。 */
+  private afterCommand(command: string): void {
+    if (!this.runController) {
+      return;
+    }
+    const next = routeAfterCommand({
+      command,
+      phase: this.runController.phase?.() ?? "",
+      current: this.routeId,
+      waitingFor: this.runController.waitingFor?.() ?? null,
+    });
+    if (next !== this.routeId) {
+      this.overlaySelectedId = null;
+    }
+    this.routeId = next;
+    this.refreshFromController();
+    this.route(next);
   }
   /** 显示偏好属于瞬时 UI 状态，由壳层拥有；不进 core。 */
   private textScale = 1;
@@ -513,8 +548,32 @@ export class AppShell extends Component {
     this.unmount();
   }
 
+  /** 大厅类页面读账号与槽位；从 driver 拉最新一份，读完再重挂一次。 */
+  private refreshLobbyData(screenId: string): void {
+    const c = this.runController;
+    if (!c || !LOBBY_DATA_SCREENS.has(screenId)) {
+      return;
+    }
+    if (c.account) {
+      this.account = c.account();
+    }
+    if (screenId === "slots" && c.slots) {
+      void c.slots().then((rows) => {
+        this.savedSlots = rows;
+        if (this.routeId === "slots") {
+          this.mountRoute("slots");
+        }
+      });
+    }
+  }
+
   /** 切路由：先卸载旧 renderer，再挂载新 renderer，禁止同时存在两个。 */
   route(screenId: string): void {
+    this.refreshLobbyData(screenId);
+    this.mountRoute(screenId);
+  }
+
+  private mountRoute(screenId: string): void {
     this.shellStarted = true;
     const renderer =
       screenId === DIAGNOSTICS_SCREEN_ID || screenId === GALLERY_ROUTE_ID
@@ -560,8 +619,13 @@ export class AppShell extends Component {
 
   private mount(renderer: RendererKind): void {
     const host = new Node(`shell-host-${renderer}`);
-    host.layer = this.node.layer;
+    // 固定放在 UI_2D：Boot 节点在 DEFAULT 层，UI 相机只画 UI_2D/UI_3D，继承它的层会整屏空白。
+    // 子节点都按 `parent.layer` 继承，所以只要宿主在 UI_2D，整页就在 UI_2D。
+    host.layer = Layers.Enum.UI_2D;
     this.node.addChild(host);
+    // boot.scene 里 Boot 挂在 UI 相机（z=1000）下面；宿主拉回画布平面，否则整页贴在相机近裁面上被裁掉。
+    const world = this.node.worldPosition;
+    host.setWorldPosition(world.x, world.y, 0);
     host.addComponent(UITransform);
     this.host = host;
     this.mountedRenderer = renderer;
@@ -689,20 +753,19 @@ export class AppShell extends Component {
     }
 
     if (renderer === "presentation" && this.routeId === "battle") {
-      if (!this.battleView) {
-        this.model = buildBattleModel({
-          state: this.resolveState("empty") as "normal",
-          reason: this.resolveReason(),
-          view: EMPTY_BATTLE_VIEW,
-        });
-      } else {
-        this.model = buildBattleModel({
-          state: this.resolveState("normal") as "normal",
-          reason: this.resolveReason(),
-          view: this.battleView,
-        });
-      }
-      this.battleScreen.mount(host, this.model, {
+      const battleModel = !this.battleView
+        ? buildBattleModel({
+            state: this.resolveState("empty") as "normal",
+            reason: this.resolveReason(),
+            view: EMPTY_BATTLE_VIEW,
+          })
+        : buildBattleModel({
+            state: this.resolveState("normal") as "normal",
+            reason: this.resolveReason(),
+            view: this.battleView,
+          });
+      this.model = battleModel;
+      this.battleScreen.mount(host, battleModel, {
         viewport: this.viewport,
         textScale: this.textScale,
         reduceMotion: this.reduceMotion,
@@ -716,7 +779,7 @@ export class AppShell extends Component {
       const derivedState =
         this.starterArt === "error" ? "error" : this.starterArt === "loading" ? "loading" : "normal";
       const resolvedState = this.resolveState(derivedState);
-      this.model = buildStarterModel({
+      const starterModel = buildStarterModel({
         state: resolvedState as "normal",
         view,
         selectedId: this.starterSelectedId,
@@ -725,7 +788,8 @@ export class AppShell extends Component {
           this.resolveReason() ??
           (this.starterArt === "error" ? "立绘载入失败" : undefined),
       });
-      this.starterScreen.mount(host, this.model, {
+      this.model = starterModel;
+      this.starterScreen.mount(host, starterModel, {
         viewport: this.viewport,
         textScale: this.textScale,
         onAction: (id) => this.dispatch(id),

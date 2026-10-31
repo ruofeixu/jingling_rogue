@@ -16,7 +16,7 @@ PLACEHOLDER_PATTERN = re.compile(
     rb"console\s*\.\s*log\s*\(\s*[\"']\[jingling\]\s+bundle-",
     re.IGNORECASE,
 )
-PORTRAIT_LOGICAL_PATTERN = re.compile(r"(?:^|/)(?:remote/)?spirits(?:-folk)?/", re.IGNORECASE)
+PORTRAIT_LOGICAL_PATTERN = re.compile(r"(?:^|/)(?:remote/)?spirits/", re.IGNORECASE)
 ALLOWED_LIB_VERSION_ALIASES = frozenset({"latest", "trial", "widelyUsed"})
 LIB_VERSION_NUMBER_PATTERN = re.compile(r"^\d+\.\d+\.\d+$")
 

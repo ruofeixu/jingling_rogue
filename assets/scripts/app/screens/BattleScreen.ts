@@ -1,15 +1,19 @@
-import { Node, UIOpacity, tween } from "cc";
+import { Node, Tween, UIOpacity, UITransform, tween } from "cc";
 import {
   MOTION,
   SPACE,
   TYPE,
+  battleLayout,
   buildResponsiveFrame,
+  hpRatio,
+  hpTone,
   motionDurationMs,
-  type ResponsiveFrame,
   type ScreenModel,
   type Viewport,
 } from "../../vendor/jinglingPresentation";
+import { attachPortraitSprite } from "../../ui/portrait";
 import { makeButton } from "../ui/Button.ts";
+import { makeHpBar, type HpBarHandle, type HpBarTone } from "../ui/HpBar.ts";
 import { makePanel } from "../ui/Panel.ts";
 import { addLabel } from "../ui/Text.ts";
 
@@ -20,78 +24,84 @@ export interface BattleRenderOptions {
   readonly onAction?: (actionId: string) => void;
 }
 
+interface Plate {
+  readonly spiritId: string;
+  readonly name: string;
+  readonly level: number;
+  readonly hp: number;
+  readonly maxHp: number;
+  readonly status: string;
+}
+
+/** ScreenModel 加上战斗名牌。渲染层只读这些字段，不从文案里拆血量。 */
+interface BattleMountModel extends ScreenModel {
+  readonly plates: {
+    readonly foe: Plate;
+    readonly ally: Plate;
+  };
+}
+
+interface RatioState {
+  ratio: number;
+}
+
 /**
- * battle 页 renderer。只把 ScreenModel 画出来：
- * 顶部工具行、敌我名牌、战场区、命令区、底部战况。
+ * battle 页 renderer。只把 ScreenModel 和名牌画出来：
+ * 顶栏、敌我立绘与名牌、命令区、底部战况。
  * 不算伤害、不改状态、不读玩法对象。
  */
 export class BattleScreen {
   private root: Node | null = null;
+  private readonly lastRatio = new Map<string, number>();
+  private readonly ratioStates: RatioState[] = [];
 
-  mount(parent: Node, model: ScreenModel, opts: BattleRenderOptions): Node {
+  mount(parent: Node, model: BattleMountModel, opts: BattleRenderOptions): Node {
     this.unmount();
     const scale = opts.textScale ?? 1;
     const reduceMotion = opts.reduceMotion ?? false;
-    const frame: ResponsiveFrame = buildResponsiveFrame(opts.viewport);
+    const frame = buildResponsiveFrame(opts.viewport);
+    const layout = battleLayout(frame);
 
     const root = new Node("battle-screen");
     root.layer = parent.layer;
     parent.addChild(root);
     this.root = root;
 
-    const [waveLine, goldLine, foeLine, allyLine, partyLine, ...logLines] = model.lines;
-    const topY = frame.content.height / 2 - SPACE.lg;
-
-    addLabel(root, {
-      text: [waveLine, goldLine, partyLine].filter(Boolean).join("  "),
-      x: 0,
-      y: topY,
-      width: frame.content.width - SPACE.lg,
-      fontSize: TYPE.caption * scale,
-      tone: "muted",
+    const top = makePanel(root, {
+      name: "top-bar",
+      skin: "topbar",
+      x: layout.topBar.x,
+      y: layout.topBar.y,
+      width: layout.topBar.width,
+      height: layout.topBar.height,
     });
-
-    const plateWidth = Math.min(frame.content.width * 0.6, frame.content.width - SPACE.xl);
-    const plateHeight = SPACE.xl + SPACE.lg;
-
-    const foePlate = makePanel(root, {
-      name: "foe-plate",
-      x: -(frame.content.width - plateWidth) / 4,
-      y: topY - plateHeight,
-      width: plateWidth,
-      height: plateHeight,
-    });
-    addLabel(foePlate, {
-      text: foeLine ?? "",
+    addLabel(top, {
+      text: headerText(model.lines),
       x: 0,
       y: 0,
-      width: plateWidth - SPACE.md,
+      width: layout.topBar.width - SPACE.lg,
       fontSize: TYPE.body * scale,
       tone: "ink",
     });
 
-    const allyPlate = makePanel(root, {
-      name: "ally-plate",
-      x: (frame.content.width - plateWidth) / 4,
-      y: -frame.content.height * 0.12,
-      width: plateWidth,
-      height: plateHeight,
-    });
-    addLabel(allyPlate, {
-      text: allyLine ?? "",
-      x: 0,
-      y: 0,
-      width: plateWidth - SPACE.md,
-      fontSize: TYPE.body * scale,
-      tone: "ink",
-    });
+    this.placeFighter(root, "foe", model.plates.foe, layout.foeArt, layout.foePlate, true, scale, reduceMotion);
+    this.placeFighter(root, "ally", model.plates.ally, layout.allyArt, layout.allyPlate, false, scale, reduceMotion);
 
-    if (model.reason) {
-      addLabel(root, {
-        text: model.reason,
+    const logText = model.reason ?? logLine(model.lines);
+    if (logText) {
+      const log = makePanel(root, {
+        name: "log",
+        skin: "log_bubble",
+        x: layout.log.x,
+        y: layout.log.y,
+        width: layout.log.width,
+        height: layout.log.height,
+      });
+      addLabel(log, {
+        text: logText,
         x: 0,
-        y: -frame.content.height * 0.26,
-        width: frame.content.width - SPACE.xl,
+        y: 0,
+        width: layout.log.width - SPACE.lg,
         fontSize: TYPE.body * scale,
         tone: "ink",
         wrap: true,
@@ -101,24 +111,20 @@ export class BattleScreen {
     const actions = model.primaryAction
       ? [model.primaryAction, ...model.secondaryActions]
       : model.secondaryActions;
-    const cols = frame.columns === 2 ? 4 : 2;
-    const buttonHeight = SPACE.xl + SPACE.md;
-    const buttonWidth = (frame.content.width - SPACE.lg * (cols + 1)) / cols;
-    const commandsY = -frame.content.height / 2 + SPACE.xl * 2 + buttonHeight;
-
     actions.forEach((action, index) => {
-      const col = index % cols;
-      const row = Math.floor(index / cols);
-      // battle.<verb> -> icon_<verb>；有素材则显示图标，无则纯文字。
+      const slot = layout.commands[index];
+      if (!slot) {
+        return;
+      }
       const verb = action.id.split(".").pop() ?? "";
       makeButton(
         root,
         {
           action,
-          x: (col - (cols - 1) / 2) * (buttonWidth + SPACE.lg),
-          y: commandsY - row * (buttonHeight + SPACE.sm),
-          width: buttonWidth,
-          height: buttonHeight,
+          x: slot.x,
+          y: slot.y,
+          width: slot.width,
+          height: slot.height,
           primary: index === 0,
           textScale: scale,
           icon: `icon_${verb}`,
@@ -127,20 +133,6 @@ export class BattleScreen {
       );
     });
 
-    const log = logLines.filter(Boolean).join(" ");
-    if (log) {
-      addLabel(root, {
-        text: log,
-        x: 0,
-        y: -frame.content.height / 2 + SPACE.lg,
-        width: frame.content.width - SPACE.lg,
-        fontSize: TYPE.caption * scale,
-        tone: "muted",
-        wrap: true,
-      });
-    }
-
-    // 受击反馈：减少动效下由共享助手压到上限以内
     const opacity = root.addComponent(UIOpacity);
     opacity.opacity = 0;
     tween(opacity)
@@ -151,6 +143,10 @@ export class BattleScreen {
   }
 
   unmount(): void {
+    for (const state of this.ratioStates) {
+      Tween.stopAllByTarget(state);
+    }
+    this.ratioStates.length = 0;
     if (!this.root) {
       return;
     }
@@ -162,4 +158,110 @@ export class BattleScreen {
   isMounted(): boolean {
     return this.root !== null;
   }
+
+  private placeFighter(
+    root: Node,
+    side: "ally" | "foe",
+    plate: Plate,
+    art: { x: number; y: number; width: number; height: number },
+    nameplate: { x: number; y: number; width: number; height: number },
+    faceLeft: boolean,
+    scale: number,
+    reduceMotion: boolean,
+  ): void {
+    const holder = new Node(`${side}-art`);
+    holder.layer = root.layer;
+    root.addChild(holder);
+    holder.addComponent(UITransform).setContentSize(art.width, art.height);
+    holder.setPosition(art.x, art.y, 0);
+    if (faceLeft) {
+      holder.setScale(-1, 1, 1);
+    }
+    attachPortraitSprite(holder, plate.spiritId, art.width, art.height);
+
+    const panel = makePanel(root, {
+      name: `${side}-plate`,
+      skin: "nameplate",
+      x: nameplate.x,
+      y: nameplate.y,
+      width: nameplate.width,
+      height: nameplate.height,
+    });
+    const title = plate.status === "常态" ? `${plate.name}  Lv ${plate.level}` : `${plate.name}  Lv ${plate.level}  ${plate.status}`;
+    addLabel(panel, {
+      text: title,
+      x: 0,
+      y: nameplate.height / 2 - SPACE.lg,
+      width: nameplate.width - SPACE.md,
+      fontSize: TYPE.body * scale,
+      tone: "ink",
+    });
+
+    const numberWidth = SPACE.xl * 2;
+    const barWidth = nameplate.width - SPACE.lg * 2 - numberWidth;
+    const ratio = hpRatio(plate.hp, plate.maxHp);
+    const bar = makeHpBar(panel, {
+      x: -numberWidth / 2,
+      y: -SPACE.sm,
+      width: barWidth,
+      height: SPACE.lg,
+      ratio,
+      tone: hpTone(side, ratio),
+    });
+    addLabel(panel, {
+      text: `${plate.hp}/${plate.maxHp}`,
+      x: nameplate.width / 2 - SPACE.md - numberWidth / 2,
+      y: -SPACE.sm,
+      width: numberWidth,
+      fontSize: TYPE.caption * scale,
+      tone: "muted",
+    });
+    this.animateRatio(`${side}:${plate.spiritId}`, bar, ratio, side, reduceMotion, holder);
+  }
+
+  private animateRatio(
+    key: string,
+    bar: HpBarHandle,
+    ratio: number,
+    side: "ally" | "foe",
+    reduceMotion: boolean,
+    art: Node,
+  ): void {
+    const from = this.lastRatio.get(key) ?? ratio;
+    this.lastRatio.set(key, ratio);
+    if (ratio === from) {
+      // 血量没变：血条构造时已是目标值，不需要缓降，也不用白跑一段逐帧重绘。
+      return;
+    }
+    const state: RatioState = { ratio: from };
+    this.ratioStates.push(state);
+    const seconds = motionDurationMs(MOTION.normal, reduceMotion) / 1000;
+    tween(state)
+      .to(seconds, { ratio }, {
+        onUpdate: () => bar.setRatio(state.ratio, hpTone(side, state.ratio)),
+      })
+      .start();
+
+    if (ratio < from) {
+      const opacity = art.getComponent(UIOpacity) ?? art.addComponent(UIOpacity);
+      Tween.stopAllByTarget(opacity);
+      opacity.opacity = 255;
+      const flash = motionDurationMs(MOTION.fast, reduceMotion) / 1000;
+      tween(opacity).to(flash / 2, { opacity: 120 }).to(flash / 2, { opacity: 255 }).start();
+    }
+  }
+}
+
+function headerText(lines: readonly string[]): string {
+  const wave = lines.find((line) => line.startsWith("第")) ?? "";
+  const gold = lines.find((line) => line.startsWith("金")) ?? "";
+  const party = lines.find((line) => line.startsWith("队伍")) ?? "";
+  return [wave, gold, party].filter((line) => line.length > 0).join(" · ");
+}
+
+function logLine(lines: readonly string[]): string {
+  const reserved = ["第", "金", "敌", "我", "队伍"];
+  return lines
+    .filter((line) => !reserved.some((prefix) => line.startsWith(prefix)))
+    .join(" ");
 }

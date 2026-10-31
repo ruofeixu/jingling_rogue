@@ -9,7 +9,7 @@ import { redeemVoucher, skipEggSteps, hatchEgg, hatchReady, useEggMachine, type 
 import { spendCandy, currentCost } from "../meta/candy.ts";
 import { SETTINGS_TABS, type SettingsTab } from "../meta/settings.ts";
 import { GLOSSARY, formatArtPlay, formatBattleNudge, formatBoonHint, formatBoonTaken, formatCodexLog, formatMiss, formatNextHint, formatRunHarvest, formatRunSummary, formatSpentArt, CODEX_PAGE_SIZE, listCodexSpirits } from "./copy.ts";
-import { hasCartoonPortrait, hasPortrait } from "../assets/manifest.ts";
+import { hasPortrait } from "../assets/manifest.ts";
 import type { RunMode } from "../run/modes/types.ts";
 import { SEAL_TIERS } from "../catch/seal.ts";
 import { utcDateStamp } from "../run/modes/daily.ts";
@@ -81,7 +81,6 @@ export class PreviewApp {
   battle: PartyBattle | null = null;
   codexPage = 0;
   codexId: string | null = null;
-  codexArt: "folk" | "cartoon" = "cartoon";
   private glossaryBack: PreviewScreen = "title";
   private seed: string;
 
@@ -525,28 +524,14 @@ export class PreviewApp {
 
   private showCodexEntry(id: string): void {
     this.codexId = id;
-    this.codexArt = hasCartoonPortrait(id) ? "cartoon" : "folk";
     this.screen = "codex";
     this.title = getSpirit(id).name;
     this.log = formatCodexLog(id);
   }
 
-  private setCodexArt(style: "folk" | "cartoon"): void {
-    this.codexArt = style;
-    this.log = formatCodexLog(this.codexId ?? "", style);
-  }
-
   private codexControls(): { label: string; run: () => void }[] {
     if (this.codexId) {
-      const rows: { label: string; run: () => void }[] = [];
-      if (hasCartoonPortrait(this.codexId)) {
-        rows.push({ label: "卡通", run: () => this.setCodexArt("cartoon") });
-      }
-      if (hasPortrait(this.codexId)) {
-        rows.push({ label: "年画", run: () => this.setCodexArt("folk") });
-      }
-      rows.push({ label: "返回", run: () => this.openCodex() });
-      return rows;
+      return [{ label: "返回", run: () => this.openCodex() }];
     }
     const all = listCodexSpirits();
     const start = this.codexPage * CODEX_PAGE_SIZE;

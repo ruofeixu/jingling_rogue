@@ -1,4 +1,4 @@
-import { Color, Graphics, Label, Node, Sprite, UITransform } from "cc";
+import { Color, Graphics, Label, Node, Sprite, Tween, UITransform, Vec3, tween } from "cc";
 import {
   COLOR,
   MIN_HIT_SIZE,
@@ -15,15 +15,21 @@ function color(token: Rgb, alpha = 255): Color {
   return new Color(token[0], token[1], token[2], alpha);
 }
 
-/** 压暗：向黑插值（f<1 越小越暗）。用于立体厚边与描边。 */
+/** 压暗：向黑插值（f<1 越小越暗）。用于描边。 */
 function shade(token: Rgb, f: number): Color {
   return new Color(Math.round(token[0] * f), Math.round(token[1] * f), Math.round(token[2] * f), 255);
 }
 
-/** 提亮：向白插值（f 为向白比例）。用于顶部高光条。 */
-function tint(token: Rgb, f: number): Color {
-  const mix = (c: number) => Math.round(c + (255 - c) * f);
-  return new Color(mix(token[0]), mix(token[1]), mix(token[2]), 255);
+/** 按下 60ms 缩到 0.94，松开或取消 90ms 回到 1。都低于减少动效的 150ms 上限。 */
+const PRESS_SCALE = 0.94;
+const PRESS_IN_SEC = 0.06;
+const PRESS_OUT_SEC = 0.09;
+
+function scaleTo(node: Node, scale: number, seconds: number): void {
+  Tween.stopAllByTarget(node);
+  tween(node)
+    .to(seconds, { scale: new Vec3(scale, scale, 1) })
+    .start();
 }
 
 export interface ButtonOptions {
@@ -64,34 +70,22 @@ export function makeButton(parent: Node, opts: ButtonOptions, onTap?: () => void
     sprite.spriteFrame = frame;
     sprite.sizeMode = Sprite.SizeMode.CUSTOM;
     UiSkin.shared().applySlice(sprite, skinName);
+    // 赋 spriteFrame 会把节点重设成贴图原尺寸，CUSTOM 之后再把按钮尺寸设回来。
+    transform.setContentSize(Math.max(opts.width, MIN_HIT_SIZE), Math.max(opts.height, MIN_HIT_SIZE));
   } else {
-    // 回退：程序化厚涂质感 —— 底部深色立体厚边 + 主体 + 顶部高光条 + 厚描边。
+    // 回退：水墨程序化画法 —— 平涂主体 + 细描边（朱砂按钮边同色，像一方印）。笔触由贴图提供（I2b）。
     const half = { w: opts.width / 2, h: opts.height / 2 };
-    const bodyTok = opts.primary ? COLOR.accent : COLOR.slip;
-    const edgeTok = opts.primary ? COLOR.accent : COLOR.edge;
-    const ledge = SPACE.xs + 2;
-
-    // 1) 底部立体厚边（主体色压暗，向下偏移，制造按下去的厚度）
-    const shadow = node.addComponent(Graphics);
-    shadow.roundRect(-half.w, -half.h - ledge, opts.width, opts.height, RADIUS.control);
-    shadow.fillColor = shade(bodyTok, 0.72);
-    shadow.fill();
-
-    // 2) 主体
+    // 禁用的一级按钮退到 slip 底：淡墨字压朱砂看不清。
+    const vermilion = opts.primary && opts.action.enabled;
+    const bodyTok = vermilion ? COLOR.accent : COLOR.slip;
+    const edgeTok = vermilion ? COLOR.accent : COLOR.edge;
     const g = node.addComponent(Graphics);
     g.roundRect(-half.w, -half.h, opts.width, opts.height, RADIUS.control);
     g.fillColor = color(bodyTok);
     g.fill();
-    g.strokeColor = shade(edgeTok, 0.8);
-    g.lineWidth = SPACE.xs;
+    g.strokeColor = shade(edgeTok, 0.85);
+    g.lineWidth = SPACE.xs / 2;
     g.stroke();
-
-    // 3) 顶部高光条（主体色提亮，覆盖上半，圆角）
-    const hi = node.addComponent(Graphics);
-    const hiH = opts.height * 0.42;
-    hi.roundRect(-half.w + ledge, half.h - hiH - ledge, opts.width - ledge * 2, hiH, RADIUS.control);
-    hi.fillColor = tint(bodyTok, 0.55);
-    hi.fill();
   }
 
   // 可选图标（有素材才画）
@@ -103,10 +97,12 @@ export function makeButton(parent: Node, opts: ButtonOptions, onTap?: () => void
       iconNode.layer = parent.layer;
       node.addChild(iconNode);
       const iconSize = Math.min(opts.height - SPACE.sm, TYPE.title * 1.2);
-      iconNode.addComponent(UITransform).setContentSize(iconSize, iconSize);
+      const iconTransform = iconNode.addComponent(UITransform);
       const iconSprite = iconNode.addComponent(Sprite);
       iconSprite.spriteFrame = iconFrame;
       iconSprite.sizeMode = Sprite.SizeMode.CUSTOM;
+      // 先赋图再定尺寸：否则 256×256 的图标原尺寸会盖掉这里的尺寸。
+      iconTransform.setContentSize(iconSize, iconSize);
       iconNode.setPosition(-opts.width / 2 + iconSize / 2 + SPACE.md, 0, 0);
       labelX = iconSize / 2;
     }
@@ -123,12 +119,22 @@ export function makeButton(parent: Node, opts: ButtonOptions, onTap?: () => void
     : `${opts.action.label}（${opts.action.disabledReason}）`;
   label.fontSize = TYPE.body * (opts.textScale ?? 1);
   label.lineHeight = label.fontSize * TYPE.lineHeightRatio;
-  label.color = opts.action.enabled ? color(COLOR.ink) : color(COLOR.muted);
+  // 朱砂底配宣纸色字（墨字压朱砂只有 2.29:1），其余墨字；禁用淡墨。
+  label.color = !opts.action.enabled ? color(COLOR.muted) : opts.primary ? color(COLOR.paper) : color(COLOR.ink);
   label.horizontalAlign = Label.HorizontalAlign.CENTER;
   label.verticalAlign = Label.VerticalAlign.CENTER;
 
   if (onTap && opts.action.enabled) {
-    node.on(Node.EventType.TOUCH_END, onTap, node);
+    node.on(Node.EventType.TOUCH_START, () => scaleTo(node, PRESS_SCALE, PRESS_IN_SEC), node);
+    node.on(Node.EventType.TOUCH_CANCEL, () => scaleTo(node, 1, PRESS_OUT_SEC), node);
+    node.on(
+      Node.EventType.TOUCH_END,
+      () => {
+        scaleTo(node, 1, PRESS_OUT_SEC);
+        onTap();
+      },
+      node,
+    );
   }
   return node;
 }

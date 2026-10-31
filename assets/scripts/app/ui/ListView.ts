@@ -63,6 +63,7 @@ export class ListView {
       width: frame.content.width - SPACE.xl,
       fontSize: TYPE.title * scale,
       tone: "ink",
+      heading: true,
     });
 
     let cursor = headerY - TYPE.title * scale * TYPE.lineHeightRatio - SPACE.sm;

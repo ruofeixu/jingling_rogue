@@ -10,26 +10,25 @@ import { auditA11y, type ContrastCase, type HitAreaCase } from "./a11y-audit.ts"
 /**
  * 实际渲染中出现的前景/背景组合。
  * 取值以 `assets/scripts/app/ui/Button.ts` 等 renderer 的真实写法为准：
- * 一级按钮是 `ink` 文字压 `accent` 底（不是浅色文字）。
+ * 水墨版一级按钮是 `paper`（宣纸色）文字压 `accent`（朱砂）底——墨字压朱砂只有 2.29:1。
  */
 const REAL_PAIRS: ContrastCase[] = [
   { label: "正文 ink / 纸底", fg: COLOR.ink, bg: COLOR.paper },
   { label: "正文 ink / 面板", fg: COLOR.ink, bg: COLOR.panel },
   { label: "次要 muted / 纸底", fg: COLOR.muted, bg: COLOR.paper },
   { label: "次要 muted / 面板", fg: COLOR.muted, bg: COLOR.panel },
-  { label: "一级按钮文字 ink / accent", fg: COLOR.ink, bg: COLOR.accent },
+  { label: "一级按钮文字 paper / accent", fg: COLOR.paper, bg: COLOR.accent },
+  { label: "强调字 accent / 纸底", fg: COLOR.accent, bg: COLOR.paper },
   { label: "次级按钮文字 ink / slip", fg: COLOR.ink, bg: COLOR.slip },
   { label: "战场文字 ink / field", fg: COLOR.ink, bg: COLOR.field },
   { label: "标题 ink / 纸底（大字）", fg: COLOR.ink, bg: COLOR.paper, role: "large" },
 ];
 
 /**
- * 禁用态文字（muted 压 accent = 3.93:1）不计入正文门槛。
- * 依据 WCAG 1.4.3 的 Incidental 例外：失效控件中的文字不受对比度要求约束。
- * 这里仍然把它审一遍，只是按大字号阈值（3.0:1）要求，确保不至于完全看不清。
+ * 禁用态：水墨版禁用的一级按钮不再用朱砂底（淡墨压朱砂只有 1.12:1），一律退到 slip 底。
+ * 依据 WCAG 1.4.3 的 Incidental 例外，失效控件文字不受正文门槛约束；这里仍按大字号 3.0:1 审，确保看得清。
  */
 const DISABLED_PAIRS: ContrastCase[] = [
-  { label: "禁用文字 muted / accent", fg: COLOR.muted, bg: COLOR.accent, role: "large" },
   { label: "禁用文字 muted / slip", fg: COLOR.muted, bg: COLOR.slip, role: "large" },
 ];
 
@@ -55,10 +54,10 @@ describe("real design tokens pass the a11y audit", () => {
     expect(report.findings.map((f) => `${f.label}: ${f.detail}`)).toEqual([]);
   });
 
-  it("would catch a regression that flips the primary label to a light colour", () => {
-    // 反向验证：把一级按钮文字换成浅色（paper 压 accent = 2.09:1）必须被抓住。
+  it("would catch a regression that puts ink text back on the vermilion primary", () => {
+    // 反向验证：墨字压朱砂（2.29:1）必须被抓住；这是卡通版的旧写法。
     const report = auditA11y({
-      contrast: [{ label: "错误改法", fg: COLOR.paper, bg: COLOR.accent }],
+      contrast: [{ label: "错误改法", fg: COLOR.ink, bg: COLOR.accent }],
     });
 
     expect(report.ok).toBe(false);

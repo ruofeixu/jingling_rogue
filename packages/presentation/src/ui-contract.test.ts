@@ -47,6 +47,18 @@ describe("U2 Cocos component contract", () => {
     }
   });
 
+  it("presses in on touch and releases on end or cancel, but not when disabled", () => {
+    const src = read(FILES.button);
+
+    expect(src).toContain("TOUCH_START");
+    expect(src).toContain("TOUCH_CANCEL");
+    expect(src).toContain("0.94");
+    expect(src).toMatch(/0\.06/);
+    expect(src).toMatch(/0\.09/);
+    const enabledBranch = src.slice(src.indexOf("if (onTap && opts.action.enabled)"));
+    expect(enabledBranch).toContain("TOUCH_START");
+  });
+
   it("enforces the minimum hit area in the button", () => {
     const src = read(FILES.button);
 

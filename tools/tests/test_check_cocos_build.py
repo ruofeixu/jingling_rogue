@@ -144,7 +144,7 @@ def test_rejects_bundle_relative_portrait_paths_in_main_package(tmp_path: Path) 
     resources = build / "assets" / "resources"
     resources.mkdir(parents=True)
     (resources / "config.json").write_text(
-        '{"paths":{"1":["spirits/zao_li/texture",1,1],"2":["spirits-folk/zao_li/texture",1,1]}}'
+        '{"paths":{"1":["spirits/zao_li/texture",1,1]}}'
     )
 
     with pytest.raises(module.BuildInspectionError, match="portrait"):

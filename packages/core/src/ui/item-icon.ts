@@ -1,4 +1,5 @@
 import { SEAL_TIERS } from "../catch/seal.ts";
+import { THEME } from "./theme.ts";
 
 export const ICON_IDS = [
   "potion",
@@ -27,7 +28,7 @@ export type ItemIconId = (typeof ICON_IDS)[number];
 const FILL: Record<ItemIconId, readonly [number, number, number]> = {
   potion: [88, 168, 92],
   candy: [220, 96, 112],
-  gold: [255, 138, 74],
+  gold: THEME.gold,
   egg: [232, 212, 164],
   charm: [168, 132, 212],
   atk: [196, 72, 48],

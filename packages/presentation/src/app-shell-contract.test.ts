@@ -65,6 +65,22 @@ describe("AppShell contract", () => {
     expect(code).toContain("DESIGN_HEIGHT");
   });
 
+  it("puts the shell on the UI_2D layer instead of inheriting the Boot node's layer", () => {
+    // boot.scene 里 Boot 节点在 DEFAULT 层；UI 相机只看 UI_2D / UI_3D。
+    // 继承 Boot 的层，整套界面都不会被 UI 相机画出来（预览一片空白）。
+    const src = shellSource();
+
+    expect(src).toContain("Layers.Enum.UI_2D");
+    expect(src).not.toContain("host.layer = this.node.layer");
+  });
+
+  it("keeps the shell on the canvas plane even when Boot hangs under the UI camera", () => {
+    // boot.scene 里 Boot 是 UI 相机（z=1000）的子节点；宿主不归零世界 z，整套界面会贴在相机平面上被裁掉。
+    const src = shellSource();
+
+    expect(src).toMatch(/setWorldPosition\([^)]*0\)/);
+  });
+
   it("destroys the previous renderer before mounting the next one", () => {
     const src = shellSource();
 

@@ -121,11 +121,10 @@ describe("battle and glossary copy", () => {
     expect(sheet.pact).toMatch(/炎伤微增/);
     expect(sheet.evo).toMatch(/丹狸/);
     expect(formatCodexEntry("zao_li")).toMatch(/魂契/);
-    expect(formatCodexLog("zao_li", "folk")).toMatch(/立绘·年画/);
-    expect(formatCodexLog("zao_li", "cartoon")).toMatch(/立绘·卡通/);
+    expect(formatCodexLog("zao_li")).toMatch(/魂契/);
+    expect(formatCodexLog("zao_li")).not.toMatch(/年画|卡通/);
     expect(formatCodexLog("zhen_yue")).toMatch(/魂契/);
     expect(formatCodexLog("zhen_yue")).not.toMatch(/立绘/);
-    expect(formatCodexLog("zhen_yue", "folk")).not.toMatch(/立绘/);
   });
 
   it("pages the 契录 sixteen at a time with portraits first", () => {

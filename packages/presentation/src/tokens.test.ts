@@ -3,7 +3,7 @@ import { THEME } from "@jingling/core";
 import { COLOR, MOTION, RADIUS, SPACE, TYPE, toHex, toRgba } from "./tokens.ts";
 
 describe("design tokens", () => {
-  it("keeps colors in sync with the shipped cartoon theme", () => {
+  it("keeps colors in sync with the shipped ink theme", () => {
     expect(COLOR.paper).toEqual(THEME.paper);
     expect(COLOR.panel).toEqual(THEME.panel);
     expect(COLOR.ink).toEqual(THEME.ink);

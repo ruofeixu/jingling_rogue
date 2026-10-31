@@ -1,9 +1,12 @@
-import { Node, Sprite, SpriteFrame, UITransform } from "cc";
+import { Color, Graphics, Node, Sprite, SpriteFrame, UIOpacity, UITransform } from "cc";
 import {
+  COLOR,
+  RADIUS,
   SPACE,
   TYPE,
   buildResponsiveFrame,
-  type ResponsiveFrame,
+  starterLayout,
+  type Rgb,
   type ScreenModel,
   type Viewport,
 } from "../../vendor/jinglingPresentation";
@@ -21,17 +24,28 @@ export interface StarterRenderOptions {
   readonly frames?: Readonly<Record<string, SpriteFrame>>;
 }
 
+interface StarterMountModel extends ScreenModel {
+  readonly selectedId: string | null;
+}
+
+function color(token: Rgb): Color {
+  return new Color(token[0], token[1], token[2], 255);
+}
+
 /**
- * starter 页 renderer：三张候选卡横排（横屏两栏时仍保持一行三卡），
- * 选中详情与单一确认来自 ScreenModel。立绘尺寸走 portraitFit，等比 contain。
+ * starter 页 renderer：三张候选卡横排，选中详情与单一确认来自 ScreenModel。
+ * 立绘尺寸走 portraitFit，等比 contain。选中卡描主色并略放大，其余变淡。
  */
 export class StarterScreen {
   private root: Node | null = null;
 
-  mount(parent: Node, model: ScreenModel, opts: StarterRenderOptions): Node {
+  mount(parent: Node, model: StarterMountModel, opts: StarterRenderOptions): Node {
     this.unmount();
     const scale = opts.textScale ?? 1;
-    const frame: ResponsiveFrame = buildResponsiveFrame(opts.viewport);
+    const frame = buildResponsiveFrame(opts.viewport);
+    const picks = model.secondaryActions.filter((action) => action.id.includes(".pick."));
+    const others = model.secondaryActions.filter((action) => !action.id.includes(".pick."));
+    const layout = starterLayout(frame, picks.length);
 
     const root = new Node("starter-screen");
     root.layer = parent.layer;
@@ -40,38 +54,46 @@ export class StarterScreen {
 
     addLabel(root, {
       text: model.accessibleName,
-      x: 0,
-      y: frame.content.height / 2 - SPACE.xl,
-      width: frame.content.width - SPACE.xl,
+      x: layout.title.x,
+      y: layout.title.y,
+      width: layout.title.width,
       fontSize: TYPE.title * scale,
       tone: "ink",
+      heading: true,
     });
 
-    const cards = model.secondaryActions.filter((a) => a.id.includes(".pick."));
-    const others = model.secondaryActions.filter((a) => !a.id.includes(".pick."));
-
-    const cardWidth = Math.min(
-      (frame.content.width - SPACE.lg * (cards.length + 1)) / Math.max(1, cards.length),
-      frame.content.width / 3,
-    );
-    const cardHeight = Math.min(cardWidth * 1.4, frame.content.height * 0.42);
-    const cardsY = frame.content.height * 0.1;
-
-    cards.forEach((action, index) => {
-      const x = (index - (cards.length - 1) / 2) * (cardWidth + SPACE.lg);
+    const chosen = model.selectedId;
+    picks.forEach((action, index) => {
+      const slot = layout.cards[index];
+      if (!slot) {
+        return;
+      }
+      const spiritId = action.id.split(".").pop() ?? "";
+      const selected = chosen !== null && chosen === spiritId;
       const card = makePanel(root, {
         name: `starter-card-${index}`,
-        x,
-        y: cardsY,
-        width: cardWidth,
-        height: cardHeight,
+        x: slot.x,
+        y: slot.y,
+        width: slot.width,
+        height: slot.height,
       });
+      if (selected) {
+        card.setScale(1.04, 1.04, 1);
+        const outline = card.addComponent(Graphics);
+        const halfW = slot.width / 2;
+        const halfH = slot.height / 2;
+        outline.roundRect(-halfW, -halfH, slot.width, slot.height, RADIUS.panel);
+        outline.lineWidth = SPACE.xs;
+        outline.strokeColor = color(COLOR.accent);
+        outline.stroke();
+      } else if (chosen) {
+        const fade = card.addComponent(UIOpacity);
+        fade.opacity = 170;
+      }
 
-      const spiritId = action.id.split(".").pop() ?? "";
-      // 优先用宿主注入的 frame；否则直接从 portraits bundle 按需加载真实立绘。
       const injected = opts.frames?.[spiritId];
-      const boxW = cardWidth - SPACE.lg;
-      const boxH = cardHeight - SPACE.xl * 2;
+      const boxW = slot.width - SPACE.lg;
+      const boxH = slot.height - SPACE.xl * 2;
       const artHolder = new Node("art-holder");
       artHolder.layer = root.layer;
       card.addChild(artHolder);
@@ -95,76 +117,68 @@ export class StarterScreen {
         {
           action,
           x: 0,
-          y: -cardHeight / 2 + SPACE.xl,
-          width: cardWidth - SPACE.md,
+          y: -slot.height / 2 + SPACE.xl,
+          width: slot.width - SPACE.md,
           height: SPACE.xl + SPACE.md,
           textScale: scale,
+          primary: selected,
         },
         action.enabled && opts.onAction ? () => opts.onAction?.(action.id) : undefined,
       );
     });
 
-    let cursor = cardsY - cardHeight / 2 - SPACE.lg;
-    if (model.reason) {
-      addLabel(root, {
-        text: model.reason,
-        x: 0,
-        y: cursor,
-        width: frame.content.width - SPACE.xl,
-        fontSize: TYPE.body * scale,
-        tone: "ink",
-        wrap: true,
-      });
-      cursor -= TYPE.body * scale * TYPE.lineHeightRatio + SPACE.sm;
-    }
-    for (const line of model.lines) {
-      addLabel(root, {
+    const detail = makePanel(root, {
+      name: "starter-detail",
+      x: layout.detail.x,
+      y: layout.detail.y,
+      width: layout.detail.width,
+      height: layout.detail.height,
+    });
+    const detailLines = [...(model.reason ? [model.reason] : []), ...model.lines];
+    const lineH = TYPE.body * scale * TYPE.lineHeightRatio;
+    detailLines.forEach((line, index) => {
+      addLabel(detail, {
         text: line,
         x: 0,
-        y: cursor,
-        width: frame.content.width - SPACE.xl,
-        fontSize: TYPE.caption * scale,
-        tone: "muted",
+        y: layout.detail.height / 2 - SPACE.md - lineH / 2 - index * lineH,
+        width: layout.detail.width - SPACE.lg,
+        fontSize: TYPE.body * scale,
+        tone: "ink",
       });
-      cursor -= TYPE.caption * scale * TYPE.lineHeightRatio + SPACE.xs;
-    }
+    });
 
-    const buttonHeight = SPACE.xl + SPACE.md;
-    // 主行动紧跟详情下方（不钉屏幕底），返回再排其下，避免大空白与错位。
-    cursor -= SPACE.md;
     if (model.primaryAction) {
-      makeButton(
-        root,
-        {
-          action: model.primaryAction,
-          x: 0,
-          y: cursor - buttonHeight / 2,
-          width: Math.min(frame.content.width * 0.72, frame.content.width - SPACE.xl),
-          height: buttonHeight,
-          primary: true,
-          textScale: scale,
-        },
-        model.primaryAction.enabled && opts.onAction
-          ? () => opts.onAction?.(model.primaryAction?.id ?? "")
-          : undefined,
-      );
-      cursor -= buttonHeight + SPACE.md;
-    }
-
-    others.forEach((action, index) => {
+      const action = model.primaryAction;
       makeButton(
         root,
         {
           action,
-          x: (index - (others.length - 1) / 2) * (frame.content.width * 0.5 + SPACE.lg),
-          y: cursor - buttonHeight / 2,
-          width: Math.min(frame.content.width * 0.5, frame.content.width - SPACE.xl),
-          height: buttonHeight,
+          x: layout.confirm.x,
+          y: layout.confirm.y,
+          width: layout.confirm.width,
+          height: layout.confirm.height,
+          primary: true,
           textScale: scale,
         },
         action.enabled && opts.onAction ? () => opts.onAction?.(action.id) : undefined,
       );
-    });
+    }
+
+    const back = others[0];
+    if (back) {
+      makeButton(
+        root,
+        {
+          action: back,
+          x: layout.back.x,
+          y: layout.back.y,
+          width: layout.back.width,
+          height: layout.back.height,
+          textScale: scale,
+        },
+        back.enabled && opts.onAction ? () => opts.onAction?.(back.id) : undefined,
+      );
+    }
 
     return root;
   }

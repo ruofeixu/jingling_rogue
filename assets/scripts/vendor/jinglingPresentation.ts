@@ -251,19 +251,51 @@ var PORTRAIT_IDS = /* @__PURE__ */ new Set([
 
 // ../core/src/ui/theme.ts
 var THEME = {
-  paper: [232, 244, 252],
-  panel: [255, 253, 248],
-  ink: [61, 50, 40],
-  accent: [255, 138, 74],
-  edge: [91, 184, 232],
-  field: [123, 198, 122],
-  fieldDeep: [98, 176, 100],
-  slip: [255, 236, 214],
-  muted: [80, 70, 62],
-  hpBack: [208, 192, 180],
-  hpHigh: [88, 196, 92],
-  hpMid: [220, 148, 28],
-  hpLow: [220, 72, 64]
+  /** 宣纸底 */
+  paper: [242, 236, 222],
+  /** 面板 */
+  panel: [250, 246, 236],
+  /** 浓墨正文 */
+  ink: [38, 34, 30],
+  /** 朱砂，一级行动；配浅色字 */
+  accent: [168, 44, 34],
+  /** 描边 */
+  edge: [110, 102, 90],
+  /** 战场底 */
+  field: [214, 218, 204],
+  fieldDeep: [190, 196, 180],
+  /** 次级按钮底 */
+  slip: [230, 222, 204],
+  /** 淡墨次要字 */
+  muted: [88, 82, 74],
+  /** 赭金：钱与金类图标 */
+  gold: [150, 112, 40],
+  hpBack: [222, 214, 196],
+  hpHigh: [86, 124, 92],
+  hpMid: [150, 106, 36],
+  hpLow: [140, 32, 26]
+};
+
+// ../core/src/ui/item-icon.ts
+var FILL = {
+  potion: [88, 168, 92],
+  candy: [220, 96, 112],
+  gold: THEME.gold,
+  egg: [232, 212, 164],
+  charm: [168, 132, 212],
+  atk: [196, 72, 48],
+  def: [140, 108, 72],
+  spd: [196, 164, 48],
+  hp: [88, 196, 92],
+  exp: [96, 148, 196],
+  catch: [196, 96, 64],
+  map: [72, 140, 108],
+  lure: [168, 112, 176],
+  "seal-fan": [168, 140, 96],
+  "seal-shang": [176, 120, 64],
+  "seal-te": [196, 72, 56],
+  "seal-qi": [88, 156, 128],
+  "seal-jie": [148, 116, 196]
 };
 
 // src/tokens.ts
@@ -312,6 +344,12 @@ var MOTION = Object.freeze({
   /** 减少动效下的硬上限，规格第 6 节。 */
   reducedMaxMs: 150
 });
+var HP_COLOR = Object.freeze({
+  track: rgb(THEME.hpBack),
+  ally: rgb(THEME.hpHigh),
+  foe: [176, 84, 60],
+  low: rgb(THEME.hpLow)
+});
 function channel(value) {
   return Math.max(0, Math.min(255, Math.round(value))).toString(16).padStart(2, "0");
 }
@@ -357,13 +395,13 @@ function assertContrast(fg, bg, role = "body") {
   }
   return ratio;
 }
-function hitAreaOk(box) {
-  return box.width >= MIN_HIT_SIZE && box.height >= MIN_HIT_SIZE;
+function hitAreaOk(box4) {
+  return box4.width >= MIN_HIT_SIZE && box4.height >= MIN_HIT_SIZE;
 }
-function assertHitArea(box, label) {
-  if (!hitAreaOk(box)) {
+function assertHitArea(box4, label) {
+  if (!hitAreaOk(box4)) {
     throw new Error(
-      `hit area ${box.width}x${box.height} for ${label} is below ${MIN_HIT_SIZE}x${MIN_HIT_SIZE}`
+      `hit area ${box4.width}x${box4.height} for ${label} is below ${MIN_HIT_SIZE}x${MIN_HIT_SIZE}`
     );
   }
 }
@@ -646,11 +684,22 @@ function buildStatsModel(input) {
   });
 }
 function buildSlotsModel(input) {
-  const actions = input.view.slots.map((slot) => ({
-    id: `${LOBBY_ACTIONS.loadSlot}.${slot.slot}`,
-    label: slot.occupied ? `\u69FD${slot.slot + 1} \u6CE2${slot.wave}` : `\u69FD${slot.slot + 1} \u7A7A`,
-    ...slot.occupied ? {} : { enabled: false, disabledReason: "\u8FD9\u4E2A\u69FD\u8FD8\u6CA1\u6709\u5B58\u6863" }
-  }));
+  const actions = input.view.slots.map((slot) => {
+    const name = slot.slot === 0 ? "\u69FD1 \u5F53\u524D\u65C5\u9014" : `\u69FD${slot.slot + 1}`;
+    if (slot.corrupt) {
+      return {
+        id: `${LOBBY_ACTIONS.loadSlot}.${slot.slot}`,
+        label: `\u69FD${slot.slot + 1} \u5B58\u6863\u635F\u574F`,
+        enabled: false,
+        disabledReason: "\u8FD9\u4E2A\u69FD\u7684\u5B58\u6863\u8BFB\u4E0D\u51FA\u6765\uFF0C\u5DF2\u5FFD\u7565"
+      };
+    }
+    return {
+      id: `${LOBBY_ACTIONS.loadSlot}.${slot.slot}`,
+      label: slot.occupied ? `${name} \u6CE2${slot.wave}` : `${name} \u7A7A`,
+      ...slot.occupied ? {} : { enabled: false, disabledReason: "\u8FD9\u4E2A\u69FD\u8FD8\u6CA1\u6709\u5B58\u6863" }
+    };
+  });
   const [first, ...rest] = actions;
   return buildStateModel({
     screenId: "slots",
@@ -660,7 +709,10 @@ function buildSlotsModel(input) {
     emptyHint: input.state === "empty" ? "\u4E94\u4E2A\u69FD\u90FD\u662F\u7A7A\u7684\uFF0C\u5F00\u5C40\u540E\u4F1A\u81EA\u52A8\u5B58\u6863\u3002" : void 0,
     primaryAction: first,
     secondaryActions: rest,
-    lines: [`\u5360\u7528 ${input.view.slots.filter((s) => s.occupied).length} / ${input.view.slots.length}`]
+    lines: [
+      `\u5360\u7528 ${input.view.slots.filter((s) => s.occupied).length} / ${input.view.slots.length}`,
+      "\u6BCF\u8FC7\u4E00\u6CE2\u81EA\u52A8\u5B58\u5230\u69FD1\uFF0C\u5F00\u65B0\u5C40\u4F1A\u8986\u76D6\u5B83\uFF1B\u6218\u6597\u4E2D\u9014\u9000\u51FA\uFF0C\u8BFB\u6863\u540E\u91CD\u6253\u8FD9\u4E00\u6CE2\u3002"
+    ]
   });
 }
 function buildGlossaryModel(input) {
@@ -711,19 +763,22 @@ function buildStarterModel(input) {
     selected ? `\u5C5E ${selected.affinities.join("\u3001")}` : "\u5C5E \u2014",
     relic ? `\u5951\u5370 ${relic.name}` : "\u5951\u5370 \u2014"
   ];
-  return buildStateModel({
-    screenId: "starter",
-    state: input.state,
-    accessibleName: "\u62E9\u4E00\u5951\u7075",
-    reason: input.reason,
-    emptyHint: input.state === "empty" ? "\u6CA1\u6709\u53EF\u9009\u7684\u521D\u59CB\u7CBE\u602A" : void 0,
-    primaryAction: {
-      id: STARTER_ACTIONS.confirm,
-      label: "\u5165\u4E16\u5386\u52AB",
-      ...confirmBlock ? { enabled: false, disabledReason: confirmBlock } : {}
-    },
-    secondaryActions: extras,
-    lines
+  return Object.freeze({
+    ...buildStateModel({
+      screenId: "starter",
+      state: input.state,
+      accessibleName: "\u62E9\u4E00\u5951\u7075",
+      reason: input.reason,
+      emptyHint: input.state === "empty" ? "\u6CA1\u6709\u53EF\u9009\u7684\u521D\u59CB\u7CBE\u602A" : void 0,
+      primaryAction: {
+        id: STARTER_ACTIONS.confirm,
+        label: "\u5165\u4E16\u5386\u52AB",
+        ...confirmBlock ? { enabled: false, disabledReason: confirmBlock } : {}
+      },
+      secondaryActions: extras,
+      lines
+    }),
+    selectedId: selected?.id ?? null
   });
 }
 
@@ -735,9 +790,21 @@ var BATTLE_ACTIONS = Object.freeze({
   flee: "battle.flee"
 });
 var COMMAND_ORDER = ["art", "party", "bag", "flee"];
+function plateStatus(plate) {
+  return plate.down ? "\u5012\u4E0B" : plate.ailment ?? "\u5E38\u6001";
+}
+function plateModel(plate) {
+  return Object.freeze({
+    spiritId: plate.id,
+    name: plate.name,
+    level: plate.level,
+    hp: plate.hp,
+    maxHp: plate.maxHp,
+    status: plateStatus(plate)
+  });
+}
 function plateLine(prefix, plate) {
-  const status = plate.down ? "\u5012\u4E0B" : plate.ailment ?? "\u5E38\u6001";
-  return `${prefix} ${plate.name} Lv ${plate.level} ${plate.hp}/${plate.maxHp} ${status}`;
+  return `${prefix} ${plate.name} Lv ${plate.level} ${plate.hp}/${plate.maxHp} ${plateStatus(plate)}`;
 }
 function buildBattleModel(input) {
   const byId = new Map(input.view.commands.map((command2) => [command2.id, command2]));
@@ -752,22 +819,28 @@ function buildBattleModel(input) {
     };
   });
   const [primary, ...rest] = actions;
-  return buildStateModel({
-    screenId: "battle",
-    state: input.state,
-    accessibleName: "\u6218\u6597",
-    reason: input.reason,
-    emptyHint: input.state === "empty" ? "\u73B0\u5728\u6CA1\u6709\u6218\u6597\uFF0C\u56DE\u5927\u5385\u5F00\u4E00\u5C40" : void 0,
-    primaryAction: primary,
-    secondaryActions: rest,
-    lines: [
-      `\u7B2C \u6CE2 ${input.view.wave}`.replace("\u6CE2 ", "\u6CE2").replace("\u7B2C ", "\u7B2C"),
-      `\u91D1 ${input.view.gold}`,
-      plateLine("\u654C", input.view.foe),
-      plateLine("\u6211", input.view.ally),
-      `\u961F\u4F0D ${input.view.partySize}`,
-      input.view.log
-    ].filter((line) => line.length > 0)
+  return Object.freeze({
+    ...buildStateModel({
+      screenId: "battle",
+      state: input.state,
+      accessibleName: "\u6218\u6597",
+      reason: input.reason,
+      emptyHint: input.state === "empty" ? "\u73B0\u5728\u6CA1\u6709\u6218\u6597\uFF0C\u56DE\u5927\u5385\u5F00\u4E00\u5C40" : void 0,
+      primaryAction: primary,
+      secondaryActions: rest,
+      lines: [
+        `\u7B2C ${input.view.wave} \u6CE2`,
+        `\u91D1 ${input.view.gold}`,
+        plateLine("\u654C", input.view.foe),
+        plateLine("\u6211", input.view.ally),
+        `\u961F\u4F0D ${input.view.partySize}`,
+        input.view.log
+      ].filter((line) => line.length > 0)
+    }),
+    plates: Object.freeze({
+      foe: plateModel(input.view.foe),
+      ally: plateModel(input.view.ally)
+    })
   });
 }
 
@@ -779,6 +852,7 @@ var OVERLAY_ACTIONS = Object.freeze({
   bagUse: "bag.use",
   targetPick: "target.pick",
   catchThrow: "catch.throw",
+  catchSkip: "catch.skip",
   cancel: "overlay.cancel"
 });
 var SPECS = Object.freeze({
@@ -855,8 +929,12 @@ function buildOverlayModel(input) {
       label: spec.primaryLabel,
       ...block ? { enabled: false, disabledReason: block } : {}
     },
-    // 取消永远可用：即使列表为空也能退出弹层。
-    secondaryActions: [...rows, { id: OVERLAY_ACTIONS.cancel, label: "\u8FD4\u56DE" }],
+    // 取消永远可用：即使列表为空也能退出弹层。收契页另有「放过」，战后不收也能继续赶路。
+    secondaryActions: [
+      ...rows,
+      ...spec.screenId === "catch" ? [{ id: OVERLAY_ACTIONS.catchSkip, label: "\u653E\u8FC7" }] : [],
+      { id: OVERLAY_ACTIONS.cancel, label: "\u8FD4\u56DE" }
+    ],
     lines: [`\u5171 ${items.length} \u9879`, selected ? `\u9009\u4E2D ${selected.label}` : "\u672A\u9009\u4E2D"]
   });
 }
@@ -864,6 +942,7 @@ function buildOverlayModel(input) {
 // src/screens/progress.ts
 var PROGRESS_ACTIONS = Object.freeze({
   summaryContinue: "summary.continue",
+  summaryPick: "summary.pick",
   shopBuy: "shop.buy",
   shopLeave: "shop.leave",
   omenPick: "omen.pick",
@@ -876,9 +955,9 @@ var SPECS2 = Object.freeze({
     accessibleName: "\u7ED3\u7B97",
     continueAction: PROGRESS_ACTIONS.summaryContinue,
     continueLabel: "\u7EE7\u7EED",
-    rowAction: null,
+    rowAction: PROGRESS_ACTIONS.summaryPick,
     emptyHint: "\u8FD9\u4E00\u8F6E\u6CA1\u6709\u53D8\u5316\uFF0C\u53EF\u4EE5\u76F4\u63A5\u7EE7\u7EED",
-    select: () => []
+    select: (v) => v.offers
   },
   shop: {
     accessibleName: "\u8D27\u644A",
@@ -928,7 +1007,11 @@ function buildProgressModel(input) {
     reason: input.reason,
     emptyHint: input.state === "empty" ? spec.emptyHint : void 0,
     // 主行动就是安全继续路径，永不禁用（loading 由状态层统一压禁）。
-    primaryAction: { id: spec.continueAction, label: spec.continueLabel },
+    // 结算页有机缘可选时，「继续」等于放弃领取，文案要说清楚。
+    primaryAction: {
+      id: spec.continueAction,
+      label: input.kind === "summary" && rows.length > 0 ? "\u4E0D\u9886\uFF0C\u7EE7\u7EED\u8D76\u8DEF" : spec.continueLabel
+    },
     secondaryActions: rowActions,
     lines
   });
@@ -998,6 +1081,219 @@ function buildOutcomeModel(input) {
   });
 }
 
+// src/layout/box.ts
+var EPS = 1e-6;
+function overlaps(a, b) {
+  return Math.abs(a.x - b.x) * 2 < a.width + b.width - EPS && Math.abs(a.y - b.y) * 2 < a.height + b.height - EPS;
+}
+function inside(inner, width, height) {
+  return inner.x - inner.width / 2 >= -width / 2 - EPS && inner.x + inner.width / 2 <= width / 2 + EPS && inner.y - inner.height / 2 >= -height / 2 - EPS && inner.y + inner.height / 2 <= height / 2 + EPS;
+}
+
+// src/layout/battle-layout.ts
+var TOP_H = 52;
+var COMMAND_H = 88;
+var LOG_H = 72;
+var PLATE_H = 96;
+function box(x, y, width, height) {
+  return { x, y, width, height };
+}
+function commandGrid(originX, areaWidth, bottomY, pad) {
+  const commandW = (areaWidth - pad) / 2;
+  const bottomRowY = bottomY + pad + COMMAND_H / 2;
+  const topRowY = bottomRowY + COMMAND_H + SPACE.md;
+  const leftX = originX - areaWidth / 2 + commandW / 2;
+  const rightX = originX + areaWidth / 2 - commandW / 2;
+  return [
+    box(leftX, topRowY, commandW, COMMAND_H),
+    box(rightX, topRowY, commandW, COMMAND_H),
+    box(leftX, bottomRowY, commandW, COMMAND_H),
+    box(rightX, bottomRowY, commandW, COMMAND_H)
+  ];
+}
+function fieldActors(fieldLeft, fieldRight, fieldTop, fieldBottom, spanW) {
+  const pad = SPACE.lg;
+  const fieldW = fieldRight - fieldLeft;
+  const fieldH = fieldTop - fieldBottom;
+  const plateW = spanW / 2 - pad;
+  const foeSize = Math.min(spanW * 0.42, fieldH * 0.45);
+  const allySize = Math.min(spanW * 0.46, fieldH * 0.5);
+  return {
+    foePlate: box(fieldLeft + plateW / 2, fieldTop - PLATE_H / 2, plateW, PLATE_H),
+    foeArt: box(fieldRight - foeSize / 2, fieldTop - foeSize / 2, foeSize, foeSize),
+    allyArt: box(fieldLeft + allySize / 2, fieldBottom + allySize / 2, allySize, allySize),
+    allyPlate: box(fieldRight - plateW / 2, fieldBottom + PLATE_H / 2, plateW, PLATE_H)
+  };
+}
+function battleLayout(frame) {
+  const pad = SPACE.lg;
+  const width = frame.content.width;
+  const height = frame.content.height;
+  const topBar = box(0, height / 2 - pad - TOP_H / 2, width - pad * 2, TOP_H);
+  if (frame.mode === "landscape") {
+    const columnW = (width - pad * 2 - pad) / 2;
+    const rightX = width / 2 - pad - columnW / 2;
+    const commands2 = commandGrid(rightX, columnW, -height / 2, pad);
+    const commandTop2 = commands2[0].y + COMMAND_H / 2;
+    const log2 = box(rightX, commandTop2 + pad + LOG_H / 2, columnW, LOG_H);
+    const fieldTop2 = topBar.y - TOP_H / 2 - pad;
+    const fieldBottom2 = -height / 2 + pad;
+    const fieldLeft = -width / 2 + pad;
+    const fieldRight = fieldLeft + columnW;
+    return {
+      topBar,
+      log: log2,
+      commands: commands2,
+      ...fieldActors(fieldLeft, fieldRight, fieldTop2, fieldBottom2, columnW)
+    };
+  }
+  const commands = commandGrid(0, width - pad * 2, -height / 2, pad);
+  const commandTop = commands[0].y + COMMAND_H / 2;
+  const log = box(0, commandTop + pad + LOG_H / 2, width - pad * 2, LOG_H);
+  const fieldTop = topBar.y - TOP_H / 2 - pad;
+  const fieldBottom = log.y + LOG_H / 2 + pad;
+  return {
+    topBar,
+    log,
+    commands,
+    ...fieldActors(-width / 2 + pad, width / 2 - pad, fieldTop, fieldBottom, width)
+  };
+}
+
+// src/layout/title-layout.ts
+var TITLE_H = 56;
+var SUBTITLE_H = 40;
+var PRIMARY_H = 76;
+var CELL_H = 60;
+var HINT_H = 36;
+function box2(x, y, width, height) {
+  return { x, y, width, height };
+}
+function rowsOf(count) {
+  return Math.max(0, Math.ceil(count / 2));
+}
+function gridHeight(count, gap) {
+  const rows = rowsOf(count);
+  if (rows === 0) {
+    return 0;
+  }
+  return rows * CELL_H + (rows - 1) * gap;
+}
+function gridBoxes(originX, top, count, cellW, gap) {
+  const gridW = cellW * 2 + gap;
+  const left = originX - gridW / 2;
+  const boxes = [];
+  for (let index = 0; index < count; index++) {
+    const col = index % 2;
+    const row = Math.floor(index / 2);
+    boxes.push(
+      box2(left + cellW / 2 + col * (cellW + gap), top - CELL_H / 2 - row * (CELL_H + gap), cellW, CELL_H)
+    );
+  }
+  return boxes;
+}
+function portraitLayout(width, height, count) {
+  const pad = SPACE.lg;
+  const gap = SPACE.md;
+  const contentW = width - pad * 2;
+  const menuH = gridHeight(count, gap);
+  const fixed = TITLE_H + SUBTITLE_H + PRIMARY_H + menuH + HINT_H;
+  const room = height - pad * 2 - fixed - gap * 5;
+  const mascotH = Math.min(contentW, height * 0.4, Math.max(height * 0.2, room));
+  const extra = height - pad * 2 - fixed - mascotH - gap * 5;
+  const step = gap + Math.max(0, extra) / 5;
+  let edge = height / 2 - pad;
+  const take = (blockH, blockW) => {
+    const placed = box2(0, edge - blockH / 2, blockW, blockH);
+    edge -= blockH + step;
+    return placed;
+  };
+  const title = take(TITLE_H, contentW);
+  const subtitle = take(SUBTITLE_H, contentW * 0.62);
+  const mascot = take(mascotH, mascotH);
+  const primary = take(PRIMARY_H, contentW);
+  const cells = gridBoxes(0, edge, count, (contentW - gap) / 2, gap);
+  edge -= menuH + step;
+  const hint = take(HINT_H, contentW);
+  return { title, subtitle, mascot, primary, hint, grid: cells };
+}
+function landscapeLayout(width, height, count) {
+  const pad = SPACE.lg;
+  const gap = SPACE.md;
+  const columnW = (width - pad * 3) / 2;
+  const leftX = -width / 2 + pad + columnW / 2;
+  const rightX = width / 2 - pad - columnW / 2;
+  const hint = box2(0, -height / 2 + pad + HINT_H / 2, width - pad * 2, HINT_H);
+  const columnTop = height / 2 - pad;
+  const columnBottom = hint.y + HINT_H / 2 + gap;
+  const title = box2(leftX, columnTop - TITLE_H / 2, columnW, TITLE_H);
+  const subtitle = box2(leftX, title.y - TITLE_H / 2 - gap - SUBTITLE_H / 2, columnW * 0.8, SUBTITLE_H);
+  const mascotTop = subtitle.y - SUBTITLE_H / 2 - gap;
+  const mascotRoom = mascotTop - columnBottom;
+  const mascotSize = Math.min(columnW, Math.max(height * 0.2, mascotRoom));
+  const mascot = box2(leftX, columnBottom + (mascotTop - columnBottom) / 2, mascotSize, mascotSize);
+  const primary = box2(rightX, columnTop - PRIMARY_H / 2, columnW, PRIMARY_H);
+  const cells = gridBoxes(rightX, primary.y - PRIMARY_H / 2 - gap, count, (columnW - gap) / 2, gap);
+  return { title, subtitle, mascot, primary, hint, grid: cells };
+}
+function titleLayout(frame, secondaryCount) {
+  const width = frame.content.width;
+  const height = frame.content.height;
+  if (frame.mode === "landscape") {
+    return landscapeLayout(width, height, secondaryCount);
+  }
+  return portraitLayout(width, height, secondaryCount);
+}
+
+// src/layout/starter-layout.ts
+var TITLE_H2 = 52;
+var DETAIL_H = 160;
+var BUTTON_H = 72;
+function box3(x, y, width, height) {
+  return { x, y, width, height };
+}
+function starterLayout(frame, cardCount) {
+  const width = frame.content.width;
+  const height = frame.content.height;
+  const pad = SPACE.lg;
+  const gap = SPACE.md;
+  const cardGap = SPACE.lg;
+  const contentW = width - pad * 2;
+  const title = box3(0, height / 2 - pad - TITLE_H2 / 2, contentW, TITLE_H2);
+  const buttonY = -height / 2 + pad + BUTTON_H / 2;
+  const backW = contentW * 0.3;
+  const confirmW = contentW - backW - gap;
+  const back = box3(-contentW / 2 + backW / 2, buttonY, backW, BUTTON_H);
+  const confirm = box3(contentW / 2 - confirmW / 2, buttonY, confirmW, BUTTON_H);
+  const detail = box3(0, buttonY + BUTTON_H / 2 + gap + DETAIL_H / 2, contentW, DETAIL_H);
+  const bandTop = title.y - TITLE_H2 / 2 - gap;
+  const bandBottom = detail.y + DETAIL_H / 2 + gap;
+  const band = Math.max(0, bandTop - bandBottom);
+  const cardH = Math.min(band, Math.max(height * 0.3, Math.min(height * 0.48, band)));
+  const cardY = (bandTop + bandBottom) / 2;
+  const count = Math.max(0, cardCount);
+  const cardW = count > 0 ? (contentW - cardGap * (count - 1)) / count : 0;
+  const cards = [];
+  for (let index = 0; index < count; index++) {
+    const rowW = count * cardW + (count - 1) * cardGap;
+    const x = -rowW / 2 + cardW / 2 + index * (cardW + cardGap);
+    cards.push(box3(x, cardY, cardW, cardH));
+  }
+  return { title, cards, detail, confirm, back };
+}
+
+// src/layout/hp.ts
+var LOW = 0.25;
+function hpRatio(hp, maxHp) {
+  if (!(maxHp > 0)) {
+    return 0;
+  }
+  return Math.max(0, Math.min(1, hp / maxHp));
+}
+function hpTone(side, ratio) {
+  return ratio <= LOW ? "low" : side;
+}
+
 // src/dispatch.ts
 var ROUTES = Object.freeze({
   [TITLE_ACTIONS.startRun]: "mode",
@@ -1058,7 +1354,8 @@ function resolveLiveRunAction(actionId) {
     "starter.confirm",
     "starter.back",
     "starter.retry-art",
-    "overlay.cancel"
+    "overlay.cancel",
+    "catch.skip"
   ]);
   if (NULLARY.has(actionId)) {
     return command(actionId);
@@ -1090,7 +1387,8 @@ function resolveLiveRunAction(actionId) {
     ["shop.buy.", "shop.buy"],
     ["map.enter.", "map.enter"],
     ["starter.pick.", "starter.pick"],
-    ["omen.pick.", "omen.pick"]
+    ["omen.pick.", "omen.pick"],
+    ["summary.pick.", "summary.pick"]
   ]) {
     if (actionId.startsWith(prefix)) {
       const id = actionId.slice(prefix.length);
@@ -1157,6 +1455,8 @@ function routeAfterCommand(input) {
       return "mode";
     case "outcome.lobby":
       return "title";
+    case "battle.art":
+      return input.phase === "battle" ? "arts" : nextScreen[input.phase] ?? input.current;
     case "battle.party":
       return "party";
     case "battle.bag":
@@ -1165,6 +1465,17 @@ function routeAfterCommand(input) {
       return input.phase === "catch" ? "catch" : "battle";
     default:
       break;
+  }
+  if (input.phase === "battle") {
+    if (input.waitingFor === "target") {
+      return "target";
+    }
+    if (input.waitingFor === "switch") {
+      return "switch";
+    }
+    if (input.command.endsWith(".confirm")) {
+      return "battle";
+    }
   }
   if (staysOnOverlay(input.command) && (input.phase === "battle" || input.phase === "catch")) {
     return input.current;
@@ -1403,6 +1714,7 @@ export {
   DESIGN_HEIGHT,
   DESIGN_WIDTH,
   DIAGNOSTICS_SCREEN_ID,
+  HP_COLOR,
   LOBBY_ACTIONS,
   MATRIX_SIZE,
   MIN_HIT_SIZE,
@@ -1426,6 +1738,7 @@ export {
   auditA11y,
   auditBudget,
   auditMatrix,
+  battleLayout,
   buildAchievementsModel,
   buildBattleModel,
   buildCodexEntryModel,
@@ -1453,15 +1766,21 @@ export {
   expectedMatrix,
   fitsScaledText,
   hitAreaOk,
+  hpRatio,
+  hpTone,
+  inside,
   isPresentationOwned,
   isScreenId,
   motionDurationMs,
   openOverlay,
+  overlaps,
   relativeLuminance,
   resolveAction,
   routeAfterCommand,
   selectRenderer,
+  starterLayout,
   thresholdFor,
+  titleLayout,
   toHex,
   toRgba,
   topOverlay,

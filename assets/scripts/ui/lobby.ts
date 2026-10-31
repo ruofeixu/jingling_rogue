@@ -6,7 +6,6 @@ import {
   formatCodexLog,
   formatCodexSheet,
   getSpirit,
-  hasCartoonPortrait,
   hasPortrait,
   listCodexSpirits,
   hatchEgg,
@@ -51,7 +50,6 @@ export interface LobbyHost {
   showGlossary(back?: () => void): void;
   codexPage: number;
   codexId: string | null;
-  codexArt: "folk" | "cartoon";
 }
 
 export function showTitle(host: LobbyHost): void {
@@ -197,7 +195,6 @@ export function showCodex(host: LobbyHost): void {
           grid.entryH,
           false,
           spirit.id,
-          host.codexArt,
         ),
       );
       host.extra.push(paintWindow(host.canvas, "codex-sheet", 0, grid.sheetY, grid.sheetW, grid.sheetH, 16));
@@ -206,24 +203,6 @@ export function showCodex(host: LobbyHost): void {
         addText(host.canvas, "codex-body", body, 0, grid.sheetY, grid.sheetW - 40, 24, INK, {
           wrap: true,
           height: grid.sheetH - 24,
-        }),
-      );
-    }
-    if (hasCartoonPortrait(host.codexId)) {
-      host.extra.push(
-        host.button("卡通", -lobby.shopDx, grid.navY, () => {
-          host.codexArt = "cartoon";
-          host.setLog(formatCodexLog(host.codexId ?? "", "cartoon"));
-          host.showCodex();
-        }),
-      );
-    }
-    if (hasPortrait(host.codexId)) {
-      host.extra.push(
-        host.button("年画", lobby.shopDx, grid.navY, () => {
-          host.codexArt = "folk";
-          host.setLog(formatCodexLog(host.codexId ?? "", "folk"));
-          host.showCodex();
         }),
       );
     }
@@ -257,7 +236,6 @@ export function showCodex(host: LobbyHost): void {
           },
           () => {
             host.codexId = row.id;
-            host.codexArt = hasCartoonPortrait(row.id) ? "cartoon" : "folk";
             host.showCodex();
           },
           host,

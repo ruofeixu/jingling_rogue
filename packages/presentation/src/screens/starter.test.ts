@@ -48,6 +48,14 @@ describe("starter screen model", () => {
     expect(primaries).toHaveLength(1);
   });
 
+  it("exposes the selected id and drops an id that is not a candidate", () => {
+    const id = view.candidates[0].id;
+
+    expect(buildStarterModel({ state: "normal", view, selectedId: id, art: "ready" }).selectedId).toBe(id);
+    expect(buildStarterModel({ state: "normal", view, selectedId: null, art: "ready" }).selectedId).toBeNull();
+    expect(buildStarterModel({ state: "normal", view, selectedId: "missing", art: "ready" }).selectedId).toBeNull();
+  });
+
   it("cannot confirm without a selection", () => {
     const model = buildStarterModel({ state: "normal", view, selectedId: null, art: "ready" });
 

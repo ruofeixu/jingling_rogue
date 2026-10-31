@@ -35,6 +35,7 @@ export class ModeScreen {
       width: frame.content.width - SPACE.xl,
       fontSize: TYPE.title * scale,
       tone: "ink",
+      heading: true,
     });
 
     const actions = model.primaryAction

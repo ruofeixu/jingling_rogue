@@ -6,15 +6,6 @@ function color(token: Rgb, alpha = 255): Color {
   return new Color(token[0], token[1], token[2], alpha);
 }
 
-function shade(token: Rgb, f: number): Color {
-  return new Color(Math.round(token[0] * f), Math.round(token[1] * f), Math.round(token[2] * f), 255);
-}
-
-function tint(token: Rgb, f: number): Color {
-  const mix = (c: number) => Math.round(c + (255 - c) * f);
-  return new Color(mix(token[0]), mix(token[1]), mix(token[2]), 255);
-}
-
 export interface PanelOptions {
   readonly name: string;
   readonly x: number;
@@ -44,31 +35,21 @@ export function makePanel(parent: Node, opts: PanelOptions): Node {
     sprite.spriteFrame = frame;
     sprite.sizeMode = Sprite.SizeMode.CUSTOM;
     UiSkin.shared().applySlice(sprite, skinName);
+    // 赋 spriteFrame 会把节点重设成贴图原尺寸，CUSTOM 之后再设回面板尺寸。
+    transform.setContentSize(opts.width, opts.height);
     return node;
   }
 
-  // 回退：程序化厚涂质感 —— 底部立体厚边 + 奶白主体 + 顶部高光条 + 厚描边。
+  // 回退：水墨程序化画法 —— 宣纸面板平涂 + 一条淡墨细边。笔触与纸纹由 9-slice 贴图提供（I2b）。
   const hw = opts.width / 2;
   const hh = opts.height / 2;
-  const ledge = SPACE.xs + 2;
-
-  const shadow = node.addComponent(Graphics);
-  shadow.roundRect(-hw, -hh - ledge, opts.width, opts.height, RADIUS.panel);
-  shadow.fillColor = shade(COLOR.edge, 0.7);
-  shadow.fill();
 
   const g = node.addComponent(Graphics);
   g.roundRect(-hw, -hh, opts.width, opts.height, RADIUS.panel);
   g.fillColor = color(COLOR.panel);
   g.fill();
   g.strokeColor = color(COLOR.edge);
-  g.lineWidth = SPACE.xs;
+  g.lineWidth = SPACE.xs / 2;
   g.stroke();
-
-  const hi = node.addComponent(Graphics);
-  const hiH = Math.min(opts.height * 0.3, SPACE.xl);
-  hi.roundRect(-hw + ledge, hh - hiH - ledge, opts.width - ledge * 2, hiH, RADIUS.panel);
-  hi.fillColor = tint(COLOR.panel, 0.6);
-  hi.fill();
   return node;
 }

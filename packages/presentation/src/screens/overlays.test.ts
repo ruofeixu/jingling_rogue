@@ -82,6 +82,14 @@ describe("battle overlay models", () => {
     });
   }
 
+  it("catch: offers a way to pass on the catch, not only a back button", () => {
+    const model = buildOverlayModel({ kind: "catch", state: "normal", view, selectedId: null });
+    const skip = model.secondaryActions.find((a) => a.id === OVERLAY_ACTIONS.catchSkip);
+
+    expect(skip?.enabled).toBe(true);
+    expect(skip?.label).toBe("放过");
+  });
+
   it("enables the primary action once a legal item is selected", () => {
     const model = buildOverlayModel({ kind: "arts", state: "normal", view, selectedId: "a1" });
 

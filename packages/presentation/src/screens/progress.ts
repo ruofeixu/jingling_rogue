@@ -9,6 +9,7 @@ import type { ScreenActionInput, ScreenModel } from "../screen-model.ts";
 
 export const PROGRESS_ACTIONS = Object.freeze({
   summaryContinue: "summary.continue",
+  summaryPick: "summary.pick",
   shopBuy: "shop.buy",
   shopLeave: "shop.leave",
   omenPick: "omen.pick",
@@ -34,9 +35,9 @@ const SPECS: Readonly<Record<ProgressKind, ProgressSpec>> = Object.freeze({
     accessibleName: "结算",
     continueAction: PROGRESS_ACTIONS.summaryContinue,
     continueLabel: "继续",
-    rowAction: null,
+    rowAction: PROGRESS_ACTIONS.summaryPick,
     emptyHint: "这一轮没有变化，可以直接继续",
-    select: () => [],
+    select: (v) => v.offers,
   },
   shop: {
     accessibleName: "货摊",
@@ -98,7 +99,11 @@ export function buildProgressModel(input: ProgressModelInput): ScreenModel {
     reason: input.reason,
     emptyHint: input.state === "empty" ? spec.emptyHint : undefined,
     // 主行动就是安全继续路径，永不禁用（loading 由状态层统一压禁）。
-    primaryAction: { id: spec.continueAction, label: spec.continueLabel },
+    // 结算页有机缘可选时，「继续」等于放弃领取，文案要说清楚。
+    primaryAction: {
+      id: spec.continueAction,
+      label: input.kind === "summary" && rows.length > 0 ? "不领，继续赶路" : spec.continueLabel,
+    },
     secondaryActions: rowActions,
     lines,
   });

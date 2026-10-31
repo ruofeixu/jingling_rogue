@@ -2,6 +2,7 @@ import { mkdtempSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { THEME } from "@jingling/core";
 import { assemblePreviewPacks } from "./preview-pack.ts";
 
 const SUBPACKAGES = ["bundle-battle", "bundle-realm-wilds", "bundle-realm-woods"];
@@ -46,7 +47,8 @@ describe("minigame preview packs", () => {
       expect(js).toContain("createCanvas");
       expect(js).toContain("fillText");
       expect(js).not.toContain("#1a1410");
-      expect(js).toContain("rgb(232,244,252)");
+      // 首屏底色跟随水墨色板（宣纸），不是卡通天蓝。
+      expect(js).toContain(`rgb(${THEME.paper.join(",")})`);
     }
   });
 });

@@ -1,5 +1,6 @@
 import { Color, Label, Node, UITransform } from "cc";
 import { COLOR, TYPE, type Rgb } from "../../vendor/jinglingPresentation";
+import { UiSkin } from "./UiSkin.ts";
 
 const TONES = {
   ink: COLOR.ink,
@@ -21,6 +22,8 @@ export interface LabelOptions {
   readonly fontSize: number;
   readonly tone?: Tone;
   readonly wrap?: boolean;
+  /** 页面大标题：用书法标题字（只含标题用字的子集）。正文不要设。 */
+  readonly heading?: boolean;
 }
 
 /** U2 文本组件：字号/行高/颜色只来自 token，调用方不传颜色字面量。 */
@@ -40,5 +43,13 @@ export function addLabel(parent: Node, opts: LabelOptions): Node {
   label.horizontalAlign = Label.HorizontalAlign.CENTER;
   label.verticalAlign = Label.VerticalAlign.CENTER;
   label.overflow = opts.wrap ? Label.Overflow.RESIZE_HEIGHT : Label.Overflow.NONE;
+  const font = opts.heading ? UiSkin.shared().getTitleFont() : null;
+  if (font) {
+    label.useSystemFont = false;
+    label.font = font;
+  } else {
+    // 没有书法字（未加载、加载失败或不是标题）时用系统字体，不留空白。
+    label.useSystemFont = true;
+  }
   return node;
 }

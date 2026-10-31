@@ -19,8 +19,20 @@ export {
   type SlotsModelInput,
   type StatsModelInput,
 } from "./lobby.ts";
-export { STARTER_ACTIONS, buildStarterModel, type ArtState, type StarterModelInput } from "./starter.ts";
-export { BATTLE_ACTIONS, buildBattleModel, type BattleModelInput } from "./battle.ts";
+export {
+  STARTER_ACTIONS,
+  buildStarterModel,
+  type ArtState,
+  type StarterModelInput,
+  type StarterScreenModel,
+} from "./starter.ts";
+export {
+  BATTLE_ACTIONS,
+  buildBattleModel,
+  type BattleModelInput,
+  type BattleScreenModel,
+  type PlateModel,
+} from "./battle.ts";
 export { OVERLAY_ACTIONS, buildOverlayModel, type OverlayKind, type OverlayModelInput } from "./overlays.ts";
 export { PROGRESS_ACTIONS, buildProgressModel, type ProgressKind, type ProgressModelInput } from "./progress.ts";
 export { OUTCOME_ACTIONS, buildOutcomeModel, type OutcomeKind, type OutcomeModelInput } from "./outcome.ts";

@@ -191,11 +191,23 @@ export interface SlotsModelInput extends BaseInput {
 }
 
 export function buildSlotsModel(input: SlotsModelInput): ScreenModel {
-  const actions: ScreenActionInput[] = input.view.slots.map((slot) => ({
-    id: `${LOBBY_ACTIONS.loadSlot}.${slot.slot}`,
-    label: slot.occupied ? `槽${slot.slot + 1} 波${slot.wave}` : `槽${slot.slot + 1} 空`,
-    ...(slot.occupied ? {} : { enabled: false, disabledReason: "这个槽还没有存档" }),
-  }));
+  const actions: ScreenActionInput[] = input.view.slots.map((slot) => {
+    // 槽1（内部 0）是自动存档的当前旅途。
+    const name = slot.slot === 0 ? "槽1 当前旅途" : `槽${slot.slot + 1}`;
+    if (slot.corrupt) {
+      return {
+        id: `${LOBBY_ACTIONS.loadSlot}.${slot.slot}`,
+        label: `槽${slot.slot + 1} 存档损坏`,
+        enabled: false,
+        disabledReason: "这个槽的存档读不出来，已忽略",
+      };
+    }
+    return {
+      id: `${LOBBY_ACTIONS.loadSlot}.${slot.slot}`,
+      label: slot.occupied ? `${name} 波${slot.wave}` : `${name} 空`,
+      ...(slot.occupied ? {} : { enabled: false, disabledReason: "这个槽还没有存档" }),
+    };
+  });
   const [first, ...rest] = actions;
 
   return buildStateModel({
@@ -206,7 +218,10 @@ export function buildSlotsModel(input: SlotsModelInput): ScreenModel {
     emptyHint: input.state === "empty" ? "五个槽都是空的，开局后会自动存档。" : undefined,
     primaryAction: first,
     secondaryActions: rest,
-    lines: [`占用 ${input.view.slots.filter((s) => s.occupied).length} / ${input.view.slots.length}`],
+    lines: [
+      `占用 ${input.view.slots.filter((s) => s.occupied).length} / ${input.view.slots.length}`,
+      "每过一波自动存到槽1，开新局会覆盖它；战斗中途退出，读档后重打这一波。",
+    ],
   });
 }
 

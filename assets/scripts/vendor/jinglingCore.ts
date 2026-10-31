@@ -13954,6 +13954,13 @@ var ClassicSlice = class _ClassicSlice {
   }
   takeBoon(boonId) {
     applyBoon(this.run, boonId, this.account);
+    this.leaveBoon();
+  }
+  /** 不领机缘直接赶路：推进规则与 takeBoon 相同。 */
+  skipBoon() {
+    this.leaveBoon();
+  }
+  leaveBoon() {
     const cleared = this.run.wave;
     this.boonChoices = [];
     this.shop = null;
@@ -14219,17 +14226,40 @@ async function saveRunLocal(store, slot, run) {
   assertSlot(slot);
   await store.set(`run:${slot}`, encodeRun(run));
 }
-async function loadRunLocal(store, slot) {
+async function inspectRunLocal(store, slot) {
   assertSlot(slot);
   const raw = await store.get(`run:${slot}`);
-  return raw ? decodeRun(raw) : null;
+  if (!raw) {
+    return { state: "empty", run: null };
+  }
+  try {
+    return { state: "ok", run: decodeRun(raw) };
+  } catch {
+    return { state: "corrupt", run: null };
+  }
+}
+async function loadRunLocal(store, slot) {
+  return (await inspectRunLocal(store, slot)).run;
+}
+async function clearRunLocal(store, slot) {
+  assertSlot(slot);
+  await store.set(`run:${slot}`, "");
 }
 async function saveAccountLocal(store, account) {
   await store.set("account", encodeAccount(account));
 }
+var CORRUPT_ACCOUNT_KEY = "account.corrupt";
 async function loadAccountLocal(store) {
   const raw = await store.get("account");
-  return raw ? decodeAccount(raw) : null;
+  if (!raw) {
+    return null;
+  }
+  try {
+    return decodeAccount(raw);
+  } catch {
+    await store.set(CORRUPT_ACCOUNT_KEY, raw);
+    return null;
+  }
 }
 
 // src/ui/screens.ts
@@ -14598,35 +14628,6 @@ var THIRD_PORTRAITS = /* @__PURE__ */ new Set([
   "he_hun",
   "ming_duo"
 ]);
-var CARTOON_PORTRAIT_IDS = /* @__PURE__ */ new Set([
-  "zao_li",
-  "jing_zhu",
-  "tao_geng",
-  "dan_li",
-  "quan_ji",
-  "nuo_mian",
-  "mo_mao",
-  "deng_e",
-  "yao_shu",
-  "huo_de_li",
-  "he_bo_cong",
-  "she_mu",
-  "luan_shi",
-  "dian_zhu",
-  "ye_ti",
-  "tao_quan",
-  "zhi_ren",
-  "tong_ling",
-  "zhang_yan",
-  "pi_li",
-  "lei_ying",
-  "shuang_ming",
-  "bing_can",
-  "jin_hui",
-  "ping_yu",
-  "he_hun",
-  "ming_duo"
-]);
 var PORTRAIT_IDS = /* @__PURE__ */ new Set([
   ...Array.from(FIRST_PORTRAITS),
   ...Array.from(SECOND_PORTRAITS),
@@ -14636,19 +14637,10 @@ var PORTRAIT_BUNDLE = "portraits";
 function hasPortrait(id) {
   return PORTRAIT_IDS.has(id);
 }
-function hasCartoonPortrait(id) {
-  return CARTOON_PORTRAIT_IDS.has(id);
-}
-function portraitPath(id, style = "play") {
-  if (style === "folk" && CARTOON_PORTRAIT_IDS.has(id)) {
-    return `spirits-folk/${id}.png`;
-  }
+function portraitPath(id) {
   return `spirits/${id}.png`;
 }
-function portraitTexturePath(id, style = "play") {
-  if (style === "folk" && CARTOON_PORTRAIT_IDS.has(id)) {
-    return `spirits-folk/${id}/texture`;
-  }
+function portraitTexturePath(id) {
   return `spirits/${id}/texture`;
 }
 function remoteManifest(baseUrl) {
@@ -14888,17 +14880,12 @@ function formatCodexEntry(id) {
   const sheet = formatCodexSheet(id);
   return [sheet.headline, sheet.stats, sheet.pact, sheet.arts, sheet.evo].filter((line) => line.length > 0).join("\n");
 }
-function formatCodexLog(id, art) {
-  const entry = formatCodexEntry(id);
-  if (!art || !PORTRAIT_IDS.has(id)) {
-    return entry;
-  }
-  return `${entry}
-\u7ACB\u7ED8\xB7${art === "cartoon" ? "\u5361\u901A" : "\u5E74\u753B"}`;
+function formatCodexLog(id) {
+  return formatCodexEntry(id);
 }
 var GLOSSARY = [
   { term: "\u7CBE\u602A", body: "\u9699\u4E2D\u7684\u751F\u7075\u3002\u5BF9\u6218\u3001\u6536\u5951\u3001\u7F16\u961F\u7684\u5BF9\u8C61\u3002" },
-  { term: "\u5951\u5F55", body: "\u7CBE\u602A\u540D\u518C\u3002\u5927\u5385\u53EF\u7FFB\u5168\u90E8\uFF0C\u70B9\u5F00\u770B\u6570\u503C\u4E0E\u9B42\u5951\uFF1B\u6709\u7ACB\u7ED8\u7684\u53EF\u5BF9\u7167\u5E74\u753B\u4E0E\u5361\u901A\uFF0C\u65E0\u7ACB\u7ED8\u7684\u53EA\u770B\u526A\u5F71\u3002" },
+  { term: "\u5951\u5F55", body: "\u7CBE\u602A\u540D\u518C\u3002\u5927\u5385\u53EF\u7FFB\u5168\u90E8\uFF0C\u70B9\u5F00\u770B\u6570\u503C\u4E0E\u9B42\u5951\uFF1B\u6709\u7ACB\u7ED8\u7684\u770B\u7ACB\u7ED8\uFF0C\u65E0\u7ACB\u7ED8\u7684\u53EA\u770B\u526A\u5F71\u3002" },
   { term: "\u7075\u6027", body: "\u708E\u6F6E\u5CA9\u6728\u9706\u971C\u5F71\u5149\u516B\u6027\u3002\u76F8\u514B\u4F1A\u6539\u53D8\u672F\u6CD5\u4F24\u5BB3\u3002" },
   { term: "\u672F\u6CD5", body: "\u6218\u6597\u4E2D\u5148\u70B9\u300C\u672F\u300D\uFF0C\u518D\u70B9\u672F\u7B7E\u4F7F\u51FA\u3002\u6BCF\u5F20\u6709\u7075\u529B\u6B21\u6570\u3002" },
   { term: "\u7075\u529B", body: "\u8FD9\u5C40\u8FD8\u80FD\u4F7F\u51FA\u8BE5\u672F\u6CD5\u7684\u6B21\u6570\uFF0C\u7528\u5B8C\u4F1A\u7AED\u529B\u4E00\u51FB\u3002" },
@@ -15341,7 +15328,6 @@ var PreviewApp = class {
   battle = null;
   codexPage = 0;
   codexId = null;
-  codexArt = "cartoon";
   glossaryBack = "title";
   seed;
   constructor(opts) {
@@ -15762,26 +15748,13 @@ var PreviewApp = class {
   }
   showCodexEntry(id) {
     this.codexId = id;
-    this.codexArt = hasCartoonPortrait(id) ? "cartoon" : "folk";
     this.screen = "codex";
     this.title = getSpirit(id).name;
     this.log = formatCodexLog(id);
   }
-  setCodexArt(style) {
-    this.codexArt = style;
-    this.log = formatCodexLog(this.codexId ?? "", style);
-  }
   codexControls() {
     if (this.codexId) {
-      const rows2 = [];
-      if (hasCartoonPortrait(this.codexId)) {
-        rows2.push({ label: "\u5361\u901A", run: () => this.setCodexArt("cartoon") });
-      }
-      if (hasPortrait(this.codexId)) {
-        rows2.push({ label: "\u5E74\u753B", run: () => this.setCodexArt("folk") });
-      }
-      rows2.push({ label: "\u8FD4\u56DE", run: () => this.openCodex() });
-      return rows2;
+      return [{ label: "\u8FD4\u56DE", run: () => this.openCodex() }];
     }
     const all = listCodexSpirits();
     const start = this.codexPage * CODEX_PAGE_SIZE;
@@ -16517,11 +16490,13 @@ function selectSlots(_account, saved) {
   const bySlot = new Map(saved.map((row) => [row.slot, row]));
   const slots = Array.from({ length: SLOT_COUNT }, (_, index) => {
     const row = bySlot.get(index);
+    const corrupt = row?.corrupt === true;
     return {
       slot: index,
-      occupied: Boolean(row),
-      wave: row ? row.wave : null,
-      mode: row ? row.mode : null
+      occupied: Boolean(row) && !corrupt,
+      wave: row && !corrupt ? row.wave : null,
+      mode: row && !corrupt ? row.mode : null,
+      corrupt
     };
   });
   return freeze({ slots, isEmpty: saved.length === 0 });
@@ -16584,7 +16559,7 @@ function selectBattle(battle, run, log = "") {
       label: "\u56CA",
       lockedReason: battle.potions > 0 ? null : "\u56CA\u91CC\u6CA1\u6709\u4E1C\u897F"
     },
-    { id: "flee", label: "\u8D70", lockedReason: null }
+    { id: "flee", label: "\u8D70", lockedReason: battle.kind === "trainer" ? "\u5BF9\u624B\u62E6\u7740\u4E0D\u8BA9\u8D70" : null }
   ];
   return freeze({
     wave: run.wave,
@@ -16598,13 +16573,16 @@ function selectBattle(battle, run, log = "") {
   });
 }
 var SEAL_NAMES = ["\u51E1\u5370", "\u4E0A\u5370", "\u7279\u5370", "\u91D1\u5370", "\u7384\u5370"];
+function artLabel(artId) {
+  return loadTables().arts.find((row) => row.id === artId)?.name ?? artId;
+}
 function selectBattleOverlays(source) {
   const arts = (source.active.artIds ?? []).map((artId) => {
     const left = source.active.focusLeft?.[artId];
     const exhausted = typeof left === "number" && left <= 0;
     return {
       id: artId,
-      label: artId,
+      label: artLabel(artId),
       detail: typeof left === "number" ? `\u4F59 ${left}` : "",
       lockedReason: exhausted ? "\u8FD9\u4E00\u5F0F\u5DF2\u7ECF\u7528\u5C3D" : null
     };
@@ -16654,6 +16632,12 @@ function selectRunProgress(source) {
       lockedReason: reason
     };
   });
+  const offers = (source.offers ?? []).map((offer) => ({
+    id: offer.id,
+    label: offer.name,
+    detail: offer.hint,
+    lockedReason: null
+  }));
   const omens = (source.omens ?? []).map((omen) => ({
     id: omen.id,
     label: omen.name,
@@ -16670,6 +16654,7 @@ function selectRunProgress(source) {
     gold: source.gold,
     wave: source.wave,
     deltas: source.deltas ?? [],
+    offers,
     shop,
     omens,
     nodes
@@ -16689,22 +16674,55 @@ function selectOutcome(source) {
 
 // src/ui/theme.ts
 var THEME = {
-  paper: [232, 244, 252],
-  panel: [255, 253, 248],
-  ink: [61, 50, 40],
-  accent: [255, 138, 74],
-  edge: [91, 184, 232],
-  field: [123, 198, 122],
-  fieldDeep: [98, 176, 100],
-  slip: [255, 236, 214],
-  muted: [80, 70, 62],
-  hpBack: [208, 192, 180],
-  hpHigh: [88, 196, 92],
-  hpMid: [220, 148, 28],
-  hpLow: [220, 72, 64]
+  /** 宣纸底 */
+  paper: [242, 236, 222],
+  /** 面板 */
+  panel: [250, 246, 236],
+  /** 浓墨正文 */
+  ink: [38, 34, 30],
+  /** 朱砂，一级行动；配浅色字 */
+  accent: [168, 44, 34],
+  /** 描边 */
+  edge: [110, 102, 90],
+  /** 战场底 */
+  field: [214, 218, 204],
+  fieldDeep: [190, 196, 180],
+  /** 次级按钮底 */
+  slip: [230, 222, 204],
+  /** 淡墨次要字 */
+  muted: [88, 82, 74],
+  /** 赭金：钱与金类图标 */
+  gold: [150, 112, 40],
+  hpBack: [222, 214, 196],
+  hpHigh: [86, 124, 92],
+  hpMid: [150, 106, 36],
+  hpLow: [140, 32, 26]
 };
 
 // src/ui/item-icon.ts
+var FILL = {
+  potion: [88, 168, 92],
+  candy: [220, 96, 112],
+  gold: THEME.gold,
+  egg: [232, 212, 164],
+  charm: [168, 132, 212],
+  atk: [196, 72, 48],
+  def: [140, 108, 72],
+  spd: [196, 164, 48],
+  hp: [88, 196, 92],
+  exp: [96, 148, 196],
+  catch: [196, 96, 64],
+  map: [72, 140, 108],
+  lure: [168, 112, 176],
+  "seal-fan": [168, 140, 96],
+  "seal-shang": [176, 120, 64],
+  "seal-te": [196, 72, 56],
+  "seal-qi": [88, 156, 128],
+  "seal-jie": [148, 116, 196]
+};
+function iconFill(kind) {
+  return FILL[kind];
+}
 var RELIC = {
   atk: "atk",
   def: "def",
@@ -16796,6 +16814,11 @@ function formatBench(rows) {
 }
 
 // src/run/run-controller.ts
+var CURRENT_RUN_SLOT = 0;
+function sealTierOf(id) {
+  const match = /^seal-(\d+)$/.exec(id ?? "");
+  return match ? Number(match[1]) : null;
+}
 var RunController = class {
   slice = null;
   battle = null;
@@ -16803,6 +16826,7 @@ var RunController = class {
   committed = false;
   commits = 0;
   forcedWin = null;
+  keptAccount = null;
   store;
   constructor(store) {
     this.store = store ?? null;
@@ -16813,7 +16837,7 @@ var RunController = class {
       seed: opts.seed,
       starterId: opts.starterId,
       mode: opts.mode ?? "classic",
-      account: opts.account ?? emptyAccount(),
+      account: opts.account ?? this.keptAccount ?? emptyAccount(),
       relicId: opts.relicId,
       sprint: opts.sprint
     });
@@ -16823,35 +16847,55 @@ var RunController = class {
     this.committed = false;
     this.commits = 0;
     this.forcedWin = null;
+    this.persistRun();
   }
   phase() {
     return this.forcedWin !== null ? this.forcedWin ? "victory" : "defeat" : this.slice?.phase ?? "none";
   }
+  /** 活动战斗在等什么；没有战斗时为 null。路由据此决定是否进目标/换位页。 */
+  waitingFor() {
+    return this.battle?.waitingFor ?? null;
+  }
+  /** 当前账号：局内取 slice 上的；回厅后取上一局留下的；都没有时是空账号。 */
   account() {
-    return this.requireSlice().account;
+    return this.slice?.account ?? this.keptAccount ?? emptyAccount();
   }
   commitCount() {
     return this.commits;
   }
   // --- 壳层唯一入口 ---
-  /** 把命令名 + payload 落到真实状态。未知命令忽略（不崩）。 */
+  /**
+   * 把命令名 + payload 落到真实状态。未知命令忽略（不崩）。
+   * 绝大多数命令同步完成；读档要读存储，返回 Promise，壳层等它完成再路由。
+   */
   execute(command, payload = {}) {
     switch (command) {
+      case "slots.load":
+        return this.loadSlotFromCommand(payload.arg ?? payload.id ?? "");
       case "battle.art":
-      case "arts.confirm":
-        this.useArt(payload.id ?? this.firstArtId());
+        this.pendingArtId = null;
         return;
       case "arts.pick":
         this.pendingArtId = payload.id ?? null;
         return;
+      case "arts.confirm": {
+        const artId = payload.id ?? this.pendingArtId;
+        if (artId) {
+          this.useArt(artId);
+        }
+        return;
+      }
       case "battle.flee":
         this.flee();
         return;
       case "switch.pick":
+        this.pendingSwitchId = payload.id ?? null;
+        return;
       case "switch.confirm":
         this.switchTo(payload.id ?? this.pendingSwitchId ?? "");
         return;
       case "bag.use":
+        return;
       case "bag.confirm":
         this.useItem();
         return;
@@ -16859,13 +16903,19 @@ var RunController = class {
         this.pendingTargetId = payload.id ?? null;
         return;
       case "target.confirm":
-        if (this.pendingArtId) {
-          this.useArt(this.pendingArtId, this.pendingTargetId ?? void 0);
-        }
+        this.confirmTarget(payload.id ?? this.pendingTargetId ?? "");
         return;
       case "catch.throw":
+        this.pendingSealTier = sealTierOf(payload.id);
+        return;
       case "catch.confirm":
-        this.attemptCatch();
+        this.attemptCatch(this.pendingSealTier ?? 0);
+        return;
+      case "catch.skip":
+        this.skipCatch();
+        return;
+      case "summary.pick":
+        this.takeReward(payload.id ?? "");
         return;
       case "summary.continue":
       case "shop.leave":
@@ -16900,23 +16950,39 @@ var RunController = class {
   pendingArtId = null;
   pendingTargetId = null;
   pendingSwitchId = null;
-  firstArtId() {
-    return this.battle?.active.artIds[0] ?? "";
-  }
+  pendingSealTier = null;
   useArt(artId, targetId) {
     const battle = this.battle;
-    if (!battle || battle.waitingFor === "over") {
+    if (!battle || battle.waitingFor !== "command") {
       return;
     }
     if (!battle.active.artIds.includes(artId)) {
       throw new Error(`unknown art: ${artId}`);
     }
     this.applyBattle({ type: "art", artId, ...targetId ? { targetId } : {} });
+    this.log = this.battle?.waitingFor === "target" ? "\u9009\u4E00\u4E2A\u76EE\u6807\u3002" : "\u51FA\u672F\u3002";
+    if (this.battle?.waitingFor !== "target") {
+      this.pendingArtId = null;
+    }
+  }
+  /** 多目标战里出术后，战斗在等目标：把选中的目标交给战斗。 */
+  confirmTarget(targetId) {
+    const battle = this.battle;
+    if (!battle || battle.waitingFor !== "target" || !targetId) {
+      return;
+    }
+    const index = battle.foes.findIndex((foe, i) => (foe.instanceId ?? `${foe.id}-${i}`) === targetId);
+    if (index < 0) {
+      return;
+    }
+    this.applyBattle({ type: "target", targetId: battle.foes[index].instanceId });
+    this.pendingArtId = null;
+    this.pendingTargetId = null;
     this.log = "\u51FA\u672F\u3002";
   }
   switchTo(id) {
     const battle = this.battle;
-    if (!battle) {
+    if (!battle || battle.waitingFor !== "command" && battle.waitingFor !== "switch") {
       return;
     }
     const index = battle.party.findIndex((m, i) => (m.instanceId ?? `${m.id}-${i}`) === id);
@@ -16924,29 +16990,49 @@ var RunController = class {
       throw new Error(`unknown party member: ${id}`);
     }
     this.applyBattle({ type: "switch", partyIndex: index });
+    this.pendingSwitchId = null;
     this.log = "\u6362\u4F4D\u3002";
   }
   useItem() {
     const battle = this.battle;
-    if (!battle || battle.potions <= 0) {
+    if (!battle || battle.waitingFor !== "command" || battle.potions <= 0) {
       return;
     }
     this.applyBattle({ type: "bag" });
     this.log = "\u7528\u4E86\u7075\u9732\u3002";
   }
   flee() {
-    if (!this.battle) {
+    const battle = this.battle;
+    if (!battle || battle.waitingFor !== "command" || battle.kind === "trainer") {
       return;
     }
     this.applyBattle({ type: "run" });
     this.log = "\u8BD5\u56FE\u79BB\u5F00\u3002";
   }
-  attemptCatch() {
+  /** 战后收契：扣一个所选档位的镇物再判定。没有库存时不动，留在收契相位。 */
+  attemptCatch(tier = 0) {
     const slice = this.slice;
     if (!slice || slice.phase !== "catch") {
       return;
     }
-    slice.attemptCatch(0);
+    const seals = slice.run.seals;
+    if ((seals[tier] ?? 0) <= 0) {
+      return;
+    }
+    seals[tier] -= 1;
+    this.pendingSealTier = null;
+    const { caught } = slice.attemptCatch(0);
+    this.log = caught ? "\u6536\u5951\u6210\u529F\u3002" : "\u5B83\u6323\u8131\u4E86\u3002";
+    this.syncPhase();
+  }
+  skipCatch() {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "catch") {
+      return;
+    }
+    this.pendingSealTier = null;
+    slice.skipCatch();
+    this.log = "\u653E\u5B83\u8D70\u4E86\u3002";
     this.syncPhase();
   }
   applyBattle(command) {
@@ -16963,14 +17049,28 @@ var RunController = class {
     }
   }
   // --- 推进 ---
+  /** 「继续」= 这次不领机缘，直接赶路；不再替玩家默认领第一项。 */
   continueAfterReward() {
     const slice = this.slice;
-    if (!slice) {
+    if (!slice || slice.phase !== "boon") {
       return;
     }
-    if (slice.phase === "boon" && slice.boonChoices[0]) {
-      slice.takeBoon(slice.boonChoices[0].id);
+    slice.skipBoon();
+    this.log = "\u6CA1\u6709\u9886\u673A\u7F18\uFF0C\u7EE7\u7EED\u8D76\u8DEF\u3002";
+    this.afterAdvance();
+  }
+  /** 按 id 领一项当前在列的机缘；不在列的 id 忽略。 */
+  takeReward(id) {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "boon") {
+      return;
     }
+    const offer = slice.boonChoices.find((row) => row.id === id);
+    if (!offer) {
+      return;
+    }
+    slice.takeBoon(offer.id);
+    this.log = `\u9886\u4E86${offer.name}\u3002`;
     this.afterAdvance();
   }
   buy(id) {
@@ -17013,6 +17113,7 @@ var RunController = class {
       slice.beginWave();
       this.battle = openBattle(slice);
       this.log = "\u65B0\u7684\u4E00\u6CE2\u3002";
+      this.persistRun();
     }
     this.syncPhase();
   }
@@ -17036,11 +17137,46 @@ var RunController = class {
     slice.account.revision += 1;
     this.committed = true;
     this.commits += 1;
+    this.persistOutcome(slice.account);
     return slice.account.revision;
   }
   toLobby() {
+    if (this.slice) {
+      this.keptAccount = this.slice.account;
+    }
+    this.slice = null;
     this.battle = null;
     this.forcedWin = null;
+    this.committed = false;
+    this.pendingArtId = null;
+    this.pendingTargetId = null;
+    this.pendingSwitchId = null;
+    this.pendingSealTier = null;
+  }
+  /**
+   * 自动存档：只在有 store 时写，失败只记 log，不打断游戏（小游戏存储满或被禁用时仍能玩）。
+   * 写入是 fire-and-forget；同步的玩法状态不等 IO。
+   */
+  persistRun() {
+    const store = this.store;
+    const slice = this.slice;
+    if (!store || !slice) {
+      return;
+    }
+    const snapshot = decodeRun(encodeRun(slice.run));
+    void saveRunLocal(store, CURRENT_RUN_SLOT, snapshot).catch(() => {
+      this.log = "\u5B58\u6863\u6CA1\u6709\u5199\u8FDB\u53BB\uFF0C\u672C\u5C40\u4ECD\u53EF\u7EE7\u7EED\u3002";
+    });
+  }
+  /** 局结束：账号落库，当前旅途槽清空（打完的局不能读回再打）。 */
+  persistOutcome(account) {
+    const store = this.store;
+    if (!store) {
+      return;
+    }
+    void saveAccountLocal(store, account).then(() => clearRunLocal(store, CURRENT_RUN_SLOT)).catch(() => {
+      this.log = "\u8D26\u53F7\u8FDB\u5EA6\u6CA1\u6709\u5199\u8FDB\u53BB\uFF0C\u4E0B\u6B21\u5F00\u5C40\u524D\u4F1A\u518D\u8BD5\u3002";
+    });
   }
   /** 纯字符串序列化（无 IO），供测试与内存快照。 */
   serialize() {
@@ -17080,15 +17216,42 @@ var RunController = class {
     const store = this.requireStore();
     const out = [];
     for (let slot = 0; slot < 5; slot += 1) {
-      const run = await loadRunLocal(store, slot);
+      const { state, run } = await inspectRunLocal(store, slot);
       out.push({
         slot,
         isEmpty: run === null,
         wave: run?.wave ?? 0,
-        mode: run?.mode ?? ""
+        mode: run?.mode ?? "",
+        corrupt: state === "corrupt"
       });
     }
     return out;
+  }
+  /** 开机：读回账号（坏档时 local-store 已备份原文，这里回退为空账号）。没有 store 时什么也不做。 */
+  async boot() {
+    if (!this.store) {
+      return;
+    }
+    this.keptAccount = await loadAccountLocal(this.store) ?? emptyAccount();
+  }
+  /** 存档页「读档」：槽号非法、空槽或坏档时不动，留在原处。 */
+  async loadSlotFromCommand(arg) {
+    const slot = Number.parseInt(arg, 10);
+    if (!this.store || !Number.isInteger(slot) || slot < 0 || slot > 4) {
+      return;
+    }
+    const run = await loadRunLocal(this.store, slot);
+    if (!run) {
+      this.log = "\u8FD9\u4E2A\u69FD\u8BFB\u4E0D\u51FA\u5B58\u6863\u3002";
+      return;
+    }
+    const account = this.slice?.account ?? this.keptAccount ?? await loadAccountLocal(this.store) ?? emptyAccount();
+    this.slice = ClassicSlice.fromState(run, account);
+    this.battle = openBattle(this.slice);
+    this.committed = false;
+    this.commits = 0;
+    this.forcedWin = null;
+    this.log = `\u8BFB\u56DE\u7B2C ${run.wave} \u6CE2\u3002`;
   }
   requireStore() {
     if (!this.store) {
@@ -17110,7 +17273,8 @@ var RunController = class {
         active: this.battle.active,
         foe: this.battle.foe,
         party: this.battle.party,
-        potions: this.battle.potions
+        potions: this.battle.potions,
+        kind: this.battle.kind
       },
       this.requireSlice().run,
       this.log
@@ -17119,12 +17283,13 @@ var RunController = class {
   overlaysView() {
     const battle = this.battle;
     if (!battle) {
+      const seals = this.slice?.phase === "catch" ? this.slice.run.seals : [];
       return selectBattleOverlays({
         active: { id: "", name: "", level: 0, hp: 0, maxHp: 0, artIds: [], focusLeft: {} },
         party: [],
         foes: [],
         potions: 0,
-        seals: [],
+        seals,
         activeIndex: 0
       });
     }
@@ -17144,10 +17309,17 @@ var RunController = class {
     }
     const stock = kind === "shop" ? stockForWave(slice.run.wave) : [];
     const shop = stock.map((item) => ({ id: item.id, name: item.name, cost: item.cost }));
-    const nodes = slice.realmChoices.map((realmId) => ({ id: realmId, name: realmId, reachable: true }));
+    const realms = loadTables().realms;
+    const nodes = slice.realmChoices.map((realmId) => ({
+      id: realmId,
+      name: realms.find((row) => row.id === realmId)?.name ?? realmId,
+      reachable: true
+    }));
+    const offers = kind === "summary" && slice.phase === "boon" ? slice.boonChoices.map((boon) => ({ id: boon.id, name: boon.name, hint: formatBoonHint(boon.kind, boon.value) })) : [];
     return selectRunProgress({
       gold: slice.run.gold,
       wave: slice.run.wave,
+      offers,
       shop,
       nodes
     });
@@ -17191,7 +17363,6 @@ export {
   AFFINITY_CN,
   ART_SLIP,
   BATTLE,
-  CARTOON_PORTRAIT_IDS,
   CATCH_FX,
   CODEX_PAGE_SIZE,
   ClassicSlice,
@@ -17263,11 +17434,11 @@ export {
   getSpirit,
   grantAchievement,
   grantWaveExp,
-  hasCartoonPortrait,
   hasPortrait,
   hatchEgg,
   hatchReady,
   hitFxDuration,
+  iconFill,
   itemIcon,
   levelCap,
   listAchievements,

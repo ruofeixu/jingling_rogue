@@ -1,12 +1,13 @@
-import { Node } from "cc";
+import { Node, UITransform } from "cc";
 import {
   SPACE,
   TYPE,
   buildResponsiveFrame,
-  type ResponsiveFrame,
+  titleLayout,
   type ScreenModel,
   type Viewport,
 } from "../../vendor/jinglingPresentation";
+import { attachPortraitSprite } from "../../ui/portrait";
 import { makeButton } from "../ui/Button.ts";
 import { makePanel } from "../ui/Panel.ts";
 import { addLabel } from "../ui/Text.ts";
@@ -17,8 +18,20 @@ export interface ScreenRenderOptions {
   readonly onAction?: (actionId: string) => void;
 }
 
+const ENTRY_ICONS: Readonly<Record<string, string>> = {
+  "title.open-settings": "icon_settings",
+  "title.open-codex": "icon_codex",
+  "title.open-eggs": "icon_eggs",
+  "title.open-achievements": "icon_achievements",
+  "title.open-stats": "icon_stats",
+  "title.open-slots": "icon_slots",
+  "title.open-glossary": "icon_scroll",
+};
+
+const MASCOT_ID = "zao_li";
+
 /**
- * title 页 renderer：只把 ScreenModel 绑到 U2 组件上，回调只回传 action id。
+ * title 页 renderer：只把 ScreenModel 绑到组件上，回调只回传 action id。
  * 不读玩法状态、不改 core，也不自行解析意图（意图解析属于壳层）。
  */
 export class TitleScreen {
@@ -27,91 +40,102 @@ export class TitleScreen {
   mount(parent: Node, model: ScreenModel, opts: ScreenRenderOptions): Node {
     this.unmount();
     const scale = opts.textScale ?? 1;
-    const frame: ResponsiveFrame = buildResponsiveFrame(opts.viewport);
+    const frame = buildResponsiveFrame(opts.viewport);
+    const layout = titleLayout(frame, model.secondaryActions.length);
 
     const root = new Node("title-screen");
     root.layer = parent.layer;
     parent.addChild(root);
     this.root = root;
 
-    const [subtitle, hint] = [model.lines[0] ?? "", model.lines[1] ?? ""];
-    const topY = frame.content.height / 2 - SPACE.xl;
+    const subtitle = model.lines[0] ?? "";
+    const hint = model.lines[1] ?? "";
 
     addLabel(root, {
       text: model.accessibleName,
-      x: 0,
-      y: topY,
-      width: frame.content.width - SPACE.xl,
+      x: layout.title.x,
+      y: layout.title.y,
+      width: layout.title.width,
       fontSize: TYPE.display * scale,
       tone: "ink",
-    });
-    addLabel(root, {
-      text: subtitle,
-      x: 0,
-      y: topY - TYPE.display * scale * TYPE.lineHeightRatio,
-      width: frame.content.width - SPACE.xl,
-      fontSize: TYPE.title * scale,
-      tone: "muted",
+      heading: true,
     });
 
-    const menuWidth = Math.min(frame.columnWidth, frame.content.width - SPACE.xl);
-    const rows = Math.ceil((model.secondaryActions.length + 1) / 2);
-    const buttonHeight = SPACE.xl + SPACE.md;
-    const menuHeight = rows * (buttonHeight + SPACE.md) + SPACE.lg;
-    const panel = makePanel(root, {
-      name: "title-menu",
-      x: 0,
-      y: 0,
-      width: menuWidth,
-      height: menuHeight,
-    });
-
-    const buttonWidth = (menuWidth - SPACE.lg * 3) / 2;
-    const cellX = (col: number) => (col - 0.5) * (buttonWidth + SPACE.lg);
-    const cellY = (row: number) => menuHeight / 2 - SPACE.lg - buttonHeight / 2 - row * (buttonHeight + SPACE.md);
-
-    const actions = model.primaryAction
-      ? [{ action: model.primaryAction, primary: true }, ...model.secondaryActions.map((a) => ({ action: a, primary: false }))]
-      : model.secondaryActions.map((a) => ({ action: a, primary: false }));
-
-    actions.forEach((item, index) => {
-      const col = index % 2;
-      const row = Math.floor(index / 2);
-      makeButton(
-        panel,
-        {
-          action: item.action,
-          x: cellX(col),
-          y: cellY(row),
-          width: buttonWidth,
-          height: buttonHeight,
-          primary: item.primary,
-          textScale: scale,
-        },
-        item.action.enabled && opts.onAction ? () => opts.onAction?.(item.action.id) : undefined,
-      );
-    });
-
-    if (model.reason) {
-      addLabel(root, {
-        text: model.reason,
+    if (subtitle) {
+      const capsule = makePanel(root, {
+        name: "subtitle",
+        skin: "chip",
+        x: layout.subtitle.x,
+        y: layout.subtitle.y,
+        width: layout.subtitle.width,
+        height: layout.subtitle.height,
+      });
+      addLabel(capsule, {
+        text: subtitle,
         x: 0,
-        y: -menuHeight / 2 - SPACE.lg,
-        width: frame.content.width - SPACE.xl,
+        y: 0,
+        width: layout.subtitle.width - SPACE.md,
         fontSize: TYPE.body * scale,
-        tone: "ink",
+        tone: "muted",
       });
     }
 
-    addLabel(root, {
-      text: hint,
-      x: 0,
-      y: -frame.content.height / 2 + SPACE.xl,
-      width: frame.content.width - SPACE.xl,
-      fontSize: TYPE.caption * scale,
-      tone: "muted",
-      wrap: true,
+    const mascot = new Node("mascot");
+    mascot.layer = root.layer;
+    root.addChild(mascot);
+    mascot.addComponent(UITransform).setContentSize(layout.mascot.width, layout.mascot.height);
+    mascot.setPosition(layout.mascot.x, layout.mascot.y, 0);
+    attachPortraitSprite(mascot, MASCOT_ID, layout.mascot.width, layout.mascot.height);
+
+    if (model.primaryAction) {
+      const action = model.primaryAction;
+      makeButton(
+        root,
+        {
+          action,
+          x: layout.primary.x,
+          y: layout.primary.y,
+          width: layout.primary.width,
+          height: layout.primary.height,
+          primary: true,
+          textScale: scale,
+        },
+        action.enabled && opts.onAction ? () => opts.onAction?.(action.id) : undefined,
+      );
+    }
+
+    model.secondaryActions.forEach((action, index) => {
+      const slot = layout.grid[index];
+      if (!slot) {
+        return;
+      }
+      makeButton(
+        root,
+        {
+          action,
+          x: slot.x,
+          y: slot.y,
+          width: slot.width,
+          height: slot.height,
+          textScale: scale,
+          icon: ENTRY_ICONS[action.id],
+        },
+        action.enabled && opts.onAction ? () => opts.onAction?.(action.id) : undefined,
+      );
     });
+
+    const note = [hint, model.reason ?? ""].filter((line) => line.length > 0).join(" ");
+    if (note) {
+      addLabel(root, {
+        text: note,
+        x: layout.hint.x,
+        y: layout.hint.y,
+        width: layout.hint.width,
+        fontSize: TYPE.caption * scale,
+        tone: "muted",
+        wrap: true,
+      });
+    }
 
     return root;
   }

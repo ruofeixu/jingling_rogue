@@ -23,11 +23,18 @@ import { encodeRun, decodeRun, encodeAccount, decodeAccount } from "../save/code
 import {
   saveRunLocal,
   loadRunLocal,
+  inspectRunLocal,
+  clearRunLocal,
   saveAccountLocal,
   loadAccountLocal,
   type KvStore,
 } from "../save/local-store.ts";
+
+/** 发货入口的自动存档槽：每局都写这里（界面显示为"槽1 · 当前旅途"）。 */
+export const CURRENT_RUN_SLOT = 0;
 import { stockForWave } from "../shop/shop.ts";
+import { formatBoonHint } from "../ui/copy.ts";
+import { loadTables } from "../tables/load-tables.ts";
 import {
   selectBattle,
   selectBattleOverlays,
@@ -53,6 +60,14 @@ export interface SlotInfo {
   readonly isEmpty: boolean;
   readonly wave: number;
   readonly mode: string;
+  /** 槽里有数据但读不出来（JSON 坏、版本不对）。按空槽处理，界面标明。 */
+  readonly corrupt: boolean;
+}
+
+/** 收契弹层的行 id 形如 `seal-<档位>`（见 selectBattleOverlays）。 */
+function sealTierOf(id: string | undefined): number | null {
+  const match = /^seal-(\d+)$/.exec(id ?? "");
+  return match ? Number(match[1]) : null;
 }
 
 interface Snapshot {
@@ -67,6 +82,7 @@ export class RunController {
   private committed = false;
   private commits = 0;
   private forcedWin: boolean | null = null;
+  private keptAccount: AccountProgress | null = null;
   private readonly store: KvStore | null;
 
   constructor(store?: KvStore) {
@@ -80,7 +96,7 @@ export class RunController {
       seed: opts.seed,
       starterId: opts.starterId,
       mode: opts.mode ?? "classic",
-      account: opts.account ?? emptyAccount(),
+      account: opts.account ?? this.keptAccount ?? emptyAccount(),
       relicId: opts.relicId,
       sprint: opts.sprint,
     });
@@ -90,14 +106,21 @@ export class RunController {
     this.committed = false;
     this.commits = 0;
     this.forcedWin = null;
+    this.persistRun();
   }
 
   phase(): string {
     return this.forcedWin !== null ? (this.forcedWin ? "victory" : "defeat") : this.slice?.phase ?? "none";
   }
 
+  /** 活动战斗在等什么；没有战斗时为 null。路由据此决定是否进目标/换位页。 */
+  waitingFor(): string | null {
+    return this.battle?.waitingFor ?? null;
+  }
+
+  /** 当前账号：局内取 slice 上的；回厅后取上一局留下的；都没有时是空账号。 */
   account(): AccountProgress {
-    return this.requireSlice().account;
+    return this.slice?.account ?? this.keptAccount ?? emptyAccount();
   }
 
   commitCount(): number {
@@ -106,25 +129,41 @@ export class RunController {
 
   // --- 壳层唯一入口 ---
 
-  /** 把命令名 + payload 落到真实状态。未知命令忽略（不崩）。 */
-  execute(command: string, payload: Readonly<Record<string, string>> = {}): void {
+  /**
+   * 把命令名 + payload 落到真实状态。未知命令忽略（不崩）。
+   * 绝大多数命令同步完成；读档要读存储，返回 Promise，壳层等它完成再路由。
+   */
+  execute(command: string, payload: Readonly<Record<string, string>> = {}): void | Promise<void> {
     switch (command) {
+      case "slots.load":
+        return this.loadSlotFromCommand(payload.arg ?? payload.id ?? "");
       case "battle.art":
-      case "arts.confirm":
-        this.useArt(payload.id ?? this.firstArtId());
+        // 只打开术法弹层（由路由负责），不出招。
+        this.pendingArtId = null;
         return;
       case "arts.pick":
-        // 选术仅记录选择；真正出术由 arts.confirm 或带 id 的 battle.art 完成
+        // 选术仅记录选择；真正出术由 arts.confirm 完成
         this.pendingArtId = payload.id ?? null;
         return;
+      case "arts.confirm": {
+        const artId = payload.id ?? this.pendingArtId;
+        if (artId) {
+          this.useArt(artId);
+        }
+        return;
+      }
       case "battle.flee":
         this.flee();
         return;
       case "switch.pick":
+        this.pendingSwitchId = payload.id ?? null;
+        return;
       case "switch.confirm":
         this.switchTo(payload.id ?? this.pendingSwitchId ?? "");
         return;
       case "bag.use":
+        // 囊里只有灵露一种：选中只记录，使用由 bag.confirm 完成，避免一次点击用两瓶。
+        return;
       case "bag.confirm":
         this.useItem();
         return;
@@ -132,13 +171,20 @@ export class RunController {
         this.pendingTargetId = payload.id ?? null;
         return;
       case "target.confirm":
-        if (this.pendingArtId) {
-          this.useArt(this.pendingArtId, this.pendingTargetId ?? undefined);
-        }
+        this.confirmTarget(payload.id ?? this.pendingTargetId ?? "");
         return;
       case "catch.throw":
+        // 选镇物只记录档位；真正投出由 catch.confirm 完成
+        this.pendingSealTier = sealTierOf(payload.id);
+        return;
       case "catch.confirm":
-        this.attemptCatch();
+        this.attemptCatch(this.pendingSealTier ?? 0);
+        return;
+      case "catch.skip":
+        this.skipCatch();
+        return;
+      case "summary.pick":
+        this.takeReward(payload.id ?? "");
         return;
       case "summary.continue":
       case "shop.leave":
@@ -174,26 +220,42 @@ export class RunController {
   private pendingArtId: string | null = null;
   private pendingTargetId: string | null = null;
   private pendingSwitchId: string | null = null;
-
-  private firstArtId(): string {
-    return this.battle?.active.artIds[0] ?? "";
-  }
+  private pendingSealTier: number | null = null;
 
   useArt(artId: string, targetId?: string): void {
     const battle = this.battle;
-    if (!battle || battle.waitingFor === "over") {
+    if (!battle || battle.waitingFor !== "command") {
       return;
     }
     if (!battle.active.artIds.includes(artId)) {
       throw new Error(`unknown art: ${artId}`);
     }
     this.applyBattle({ type: "art", artId, ...(targetId ? { targetId } : {}) });
+    this.log = this.battle?.waitingFor === "target" ? "选一个目标。" : "出术。";
+    if (this.battle?.waitingFor !== "target") {
+      this.pendingArtId = null;
+    }
+  }
+
+  /** 多目标战里出术后，战斗在等目标：把选中的目标交给战斗。 */
+  confirmTarget(targetId: string): void {
+    const battle = this.battle;
+    if (!battle || battle.waitingFor !== "target" || !targetId) {
+      return;
+    }
+    const index = battle.foes.findIndex((foe, i) => (foe.instanceId ?? `${foe.id}-${i}`) === targetId);
+    if (index < 0) {
+      return;
+    }
+    this.applyBattle({ type: "target", targetId: battle.foes[index].instanceId });
+    this.pendingArtId = null;
+    this.pendingTargetId = null;
     this.log = "出术。";
   }
 
   switchTo(id: string): void {
     const battle = this.battle;
-    if (!battle) {
+    if (!battle || (battle.waitingFor !== "command" && battle.waitingFor !== "switch")) {
       return;
     }
     const index = battle.party.findIndex((m, i) => (m.instanceId ?? `${m.id}-${i}`) === id);
@@ -201,12 +263,13 @@ export class RunController {
       throw new Error(`unknown party member: ${id}`);
     }
     this.applyBattle({ type: "switch", partyIndex: index });
+    this.pendingSwitchId = null;
     this.log = "换位。";
   }
 
   useItem(): void {
     const battle = this.battle;
-    if (!battle || battle.potions <= 0) {
+    if (!battle || battle.waitingFor !== "command" || battle.potions <= 0) {
       return;
     }
     this.applyBattle({ type: "bag" });
@@ -214,19 +277,39 @@ export class RunController {
   }
 
   flee(): void {
-    if (!this.battle) {
+    const battle = this.battle;
+    if (!battle || battle.waitingFor !== "command" || battle.kind === "trainer") {
       return;
     }
     this.applyBattle({ type: "run" });
     this.log = "试图离开。";
   }
 
-  attemptCatch(): void {
+  /** 战后收契：扣一个所选档位的镇物再判定。没有库存时不动，留在收契相位。 */
+  attemptCatch(tier = 0): void {
     const slice = this.slice;
     if (!slice || slice.phase !== "catch") {
       return;
     }
-    slice.attemptCatch(0);
+    const seals = slice.run.seals;
+    if ((seals[tier] ?? 0) <= 0) {
+      return;
+    }
+    seals[tier] -= 1;
+    this.pendingSealTier = null;
+    const { caught } = slice.attemptCatch(0);
+    this.log = caught ? "收契成功。" : "它挣脱了。";
+    this.syncPhase();
+  }
+
+  skipCatch(): void {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "catch") {
+      return;
+    }
+    this.pendingSealTier = null;
+    slice.skipCatch();
+    this.log = "放它走了。";
     this.syncPhase();
   }
 
@@ -246,14 +329,29 @@ export class RunController {
 
   // --- 推进 ---
 
+  /** 「继续」= 这次不领机缘，直接赶路；不再替玩家默认领第一项。 */
   private continueAfterReward(): void {
     const slice = this.slice;
-    if (!slice) {
+    if (!slice || slice.phase !== "boon") {
       return;
     }
-    if (slice.phase === "boon" && slice.boonChoices[0]) {
-      slice.takeBoon(slice.boonChoices[0].id);
+    slice.skipBoon();
+    this.log = "没有领机缘，继续赶路。";
+    this.afterAdvance();
+  }
+
+  /** 按 id 领一项当前在列的机缘；不在列的 id 忽略。 */
+  takeReward(id: string): void {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "boon") {
+      return;
     }
+    const offer = slice.boonChoices.find((row) => row.id === id);
+    if (!offer) {
+      return;
+    }
+    slice.takeBoon(offer.id);
+    this.log = `领了${offer.name}。`;
     this.afterAdvance();
   }
 
@@ -302,6 +400,7 @@ export class RunController {
       slice.beginWave();
       this.battle = openBattle(slice);
       this.log = "新的一波。";
+      this.persistRun();
     }
     this.syncPhase();
   }
@@ -331,13 +430,54 @@ export class RunController {
     slice.account.revision += 1;
     this.committed = true;
     this.commits += 1;
+    this.persistOutcome(slice.account);
     return slice.account.revision;
   }
 
   toLobby(): void {
     // 回厅：丢弃当前 run，保留账号（真实存档写入由宿主在 save() 时落地）。
+    // 账号对象可能在局内被替换（如收契记录），所以留下 slice 上的最新一份，供下一局沿用。
+    if (this.slice) {
+      this.keptAccount = this.slice.account;
+    }
+    this.slice = null;
     this.battle = null;
     this.forcedWin = null;
+    this.committed = false;
+    this.pendingArtId = null;
+    this.pendingTargetId = null;
+    this.pendingSwitchId = null;
+    this.pendingSealTier = null;
+  }
+
+  /**
+   * 自动存档：只在有 store 时写，失败只记 log，不打断游戏（小游戏存储满或被禁用时仍能玩）。
+   * 写入是 fire-and-forget；同步的玩法状态不等 IO。
+   */
+  private persistRun(): void {
+    const store = this.store;
+    const slice = this.slice;
+    if (!store || !slice) {
+      return;
+    }
+    // 先同步编码成快照，避免后台写入时 run 已被下一步改动。
+    const snapshot = decodeRun(encodeRun(slice.run));
+    void saveRunLocal(store, CURRENT_RUN_SLOT, snapshot).catch(() => {
+      this.log = "存档没有写进去，本局仍可继续。";
+    });
+  }
+
+  /** 局结束：账号落库，当前旅途槽清空（打完的局不能读回再打）。 */
+  private persistOutcome(account: AccountProgress): void {
+    const store = this.store;
+    if (!store) {
+      return;
+    }
+    void saveAccountLocal(store, account)
+      .then(() => clearRunLocal(store, CURRENT_RUN_SLOT))
+      .catch(() => {
+        this.log = "账号进度没有写进去，下次开局前会再试。";
+      });
   }
 
   /** 纯字符串序列化（无 IO），供测试与内存快照。 */
@@ -382,15 +522,46 @@ export class RunController {
     const store = this.requireStore();
     const out: SlotInfo[] = [];
     for (let slot = 0; slot < 5; slot += 1) {
-      const run = await loadRunLocal(store, slot);
+      const { state, run } = await inspectRunLocal(store, slot);
       out.push({
         slot,
         isEmpty: run === null,
         wave: run?.wave ?? 0,
         mode: run?.mode ?? "",
+        corrupt: state === "corrupt",
       });
     }
     return out;
+  }
+
+  /** 开机：读回账号（坏档时 local-store 已备份原文，这里回退为空账号）。没有 store 时什么也不做。 */
+  async boot(): Promise<void> {
+    if (!this.store) {
+      return;
+    }
+    this.keptAccount = (await loadAccountLocal(this.store)) ?? emptyAccount();
+  }
+
+  /** 存档页「读档」：槽号非法、空槽或坏档时不动，留在原处。 */
+  private async loadSlotFromCommand(arg: string): Promise<void> {
+    const slot = Number.parseInt(arg, 10);
+    if (!this.store || !Number.isInteger(slot) || slot < 0 || slot > 4) {
+      return;
+    }
+    const run = await loadRunLocal(this.store, slot);
+    if (!run) {
+      this.log = "这个槽读不出存档。";
+      return;
+    }
+    // 账号以内存里最新的为准（本次开机已读过）；没有时再读一次存储。
+    const account = this.slice?.account ?? this.keptAccount ?? (await loadAccountLocal(this.store)) ?? emptyAccount();
+    // 与 load() 相同：fromState 不带遭遇，openBattle 会按存档的波数开这一波。
+    this.slice = ClassicSlice.fromState(run, account);
+    this.battle = openBattle(this.slice);
+    this.committed = false;
+    this.commits = 0;
+    this.forcedWin = null;
+    this.log = `读回第 ${run.wave} 波。`;
   }
 
   private requireStore(): KvStore {
@@ -417,6 +588,7 @@ export class RunController {
         foe: this.battle.foe,
         party: this.battle.party,
         potions: this.battle.potions,
+        kind: this.battle.kind,
       } as never,
       this.requireSlice().run as never,
       this.log,
@@ -426,12 +598,14 @@ export class RunController {
   overlaysView(): BattleOverlaysView {
     const battle = this.battle;
     if (!battle) {
+      // 战后收契时战斗已结束：镇物库存从 run 上投影，其余列表为空。
+      const seals = this.slice?.phase === "catch" ? this.slice.run.seals : [];
       return selectBattleOverlays({
         active: { id: "", name: "", level: 0, hp: 0, maxHp: 0, artIds: [], focusLeft: {} },
         party: [],
         foes: [],
         potions: 0,
-        seals: [],
+        seals,
         activeIndex: 0,
       } as never);
     }
@@ -453,10 +627,20 @@ export class RunController {
     // 商店定价来自真实 stock 表；只列当前波次实际在售的条目。
     const stock = kind === "shop" ? stockForWave(slice.run.wave) : [];
     const shop = stock.map((item) => ({ id: item.id, name: item.name, cost: item.cost }));
-    const nodes = slice.realmChoices.map((realmId) => ({ id: realmId, name: realmId, reachable: true }));
+    const realms = loadTables().realms;
+    const nodes = slice.realmChoices.map((realmId) => ({
+      id: realmId,
+      name: realms.find((row) => row.id === realmId)?.name ?? realmId,
+      reachable: true,
+    }));
+    const offers =
+      kind === "summary" && slice.phase === "boon"
+        ? slice.boonChoices.map((boon) => ({ id: boon.id, name: boon.name, hint: formatBoonHint(boon.kind, boon.value) }))
+        : [];
     return selectRunProgress({
       gold: slice.run.gold,
       wave: slice.run.wave,
+      offers,
       shop,
       nodes,
     });

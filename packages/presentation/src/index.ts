@@ -32,6 +32,7 @@ export {
 export { DIAGNOSTICS_SCREEN_ID, buildDiagnosticsModel, type DiagnosticsInput } from "./diagnostics.ts";
 export {
   COLOR,
+  HP_COLOR,
   MOTION,
   RADIUS,
   SPACE,
@@ -96,6 +97,8 @@ export {
   type ModeModelInput,
   type TitleActionId,
   type BattleModelInput,
+  type BattleScreenModel,
+  type PlateModel,
   type OverlayKind,
   type OverlayModelInput,
   type OutcomeKind,
@@ -103,8 +106,14 @@ export {
   type ProgressKind,
   type ProgressModelInput,
   type StarterModelInput,
+  type StarterScreenModel,
   type TitleModelInput,
 } from "./screens/index.ts";
+export { inside, overlaps, type LayoutBox } from "./layout/box.ts";
+export { battleLayout, type BattleLayout } from "./layout/battle-layout.ts";
+export { titleLayout, type TitleLayout } from "./layout/title-layout.ts";
+export { starterLayout, type StarterLayout } from "./layout/starter-layout.ts";
+export { hpRatio, hpTone, type HpTone } from "./layout/hp.ts";
 export {
   resolveAction,
   type ActionIntent,

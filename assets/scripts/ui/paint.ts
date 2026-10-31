@@ -1,5 +1,5 @@
 import { Color, Graphics, Label, Node, UIOpacity, UITransform, Vec3, tween } from "cc";
-import { AFFINITY_CN, CATCH_FX, HIT_FX, THEME, catchFxDuration, affinityInk, nameplateSlots, type Affinity, type ItemIconId, type PortraitStyle } from "../vendor/jinglingCore";
+import { AFFINITY_CN, CATCH_FX, HIT_FX, THEME, catchFxDuration, iconFill, affinityInk, nameplateSlots, type Affinity, type ItemIconId } from "../vendor/jinglingCore";
 import { attachPortraitSprite, hasPortrait } from "./portrait";
 
 function rgb(channels: readonly number[], alpha = 255): Color {
@@ -12,12 +12,12 @@ export const PANEL = rgb(THEME.panel);
 export const PANEL_EDGE = rgb(THEME.edge);
 export const INK = rgb(THEME.ink);
 export const GOLD = rgb(THEME.accent);
-export const SLIP = new Color(255, 236, 214, 255);
-export const MUTED = new Color(80, 70, 62, 255);
-export const HP_BACK = new Color(208, 192, 180, 255);
-export const HP_FILL = new Color(88, 196, 92, 255);
-export const HP_LOW = new Color(220, 72, 64, 255);
-export const HP_MID = new Color(220, 148, 28, 255);
+export const SLIP = rgb(THEME.slip);
+export const MUTED = rgb(THEME.muted);
+export const HP_BACK = rgb(THEME.hpBack);
+export const HP_FILL = rgb(THEME.hpHigh);
+export const HP_LOW = rgb(THEME.hpLow);
+export const HP_MID = rgb(THEME.hpMid);
 
 export function paintRect(
   parent: Node,
@@ -61,7 +61,7 @@ export function paintWindow(
     g.roundRect(-w / 2, -h / 2, w, h, corner);
     g.stroke();
     g.lineWidth = 2;
-    g.strokeColor = new Color(255, 255, 255, 90);
+    g.strokeColor = rgb(THEME.panel, 90);
     g.roundRect(-w / 2 + 5, -h / 2 + 5, w - 10, h - 10, Math.max(12, corner - 4));
     g.stroke();
   }
@@ -137,7 +137,6 @@ export function paintPortrait(
   height: number,
   showName = false,
   spiritId?: string,
-  style: PortraitStyle = "play",
 ): Node {
   const ink = affinityInk(affinity);
   const fill = new Color(ink.r, ink.g, ink.b, 255);
@@ -160,12 +159,12 @@ export function paintPortrait(
     g.fill();
     g.circle(0, height * 0.16, width * 0.15);
     g.stroke();
-    g.fillColor = new Color(255, 255, 255, 90);
+    g.fillColor = rgb(THEME.panel, 90);
     g.circle(-width * 0.05, height * 0.2, width * 0.07);
     g.fill();
   };
   if (hasPortrait(spiritId)) {
-    attachPortraitSprite(root, spiritId, width, height, drawBody, style);
+    attachPortraitSprite(root, spiritId, width, height, drawBody);
   } else {
     drawBody();
   }
@@ -250,7 +249,7 @@ export function paintPartyTray(
     g.fillColor = !member
       ? PAPER
       : member.hp <= 0
-        ? new Color(236, 180, 176, 255)
+        ? HP_BACK
         : index === activeIndex
           ? GOLD
           : MUTED;
@@ -320,26 +319,10 @@ export function shakeNode(node: Node): void {
     .start();
 }
 
-const ICON_FILL: Record<ItemIconId, Color> = {
-  potion: new Color(88, 168, 92, 255),
-  candy: new Color(220, 96, 112, 255),
-  gold: GOLD,
-  egg: new Color(232, 212, 164, 255),
-  charm: new Color(168, 132, 212, 255),
-  atk: new Color(196, 72, 48, 255),
-  def: new Color(140, 108, 72, 255),
-  spd: new Color(196, 164, 48, 255),
-  hp: new Color(88, 196, 92, 255),
-  exp: new Color(96, 148, 196, 255),
-  catch: new Color(196, 96, 64, 255),
-  map: new Color(72, 140, 108, 255),
-  lure: new Color(168, 112, 176, 255),
-  "seal-fan": new Color(168, 140, 96, 255),
-  "seal-shang": new Color(176, 120, 64, 255),
-  "seal-te": new Color(196, 72, 56, 255),
-  "seal-qi": new Color(88, 156, 128, 255),
-  "seal-jie": new Color(148, 116, 196, 255),
-};
+/** 图标色与 web 渲染共用 core 的 iconFill，保证同一图标两端同色。 */
+function iconColor(kind: ItemIconId): Color {
+  return rgb(iconFill(kind));
+}
 
 export function paintItemIcon(
   parent: Node,
@@ -355,7 +338,7 @@ export function paintItemIcon(
   node.setPosition(x, y);
   node.addComponent(UITransform).setContentSize(size, size);
   const g = node.addComponent(Graphics);
-  const fill = ICON_FILL[kind];
+  const fill = iconColor(kind);
   const r = size / 2;
   g.fillColor = PAPER;
   g.circle(0, 0, r);

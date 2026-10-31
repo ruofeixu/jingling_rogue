@@ -185,6 +185,8 @@ export interface SlotSummary {
   readonly slot: number;
   readonly wave: number;
   readonly mode: string;
+  /** 槽里有数据但读不出来。 */
+  readonly corrupt?: boolean;
 }
 
 export interface SlotView {
@@ -192,6 +194,7 @@ export interface SlotView {
   readonly occupied: boolean;
   readonly wave: number | null;
   readonly mode: string | null;
+  readonly corrupt: boolean;
 }
 
 export interface SlotsView {
@@ -208,11 +211,13 @@ export function selectSlots(
   const bySlot = new Map(saved.map((row) => [row.slot, row]));
   const slots = Array.from({ length: SLOT_COUNT }, (_, index) => {
     const row = bySlot.get(index);
+    const corrupt = row?.corrupt === true;
     return {
       slot: index,
-      occupied: Boolean(row),
-      wave: row ? row.wave : null,
-      mode: row ? row.mode : null,
+      occupied: Boolean(row) && !corrupt,
+      wave: row && !corrupt ? row.wave : null,
+      mode: row && !corrupt ? row.mode : null,
+      corrupt,
     };
   });
   return freeze({ slots, isEmpty: saved.length === 0 });
@@ -316,6 +321,8 @@ interface BattleLike {
   readonly foe: { id: string; name: string; level: number; hp: number; maxHp: number; ailment: unknown };
   readonly party: readonly { hp: number }[];
   readonly potions: number;
+  /** 对手种类；与训练者交手时不能走。缺省视为野战。 */
+  readonly kind?: string;
 }
 
 interface RunLike {
@@ -354,7 +361,7 @@ export function selectBattle(battle: BattleLike, run: RunLike, log = ""): Battle
       label: "囊",
       lockedReason: battle.potions > 0 ? null : "囊里没有东西",
     },
-    { id: "flee", label: "走", lockedReason: null },
+    { id: "flee", label: "走", lockedReason: battle.kind === "trainer" ? "对手拦着不让走" : null },
   ];
 
   return freeze({
@@ -408,13 +415,18 @@ interface OverlaySource {
 
 const SEAL_NAMES = ["凡印", "上印", "特印", "金印", "玄印"] as const;
 
+/** 术法显示名取表；表里没有（如测试夹具的占位 id）时回退到 id，不抛错。 */
+function artLabel(artId: string): string {
+  return loadTables().arts.find((row) => row.id === artId)?.name ?? artId;
+}
+
 export function selectBattleOverlays(source: OverlaySource): BattleOverlaysView {
   const arts = (source.active.artIds ?? []).map((artId) => {
     const left = source.active.focusLeft?.[artId];
     const exhausted = typeof left === "number" && left <= 0;
     return {
       id: artId,
-      label: artId,
+      label: artLabel(artId),
       detail: typeof left === "number" ? `余 ${left}` : "",
       lockedReason: exhausted ? "这一式已经用尽" : null,
     };
@@ -481,6 +493,8 @@ export interface RunProgressView {
   readonly gold: number;
   readonly wave: number;
   readonly deltas: readonly RewardDeltaView[];
+  /** 战后可选机缘（结算页三选一）。 */
+  readonly offers: readonly ProgressRowView[];
   readonly shop: readonly ProgressRowView[];
   readonly omens: readonly ProgressRowView[];
   readonly nodes: readonly ProgressRowView[];
@@ -491,6 +505,12 @@ interface ShopEntrySource {
   readonly name: string;
   readonly cost: number;
   readonly soldOut?: boolean;
+}
+
+interface OfferSource {
+  readonly id: string;
+  readonly name: string;
+  readonly hint: string;
 }
 
 interface OmenSource {
@@ -511,6 +531,7 @@ interface RunProgressSource {
   readonly gold: number;
   readonly wave: number;
   readonly deltas?: readonly RewardDeltaView[];
+  readonly offers?: readonly OfferSource[];
   readonly shop?: readonly ShopEntrySource[];
   readonly omens?: readonly OmenSource[];
   readonly nodes?: readonly MapNodeSource[];
@@ -532,6 +553,13 @@ export function selectRunProgress(source: RunProgressSource): RunProgressView {
     };
   });
 
+  const offers = (source.offers ?? []).map((offer) => ({
+    id: offer.id,
+    label: offer.name,
+    detail: offer.hint,
+    lockedReason: null,
+  }));
+
   const omens = (source.omens ?? []).map((omen) => ({
     id: omen.id,
     label: omen.name,
@@ -550,6 +578,7 @@ export function selectRunProgress(source: RunProgressSource): RunProgressView {
     gold: source.gold,
     wave: source.wave,
     deltas: source.deltas ?? [],
+    offers,
     shop,
     omens,
     nodes,

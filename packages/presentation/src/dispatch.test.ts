@@ -68,6 +68,7 @@ describe("action dispatch — live run namespaces (U12)", () => {
       command: "target.pick",
       payload: { id: "f0" },
     });
+    expect(resolveAction("catch.skip")).toEqual({ kind: "command", command: "catch.skip", payload: {} });
     expect(resolveAction("overlay.cancel")).toEqual({
       kind: "command",
       command: "overlay.cancel",
@@ -76,6 +77,7 @@ describe("action dispatch — live run namespaces (U12)", () => {
   });
 
   it("maps progress commands including a bought item id", () => {
+    expect(resolveAction("summary.pick.b1")).toEqual({ kind: "command", command: "summary.pick", payload: { id: "b1" } });
     expect(resolveAction("summary.continue")).toEqual({
       kind: "command",
       command: "summary.continue",

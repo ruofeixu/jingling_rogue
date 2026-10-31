@@ -1,5 +1,9 @@
 # 素材生成规格表（gpt-image-1 等图像模型）
 
+> **2026-10-30：风格改为水墨（水彩加墨线）。** 下面第 1、2 节已换成水墨版前缀；第 3 节起的形象描述仍可用，但颜色以水墨规格为准。
+> 参考样张：`.artifacts/ink-i1/portrait_zao_li_ink.png`。验收真源：`docs/superpowers/specs/2026-10-29-ink-design.md`。
+> **出图方式：定妆照 + `images.edit`**，见水墨规格第 5 节"角色一致性"。
+
 > 照此逐个生成。**先做「首发三初始」试产**，风格对了再批量。
 > 形象来自 `spirit-visual-brief.md`（确认后为准）；风格与禁止项来自 `docs/ip/spirit-bible.md`。
 
@@ -16,28 +20,28 @@
   Azure gpt-image-1 尺寸仅支持 `1024x1024 / 1024x1536 / 1536x1024`。
 - **一张一物**：一次只生成一个对象，不要拼图。
 - **不要文字**：prompt 已含 "no text no logo"。
-- **注意**：Azure 的 images API 目前只稳定支持 `generate`（不走 `edit`/参考图），
-  所以"风格锚"靠**先生成一张满意的、再复用同一段 prompt + 固定 STYLE 前缀**来保持一致，
-  而不是传参考图。
+- **参考图**：2026-10-30 验证，项目 Azure 部署支持 `images.edit` 传参考图并输出透明底。旧版"只稳定支持 generate"的说法已过时。风格和形象一致性靠"定妆照 + edit"，不再只靠固定 STYLE 前缀。`tools/gen_art.py` 目前只调 `generate`，I3 开工时加 edit 模式。
+
 
 ## 1. 统一 STYLE 前缀（每条 prompt 都以它开头）
 
 ```
-Chinese folklore cartoon creature, bright clean outlines, rounded chibi full-body,
-big cute eyes, cel-shaded with a few large color blocks plus 2-3 shading steps and
-one glossy highlight (reads as round and thick, NOT a flat sticker), cheerful
-kids-cartoon vibe ("easy to read, round, vivid"), front or three-quarter view,
-full body with empty space under the feet, RGBA transparent background,
-no baked-in circular/oval pad under the character, no text no words no logo.
+Chinese ink-wash painting creature portrait (watercolor with ink lines): loose expressive
+black brush outlines with thick-thin calligraphic line weight, soft ink-wash gradients
+for volume, slight ink bleed at edges, light watercolor tints with one or two main
+colors per creature, the rest in black and grey ink; cute chibi full body, round and
+easy to read at small size, three-quarter view, centered, empty space under the feet,
+RGBA transparent background, no paper texture baked in, no circular/oval pad under
+the character, no text, no seal stamp, no signature, no border.
 ```
 
 ## 2. 统一 NEGATIVE（clean-room 强制，放进 negative 或 prompt 末尾）
 
 ```
 Do NOT imitate or recolor any existing commercial monster-collecting franchise mascot,
-no official dragon/rat/turtle/frog silhouettes, no Japanese pet-monster style,
-no dark stone-rubbing / new-year-painting mood, no fur strands, no wood-grain or
-stone texture, no calligraphy, no ropes/tassels. Original design only.
+no official dragon/rat/turtle/frog silhouettes, no Japanese pet-monster style, no photo
+realism, no glossy candy cel-shading, no thick black cartoon outlines, no neon colors,
+no dark stone-rubbing mood. Original design only.
 ```
 
 ## 3. 首发三初始（先试产这三张）

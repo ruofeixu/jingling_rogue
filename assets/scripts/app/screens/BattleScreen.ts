@@ -1,9 +1,10 @@
-import { Node, Tween, UIOpacity, UITransform, tween } from "cc";
+import { Graphics, Node, Tween, UIOpacity, UITransform, tween, Color } from "cc";
 import {
   COLOR,
   MOTION,
   SPACE,
   TYPE,
+  battleArtsLayout,
   battleLayout,
   buildResponsiveFrame,
   hpRatio,
@@ -25,6 +26,16 @@ export interface BattleRenderOptions {
   readonly textScale?: number;
   readonly reduceMotion?: boolean;
   readonly onAction?: (actionId: string) => void;
+  /** 战斗里换页（选术再回战斗）时不要再整页淡入，否则每点一下都闪一次。缺省淡入。 */
+  readonly fadeIn?: boolean;
+  /**
+   * 选术面板：有它就把命令区就地换成术列表（立绘、名牌、血条都不动，不切整页）。
+   * 模型来自 overlay 页（arts.pick.<id> … + arts.pick.confirm + overlay.cancel）。
+   */
+  readonly artsPanel?: {
+    readonly model: ScreenModel;
+    readonly selectedId: string | null;
+  };
 }
 
 interface Plate {
@@ -93,7 +104,7 @@ export class BattleScreen {
     this.placeFighter(root, "foe", model.plates.foe, layout.foeArt, layout.foePlate, flipFoe, scale, reduceMotion);
     this.placeFighter(root, "ally", model.plates.ally, layout.allyArt, layout.allyPlate, flipAlly, scale, reduceMotion);
 
-    const logText = model.reason ?? logLine(model.lines);
+    const logText = opts.artsPanel ? "" : (model.reason ?? logLine(model.lines));
     if (logText) {
       const log = makePanel(root, {
         name: "log",
@@ -114,9 +125,15 @@ export class BattleScreen {
       });
     }
 
-    const actions = model.primaryAction
-      ? [model.primaryAction, ...model.secondaryActions]
-      : model.secondaryActions;
+    if (opts.artsPanel) {
+      this.mountArtsPanel(root, opts.artsPanel, battleArtsLayout(frame), scale, opts.onAction);
+    }
+
+    const actions = opts.artsPanel
+      ? []
+      : model.primaryAction
+        ? [model.primaryAction, ...model.secondaryActions]
+        : model.secondaryActions;
     actions.forEach((action, index) => {
       const slot = layout.commands[index];
       if (!slot) {
@@ -139,13 +156,85 @@ export class BattleScreen {
       );
     });
 
-    const opacity = root.addComponent(UIOpacity);
-    opacity.opacity = 0;
-    tween(opacity)
-      .to(motionDurationMs(MOTION.fast, reduceMotion) / 1000, { opacity: 255 })
-      .start();
+    const fadeIn = opts.fadeIn;
+    if (fadeIn !== false) {
+      const opacity = root.addComponent(UIOpacity);
+      opacity.opacity = 0;
+      tween(opacity)
+        .to(motionDurationMs(MOTION.fast, reduceMotion) / 1000, { opacity: 255 })
+        .start();
+    }
 
     return root;
+  }
+
+  /** 把术列表画在命令区：四个术 + 出术 + 返回。选中的术描朱砂边。 */
+  private mountArtsPanel(
+    root: Node,
+    panel: NonNullable<BattleRenderOptions["artsPanel"]>,
+    layout: ReturnType<typeof battleArtsLayout>,
+    scale: number,
+    onAction?: (actionId: string) => void,
+  ): void {
+    const rows = panel.model.secondaryActions.filter((action) => action.id.includes(".pick."));
+    rows.slice(0, layout.skills.length).forEach((action, index) => {
+      const slot = layout.skills[index];
+      if (!slot) {
+        return;
+      }
+      const selected = panel.selectedId !== null && action.id.endsWith(`.${panel.selectedId}`);
+      const button = makeButton(
+        root,
+        {
+          action,
+          x: slot.x,
+          y: slot.y,
+          width: slot.width,
+          height: slot.height,
+          primary: selected,
+          textScale: scale,
+        },
+        action.enabled && onAction ? () => onAction(action.id) : undefined,
+      );
+      if (selected) {
+        const outline = button.addComponent(Graphics);
+        outline.rect(-slot.width / 2, -slot.height / 2, slot.width, slot.height);
+        outline.lineWidth = SPACE.xs;
+        outline.strokeColor = new Color(COLOR.accent[0], COLOR.accent[1], COLOR.accent[2], 255);
+        outline.stroke();
+      }
+    });
+    const confirm = panel.model.primaryAction;
+    if (confirm) {
+      makeButton(
+        root,
+        {
+          action: confirm,
+          x: layout.confirm.x,
+          y: layout.confirm.y,
+          width: layout.confirm.width,
+          height: layout.confirm.height,
+          primary: confirm.enabled,
+          textScale: scale,
+        },
+        confirm.enabled && onAction ? () => onAction(confirm.id) : undefined,
+      );
+    }
+    const back = panel.model.secondaryActions.find((action) => action.id === "overlay.cancel");
+    if (back) {
+      makeButton(
+        root,
+        {
+          action: back,
+          x: layout.back.x,
+          y: layout.back.y,
+          width: layout.back.width,
+          height: layout.back.height,
+          textScale: scale,
+        },
+        onAction ? () => onAction(back.id) : undefined,
+      );
+    }
   }
 
   unmount(): void {

@@ -106,3 +106,30 @@ export function battleLayout(frame: ResponsiveFrame): BattleLayout {
     ...fieldActors(-width / 2 + pad, width / 2 - pad, fieldTop, fieldBottom, width),
   };
 }
+
+export interface BattleArtsLayout {
+  /** 最多四个术，占原来四个命令的位置：看起来是「命令区变成了术列表」，立绘和名牌不动。 */
+  readonly skills: readonly [LayoutBox, LayoutBox, LayoutBox, LayoutBox];
+  /** 「出术」确认，在原来战况栏的位置，占大半。 */
+  readonly confirm: LayoutBox;
+  /** 「返回」，在战况栏的右半。 */
+  readonly back: LayoutBox;
+}
+
+/**
+ * 选术面板几何。不切换整页，只把命令区换成术列表，战况栏换成「出术 / 返回」。
+ * 所有盒子都沿用 battleLayout 的命令区和战况栏，所以不会压到立绘、名牌、顶栏上。
+ */
+export function battleArtsLayout(frame: ResponsiveFrame): BattleArtsLayout {
+  const layout = battleLayout(frame);
+  const log = layout.log;
+  const gap = SPACE.md;
+  const backW = (log.width - gap) * 0.4;
+  const confirmW = log.width - gap - backW;
+  const left = log.x - log.width / 2;
+  return {
+    skills: layout.commands,
+    confirm: box(left + confirmW / 2, log.y, confirmW, log.height),
+    back: box(left + confirmW + gap + backW / 2, log.y, backW, log.height),
+  };
+}

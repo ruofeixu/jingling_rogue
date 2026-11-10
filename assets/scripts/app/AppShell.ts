@@ -181,6 +181,8 @@ export class AppShell extends Component {
   /** 当前挂载的 renderer 与其宿主节点；同一时刻只允许一个。 */
   private mountedRenderer: RendererKind | null = null;
   private inkWash: Node | null = null;
+  /** 这次挂载前已经在战斗系页面（战斗/术/换位/队伍/囊…）里；用来跳过整页淡入。 */
+  private cameFromBattle = false;
   /** 上一次挂载的页 id；换页判断的唯一依据。 */
   private lastMountedRoute: string | null = null;
   private host: Node | null = null;
@@ -604,6 +606,7 @@ export class AppShell extends Component {
     // 只在换页时洗墨：同一页的刷新、改窗口重排不播；「减少动效」下不播。
     // 不能拿 this.routeId 对比：afterCommand 会先把 routeId 改成目标页再调 route。
     const prev = this.lastMountedRoute;
+    this.cameFromBattle = prev !== null && BATTLE_BG.has(prev);
     const changed = prev !== null && screenId !== prev && !(BATTLE_BG.has(prev) && BATTLE_BG.has(screenId));
     this.lastMountedRoute = screenId;
     // 正在播的洗墨挂在旧宿主下，重挂会把宿主连同它一起销毁（点完按钮后壳层常常同页再重挂一次），
@@ -794,6 +797,40 @@ export class AppShell extends Component {
       return;
     }
 
+    // 选术不切整页：有战斗视图且有术可选时，战斗画面留着，命令区就地换成术列表（artsPanel）。
+    //  没有战斗视图或没有可选的术时，回退到原来的整页，不会露出空面板。
+    const artsView = this.overlayView ?? EMPTY_OVERLAYS;
+    if (
+      renderer === "presentation" &&
+      this.routeId === "arts" &&
+      this.battleView &&
+      OVERLAY_ITEMS.arts(artsView).length > 0
+    ) {
+      const battleModel = buildBattleModel({
+        state: this.resolveState("normal") as "normal",
+        reason: this.resolveReason(),
+        view: this.battleView,
+      });
+      const artsModel = buildOverlayModel({
+        kind: "arts",
+        state: this.resolveState("normal") as "normal",
+        reason: this.resolveReason(),
+        view: artsView,
+        selectedId: this.overlaySelectedId,
+      });
+      this.model = artsModel;
+      this.battleScreen.mount(host, battleModel, {
+        viewport: this.viewport,
+        textScale: this.textScale,
+        reduceMotion: this.reduceMotion,
+        // 已经在战斗里，不再整页淡入
+        fadeIn: false,
+        artsPanel: { model: artsModel, selectedId: this.overlaySelectedId },
+        onAction: (id) => this.dispatch(id),
+      });
+      return;
+    }
+
     if (renderer === "presentation" && OVERLAY_KINDS.has(this.routeId)) {
       const view = this.overlayView ?? EMPTY_OVERLAYS;
       const items = OVERLAY_ITEMS[this.routeId](view);
@@ -829,6 +866,8 @@ export class AppShell extends Component {
         viewport: this.viewport,
         textScale: this.textScale,
         reduceMotion: this.reduceMotion,
+        // 从选术面板、弹层回来，或同页重挂，都已经在战斗里，不再整页淡入
+        fadeIn: this.cameFromBattle ? false : true,
         onAction: (id) => this.dispatch(id),
       });
       return;

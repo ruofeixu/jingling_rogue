@@ -1218,6 +1218,19 @@ function battleLayout(frame) {
     ...fieldActors(-width / 2 + pad, width / 2 - pad, fieldTop, fieldBottom, width)
   };
 }
+function battleArtsLayout(frame) {
+  const layout = battleLayout(frame);
+  const log = layout.log;
+  const gap = SPACE.md;
+  const backW = (log.width - gap) * 0.4;
+  const confirmW = log.width - gap - backW;
+  const left = log.x - log.width / 2;
+  return {
+    skills: layout.commands,
+    confirm: box(left + confirmW / 2, log.y, confirmW, log.height),
+    back: box(left + confirmW + gap + backW / 2, log.y, backW, log.height)
+  };
+}
 
 // src/layout/title-layout.ts
 var TITLE_H = 104;
@@ -1830,6 +1843,7 @@ export {
   auditMatrix,
   backActionFor,
   backButtonLayout,
+  battleArtsLayout,
   battleLayout,
   buildAchievementsModel,
   buildBattleModel,

@@ -100,3 +100,16 @@ describe("classic 200-wave run", () => {
     expect(accountAgain.dailyScores).toEqual(account.dailyScores);
   });
 });
+
+describe("removed fusion mode", () => {
+  it("loads an old spliced save as endless and ignores its fusion fields", () => {
+    const run = createRun({ seed: "old-spliced", starterId: "zao_li", mode: "endless" });
+    const old = { v: 1, ...run, mode: "spliced", fusedIds: ["jing_zhu"], spliceCharges: 2, unspliceCharges: 1 };
+
+    const loaded = decodeRun(JSON.stringify(old));
+
+    expect(loaded.mode).toBe("endless");
+    expect("fusedIds" in loaded).toBe(false);
+    expect("spliceCharges" in loaded).toBe(false);
+  });
+});

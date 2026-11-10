@@ -82,8 +82,6 @@ export type BoonKind =
   | "ppMax"
   | "warToken"
   | "tm"
-  | "splicer"
-  | "unsplice"
   | "voucher"
   | "fruit"
   | "typeBoost"

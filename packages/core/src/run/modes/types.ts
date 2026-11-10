@@ -1,19 +1,19 @@
-export type RunMode = "classic" | "daily" | "endless" | "spliced" | "challenge";
+export type RunMode = "classic" | "daily" | "endless" | "challenge";
 
 export type ChallengeId = "lineage" | "affinity" | "blank" | "invert" | "boneswap";
 
 export const BLANK_PARTY = ["zao_li", "jing_zhu", "tao_geng"] as const;
 
 export function costCap(mode: RunMode): 10 | 15 {
-  return mode === "endless" || mode === "spliced" ? 15 : 10;
+  return mode === "endless" ? 15 : 10;
 }
 
 export function shiftEvery(mode: RunMode): number {
-  return mode === "endless" || mode === "spliced" ? 5 : 10;
+  return mode === "endless" ? 5 : 10;
 }
 
 export function healOnShift(mode: RunMode): boolean {
-  return mode !== "endless" && mode !== "spliced";
+  return mode !== "endless";
 }
 
 export function finaleWave(mode: RunMode, sprint = false): number | null {
@@ -44,7 +44,6 @@ export function modeRules(mode: RunMode): {
   healOnShift: boolean;
   shopBuy: boolean;
   trainers: boolean;
-  fuseFoes: boolean;
   stackedChallenges: boolean;
 } {
   return {
@@ -54,7 +53,6 @@ export function modeRules(mode: RunMode): {
     healOnShift: healOnShift(mode),
     shopBuy: allowsShopBuy(mode),
     trainers: hasTrainers(mode),
-    fuseFoes: mode === "spliced",
     stackedChallenges: mode === "challenge",
   };
 }

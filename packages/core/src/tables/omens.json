@@ -75,21 +75,6 @@
     ]
   },
   {
-    "id": "paper_fuse",
-    "kind": "fuse",
-    "name": "纸马合体",
-    "body": "纸马要与队中精怪叠成一身。",
-    "options": [
-      {
-        "label": "允了",
-        "fuse": true
-      },
-      {
-        "label": "撕开"
-      }
-    ]
-  },
-  {
     "id": "bell_swap",
     "kind": "swap",
     "name": "铜钟换人",
@@ -558,21 +543,6 @@
     ]
   },
   {
-    "id": "shadow_fold",
-    "kind": "fuse",
-    "name": "影叠一体",
-    "body": "两道影子要叠成一条。",
-    "options": [
-      {
-        "label": "叠影",
-        "fuse": true
-      },
-      {
-        "label": "分开"
-      }
-    ]
-  },
-  {
     "id": "night_pouch",
     "kind": "lost",
     "name": "夜路丢囊",
@@ -599,6 +569,36 @@
       },
       {
         "label": "封匣"
+      }
+    ]
+  },
+  {
+    "id": "ferry_toll",
+    "kind": "gold",
+    "name": "渡口赏钱",
+    "body": "船工说今夜渡客少，将一串钱塞进你手里。",
+    "options": [
+      {
+        "label": "收下",
+        "gold": 60
+      },
+      {
+        "label": "推还"
+      }
+    ]
+  },
+  {
+    "id": "lantern_wish",
+    "kind": "luck",
+    "name": "河灯祈愿",
+    "body": "水面漂来一盏还亮着的花灯。",
+    "options": [
+      {
+        "label": "许愿",
+        "luck": 1
+      },
+      {
+        "label": "目送它走"
       }
     ]
   }

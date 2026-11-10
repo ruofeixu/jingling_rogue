@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { applyOmenOption, listOmens } from "./omen-event.ts";
-import { fuse } from "./fusion.ts";
 import { grantAchievement, onRunVictory, ACH_CARRY_YOUNG } from "./achievements.ts";
 import { createRun, emptyAccount } from "./run-session.ts";
 import { isUnlocked } from "./modes/unlocks.ts";
@@ -14,15 +13,6 @@ describe("omens", () => {
     const before = run.gold;
     applyOmenOption(run, account, "release_carp", 0);
     expect(run.gold).toBe(before + 80);
-  });
-});
-
-describe("fusion", () => {
-  it("takes one affinity from each body", () => {
-    const fused = fuse("zao_li", "jing_zhu");
-    expect(fused.affinities).toEqual(["flame", "tide"]);
-    expect(fused.artIds).toHaveLength(4);
-    expect(fused.pactId).toBe("hearth_watch");
   });
 });
 
@@ -42,7 +32,6 @@ describe("achievements", () => {
     expect(
       isUnlocked("baby_te_pool", {
         classicCleared: account.classicCleared,
-        fusedClear: false,
         carryBaby: account.carryBaby,
         legendCatchReady: false,
       }),

@@ -13,7 +13,7 @@ describe("achievements catalog", () => {
     const pub = listAchievements({ hidden: false });
     const hid = listAchievements({ hidden: true });
     expect(pub.length).toBeGreaterThanOrEqual(44);
-    expect(hid.length).toBeGreaterThanOrEqual(27);
+    expect(hid.length).toBeGreaterThanOrEqual(26);
     expect(pub.every((row) => !row.hidden)).toBe(true);
     expect(hid.every((row) => row.hidden)).toBe(true);
 
@@ -43,7 +43,6 @@ describe("achievements catalog", () => {
     expect(
       isUnlocked("baby_te_pool", {
         classicCleared: account.classicCleared,
-        fusedClear: false,
         carryBaby: account.carryBaby,
         legendCatchReady: false,
       }),

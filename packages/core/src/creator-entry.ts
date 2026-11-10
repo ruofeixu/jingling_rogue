@@ -11,7 +11,6 @@ export { listRelics, offerRelics, starterRelicIds, pickStartRelic, getRelic } fr
 export { currentCost, spendCandy, addCandy } from "./meta/candy.ts";
 export { dailyMiasma } from "./meta/miasma.ts";
 export { getOmen, listOmens } from "./run/omen-event.ts";
-export { fuse } from "./run/fusion.ts";
 export { saveAccountLocal, saveRunLocal, loadAccountLocal, loadRunLocal } from "./save/local-store.ts";
 export type { KvStore } from "./save/local-store.ts";
 export type { AccountProgress } from "./run/run-session.ts";

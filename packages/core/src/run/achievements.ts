@@ -8,7 +8,6 @@ export const ACH_CARRY_YOUNG = "carry_young";
 export type AchWhen =
   | { type: "victory" }
   | { type: "baby" }
-  | { type: "fuse" }
   | { type: "endless" }
   | { type: "catch"; count?: number }
   | { type: "seen"; count?: number }
@@ -32,7 +31,6 @@ export type AchEvent =
   | { type: "candy"; kind: "cost" | "pact" | "egg" }
   | { type: "daily"; wave: number }
   | { type: "ribbon" }
-  | { type: "fuse" }
   | { type: "endless" };
 
 const CATALOG = rows as AchRow[];
@@ -80,9 +78,6 @@ function matches(row: AchRow, account: AccountProgress, event: AchEvent): boolea
   if (when.type === "baby") {
     return event.type === "victory" && partyHasBaby(event.partyIds);
   }
-  if (when.type === "fuse") {
-    return event.type === "fuse" || (event.type === "victory" && event.mode === "spliced") || account.fusedClear;
-  }
   if (when.type === "endless") {
     return event.type === "endless";
   }
@@ -126,9 +121,6 @@ export function evaluateAchievements(account: AccountProgress, event: AchEvent):
 
 export function onRunVictory(account: AccountProgress, partyIds: string[], mode?: string): void {
   account.classicCleared = true;
-  if (mode === "spliced") {
-    account.fusedClear = true;
-  }
   for (const id of partyIds) {
     const root = ribbonRoot(id);
     if (!account.ribbons.includes(root)) {

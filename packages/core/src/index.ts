@@ -65,7 +65,6 @@ export { listRelics, offerRelics, starterRelicIds, getRelic, pickStartRelic } fr
 export { currentCost, spendCandy, addCandy } from "./meta/candy.ts";
 export { dailyMiasma, spreadMiasma, expMul } from "./meta/miasma.ts";
 export { applyOmenOption, listOmens, getOmen } from "./run/omen-event.ts";
-export { fuse } from "./run/fusion.ts";
 export { grantAchievement, onRunVictory, evaluateAchievements, listAchievements } from "./run/achievements.ts";
 export { trySeal, catchChance, SEAL_TIERS, speciesCatchRate } from "./catch/seal.ts";
 export { encodeRun, decodeRun, encodeAccount, decodeAccount } from "./save/codec.ts";

@@ -67,10 +67,10 @@ describe("modes", () => {
     expect(run.partyIds).toHaveLength(3);
   });
 
-  it("lists seven unlocks gated on classic clear", () => {
-    expect(UNLOCK_IDS).toHaveLength(7);
-    expect(isUnlocked("endless", { classicCleared: false, fusedClear: false, carryBaby: false, legendCatchReady: false })).toBe(false);
-    expect(isUnlocked("endless", { classicCleared: true, fusedClear: false, carryBaby: false, legendCatchReady: false })).toBe(true);
+  it("lists six unlocks gated on classic clear", () => {
+    expect(UNLOCK_IDS).toHaveLength(6);
+    expect(isUnlocked("endless", { classicCleared: false, carryBaby: false, legendCatchReady: false })).toBe(false);
+    expect(isUnlocked("endless", { classicCleared: true, carryBaby: false, legendCatchReady: false })).toBe(true);
   });
 
   it("requires a relic and ends a sprint at wave 20", () => {
@@ -89,22 +89,18 @@ describe("modes", () => {
     expect(slice.phase).toBe("victory");
   });
 
-  it("gives each of the five modes a distinct public rule fingerprint", () => {
-    const modes = ["classic", "daily", "endless", "spliced", "challenge"] as const;
+  it("gives each of the four modes a distinct public rule fingerprint", () => {
+    const modes = ["classic", "daily", "endless", "challenge"] as const;
     const keys = modes.map((mode) => JSON.stringify(modeRules(mode)));
-    expect(new Set(keys).size).toBe(5);
+    expect(new Set(keys).size).toBe(modes.length);
   });
 
-  it("forbids shop buys in daily and fuses the spliced starter", () => {
+  it("forbids shop buys in daily", () => {
     const daily = new ClassicSlice({ seed: "daily-buy", starterId: "zao_li", mode: "daily" });
     daily.beginWave();
     expect(daily.run.partyIds).toHaveLength(3);
     expect(daily.run.partyLevels[0]).toBe(20);
     expect(() => daily.buyStock("small_draught")).toThrow(/shop/);
-    const spliced = createRun({ seed: "fuse-1", starterId: "zao_li", mode: "spliced" });
-    const endless = createRun({ seed: "fuse-1", starterId: "zao_li", mode: "endless" });
-    expect(spliced.fusedIds.length).toBeGreaterThan(0);
-    expect(endless.fusedIds).toEqual([]);
   });
 
   it("keeps the best daily wave for a UTC date and isolates the next day", () => {

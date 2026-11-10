@@ -99,7 +99,6 @@ const MODE_NAME: Record<RunMode, string> = {
   classic: "经典",
   daily: "今日试炼",
   endless: "无尽长夜",
-  spliced: "长夜·合体",
   challenge: "苛令",
 };
 
@@ -267,13 +266,12 @@ export class Boot extends Component implements LobbyHost {
       this.extra.push(paintWindow(this.canvas, "mode-panel", 0, lobby.panel.y, lobby.panel.width, lobby.panel.height, 16));
       this.extra.push(makeHelpButton(this.canvas, lobby.help.x, lobby.help.y, () => this.showGlossary(() => this.showModePick()), this));
     }
-    const modes: RunMode[] = ["classic", "daily", "endless", "spliced", "challenge"];
+    const modes: RunMode[] = ["classic", "daily", "endless", "challenge"];
     const modeIcon: Record<string, ItemIconId> = {
       短征: "spd",
       经典: "map",
       今日试炼: "gold",
       无尽长夜: "lure",
-      "长夜·合体": "charm",
       苛令: "atk",
     };
     const entries: [string, () => void][] = [
@@ -712,18 +710,6 @@ export class Boot extends Component implements LobbyHost {
       this.renderPhase();
     }, undefined, undefined, "lure"));
     this.extra.push(this.button("回厅", 0, lobby.backY - lobby.itemGap, () => this.leaveRun()));
-    if (slice.run.partyIds.length >= 2) {
-      this.extra.push(this.button("合体", lobby.shopDx, lobby.backY - lobby.itemGap, () => {
-        try {
-          const fused = slice.fuseParty(0, 1);
-          this.setLog(`合体 ${getSpirit(fused.primaryId).name}`);
-          this.persist();
-          this.renderPhase();
-        } catch {
-          this.setLog("无法合体");
-        }
-      }, undefined, undefined, "charm"));
-    }
   }
 
   private showSummary(): void {

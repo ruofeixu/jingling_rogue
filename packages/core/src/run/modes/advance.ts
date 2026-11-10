@@ -6,7 +6,7 @@ import { healOnShift, shiftEvery } from "./types.ts";
 export function advanceAfterWin(run: RunSession): { shifted: boolean; healed: boolean } {
   const cleared = run.wave;
   run.wave += 1;
-  if (run.mode === "endless" || run.mode === "spliced") {
+  if (run.mode === "endless") {
     run.nightMarks = grantMarkForWave(run.nightMarks, cleared, run.seed);
   }
   const every = shiftEvery(run.mode);
@@ -17,7 +17,7 @@ export function advanceAfterWin(run: RunSession): { shifted: boolean; healed: bo
   if (healed) {
     run.partyHpRatios = run.partyHpRatios.map(() => 1);
   }
-  if (run.mode === "endless" || run.mode === "spliced" || !run.hasMap) {
+  if (run.mode === "endless" || !run.hasMap) {
     run.realmId = pickNextRealm({
       realmId: run.realmId,
       seed: run.seed,

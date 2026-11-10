@@ -21,7 +21,6 @@ import { openShop, rerollShop, stockForWave, type ShopState } from "../shop/shop
 import type { BoonRow } from "../tables/types.ts";
 import { advanceAfterWin, finaleWave, healOnShift, allowsShopBuy, type ChallengeId, type RunMode } from "./modes/index.ts";
 import { applyOmenOption, getOmen, type OmenRow } from "./omen-event.ts";
-import { fuse, type Fusion } from "./fusion.ts";
 import { onRunVictory, evaluateAchievements } from "./achievements.ts";
 
 export type SlicePhase = "battle" | "catch" | "boon" | "map" | "omen" | "victory" | "defeat";
@@ -35,7 +34,6 @@ export class ClassicSlice {
   realmChoices: string[] = [];
   shop: ShopState | null = null;
   omen: OmenRow | null = null;
-  fusion: Fusion | null = null;
 
   constructor(opts: {
     seed: string;
@@ -66,7 +64,6 @@ export class ClassicSlice {
     slice.realmChoices = [];
     slice.shop = null;
     slice.omen = null;
-    slice.fusion = null;
     return slice;
   }
 
@@ -260,7 +257,6 @@ export class ClassicSlice {
       challenges: this.run.challenges,
       boonIds: this.run.boonIds,
       hasApexBand: this.run.hasApexBand,
-      fusedIds: this.run.fusedIds,
     });
     this.boonChoices = this.shop.offers;
   }
@@ -277,18 +273,5 @@ export class ClassicSlice {
     applyOmenOption(this.run, this.account, this.omen.id, optionIndex);
     this.omen = null;
     this.openBoon();
-  }
-
-  fuseParty(primaryIndex: number, sacrificeIndex: number): Fusion {
-    const primaryId = this.run.partyIds[primaryIndex];
-    const sacrificeId = this.run.partyIds[sacrificeIndex];
-    if (!primaryId || !sacrificeId) {
-      throw new Error("need two spirits");
-    }
-    this.fusion = fuse(primaryId, sacrificeId);
-    this.run.partyIds.splice(sacrificeIndex, 1);
-    this.account.fusedClear = true;
-    evaluateAchievements(this.account, { type: "fuse" });
-    return this.fusion;
   }
 }

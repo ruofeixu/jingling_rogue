@@ -966,22 +966,6 @@
     "tag": "apex"
   },
   {
-    "id": "twin_pact",
-    "name": "双生契",
-    "kind": "splicer",
-    "value": 1,
-    "weight": 2,
-    "tier": "te"
-  },
-  {
-    "id": "unsplice_charm",
-    "name": "解合体",
-    "kind": "unsplice",
-    "value": 1,
-    "weight": 2,
-    "tier": "te"
-  },
-  {
     "id": "voucher_fan",
     "name": "凡孵券",
     "kind": "voucher",

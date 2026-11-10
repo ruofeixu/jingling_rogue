@@ -6,7 +6,6 @@ const modes = [
   { id: "classic", label: "经典" },
   { id: "daily", label: "今日试炼" },
   { id: "endless", label: "无尽长夜" },
-  { id: "spliced", label: "长夜•合体" },
   { id: "challenge", label: "苛令" },
 ];
 
@@ -32,19 +31,19 @@ describe("mode screen model", () => {
   it("requires a written reason for a locked mode", () => {
     const model = buildModeModel({
       state: "normal",
-      modes: modes.map((m) => (m.id === "spliced" ? { ...m, lockedReason: "先通关一次经典" } : m)),
+      modes: modes.map((m) => (m.id === "endless" ? { ...m, lockedReason: "先通关一次经典" } : m)),
     });
-    const spliced = model.secondaryActions.find((a) => a.id === `${MODE_ACTION_PREFIX}spliced`);
+    const endless = model.secondaryActions.find((a) => a.id === `${MODE_ACTION_PREFIX}endless`);
 
-    expect(spliced?.enabled).toBe(false);
-    expect(spliced?.disabledReason).toBe("先通关一次经典");
+    expect(endless?.enabled).toBe(false);
+    expect(endless?.disabledReason).toBe("先通关一次经典");
   });
 
   it("rejects a locked mode without a reason", () => {
     expect(() =>
       buildModeModel({
         state: "normal",
-        modes: [{ id: "spliced", label: "长夜•合体", locked: true }],
+        modes: [{ id: "endless", label: "无尽长夜", locked: true }],
       }),
     ).toThrow(/reason/);
   });

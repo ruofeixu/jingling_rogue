@@ -155,7 +155,7 @@ describe("preview UI taps", () => {
   });
 
   it("opens a battle from every mode button including 短征", () => {
-    const names = ["短征", "经典", "今日试炼", "无尽长夜", "长夜•合体", "苛令"];
+    const names = ["短征", "经典", "今日试炼", "无尽长夜", "苛令"];
     for (const label of names) {
       const app = new PreviewApp({ seed: `ui-${label}` });
       app.tap("新的旅途");
@@ -314,7 +314,7 @@ describe("UI smoke", () => {
 
   it("taps every lobby, mode, starter, and in-run control without throwing", () => {
     const report = walkPlayableUi("ui-all-ops");
-    expect(report.battles).toBe(18);
+    expect(report.battles).toBe(15);
     expect(report.taps.length).toBeGreaterThan(10);
     expect(report.dead, `dead=${String(report.dead)} taps=${report.taps.length}`).toBeGreaterThanOrEqual(0);
     expect(report.dead / report.taps.length).toBeLessThan(0.05);

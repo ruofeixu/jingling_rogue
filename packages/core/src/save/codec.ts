@@ -29,11 +29,8 @@ interface RunSave {
   partyCharms?: string[][];
   relicIds?: string[];
   sprint?: boolean;
-  fusedIds?: string[];
   bag?: Record<string, number>;
   warTokens?: { id: string; remaining: number; tag: string }[];
-  spliceCharges?: number;
-  unspliceCharges?: number;
   partyExtraArts?: string[][];
   partyTempers?: string[];
 }
@@ -46,7 +43,6 @@ interface AccountSave {
   settings?: AccountProgress["settings"];
   unlockedStarters: string[];
   classicCleared?: boolean;
-  fusedClear?: boolean;
   candy?: Record<string, number>;
   costDown?: Record<string, number>;
   boneCap?: Record<string, number>;
@@ -87,7 +83,8 @@ export function decodeRun(raw: string): RunSession {
     lures: save.lures ?? [],
     boonIds: save.boonIds,
     caughtIds: save.caughtIds,
-    mode: save.mode ?? "classic",
+    // 合体玩法已取消（旧存档里的 spliced 当无尽长夜继续）。
+    mode: (save.mode as string | undefined) === "spliced" ? "endless" : (save.mode ?? "classic"),
     costCap: save.costCap ?? 10,
     challenges: save.challenges ?? [],
     nightMarks: save.nightMarks ?? [],
@@ -98,11 +95,8 @@ export function decodeRun(raw: string): RunSession {
     partyCharms: save.partyCharms ?? save.partyIds.map(() => []),
     relicIds: save.relicIds ?? [],
     sprint: save.sprint ?? false,
-    fusedIds: save.fusedIds ?? [],
     bag: save.bag ?? {},
     warTokens: save.warTokens ?? [],
-    spliceCharges: save.spliceCharges ?? 0,
-    unspliceCharges: save.unspliceCharges ?? 0,
     partyExtraArts: save.partyExtraArts ?? save.partyIds.map(() => []),
     partyTempers: save.partyTempers ?? save.partyIds.map(() => "plain"),
   };
@@ -125,7 +119,6 @@ export function decodeAccount(raw: string): AccountProgress {
     settings: save.settings ?? emptyAccount().settings,
     unlockedStarters: save.unlockedStarters,
     classicCleared: save.classicCleared ?? false,
-    fusedClear: save.fusedClear ?? false,
     candy: save.candy ?? {},
     costDown: save.costDown ?? {},
     boneCap: save.boneCap ?? {},

@@ -3,7 +3,7 @@ import type { RunMode } from "./modes/types.ts";
 import type { StartRunOpts } from "./run-controller.ts";
 import type { AccountProgress } from "./run-session.ts";
 
-const RUN_MODES: ReadonlySet<string> = new Set(["classic", "daily", "endless", "spliced", "challenge"]);
+const RUN_MODES: ReadonlySet<string> = new Set(["classic", "daily", "endless", "challenge"]);
 
 /** 把壳层传来的模式名收成 RunController.startRun 能吃的参数。短征是经典局加契印。 */
 export function resolveProductStart(input: {

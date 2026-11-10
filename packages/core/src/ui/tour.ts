@@ -180,7 +180,7 @@ export const TOUR: TourStop[] = [
   },
 ];
 
-const SHOP_CHROME = ["再择", "小药", "摘要", "奇遇", "合体", "空地", "回厅"];
+const SHOP_CHROME = ["再择", "小药", "摘要", "奇遇", "空地", "回厅"];
 
 function lobbyTap(app: PreviewApp, label: string): PreviewApp {
   app.tap(label);

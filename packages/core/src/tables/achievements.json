@@ -482,14 +482,6 @@
     }
   },
   {
-    "id": "fuse_clear",
-    "name": "合体通关",
-    "hidden": true,
-    "when": {
-      "type": "fuse"
-    }
-  },
-  {
     "id": "night_mark",
     "name": "长夜一印",
     "hidden": true,

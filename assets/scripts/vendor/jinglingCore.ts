@@ -3515,22 +3515,6 @@ var boons_default = [
     tag: "apex"
   },
   {
-    id: "twin_pact",
-    name: "\u53CC\u751F\u5951",
-    kind: "splicer",
-    value: 1,
-    weight: 2,
-    tier: "te"
-  },
-  {
-    id: "unsplice_charm",
-    name: "\u89E3\u5408\u4F53",
-    kind: "unsplice",
-    value: 1,
-    weight: 2,
-    tier: "te"
-  },
-  {
     id: "voucher_fan",
     name: "\u51E1\u5B75\u5238",
     kind: "voucher",
@@ -11395,13 +11379,13 @@ function defaultSettings() {
 // src/run/modes/types.ts
 var BLANK_PARTY = ["zao_li", "jing_zhu", "tao_geng"];
 function costCap(mode) {
-  return mode === "endless" || mode === "spliced" ? 15 : 10;
+  return mode === "endless" ? 15 : 10;
 }
 function shiftEvery(mode) {
-  return mode === "endless" || mode === "spliced" ? 5 : 10;
+  return mode === "endless" ? 5 : 10;
 }
 function healOnShift(mode) {
-  return mode !== "endless" && mode !== "spliced";
+  return mode !== "endless";
 }
 function finaleWave(mode, sprint = false) {
   if (sprint) {
@@ -11491,7 +11475,7 @@ function grantMarkForWave(marks, wave, seed) {
 function advanceAfterWin(run) {
   const cleared = run.wave;
   run.wave += 1;
-  if (run.mode === "endless" || run.mode === "spliced") {
+  if (run.mode === "endless") {
     run.nightMarks = grantMarkForWave(run.nightMarks, cleared, run.seed);
   }
   const every = shiftEvery(run.mode);
@@ -11502,7 +11486,7 @@ function advanceAfterWin(run) {
   if (healed) {
     run.partyHpRatios = run.partyHpRatios.map(() => 1);
   }
-  if (run.mode === "endless" || run.mode === "spliced" || !run.hasMap) {
+  if (run.mode === "endless" || !run.hasMap) {
     run.realmId = pickNextRealm({
       realmId: run.realmId,
       seed: run.seed,
@@ -11591,29 +11575,6 @@ function relicCatchValue(relicIds) {
   }, 0);
 }
 
-// src/run/fusion.ts
-function fuse(primaryId, sacrificeId) {
-  if (primaryId === sacrificeId) {
-    throw new Error("need two spirits");
-  }
-  const primary = getSpirit(primaryId);
-  const other = getSpirit(sacrificeId);
-  return {
-    primaryId,
-    sacrificeId,
-    affinities: [primary.affinities[0], other.affinities[0]],
-    artIds: [...primary.artIds.slice(0, 2), ...other.artIds.slice(0, 2)],
-    pactId: primary.pactId
-  };
-}
-function pickFusePartner(starterId, seed) {
-  const ids = loadTables().spirits.map((row) => row.id).filter((id) => id !== starterId);
-  if (ids.length === 0) {
-    throw new Error("need two spirits");
-  }
-  return ids[new RngStream(seed).child(3).int(ids.length)];
-}
-
 // src/run/run-session.ts
 function emptyAccount() {
   return {
@@ -11623,7 +11584,6 @@ function emptyAccount() {
     settings: defaultSettings(),
     unlockedStarters: [],
     classicCleared: false,
-    fusedClear: false,
     candy: {},
     costDown: {},
     boneCap: {},
@@ -11675,11 +11635,8 @@ function createRun(opts) {
     partyCharms: partyIds.map(() => []),
     relicIds: [],
     sprint: Boolean(opts.sprint),
-    fusedIds: mode === "spliced" ? [pickFusePartner(opts.starterId, opts.seed)] : [],
     bag: {},
     warTokens: [],
-    spliceCharges: 0,
-    unspliceCharges: 0,
     partyExtraArts: partyIds.map(() => []),
     partyTempers: partyIds.map(() => "plain")
   };
@@ -11850,12 +11807,6 @@ function applyBoon(run, boonId, account) {
     if (next) {
       run.partyIds[0] = next;
     }
-  }
-  if (boon.kind === "splicer") {
-    run.spliceCharges += 1;
-  }
-  if (boon.kind === "unsplice") {
-    run.unspliceCharges += 1;
   }
   if (boon.kind === "voucher" && account && boon.tag) {
     const tier = boon.tag;
@@ -12566,14 +12517,6 @@ var achievements_default = [
     }
   },
   {
-    id: "fuse_clear",
-    name: "\u5408\u4F53\u901A\u5173",
-    hidden: true,
-    when: {
-      type: "fuse"
-    }
-  },
-  {
     id: "night_mark",
     name: "\u957F\u591C\u4E00\u5370",
     hidden: true,
@@ -12756,9 +12699,6 @@ function matches(row, account, event) {
   if (when.type === "baby") {
     return event.type === "victory" && partyHasBaby(event.partyIds);
   }
-  if (when.type === "fuse") {
-    return event.type === "fuse" || event.type === "victory" && event.mode === "spliced" || account.fusedClear;
-  }
   if (when.type === "endless") {
     return event.type === "endless";
   }
@@ -12799,9 +12739,6 @@ function evaluateAchievements(account, event) {
 }
 function onRunVictory(account, partyIds, mode) {
   account.classicCleared = true;
-  if (mode === "spliced") {
-    account.fusedClear = true;
-  }
   for (const id of partyIds) {
     const root = ribbonRoot(id);
     if (!account.ribbons.includes(root)) {
@@ -13036,9 +12973,6 @@ function eligibleShopBoons(opts) {
         return [];
       }
     }
-    if (row.kind === "splicer" && partyIds && partyIds.length < 2) {
-      return [];
-    }
     if (row.kind === "voucher" && opts.mode === "daily") {
       return [];
     }
@@ -13080,8 +13014,7 @@ function openShop(opts) {
     seenCount: opts.seenCount,
     challenges: opts.challenges,
     boonIds: opts.boonIds,
-    hasApexBand: opts.hasApexBand,
-    fusedIds: opts.fusedIds
+    hasApexBand: opts.hasApexBand
   });
   return {
     wave: opts.wave,
@@ -13097,8 +13030,7 @@ function openShop(opts) {
     seenCount: opts.seenCount,
     challenges: opts.challenges,
     boonIds: opts.boonIds,
-    hasApexBand: opts.hasApexBand,
-    fusedIds: opts.fusedIds
+    hasApexBand: opts.hasApexBand
   };
 }
 function rerollShop(shop, seed = shop.seed) {
@@ -13120,8 +13052,7 @@ function rerollShop(shop, seed = shop.seed) {
     seenCount: shop.seenCount,
     challenges: shop.challenges,
     boonIds: shop.boonIds,
-    hasApexBand: shop.hasApexBand,
-    fusedIds: shop.fusedIds
+    hasApexBand: shop.hasApexBand
   });
 }
 function rollOffers(rng, slots, filter) {
@@ -13251,21 +13182,6 @@ var omens_default = [
       },
       {
         label: "\u653E\u56DE"
-      }
-    ]
-  },
-  {
-    id: "paper_fuse",
-    kind: "fuse",
-    name: "\u7EB8\u9A6C\u5408\u4F53",
-    body: "\u7EB8\u9A6C\u8981\u4E0E\u961F\u4E2D\u7CBE\u602A\u53E0\u6210\u4E00\u8EAB\u3002",
-    options: [
-      {
-        label: "\u5141\u4E86",
-        fuse: true
-      },
-      {
-        label: "\u6495\u5F00"
       }
     ]
   },
@@ -13738,21 +13654,6 @@ var omens_default = [
     ]
   },
   {
-    id: "shadow_fold",
-    kind: "fuse",
-    name: "\u5F71\u53E0\u4E00\u4F53",
-    body: "\u4E24\u9053\u5F71\u5B50\u8981\u53E0\u6210\u4E00\u6761\u3002",
-    options: [
-      {
-        label: "\u53E0\u5F71",
-        fuse: true
-      },
-      {
-        label: "\u5206\u5F00"
-      }
-    ]
-  },
-  {
     id: "night_pouch",
     kind: "lost",
     name: "\u591C\u8DEF\u4E22\u56CA",
@@ -13779,6 +13680,36 @@ var omens_default = [
       },
       {
         label: "\u5C01\u5323"
+      }
+    ]
+  },
+  {
+    id: "ferry_toll",
+    kind: "gold",
+    name: "\u6E21\u53E3\u8D4F\u94B1",
+    body: "\u8239\u5DE5\u8BF4\u4ECA\u591C\u6E21\u5BA2\u5C11\uFF0C\u5C06\u4E00\u4E32\u94B1\u585E\u8FDB\u4F60\u624B\u91CC\u3002",
+    options: [
+      {
+        label: "\u6536\u4E0B",
+        gold: 60
+      },
+      {
+        label: "\u63A8\u8FD8"
+      }
+    ]
+  },
+  {
+    id: "lantern_wish",
+    kind: "luck",
+    name: "\u6CB3\u706F\u7948\u613F",
+    body: "\u6C34\u9762\u6F02\u6765\u4E00\u76CF\u8FD8\u4EAE\u7740\u7684\u82B1\u706F\u3002",
+    options: [
+      {
+        label: "\u8BB8\u613F",
+        luck: 1
+      },
+      {
+        label: "\u76EE\u9001\u5B83\u8D70"
       }
     ]
   }
@@ -13839,7 +13770,6 @@ var ClassicSlice = class _ClassicSlice {
   realmChoices = [];
   shop = null;
   omen = null;
-  fusion = null;
   constructor(opts) {
     this.run = createRun(opts);
     this.account = recordCatch(this.run, opts.starterId, opts.account);
@@ -13860,7 +13790,6 @@ var ClassicSlice = class _ClassicSlice {
     slice.realmChoices = [];
     slice.shop = null;
     slice.omen = null;
-    slice.fusion = null;
     return slice;
   }
   beginWave() {
@@ -14038,8 +13967,7 @@ var ClassicSlice = class _ClassicSlice {
       seenCount: this.account.seenIds.length,
       challenges: this.run.challenges,
       boonIds: this.run.boonIds,
-      hasApexBand: this.run.hasApexBand,
-      fusedIds: this.run.fusedIds
+      hasApexBand: this.run.hasApexBand
     });
     this.boonChoices = this.shop.offers;
   }
@@ -14054,18 +13982,6 @@ var ClassicSlice = class _ClassicSlice {
     applyOmenOption(this.run, this.account, this.omen.id, optionIndex);
     this.omen = null;
     this.openBoon();
-  }
-  fuseParty(primaryIndex, sacrificeIndex) {
-    const primaryId = this.run.partyIds[primaryIndex];
-    const sacrificeId = this.run.partyIds[sacrificeIndex];
-    if (!primaryId || !sacrificeId) {
-      throw new Error("need two spirits");
-    }
-    this.fusion = fuse(primaryId, sacrificeId);
-    this.run.partyIds.splice(sacrificeIndex, 1);
-    this.account.fusedClear = true;
-    evaluateAchievements(this.account, { type: "fuse" });
-    return this.fusion;
   }
 };
 
@@ -14164,7 +14080,8 @@ function decodeRun(raw) {
     lures: save.lures ?? [],
     boonIds: save.boonIds,
     caughtIds: save.caughtIds,
-    mode: save.mode ?? "classic",
+    // 合体玩法已取消（旧存档里的 spliced 当无尽长夜继续）。
+    mode: save.mode === "spliced" ? "endless" : save.mode ?? "classic",
     costCap: save.costCap ?? 10,
     challenges: save.challenges ?? [],
     nightMarks: save.nightMarks ?? [],
@@ -14175,11 +14092,8 @@ function decodeRun(raw) {
     partyCharms: save.partyCharms ?? save.partyIds.map(() => []),
     relicIds: save.relicIds ?? [],
     sprint: save.sprint ?? false,
-    fusedIds: save.fusedIds ?? [],
     bag: save.bag ?? {},
     warTokens: save.warTokens ?? [],
-    spliceCharges: save.spliceCharges ?? 0,
-    unspliceCharges: save.unspliceCharges ?? 0,
     partyExtraArts: save.partyExtraArts ?? save.partyIds.map(() => []),
     partyTempers: save.partyTempers ?? save.partyIds.map(() => "plain")
   };
@@ -14200,7 +14114,6 @@ function decodeAccount(raw) {
     settings: save.settings ?? emptyAccount().settings,
     unlockedStarters: save.unlockedStarters,
     classicCleared: save.classicCleared ?? false,
-    fusedClear: save.fusedClear ?? false,
     candy: save.candy ?? {},
     costDown: save.costDown ?? {},
     boneCap: save.boneCap ?? {},
@@ -15317,7 +15230,6 @@ var MODE_NAME = {
   classic: "\u7ECF\u5178",
   daily: "\u4ECA\u65E5\u8BD5\u70BC",
   endless: "\u65E0\u5C3D\u957F\u591C",
-  spliced: "\u957F\u591C\u2022\u5408\u4F53",
   challenge: "\u82DB\u4EE4"
 };
 var TAB_NAME = {
@@ -15378,7 +15290,7 @@ var PreviewApp = class {
     if (this.screen === "mode") {
       return [
         { label: "\u77ED\u5F81", run: () => this.openStarter("classic", true) },
-        ...["classic", "daily", "endless", "spliced", "challenge"].map((mode) => ({
+        ...["classic", "daily", "endless", "challenge"].map((mode) => ({
           label: MODE_NAME[mode],
           run: () => this.openStarter(mode, false)
         })),
@@ -15623,20 +15535,6 @@ var PreviewApp = class {
             this.showSlicePhase();
           }
         },
-        ...slice.run.partyIds.length >= 2 ? [
-          {
-            label: "\u5408\u4F53",
-            run: () => {
-              try {
-                const fused = slice.fuseParty(0, 1);
-                this.log = `\u5408\u4F53 ${getSpirit(fused.primaryId).name}`;
-                this.showSlicePhase();
-              } catch {
-                this.log = "\u65E0\u6CD5\u5408\u4F53";
-              }
-            }
-          }
-        ] : [],
         this.leaveRunControl(),
         this.missControl()
       ];
@@ -16172,7 +16070,7 @@ function runUiSmoke(seed) {
   tap(lobby, "\u540D\u8BCD");
   tap(lobby, GLOSSARY[0]?.term ?? "\u7CBE\u602A");
   tap(lobby, "\u8FD4\u56DE");
-  for (const mode of ["\u77ED\u5F81", "\u7ECF\u5178", "\u4ECA\u65E5\u8BD5\u70BC", "\u65E0\u5C3D\u957F\u591C", "\u957F\u591C\u2022\u5408\u4F53", "\u82DB\u4EE4"]) {
+  for (const mode of ["\u77ED\u5F81", "\u7ECF\u5178", "\u4ECA\u65E5\u8BD5\u70BC", "\u65E0\u5C3D\u957F\u591C", "\u82DB\u4EE4"]) {
     const app = new PreviewApp({ seed: `${seed}-${mode}` });
     tap(app, "\u65B0\u7684\u65C5\u9014");
     tap(app, mode);
@@ -16221,7 +16119,7 @@ function runUiSmoke(seed) {
     }
   }
   if (shop.screen === "shop") {
-    const boon = shop.labels().find((label) => !["\u518D\u62E9", "\u5C0F\u836F", "\u6458\u8981", "\u5947\u9047", "\u5408\u4F53", "\u7A7A\u5730", "\u56DE\u5385"].includes(label));
+    const boon = shop.labels().find((label) => !["\u518D\u62E9", "\u5C0F\u836F", "\u6458\u8981", "\u5947\u9047", "\u7A7A\u5730", "\u56DE\u5385"].includes(label));
     if (boon) {
       tap(shop, boon);
     }
@@ -16243,7 +16141,7 @@ function runUiSmoke(seed) {
       tap(mapped, "\u653E\u8FC7");
     }
     if (mapped.screen === "shop") {
-      const boon = mapped.labels().find((label) => !["\u518D\u62E9", "\u5C0F\u836F", "\u6458\u8981", "\u5947\u9047", "\u5408\u4F53", "\u7A7A\u5730", "\u56DE\u5385"].includes(label));
+      const boon = mapped.labels().find((label) => !["\u518D\u62E9", "\u5C0F\u836F", "\u6458\u8981", "\u5947\u9047", "\u7A7A\u5730", "\u56DE\u5385"].includes(label));
       if (boon) {
         tap(mapped, boon);
       }
@@ -16313,7 +16211,7 @@ function runUiSmoke(seed) {
       continue;
     }
     if (win.screen === "shop") {
-      const boon = win.labels().find((label) => !["\u518D\u62E9", "\u5C0F\u836F", "\u6458\u8981", "\u5947\u9047", "\u5408\u4F53", "\u7A7A\u5730", "\u56DE\u5385"].includes(label));
+      const boon = win.labels().find((label) => !["\u518D\u62E9", "\u5C0F\u836F", "\u6458\u8981", "\u5947\u9047", "\u7A7A\u5730", "\u56DE\u5385"].includes(label));
       if (boon) {
         tap(win, boon);
       }
@@ -16329,7 +16227,7 @@ function runUiSmoke(seed) {
   return { screens: [...acc.screens], taps: acc.taps, dead: acc.dead };
 }
 var STARTER_IDS = ["zao_li", "jing_zhu", "tao_geng"];
-var MODE_LABELS = ["\u77ED\u5F81", "\u7ECF\u5178", "\u4ECA\u65E5\u8BD5\u70BC", "\u65E0\u5C3D\u957F\u591C", "\u957F\u591C\u2022\u5408\u4F53", "\u82DB\u4EE4"];
+var MODE_LABELS = ["\u77ED\u5F81", "\u7ECF\u5178", "\u4ECA\u65E5\u8BD5\u70BC", "\u65E0\u5C3D\u957F\u591C", "\u82DB\u4EE4"];
 function walkPlayableUi(seed) {
   const acc = { screens: /* @__PURE__ */ new Set(), taps: [], dead: 0 };
   let battles = 0;
@@ -17360,7 +17258,7 @@ var RunController = class {
 };
 
 // src/run/product-start.ts
-var RUN_MODES = /* @__PURE__ */ new Set(["classic", "daily", "endless", "spliced", "challenge"]);
+var RUN_MODES = /* @__PURE__ */ new Set(["classic", "daily", "endless", "challenge"]);
 function resolveProductStart(input) {
   const sprint = input.mode === "sprint";
   const mode = RUN_MODES.has(input.mode) ? input.mode : "classic";
@@ -17442,7 +17340,6 @@ export {
   formatSealResult,
   formatSpentArt,
   formatTopBar,
-  fuse,
   getArt,
   getOmen,
   getRelic,

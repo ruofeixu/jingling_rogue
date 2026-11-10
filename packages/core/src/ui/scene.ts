@@ -110,7 +110,6 @@ const MODE_ICON: Record<string, ItemIconId> = {
   经典: "map",
   今日试炼: "gold",
   无尽长夜: "lure",
-  "长夜•合体": "charm",
   苛令: "atk",
 };
 
@@ -134,7 +133,6 @@ const SHOP_ICON: Record<string, ItemIconId> = {
   小药: "potion",
   摘要: "charm",
   奇遇: "lure",
-  合体: "charm",
 };
 
 interface Slip {
@@ -490,14 +488,13 @@ function shopSlips(app: PreviewApp, ui: ScreenLayout): Slip[] {
   const lobby = ui.lobby;
   const floor = panelFloorY(ui);
   const upper = floor + lobby.itemGap;
-  const chromeLabels = ["再择", "小药", "摘要", "奇遇", "合体", "回厅"];
+  const chromeLabels = ["再择", "小药", "摘要", "奇遇", "回厅"];
   const spot: Record<string, { x: number; y: number }> = {
     再择: { x: -lobby.shopDx, y: upper },
     小药: { x: 0, y: upper },
     摘要: { x: lobby.shopDx, y: upper },
     奇遇: { x: -lobby.shopDx, y: floor },
     回厅: { x: 0, y: floor },
-    合体: { x: lobby.shopDx, y: floor },
   };
   return app
     .labels()

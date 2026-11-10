@@ -10,7 +10,6 @@ export interface OmenOption {
   battle?: boolean;
   pact?: boolean;
   voucher?: "fan" | "shang" | "te";
-  fuse?: boolean;
   swap?: boolean;
   lost?: boolean;
   shop?: boolean;

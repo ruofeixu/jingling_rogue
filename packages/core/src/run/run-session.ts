@@ -16,7 +16,6 @@ import { addLure, canDual, dualChance, type Lure } from "../combat/side.ts";
 import { blankParty, costCap, finaleWave, hasTrainers, utcDateStamp, type ChallengeId, type RunMode } from "./modes/index.ts";
 import type { NightMark } from "./night-marks.ts";
 import { getRelic, relicCatchValue, starterRelicIds, sumRelicStats } from "../meta/relics.ts";
-import { pickFusePartner } from "./fusion.ts";
 
 export interface RunSession {
   seed: string;
@@ -45,11 +44,8 @@ export interface RunSession {
   partyCharms: string[][];
   relicIds: string[];
   sprint: boolean;
-  fusedIds: string[];
   bag: Record<string, number>;
   warTokens: { id: string; remaining: number; tag: string }[];
-  spliceCharges: number;
-  unspliceCharges: number;
   partyExtraArts: string[][];
   partyTempers: string[];
 }
@@ -61,7 +57,6 @@ export interface AccountProgress {
   settings: GameSettings;
   unlockedStarters: string[];
   classicCleared: boolean;
-  fusedClear: boolean;
   candy: Record<string, number>;
   costDown: Record<string, number>;
   boneCap: Record<string, number>;
@@ -84,7 +79,6 @@ export function emptyAccount(): AccountProgress {
     settings: defaultSettings(),
     unlockedStarters: [],
     classicCleared: false,
-    fusedClear: false,
     candy: {},
     costDown: {},
     boneCap: {},
@@ -146,11 +140,8 @@ export function createRun(opts: {
     partyCharms: partyIds.map(() => []),
     relicIds: [],
     sprint: Boolean(opts.sprint),
-    fusedIds: mode === "spliced" ? [pickFusePartner(opts.starterId, opts.seed)] : [],
     bag: {},
     warTokens: [],
-    spliceCharges: 0,
-    unspliceCharges: 0,
     partyExtraArts: partyIds.map(() => []),
     partyTempers: partyIds.map(() => "plain"),
   };
@@ -366,12 +357,6 @@ export function applyBoon(run: RunSession, boonId: string, account?: AccountProg
     if (next) {
       run.partyIds[0] = next;
     }
-  }
-  if (boon.kind === "splicer") {
-    run.spliceCharges += 1;
-  }
-  if (boon.kind === "unsplice") {
-    run.unspliceCharges += 1;
   }
   if (boon.kind === "voucher" && account && boon.tag) {
     const tier = boon.tag as keyof AccountProgress["vouchers"];

@@ -44,8 +44,6 @@ const REQUIRED_IDS = [
   "sanctify_stone",
   "colossus_shroom",
   "apex_crystal",
-  "twin_pact",
-  "unsplice_charm",
   "voucher_fan",
   "voucher_shang",
   "voucher_te",
@@ -182,11 +180,6 @@ describe("spec 5.2 boon types", () => {
     applyBoon(run, "sanctify_cuff");
     expect(canUseFormItem(run, "sanctify_stone")).toBe(true);
 
-    applyBoon(run, "twin_pact");
-    applyBoon(run, "unsplice_charm");
-    expect(run.spliceCharges).toBe(1);
-    expect(run.unspliceCharges).toBe(1);
-
     applyBoon(run, "voucher_fan", account);
     expect(account.vouchers.fan).toBe(2);
 
@@ -245,9 +238,5 @@ describe("spec 5.2 boon types", () => {
     expect(
       eligibleShopBoons({ wave: 20, partyIds: ["zao_li"], boonIds: ["sanctify_cuff"] }).some((row) => row.id === "sanctify_stone"),
     ).toBe(true);
-    expect(eligibleShopBoons({ wave: 20, partyIds: ["zao_li"] }).some((row) => row.kind === "splicer")).toBe(false);
-    expect(eligibleShopBoons({ wave: 20, partyIds: ["zao_li", "jing_zhu"] }).some((row) => row.kind === "splicer")).toBe(
-      true,
-    );
   });
 });

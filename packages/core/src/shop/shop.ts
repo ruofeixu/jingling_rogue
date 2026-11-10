@@ -11,7 +11,6 @@ export interface ShopFilter {
   challenges?: string[];
   boonIds?: string[];
   hasApexBand?: boolean;
-  fusedIds?: string[];
 }
 
 export interface ShopState extends ShopFilter {
@@ -95,7 +94,6 @@ export function eligibleShopBoons(opts: {
   seenCount?: number;
   challenges?: string[];
   hasApexBand?: boolean;
-  fusedIds?: string[];
   hpRatios?: number[];
 }): ShopOffer[] {
   const draughtWeight = potionWeight(opts.hpRatios ?? [1]);
@@ -125,9 +123,6 @@ export function eligibleShopBoons(opts: {
       if (row.id === "apex_crystal" && !opts.hasApexBand && !keys.includes("apex_vessel")) {
         return [];
       }
-    }
-    if (row.kind === "splicer" && partyIds && partyIds.length < 2) {
-      return [];
     }
     if (row.kind === "voucher" && opts.mode === "daily") {
       return [];
@@ -180,7 +175,6 @@ export function openShop(opts: {
     challenges: opts.challenges,
     boonIds: opts.boonIds,
     hasApexBand: opts.hasApexBand,
-    fusedIds: opts.fusedIds,
   });
   return {
     wave: opts.wave,
@@ -197,7 +191,6 @@ export function openShop(opts: {
     challenges: opts.challenges,
     boonIds: opts.boonIds,
     hasApexBand: opts.hasApexBand,
-    fusedIds: opts.fusedIds,
   };
 }
 
@@ -221,7 +214,6 @@ export function rerollShop(shop: ShopState, seed = shop.seed): ShopState {
     challenges: shop.challenges,
     boonIds: shop.boonIds,
     hasApexBand: shop.hasApexBand,
-    fusedIds: shop.fusedIds,
   });
 }
 

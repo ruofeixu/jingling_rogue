@@ -1,7 +1,6 @@
 export type UnlockId =
   | "endless"
   | "challenge"
-  | "spliced"
   | "lost_swallow_pool"
   | "baby_te_pool"
   | "legend_catch"
@@ -9,7 +8,6 @@ export type UnlockId =
 
 export interface UnlockFlags {
   classicCleared: boolean;
-  fusedClear: boolean;
   carryBaby: boolean;
   legendCatchReady: boolean;
 }
@@ -17,7 +15,6 @@ export interface UnlockFlags {
 export const UNLOCK_IDS: UnlockId[] = [
   "endless",
   "challenge",
-  "spliced",
   "lost_swallow_pool",
   "baby_te_pool",
   "legend_catch",
@@ -25,9 +22,6 @@ export const UNLOCK_IDS: UnlockId[] = [
 ];
 
 export function isUnlocked(id: UnlockId, flags: UnlockFlags): boolean {
-  if (id === "spliced") {
-    return flags.fusedClear;
-  }
   if (id === "baby_te_pool") {
     return flags.carryBaby;
   }

@@ -55,7 +55,6 @@ const MODE_NAME: Record<RunMode, string> = {
   classic: "经典",
   daily: "今日试炼",
   endless: "无尽长夜",
-  spliced: "长夜•合体",
   challenge: "苛令",
 };
 
@@ -123,7 +122,7 @@ export class PreviewApp {
     if (this.screen === "mode") {
       return [
         { label: "短征", run: () => this.openStarter("classic", true) },
-        ...(["classic", "daily", "endless", "spliced", "challenge"] as const).map((mode) => ({
+        ...(["classic", "daily", "endless", "challenge"] as const).map((mode) => ({
           label: MODE_NAME[mode],
           run: () => this.openStarter(mode, false),
         })),
@@ -370,22 +369,6 @@ export class PreviewApp {
             this.showSlicePhase();
           },
         },
-        ...(slice.run.partyIds.length >= 2
-          ? [
-              {
-                label: "合体",
-                run: () => {
-                  try {
-                    const fused = slice.fuseParty(0, 1);
-                    this.log = `合体 ${getSpirit(fused.primaryId).name}`;
-                    this.showSlicePhase();
-                  } catch {
-                    this.log = "无法合体";
-                  }
-                },
-              },
-            ]
-          : []),
         this.leaveRunControl(),
         this.missControl(),
       ];
@@ -979,7 +962,7 @@ export function runUiSmoke(seed: string): { screens: string[]; taps: string[]; d
   tap(lobby, GLOSSARY[0]?.term ?? "精怪");
   tap(lobby, "返回");
 
-  for (const mode of ["短征", "经典", "今日试炼", "无尽长夜", "长夜•合体", "苛令"]) {
+  for (const mode of ["短征", "经典", "今日试炼", "无尽长夜", "苛令"]) {
     const app = new PreviewApp({ seed: `${seed}-${mode}` });
     tap(app, "新的旅途");
     tap(app, mode);
@@ -1030,7 +1013,7 @@ export function runUiSmoke(seed: string): { screens: string[]; taps: string[]; d
     }
   }
   if (shop.screen === "shop") {
-    const boon = shop.labels().find((label) => !["再择", "小药", "摘要", "奇遇", "合体", "空地", "回厅"].includes(label));
+    const boon = shop.labels().find((label) => !["再择", "小药", "摘要", "奇遇", "空地", "回厅"].includes(label));
     if (boon) {
       tap(shop, boon);
     }
@@ -1054,7 +1037,7 @@ export function runUiSmoke(seed: string): { screens: string[]; taps: string[]; d
       tap(mapped, "放过");
     }
     if ((mapped.screen as string) === "shop") {
-      const boon = mapped.labels().find((label) => !["再择", "小药", "摘要", "奇遇", "合体", "空地", "回厅"].includes(label));
+      const boon = mapped.labels().find((label) => !["再择", "小药", "摘要", "奇遇", "空地", "回厅"].includes(label));
       if (boon) {
         tap(mapped, boon);
       }
@@ -1126,7 +1109,7 @@ export function runUiSmoke(seed: string): { screens: string[]; taps: string[]; d
       continue;
     }
     if (win.screen === "shop") {
-      const boon = win.labels().find((label) => !["再择", "小药", "摘要", "奇遇", "合体", "空地", "回厅"].includes(label));
+      const boon = win.labels().find((label) => !["再择", "小药", "摘要", "奇遇", "空地", "回厅"].includes(label));
       if (boon) {
         tap(win, boon);
       }
@@ -1144,7 +1127,7 @@ export function runUiSmoke(seed: string): { screens: string[]; taps: string[]; d
 }
 
 const STARTER_IDS = ["zao_li", "jing_zhu", "tao_geng"] as const;
-const MODE_LABELS = ["短征", "经典", "今日试炼", "无尽长夜", "长夜•合体", "苛令"] as const;
+const MODE_LABELS = ["短征", "经典", "今日试炼", "无尽长夜", "苛令"] as const;
 
 export function walkPlayableUi(seed: string): { screens: string[]; taps: string[]; battles: number; dead: number } {
   const acc = { screens: new Set<string>(), taps: [] as string[], dead: 0 };

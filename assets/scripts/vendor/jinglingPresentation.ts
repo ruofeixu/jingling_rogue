@@ -338,7 +338,11 @@ var INK_FX = Object.freeze({
   /** 整页洗墨转场全长（秒）。负责人试玩反馈 0.6 秒“一闪就过”，改为 1.4 秒：落墨洇开 + 慢慢洗掉。 */
   washSeconds: 1.4,
   /** 最浓时的墨色不透明度。 */
-  washAlpha: 0.94
+  washAlpha: 0.94,
+  /** 受击溅墨全长（秒），比闪白稍长一点，让墨迹能被看清。 */
+  splashSeconds: 0.55,
+  /** 溅墨最浓时的不透明度。 */
+  splashAlpha: 0.88
 });
 var HP_COLOR = Object.freeze({
   track: rgb(THEME.hpBack),

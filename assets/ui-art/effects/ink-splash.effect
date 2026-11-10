@@ -1,0 +1,139 @@
+// 水墨溅墨：受击时在立绘上盖一团墨，从中心快速洇开，边缘毛糙，外圈飞出几点墨滴，然后干掉淡出。
+// 只在掉血时创建、用完销毁。方形精灵节点，中心 (0.5, 0.5)。
+// inkParams: x = 进度 0..1, y = 种子, z/w = 保留
+// inkColor : rgb = 墨色，a = 最浓时的不透明度
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: splash-vs:vert
+      frag: splash-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        inkParams: { value: [0.0, 1.0, 0.0, 0.0] }
+        inkColor: { value: [0.15, 0.13, 0.12, 0.9] }
+}%
+
+CCProgram splash-vs %{
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  #if USE_LOCAL
+    #include <builtin/uniforms/cc-local>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+    pos = cc_matViewProj * pos;
+    uv0 = a_texCoord;
+    color = a_color;
+    return pos;
+  }
+}%
+
+CCProgram splash-fs %{
+  precision highp float;
+  #include <builtin/internal/embedded-alpha>
+
+  in vec4 color;
+  in vec2 uv0;
+
+  uniform InkConstants {
+    vec4 inkParams;
+    vec4 inkColor;
+  };
+
+  #if USE_TEXTURE
+    #pragma builtin(local)
+    layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
+  #endif
+
+  float hash (vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+  }
+
+  float vnoise (vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+  }
+
+  float fbm (vec2 p) {
+    float v = 0.0;
+    float a = 0.5;
+    for (int i = 0; i < 3; i++) {
+      v += a * vnoise(p);
+      p = p * 2.03 + vec2(17.1, 9.2);
+      a *= 0.5;
+    }
+    return v;
+  }
+
+  vec4 frag () {
+    float prog = inkParams.x;
+    vec2 s = vec2(inkParams.y * 5.13, inkParams.y * 2.71);
+    vec2 q = uv0 - vec2(0.5, 0.5);
+
+    // 溅开半径：先快后慢（前 30% 时间已经张到 85%）。
+    float grow = 1.0 - pow(1.0 - clamp(prog / 0.3, 0.0, 1.0), 2.0);
+    float r = mix(0.04, 0.27, grow) * mix(0.85, 1.0, clamp((prog - 0.3) / 0.7, 0.0, 1.0));
+
+    // 主墨团：距离被噪声扭动，边缘有角状毛刺。
+    float ang = atan(q.y, q.x);
+    float spike = fbm(vec2(cos(ang), sin(ang)) * 2.6 + s) - 0.5;
+    float dist = length(q) + spike * 0.20 * grow + (fbm(q * 9.0 + s) - 0.5) * 0.05;
+    float blob = 1.0 - smoothstep(r - 0.025, r + 0.012, dist);
+
+    // 墨滴：网格里每格最多一点，只出现在主墨团外一圈，跟着半径向外飞。
+    vec2 g = q * 11.0;
+    vec2 cell = floor(g);
+    vec2 cc = cell + vec2(0.2 + 0.6 * hash(cell + s), 0.2 + 0.6 * hash(cell + s + 3.7));
+    float dropR = (0.05 + 0.09 * hash(cell + s + 9.1));
+    float cd = length(q) * 11.0;
+    float ring = smoothstep(r * 11.0 * 0.9, r * 11.0 * 1.05, cd) * (1.0 - smoothstep(r * 11.0 * 1.35, r * 11.0 * 1.55, cd));
+    float has = step(0.62, hash(cell + s + 5.3));
+    float drop = (1.0 - smoothstep(dropR * 0.7, dropR, length(g - cc))) * ring * has * step(0.12, prog);
+
+    // 浓淡：中心最浓，往边上变淡；边上再加一圈积墨。
+    float core = 1.0 - smoothstep(0.0, r, dist);
+    float rim = exp(-pow(abs(dist - r * 0.92) / 0.03, 2.0));
+    float density = mix(0.55, 1.0, core) + rim * 0.25;
+
+    float shape = max(blob * clamp(density, 0.0, 1.0), drop);
+    // 干掉：后 55% 时间淡出，先从墨滴淑。
+    float fade = 1.0 - smoothstep(0.45, 1.0, prog);
+    float dropFade = 1.0 - smoothstep(0.35, 0.8, prog);
+    float alpha = inkColor.a * max(blob * clamp(density, 0.0, 1.0) * fade, drop * dropFade);
+
+    vec4 o = vec4(inkColor.rgb, alpha);
+    #if USE_TEXTURE
+      o *= CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
+    #endif
+    o *= color;
+    return o;
+  }
+}%

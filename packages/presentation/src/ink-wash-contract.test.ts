@@ -57,6 +57,8 @@ describe("ink wash transition (B5d)", () => {
     expect(shell).toMatch(/this\.inkWash\.removeFromParent\(\)/);
     // 同页重挂不能把正在播的洗墨一起销毁：摘下来、重挂完再挂到新宿主。
     expect(shell).toMatch(/this\.host\.addChild\(running\)/);
+    // 战斗和它的弹层之间来回切换不洗墨：灰雾会盖住受击反馈，而且每出一招蒙一次很烦。
+    expect(shell).toMatch(/BATTLE_BG\.has\(prev\)\s*&&\s*BATTLE_BG\.has\(screenId\)/);
     expect(shell).toMatch(/!this\.reduceMotion/);
   });
 });

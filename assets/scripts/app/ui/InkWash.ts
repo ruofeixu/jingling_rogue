@@ -16,7 +16,7 @@ let whiteFrame: SpriteFrame | null = null;
  * 用 Texture2D.uploadData 直接传像素（裸 Uint8Array 包成 ImageAsset 会在动态图集打包时 texSubImage2D 报错），
  * 并关掉 packable，不进动态图集。
  */
-function getWhiteFrame(): SpriteFrame {
+export function getWhiteFrame(): SpriteFrame {
   if (!whiteFrame) {
     const texture = new Texture2D();
     texture.reset({ width: 1, height: 1, format: Texture2D.PixelFormat.RGBA8888 });

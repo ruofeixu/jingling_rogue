@@ -603,7 +603,8 @@ export class AppShell extends Component {
   route(screenId: string): void {
     // 只在换页时洗墨：同一页的刷新、改窗口重排不播；「减少动效」下不播。
     // 不能拿 this.routeId 对比：afterCommand 会先把 routeId 改成目标页再调 route。
-    const changed = this.lastMountedRoute !== null && screenId !== this.lastMountedRoute;
+    const prev = this.lastMountedRoute;
+    const changed = prev !== null && screenId !== prev && !(BATTLE_BG.has(prev) && BATTLE_BG.has(screenId));
     this.lastMountedRoute = screenId;
     // 正在播的洗墨挂在旧宿主下，重挂会把宿主连同它一起销毁（点完按钮后壳层常常同页再重挂一次），
     // 所以先摘下来，重挂完再挂到新宿主上继续播。

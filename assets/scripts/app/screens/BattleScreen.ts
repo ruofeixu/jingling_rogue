@@ -1,5 +1,6 @@
 import { Node, Tween, UIOpacity, UITransform, tween } from "cc";
 import {
+  COLOR,
   MOTION,
   SPACE,
   TYPE,
@@ -15,6 +16,7 @@ import { attachPortraitSprite } from "../../ui/portrait";
 import { portraitFacesLeft } from "../../vendor/jinglingCore";
 import { makeButton } from "../ui/Button.ts";
 import { makeHpBar, type HpBarHandle, type HpBarTone } from "../ui/HpBar.ts";
+import { playInkSplash } from "../ui/InkSplash.ts";
 import { makePanel } from "../ui/Panel.ts";
 import { addLabel } from "../ui/Text.ts";
 
@@ -247,6 +249,16 @@ export class BattleScreen {
       .start();
 
     if (ratio < from) {
+      // 掉血时在立绘上溅一团墨（我方受伤用朱砂，敌方用浓墨）；「减少动效」下不播，没有 shader 素材时只剩闪白。
+      const holderSize = art.getComponent(UITransform)?.contentSize;
+      if (!reduceMotion && art.parent && holderSize) {
+        playInkSplash(art.parent, {
+          x: art.position.x,
+          y: art.position.y,
+          size: Math.max(holderSize.width, holderSize.height) * 1.1,
+          tone: side === "ally" ? COLOR.accent : COLOR.ink,
+        });
+      }
       const opacity = art.getComponent(UIOpacity) ?? art.addComponent(UIOpacity);
       Tween.stopAllByTarget(opacity);
       opacity.opacity = 255;

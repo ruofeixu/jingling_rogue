@@ -71,6 +71,10 @@ export const INK_FX = Object.freeze({
   washSeconds: 1.4,
   /** 最浓时的墨色不透明度。 */
   washAlpha: 0.94,
+  /** 受击溅墨全长（秒），比闪白稍长一点，让墨迹能被看清。 */
+  splashSeconds: 0.55,
+  /** 溅墨最浓时的不透明度。 */
+  splashAlpha: 0.88,
 });
 
 /** 血条色。不进 COLOR：COLOR 与 core THEME 一一对应。水墨版：松烟绿 / 赭红 / 深朱，对血槽都 ≥3:1。 */

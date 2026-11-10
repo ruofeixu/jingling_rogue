@@ -47,6 +47,8 @@ export class UiSkin {
   private titleFont: TTFFont | null | undefined = undefined;
   /** 水墨洗散 effect。undefined = 还没请求；null = 没有或加载失败。 */
   private inkEffect: EffectAsset | null | undefined = undefined;
+  /** 水墨溅墨 effect，规则同 inkEffect。 */
+  private splashEffect: EffectAsset | null | undefined = undefined;
 
   static shared(): UiSkin {
     if (!UiSkin.instance) {
@@ -70,6 +72,7 @@ export class UiSkin {
           this.bundle = bundle;
           // 转场的 shader 要在第一次换页前就绪，否则第一次点「新的旅途」没有效果。
           this.requestInkEffect();
+          this.requestSplashEffect();
           director.emit(UI_SKIN_READY_EVENT);
         }
         this.ready = true;
@@ -111,6 +114,31 @@ export class UiSkin {
       director.emit(UI_SKIN_READY_EVENT);
     });
     return null;
+  }
+
+  /** 发起一次溅墨 effect 加载。 */
+  private requestSplashEffect(): void {
+    if (this.splashEffect !== undefined || !this.bundle) {
+      return;
+    }
+    this.splashEffect = null;
+    this.bundle.load("effects/ink-splash", EffectAsset, (err, effect) => {
+      this.splashEffect = err || !effect ? null : effect;
+    });
+  }
+
+  /** 水墨溅墨材质。没加载完返回 null，调用方只播现有的闪白。 */
+  getInkSplashMaterial(): Material | null {
+    if (this.splashEffect === undefined) {
+      this.requestSplashEffect();
+      return null;
+    }
+    if (!this.splashEffect) {
+      return null;
+    }
+    const material = new Material();
+    material.initialize({ effectAsset: this.splashEffect, defines: { USE_TEXTURE: true } });
+    return material;
   }
 
   /** 发起一次 effect 加载。已发起过或没有 bundle 就什么都不做。 */

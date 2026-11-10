@@ -185,26 +185,6 @@ function buildViewport(input) {
   });
 }
 
-// src/diagnostics.ts
-var DIAGNOSTICS_SCREEN_ID = "diagnostics";
-function buildDiagnosticsModel(input) {
-  const { viewport: vp } = input;
-  return buildScreenModel({
-    screenId: DIAGNOSTICS_SCREEN_ID,
-    state: "normal",
-    accessibleName: "AppShell diagnostics",
-    lines: [
-      `orientation: ${vp.orientation}`,
-      `design: ${vp.design.width}x${vp.design.height}`,
-      `device: ${vp.device.width}x${vp.device.height}`,
-      `safe: t${vp.safe.top} b${vp.safe.bottom} l${vp.safe.left} r${vp.safe.right}`,
-      `content: ${vp.content.width}x${vp.content.height}`,
-      `renderer: ${input.renderer}`,
-      `global legacy fallback: ${input.globalLegacyFallback ? "on" : "off"}`
-    ]
-  });
-}
-
 // ../core/src/tables/eggs.json
 var eggs_default = {
   fan: ["zao_li", "jing_zhu", "tao_geng", "luan_shi", "dian_zhu", "shuang_ming", "mo_mao", "deng_e", "yao_shu", "ping_yu", "zhi_ren", "tong_ling"],
@@ -375,6 +355,54 @@ function toHex(color) {
 function toRgba(color, alpha) {
   const a = Math.max(0, Math.min(1, alpha));
   return `rgba(${Math.round(color[0])},${Math.round(color[1])},${Math.round(color[2])},${a})`;
+}
+
+// src/nav-back.ts
+var NAV_BACK_PREFIX = "nav.back.";
+var BACK_TARGETS = Object.freeze({
+  mode: "title",
+  settings: "title",
+  "codex-list": "title",
+  "codex-entry": "codex-list",
+  eggs: "title",
+  achievements: "title",
+  stats: "title",
+  slots: "title",
+  glossary: "title"
+});
+function backActionFor(routeId) {
+  const target = BACK_TARGETS[routeId];
+  return target ? { id: `${NAV_BACK_PREFIX}${target}`, label: "\u8FD4\u56DE" } : null;
+}
+var BUTTON_H = 88;
+function backButtonLayout(frame) {
+  const width = Math.min(frame.content.width * 0.5, 420);
+  return {
+    x: 0,
+    y: -frame.content.height / 2 + SPACE.lg + BUTTON_H / 2,
+    width,
+    height: BUTTON_H
+  };
+}
+
+// src/diagnostics.ts
+var DIAGNOSTICS_SCREEN_ID = "diagnostics";
+function buildDiagnosticsModel(input) {
+  const { viewport: vp } = input;
+  return buildScreenModel({
+    screenId: DIAGNOSTICS_SCREEN_ID,
+    state: "normal",
+    accessibleName: "AppShell diagnostics",
+    lines: [
+      `orientation: ${vp.orientation}`,
+      `design: ${vp.design.width}x${vp.design.height}`,
+      `device: ${vp.device.width}x${vp.device.height}`,
+      `safe: t${vp.safe.top} b${vp.safe.bottom} l${vp.safe.left} r${vp.safe.right}`,
+      `content: ${vp.content.width}x${vp.content.height}`,
+      `renderer: ${input.renderer}`,
+      `global legacy fallback: ${input.globalLegacyFallback ? "on" : "off"}`
+    ]
+  });
 }
 
 // src/a11y.ts
@@ -1275,7 +1303,7 @@ function titleLayout(frame, secondaryCount) {
 // src/layout/starter-layout.ts
 var TITLE_H2 = 72;
 var DETAIL_H = 160;
-var BUTTON_H = 88;
+var BUTTON_H2 = 88;
 function box3(x, y, width, height) {
   return { x, y, width, height };
 }
@@ -1287,12 +1315,12 @@ function starterLayout(frame, cardCount) {
   const cardGap = SPACE.lg;
   const contentW = width - pad * 2;
   const title = box3(0, height / 2 - pad - TITLE_H2 / 2, contentW, TITLE_H2);
-  const buttonY = -height / 2 + pad + BUTTON_H / 2;
+  const buttonY = -height / 2 + pad + BUTTON_H2 / 2;
   const backW = contentW * 0.3;
   const confirmW = contentW - backW - gap;
-  const back = box3(-contentW / 2 + backW / 2, buttonY, backW, BUTTON_H);
-  const confirm = box3(contentW / 2 - confirmW / 2, buttonY, confirmW, BUTTON_H);
-  const detail = box3(0, buttonY + BUTTON_H / 2 + gap + DETAIL_H / 2, contentW, DETAIL_H);
+  const back = box3(-contentW / 2 + backW / 2, buttonY, backW, BUTTON_H2);
+  const confirm = box3(contentW / 2 - confirmW / 2, buttonY, confirmW, BUTTON_H2);
+  const detail = box3(0, buttonY + BUTTON_H2 / 2 + gap + DETAIL_H / 2, contentW, DETAIL_H);
   const bandTop = title.y - TITLE_H2 / 2 - gap;
   const bandBottom = detail.y + DETAIL_H / 2 + gap;
   const band = Math.max(0, bandTop - bandBottom);
@@ -1368,6 +1396,12 @@ function resolveAction(actionId) {
         command: "select-mode",
         payload: Object.freeze({ mode })
       });
+    }
+  }
+  if (actionId.startsWith(NAV_BACK_PREFIX)) {
+    const to = actionId.slice(NAV_BACK_PREFIX.length);
+    if (to) {
+      return Object.freeze({ kind: "route", to });
     }
   }
   const lobby = resolveLobbyAction(actionId);
@@ -1771,6 +1805,7 @@ export {
   MIN_HIT_SIZE,
   MODE_ACTION_PREFIX,
   MOTION,
+  NAV_BACK_PREFIX,
   ORIENTATIONS,
   OUTCOME_ACTIONS,
   OVERLAY_ACTIONS,
@@ -1789,6 +1824,8 @@ export {
   auditA11y,
   auditBudget,
   auditMatrix,
+  backActionFor,
+  backButtonLayout,
   battleLayout,
   buildAchievementsModel,
   buildBattleModel,

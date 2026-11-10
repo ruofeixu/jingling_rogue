@@ -68,6 +68,8 @@ export class UiSkin {
           this.bundle = null; // 无皮肤，全回退
         } else {
           this.bundle = bundle;
+          // 转场的 shader 要在第一次换页前就绪，否则第一次点「新的旅途」没有效果。
+          this.requestInkEffect();
           director.emit(UI_SKIN_READY_EVENT);
         }
         this.ready = true;
@@ -111,19 +113,24 @@ export class UiSkin {
     return null;
   }
 
+  /** 发起一次 effect 加载。已发起过或没有 bundle 就什么都不做。 */
+  private requestInkEffect(): void {
+    if (this.inkEffect !== undefined || !this.bundle) {
+      return;
+    }
+    this.inkEffect = null;
+    this.bundle.load("effects/ink-wash", EffectAsset, (err, effect) => {
+      this.inkEffect = err || !effect ? null : effect;
+    });
+  }
+
   /**
    * 水墨洗散材质。规则同 getFrame：effect 已加载就返回一个新材质；没加载触发一次异步加载并返回 null，
    * 调用方走无转场的回退，页面照常切换。
    */
   getInkMaterial(): Material | null {
     if (this.inkEffect === undefined) {
-      if (!this.bundle) {
-        return null;
-      }
-      this.inkEffect = null;
-      this.bundle.load("effects/ink-wash", EffectAsset, (err, effect) => {
-        this.inkEffect = err || !effect ? null : effect;
-      });
+      this.requestInkEffect();
       return null;
     }
     if (!this.inkEffect) {

@@ -5,6 +5,7 @@
 import { MODE_ACTION_PREFIX } from "./screens/mode.ts";
 import { TITLE_ACTIONS } from "./screens/title.ts";
 import { LOBBY_ACTIONS } from "./screens/lobby.ts";
+import { NAV_BACK_PREFIX } from "./nav-back.ts";
 
 export interface RouteIntent {
   readonly kind: "route";
@@ -43,6 +44,12 @@ export function resolveAction(actionId: string): ActionIntent {
         command: "select-mode",
         payload: Object.freeze({ mode }),
       });
+    }
+  }
+  if (actionId.startsWith(NAV_BACK_PREFIX)) {
+    const to = actionId.slice(NAV_BACK_PREFIX.length);
+    if (to) {
+      return Object.freeze({ kind: "route" as const, to });
     }
   }
   const lobby = resolveLobbyAction(actionId);

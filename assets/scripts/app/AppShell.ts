@@ -8,6 +8,9 @@ import {
   buildModeModel,
   buildTitleModel,
   buildViewport,
+  buildResponsiveFrame,
+  backActionFor,
+  backButtonLayout,
   buildAchievementsModel,
   buildCodexEntryModel,
   buildCodexListModel,
@@ -46,6 +49,7 @@ import { OutcomeScreen } from "./screens/OutcomeScreen";
 import { makeBackdrop } from "./ui/Backdrop";
 import { UI_SKIN_READY_EVENT } from "./ui/skin-event.ts";
 import { playInkWash } from "./ui/InkWash";
+import { makeButton } from "./ui/Button";
 import {
   emptyAccount,
   selectAchievements,
@@ -574,19 +578,49 @@ export class AppShell extends Component {
     }
   }
 
+  /** 模式页和大厅资料页靠壳层加一个返回键，否则进去就出不来。 */
+  private mountBack(host: Node): void {
+    const action = backActionFor(this.routeId);
+    if (!action) {
+      return;
+    }
+    const box = backButtonLayout(buildResponsiveFrame(this.viewport));
+    makeButton(
+      host,
+      {
+        action: { id: action.id, label: action.label, enabled: true, disabledReason: null },
+        x: box.x,
+        y: box.y,
+        width: box.width,
+        height: box.height,
+        textScale: this.textScale,
+      },
+      () => this.dispatch(action.id),
+    );
+  }
+
   /** 切路由：先卸载旧 renderer，再挂载新 renderer，禁止同时存在两个。 */
   route(screenId: string): void {
     // 只在换页时洗墨：同一页的刷新、改窗口重排不播；「减少动效」下不播。
     // 不能拿 this.routeId 对比：afterCommand 会先把 routeId 改成目标页再调 route。
     const changed = this.lastMountedRoute !== null && screenId !== this.lastMountedRoute;
     this.lastMountedRoute = screenId;
-    this.refreshLobbyData(screenId);
-    this.mountRoute(screenId);
+    // 正在播的洗墨挂在旧宿主下，重挂会把宿主连同它一起销毁（点完按钮后壳层常常同页再重挂一次），
+    // 所以先摘下来，重挂完再挂到新宿主上继续播。
+    let running: Node | null = null;
     if (this.inkWash?.isValid) {
       this.inkWash.removeFromParent();
-      this.inkWash.destroy();
+      running = this.inkWash;
     }
     this.inkWash = null;
+    this.refreshLobbyData(screenId);
+    this.mountRoute(screenId);
+    if (running && !changed && this.host) {
+      this.host.addChild(running);
+      this.inkWash = running;
+    } else if (running) {
+      running.destroy();
+    }
     if (changed && !this.reduceMotion && this.host) {
       // 挂在页面宿主下：宿主在 UI_2D 层且 z=0；挂在 Boot 节点下会继承 DEFAULT 层，UI 相机不画。
       this.inkWash = playInkWash(this.host, {
@@ -719,6 +753,7 @@ export class AppShell extends Component {
         textScale: this.textScale,
         onAction: (id) => this.dispatch(id),
       });
+      this.mountBack(host);
       return;
     }
 
@@ -832,6 +867,7 @@ export class AppShell extends Component {
           primaryInList: this.routeId === "slots",
           onAction: (id) => this.dispatch(id),
         });
+        this.mountBack(host);
         return;
       }
     }

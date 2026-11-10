@@ -29,6 +29,7 @@ export {
   type Viewport,
   type ViewportInput,
 } from "./viewport.ts";
+export { NAV_BACK_PREFIX, backActionFor, backButtonLayout } from "./nav-back.ts";
 export { DIAGNOSTICS_SCREEN_ID, buildDiagnosticsModel, type DiagnosticsInput } from "./diagnostics.ts";
 export {
   COLOR,

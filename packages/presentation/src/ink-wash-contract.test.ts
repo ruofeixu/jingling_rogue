@@ -54,6 +54,8 @@ describe("ink wash transition (B5d)", () => {
     // 旧的洗墨节点要先清掉，不能叠出两层。
     expect(shell).toMatch(/this\.inkWash\?\.isValid/);
     expect(shell).toMatch(/this\.inkWash\.removeFromParent\(\)/);
+    // 同页重挂不能把正在播的洗墨一起销毁：摘下来、重挂完再挂到新宿主。
+    expect(shell).toMatch(/this\.host\.addChild\(running\)/);
     expect(shell).toMatch(/!this\.reduceMotion/);
   });
 });

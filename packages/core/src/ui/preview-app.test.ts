@@ -98,10 +98,10 @@ describe("preview UI taps", () => {
     };
 
     visit("设置");
-    visit("跳过已见·关");
+    visit("跳过已见•关");
     visit("显示");
-    visit("金钱·开");
-    visit("伤害数字·开");
+    visit("金钱•开");
+    visit("伤害数字•开");
     visit("音频");
     visit("玩法");
     visit("触控");
@@ -155,7 +155,7 @@ describe("preview UI taps", () => {
   });
 
   it("opens a battle from every mode button including 短征", () => {
-    const names = ["短征", "经典", "今日试炼", "无尽长夜", "长夜·合体", "苛令"];
+    const names = ["短征", "经典", "今日试炼", "无尽长夜", "长夜•合体", "苛令"];
     for (const label of names) {
       const app = new PreviewApp({ seed: `ui-${label}` });
       app.tap("新的旅途");
@@ -304,11 +304,11 @@ describe("UI smoke", () => {
     addCandy(app.account, "zao_li", 40);
     app.tap("新的旅途");
     app.tap("经典");
-    app.tap("灵糖·专卵");
+    app.tap("灵糖•专卵");
     expect(app.account.eggs).toHaveLength(0);
-    app.tap("灵糖·魂契");
+    app.tap("灵糖•魂契");
     expect(app.account.secondPact).toContain("zao_li");
-    app.tap("灵糖·专卵");
+    app.tap("灵糖•专卵");
     expect(app.account.eggs.some((egg) => egg.spiritId === "zao_li")).toBe(true);
   });
 

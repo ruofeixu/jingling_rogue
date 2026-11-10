@@ -36,6 +36,14 @@ function progressLine(done: number, total: number): string {
   return `进度 ${done} / ${total}`;
 }
 
+const SETTINGS_TAB_NAMES: Readonly<Record<string, string>> = {
+  general: "通用",
+  display: "显示",
+  audio: "声音",
+  play: "玩法",
+  controls: "操作",
+};
+
 export interface SettingsModelInput extends BaseInput {
   readonly view: SettingsView;
 }
@@ -43,7 +51,7 @@ export interface SettingsModelInput extends BaseInput {
 export function buildSettingsModel(input: SettingsModelInput): ScreenModel {
   const tabs: ScreenActionInput[] = input.view.tabs.map((tab) => ({
     id: `settings.tab.${tab}`,
-    label: String(tab),
+    label: SETTINGS_TAB_NAMES[String(tab)] ?? String(tab),
   }));
   return buildStateModel({
     screenId: "settings",
@@ -74,11 +82,11 @@ export function buildCodexListModel(input: CodexListModelInput): ScreenModel {
     state: input.state,
     accessibleName: "契录",
     reason: input.reason,
-    emptyHint: input.state === "empty" ? `还没有收契。${progressLine(0, input.view.total)}` : undefined,
+    emptyHint: input.state === "empty" ? "还没有收契" : undefined,
     primaryAction: { id: LOBBY_ACTIONS.openCodexEntry, label: "查看详情" },
-    secondaryActions: slice.map((row) => ({
+    secondaryActions: slice.map((row, index) => ({
       id: `${LOBBY_ACTIONS.openCodexEntry}.${row.id}`,
-      label: row.name,
+      label: row.status === "unknown" ? `？？？ 第${page * pageSize + index + 1}号` : row.name,
       ...(row.status === "unknown"
         ? { enabled: false, disabledReason: "尚未见过这只精怪" }
         : {}),
@@ -134,7 +142,7 @@ export function buildEggsModel(input: EggsModelInput): ScreenModel {
     },
     secondaryActions: input.view.slots.map((slot) => ({
       id: `${LOBBY_ACTIONS.hatchEgg}.${slot.id}`,
-      label: `${slot.tier} · ${slot.steps} 步`,
+      label: `${slot.tier} • ${slot.steps} 步`,
     })),
     lines: [`卵槽 ${input.view.slots.length}`, `孵券 ${voucherTotal}`],
   });
@@ -220,7 +228,9 @@ export function buildSlotsModel(input: SlotsModelInput): ScreenModel {
     secondaryActions: rest,
     lines: [
       `占用 ${input.view.slots.filter((s) => s.occupied).length} / ${input.view.slots.length}`,
-      "每过一波自动存到槽1，开新局会覆盖它；战斗中途退出，读档后重打这一波。",
+      "每过一波自动存到槽1",
+      "开新局会覆盖槽1",
+      "战中退出则重打这一波",
     ],
   });
 }

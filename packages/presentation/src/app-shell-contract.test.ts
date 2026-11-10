@@ -128,4 +128,15 @@ describe("AppShell contract", () => {
     expect(shell).toContain("adoptProductEntry");
     expect(shell).toContain("routeAfterCommand");
   });
+
+  it("uses the open-centre indoor backdrop for list/lobby pages and mode (B5c)", () => {
+    const src = shellSource();
+    const line = src.match(/const INDOOR_BG[^;]*;/s)?.[0] ?? "";
+
+    for (const id of ["settings", "codex-list", "codex-entry", "eggs", "achievements", "stats", "slots", "glossary", "mode"]) {
+      expect(line, id).toContain(`"${id}"`);
+    }
+    // 标题页和选宠页仍用大厅背景。
+    expect(line).not.toContain("\"title\"");
+  });
 });

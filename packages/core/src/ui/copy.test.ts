@@ -21,7 +21,7 @@ describe("battle and glossary copy", () => {
   it("summarizes art effects for slips and play log", () => {
     const art = getArt("cinder_claw");
     expect(formatArtHint(art.effects, art.power)).toBe("伤40");
-    expect(formatArtPlay("灶狸", art)).toBe("灶狸 使出 灶爪。炎 · 伤40");
+    expect(formatArtPlay("灶狸", art)).toBe("灶狸 使出 灶爪。炎 • 伤40");
     expect(formatArtPlay("灶狸", null)).toContain("竭力一击");
   });
 

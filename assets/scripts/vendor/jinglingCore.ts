@@ -14706,13 +14706,13 @@ function formatArtHint(effects, power) {
     }
     return "\u62A4\u7B26";
   });
-  return parts.join(" \xB7 ") || "\u672F";
+  return parts.join(" \u2022 ") || "\u672F";
 }
 function formatArtPlay(userName, art) {
   if (!art) {
     return `${userName} \u7AED\u529B\u4E00\u51FB\u3002\u65E0\u7075\u529B\u65F6\u7684\u6323\u624E\u3002`;
   }
-  return `${userName} \u4F7F\u51FA ${art.name}\u3002${AFFINITY_CN[art.affinity]} \xB7 ${formatArtHint(art.effects, art.power)}`;
+  return `${userName} \u4F7F\u51FA ${art.name}\u3002${AFFINITY_CN[art.affinity]} \u2022 ${formatArtHint(art.effects, art.power)}`;
 }
 function formatSealResult(name, caught, chance) {
   const pct = Math.round(chance * 100);
@@ -14871,7 +14871,7 @@ function formatCodexSheet(id) {
   const spirit = getSpirit(id);
   const pact = tables.pacts.find((row) => row.id === spirit.pactId);
   const realm = tables.realms.find((row) => row.id === spirit.realm);
-  const aff = spirit.affinities.map((row) => AFFINITY_CN[row]).join("\xB7");
+  const aff = spirit.affinities.map((row) => AFFINITY_CN[row]).join("\u2022");
   const arts = spirit.artIds.map((artId) => tables.arts.find((row) => row.id === artId)?.name ?? artId);
   let evo = "";
   if (spirit.evolveTo) {
@@ -15317,7 +15317,7 @@ var MODE_NAME = {
   classic: "\u7ECF\u5178",
   daily: "\u4ECA\u65E5\u8BD5\u70BC",
   endless: "\u65E0\u5C3D\u957F\u591C",
-  spliced: "\u957F\u591C\xB7\u5408\u4F53",
+  spliced: "\u957F\u591C\u2022\u5408\u4F53",
   challenge: "\u82DB\u4EE4"
 };
 var TAB_NAME = {
@@ -15389,15 +15389,15 @@ var PreviewApp = class {
       const offers = offerRelics(this.account, `${this.seed}-relic`);
       return [
         ...offers.map((row) => ({
-          label: `${row.name}${row.id === this.relicId ? "\xB7\u9009" : ""}`,
+          label: `${row.name}${row.id === this.relicId ? "\u2022\u9009" : ""}`,
           run: () => {
             this.relicId = row.id;
             this.log = `\u5DF2\u9009 ${row.name}`;
           }
         })),
-        { label: "\u7075\u7CD6\xB7\u964D\u8D39", run: () => this.spendStarterCandy("cost") },
-        { label: "\u7075\u7CD6\xB7\u9B42\u5951", run: () => this.spendStarterCandy("pact") },
-        { label: "\u7075\u7CD6\xB7\u4E13\u5375", run: () => this.spendStarterCandy("egg") },
+        { label: "\u7075\u7CD6\u2022\u964D\u8D39", run: () => this.spendStarterCandy("cost") },
+        { label: "\u7075\u7CD6\u2022\u9B42\u5951", run: () => this.spendStarterCandy("pact") },
+        { label: "\u7075\u7CD6\u2022\u4E13\u5375", run: () => this.spendStarterCandy("egg") },
         ...["zao_li", "jing_zhu", "tao_geng"].map((id) => ({
           label: getSpirit(id).name,
           run: () => this.startRun(id)
@@ -15416,7 +15416,7 @@ var PreviewApp = class {
       }));
       if (this.settingsTab === "general") {
         rows.push({
-          label: settings.general.skipSeenDialog ? "\u8DF3\u8FC7\u5DF2\u89C1\xB7\u5F00" : "\u8DF3\u8FC7\u5DF2\u89C1\xB7\u5173",
+          label: settings.general.skipSeenDialog ? "\u8DF3\u8FC7\u5DF2\u89C1\u2022\u5F00" : "\u8DF3\u8FC7\u5DF2\u89C1\u2022\u5173",
           run: () => {
             settings.general.skipSeenDialog = !settings.general.skipSeenDialog;
             this.openSettings();
@@ -15425,14 +15425,14 @@ var PreviewApp = class {
       }
       if (this.settingsTab === "display") {
         rows.push({
-          label: settings.display.showGold ? "\u91D1\u94B1\xB7\u5F00" : "\u91D1\u94B1\xB7\u5173",
+          label: settings.display.showGold ? "\u91D1\u94B1\u2022\u5F00" : "\u91D1\u94B1\u2022\u5173",
           run: () => {
             settings.display.showGold = !settings.display.showGold;
             this.openSettings();
           }
         });
         rows.push({
-          label: settings.display.showDamage ? "\u4F24\u5BB3\u6570\u5B57\xB7\u5F00" : "\u4F24\u5BB3\u6570\u5B57\xB7\u5173",
+          label: settings.display.showDamage ? "\u4F24\u5BB3\u6570\u5B57\u2022\u5F00" : "\u4F24\u5BB3\u6570\u5B57\u2022\u5173",
           run: () => {
             settings.display.showDamage = !settings.display.showDamage;
             this.openSettings();
@@ -15450,7 +15450,7 @@ var PreviewApp = class {
       }
       if (this.settingsTab === "controls") {
         rows.push({
-          label: settings.controls.layout === "touch" ? "\u5E03\u5C40\xB7\u89E6\u63A7" : "\u5E03\u5C40\xB7\u952E\u4F4D",
+          label: settings.controls.layout === "touch" ? "\u5E03\u5C40\u2022\u89E6\u63A7" : "\u5E03\u5C40\u2022\u952E\u4F4D",
           run: () => {
             settings.controls.layout = settings.controls.layout === "touch" ? "keys" : "touch";
             this.openSettings();
@@ -15753,7 +15753,7 @@ var PreviewApp = class {
     this.setScreen("title", "\u5951\u7075\u5FD7\u602A", "\u70B9\u300C\u540D\u8BCD\u300D\u770B\u4E13\u6709\u8BCD\u3002\u62E9\u4E00\u5951\u7075\uFF0C\u5165\u4E16\u5386\u52AB\u3002");
   }
   openSettings() {
-    this.setScreen("settings", "\u8BBE\u7F6E", `\u8BBE\u7F6E \xB7 ${TAB_NAME[this.settingsTab]}`);
+    this.setScreen("settings", "\u8BBE\u7F6E", `\u8BBE\u7F6E \u2022 ${TAB_NAME[this.settingsTab]}`);
   }
   openCodex() {
     this.codexId = null;
@@ -15889,7 +15889,7 @@ var PreviewApp = class {
   harvestLog(prefix) {
     const account = this.slice?.account ?? this.account;
     const candy = Object.values(account.candy).reduce((sum, n) => sum + n, 0);
-    return `${prefix} \xB7 ${formatRunHarvest({
+    return `${prefix} \u2022 ${formatRunHarvest({
       seen: account.seenIds.length,
       caught: account.codex.length,
       candy,
@@ -16145,15 +16145,15 @@ function runUiSmoke(seed) {
   };
   const lobby = new PreviewApp({ seed: `${seed}-lobby` });
   tap(lobby, "\u8BBE\u7F6E");
-  tap(lobby, "\u8DF3\u8FC7\u5DF2\u89C1\xB7\u5173");
+  tap(lobby, "\u8DF3\u8FC7\u5DF2\u89C1\u2022\u5173");
   tap(lobby, "\u663E\u793A");
-  tap(lobby, "\u91D1\u94B1\xB7\u5F00");
-  tap(lobby, "\u4F24\u5BB3\u6570\u5B57\xB7\u5F00");
+  tap(lobby, "\u91D1\u94B1\u2022\u5F00");
+  tap(lobby, "\u4F24\u5BB3\u6570\u5B57\u2022\u5F00");
   tap(lobby, "\u97F3\u9891");
   tap(lobby, "\u73A9\u6CD5");
   tap(lobby, "\u500D\u901F 1");
   tap(lobby, "\u89E6\u63A7");
-  tap(lobby, "\u5E03\u5C40\xB7\u89E6\u63A7");
+  tap(lobby, "\u5E03\u5C40\u2022\u89E6\u63A7");
   tap(lobby, "\u8FD4\u56DE");
   tap(lobby, "\u5951\u5F55");
   tap(lobby, "\u8FD4\u56DE");
@@ -16172,7 +16172,7 @@ function runUiSmoke(seed) {
   tap(lobby, "\u540D\u8BCD");
   tap(lobby, GLOSSARY[0]?.term ?? "\u7CBE\u602A");
   tap(lobby, "\u8FD4\u56DE");
-  for (const mode of ["\u77ED\u5F81", "\u7ECF\u5178", "\u4ECA\u65E5\u8BD5\u70BC", "\u65E0\u5C3D\u957F\u591C", "\u957F\u591C\xB7\u5408\u4F53", "\u82DB\u4EE4"]) {
+  for (const mode of ["\u77ED\u5F81", "\u7ECF\u5178", "\u4ECA\u65E5\u8BD5\u70BC", "\u65E0\u5C3D\u957F\u591C", "\u957F\u591C\u2022\u5408\u4F53", "\u82DB\u4EE4"]) {
     const app = new PreviewApp({ seed: `${seed}-${mode}` });
     tap(app, "\u65B0\u7684\u65C5\u9014");
     tap(app, mode);
@@ -16329,7 +16329,7 @@ function runUiSmoke(seed) {
   return { screens: [...acc.screens], taps: acc.taps, dead: acc.dead };
 }
 var STARTER_IDS = ["zao_li", "jing_zhu", "tao_geng"];
-var MODE_LABELS = ["\u77ED\u5F81", "\u7ECF\u5178", "\u4ECA\u65E5\u8BD5\u70BC", "\u65E0\u5C3D\u957F\u591C", "\u957F\u591C\xB7\u5408\u4F53", "\u82DB\u4EE4"];
+var MODE_LABELS = ["\u77ED\u5F81", "\u7ECF\u5178", "\u4ECA\u65E5\u8BD5\u70BC", "\u65E0\u5C3D\u957F\u591C", "\u957F\u591C\u2022\u5408\u4F53", "\u82DB\u4EE4"];
 function walkPlayableUi(seed) {
   const acc = { screens: /* @__PURE__ */ new Set(), taps: [], dead: 0 };
   let battles = 0;

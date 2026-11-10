@@ -171,3 +171,50 @@ describe("lobby screen models", () => {
     ).toThrow(/reason/);
   });
 });
+
+describe('B5c copy: nothing English or internal leaks into the lobby pages', () => {
+  it('settings groups are named in Chinese, not by their ids', () => {
+    const model = buildSettingsModel({ state: 'normal', view: selectSettings(account) });
+    const labels = model.secondaryActions.map((a) => a.label);
+
+    expect(labels).toEqual(['通用', '显示', '声音', '玩法', '操作']);
+    for (const label of labels) {
+      expect(label, label).not.toMatch(/[a-z]/i);
+    }
+    // 动作 id 仍用内部名，只有显示的字是中文。
+    expect(model.secondaryActions[0].id).toBe('settings.tab.general');
+  });
+
+  it('unseen spirits show a numbered silhouette instead of eight identical rows', () => {
+    const model = buildCodexListModel({ state: 'normal', view: selectCodexList(account), pageSize: 8 });
+    const labels = model.secondaryActions.map((a) => a.label);
+
+    expect(new Set(labels).size).toBe(labels.length);
+    expect(labels[0]).toBe('？？？ 第1号');
+    expect(labels[1]).toBe('？？？ 第2号');
+  });
+
+  it('seen spirits keep their real name', () => {
+    const model = buildCodexListModel({ state: 'normal', view: selectCodexList(caught), pageSize: 240 });
+    const zao = model.secondaryActions.find((a) => a.id.endsWith('.zao_li'));
+
+    expect(zao?.label).toBe('灶狸');
+  });
+
+  it('slots page note is short enough to fit one phone line each', () => {
+    const view = selectSlots(account, [{ slot: 0, wave: 2, mode: 'classic' }]);
+    const model = buildSlotsModel({ state: 'normal', view });
+
+    for (const line of model.lines) {
+      expect(Array.from(line).length, line).toBeLessThanOrEqual(16);
+    }
+    expect(model.lines.join('')).toMatch(/自动存/);
+  });
+
+  it('empty codex does not repeat the progress line inside the hint (B5c)', () => {
+    const model = buildCodexListModel({ state: 'empty', view: selectCodexList(account), pageSize: 8 });
+
+    const text = [model.reason ?? '', ...model.lines].join(' ');
+    expect(text.match(/进度/g)?.length ?? 0).toBe(1);
+  });
+});

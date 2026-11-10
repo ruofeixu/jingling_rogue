@@ -1,10 +1,13 @@
 import { Color, Graphics, Node, Sprite, UITransform } from "cc";
-import { COLOR, RADIUS, SPACE, type Rgb } from "../../vendor/jinglingPresentation";
+import { COLOR, SPACE, type Rgb } from "../../vendor/jinglingPresentation";
 import { UiSkin } from "./UiSkin.ts";
 
 function color(token: Rgb, alpha = 255): Color {
   return new Color(token[0], token[1], token[2], alpha);
 }
+
+/** 面板底色不透明度：255 × 0.85。 */
+const PANEL_ALPHA = 217;
 
 export interface PanelOptions {
   readonly name: string;
@@ -14,6 +17,8 @@ export interface PanelOptions {
   readonly height: number;
   /** 9-slice 皮肤名（见 UiSkin/asset-manifest）。缺省或素材缺失时回退 Graphics 画法。 */
   readonly skin?: string;
+  /** 回退画法的底色不透明度（0-255）；缺省用 PANEL_ALPHA。列表底板调低，让行按钮比底板更清楚。 */
+  readonly alpha?: number;
 }
 
 /**
@@ -40,16 +45,30 @@ export function makePanel(parent: Node, opts: PanelOptions): Node {
     return node;
   }
 
-  // 回退：水墨程序化画法 —— 宣纸面板平涂 + 一条淡墨细边。笔触与纸纹由 9-slice 贴图提供（I2b）。
-  const hw = opts.width / 2;
-  const hh = opts.height / 2;
-
+  // 回退：水墨程序化画法 —— 85% 不透明宣纸底（背景墨色淡淡透出），四角一点淡墨角花，没有均匀灰描边。
   const g = node.addComponent(Graphics);
-  g.roundRect(-hw, -hh, opts.width, opts.height, RADIUS.panel);
-  g.fillColor = color(COLOR.panel);
+  g.rect(-opts.width / 2, -opts.height / 2, opts.width, opts.height);
+  g.fillColor = color(COLOR.panel, opts.alpha ?? PANEL_ALPHA);
   g.fill();
-  g.strokeColor = color(COLOR.edge);
-  g.lineWidth = SPACE.xs / 2;
-  g.stroke();
+  drawCornerMarks(g, opts.width, opts.height);
   return node;
+}
+
+/** 四角的「L」形墨线，横比竖略粗，像装裱的角花。 */
+function drawCornerMarks(g: Graphics, width: number, height: number): void {
+  const hw = width / 2;
+  const hh = height / 2;
+  const arm = Math.min(SPACE.lg, width / 4, height / 4);
+  g.strokeColor = color(COLOR.ink, 150);
+  g.lineWidth = SPACE.xs / 2;
+  for (const sx of [-1, 1]) {
+    for (const sy of [-1, 1]) {
+      const cx = sx * hw;
+      const cy = sy * hh;
+      g.moveTo(cx - sx * arm, cy);
+      g.lineTo(cx, cy);
+      g.lineTo(cx, cy - sy * arm);
+    }
+  }
+  g.stroke();
 }

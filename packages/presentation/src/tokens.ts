@@ -52,9 +52,10 @@ export const SPACE = Object.freeze({
   xl: 40,
 });
 
+/** 小圆角：水墨界面像纸签和木牌，大圆角像网页表单（B5c）。 */
 export const RADIUS = Object.freeze({
-  control: 12,
-  panel: 16,
+  control: 6,
+  panel: 6,
 });
 
 export const MOTION = Object.freeze({

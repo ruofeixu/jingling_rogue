@@ -28,16 +28,6 @@ export class ModeScreen {
     parent.addChild(root);
     this.root = root;
 
-    addLabel(root, {
-      text: model.accessibleName,
-      x: 0,
-      y: frame.content.height / 2 - SPACE.xl,
-      width: frame.content.width - SPACE.xl,
-      fontSize: TYPE.title * scale,
-      tone: "ink",
-      heading: true,
-    });
-
     const actions = model.primaryAction
       ? [{ action: model.primaryAction, primary: true }, ...model.secondaryActions.map((a) => ({ action: a, primary: false }))]
       : model.secondaryActions.map((a) => ({ action: a, primary: false }));
@@ -47,6 +37,17 @@ export class ModeScreen {
     const buttonHeight = SPACE.xl * 2 + SPACE.md;
     const panelWidth = Math.min(frame.content.width - SPACE.lg, frame.content.width);
     const panelHeight = rows * (buttonHeight + SPACE.md) + SPACE.lg;
+    // 标题贴着面板顶部，整块内容在屏幕中部居中。
+    const titleH = TYPE.title * scale * TYPE.lineHeightRatio;
+    addLabel(root, {
+      text: model.accessibleName,
+      x: 0,
+      y: panelHeight / 2 + SPACE.md + titleH / 2,
+      width: frame.content.width - SPACE.xl,
+      fontSize: TYPE.title * scale,
+      tone: "ink",
+      heading: true,
+    });
     const panel = makePanel(root, {
       name: "mode-list",
       x: 0,
@@ -87,11 +88,13 @@ export class ModeScreen {
       });
     }
 
-    for (const [index, line] of model.lines.entries()) {
+    if (model.lines.length > 0) {
+      // 说明小字紧跟在面板下方，不压在底部插画上。
+      const noteH = TYPE.caption * scale * TYPE.lineHeightRatio * 2;
       addLabel(root, {
-        text: line,
+        text: model.lines.join(" • "),
         x: 0,
-        y: -frame.content.height / 2 + SPACE.xl + index * TYPE.caption * scale * TYPE.lineHeightRatio,
+        y: -panelHeight / 2 - SPACE.lg - (model.reason ? TYPE.body * scale * TYPE.lineHeightRatio + SPACE.sm : 0) - noteH / 2,
         width: frame.content.width - SPACE.xl,
         fontSize: TYPE.caption * scale,
         tone: "muted",

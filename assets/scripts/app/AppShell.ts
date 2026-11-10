@@ -78,7 +78,11 @@ export const GALLERY_ROUTE_ID = "gallery";
 const BATTLE_BG: ReadonlySet<string> = new Set([
   "battle", "arts", "switch", "party", "bag", "target", "catch",
 ]);
-const INDOOR_BG: ReadonlySet<string> = new Set(["shop", "omen", "summary", "map"]);
+const INDOOR_BG: ReadonlySet<string> = new Set([
+  "shop", "omen", "summary", "map",
+  // 大厅类页面和模式页：室内背景中间更空，插画不会穿过按钮区。
+  "settings", "codex-list", "codex-entry", "eggs", "achievements", "stats", "slots", "glossary", "mode",
+]);
 function backdropSkinFor(routeId: string): string {
   if (BATTLE_BG.has(routeId)) return "bg_battle";
   if (INDOOR_BG.has(routeId)) return "bg_indoor";
@@ -424,7 +428,7 @@ export class AppShell extends Component {
       { id: "classic", label: "经典" },
       { id: "daily", label: "今日试炼" },
       { id: "endless", label: "无尽长夜" },
-      { id: "spliced", label: "长夜·合体" },
+      { id: "spliced", label: "长夜•合体" },
       { id: "challenge", label: "苛令" },
     ] as { id: string; label: string; lockedReason?: string }[],
   };
@@ -805,6 +809,8 @@ export class AppShell extends Component {
         this.lobbyScreen.mount(host, model, {
           viewport: this.viewport,
           textScale: this.textScale,
+          // 存档页的主行动就是槽1，要和其余槽排在同一个列表里。
+          primaryInList: this.routeId === "slots",
           onAction: (id) => this.dispatch(id),
         });
         return;

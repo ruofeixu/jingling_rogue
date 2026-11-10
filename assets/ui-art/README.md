@@ -14,7 +14,7 @@ Cocos 侧已搭好"接贴图骨架"。把美术素材按下面约定放好，**�
 每张图一个 SpriteFrame，名字即 `UiSkin.getFrame(name)` 的 name：
 
 **9-slice 容器**（边距已在 `UiSkin.ts` 的 `SLICE_TABLE` 登记，可按需调）：
-`panel_cream` `panel_board` `btn_primary` `btn_normal` `btn_disabled`
+`panel_cream` `panel_board` `btn_primary` `btn_normal`
 `chip` `nameplate` `topbar` `log_bubble` `ribbon_win` `ribbon_lose`
 `hpbar_track` `hpbar_fill_green` `hpbar_fill_red`
 
@@ -26,7 +26,7 @@ Cocos 侧已搭好"接贴图骨架"。把美术素材按下面约定放好，**�
 
 - `makePanel({ skin })`：有对应 SpriteFrame → 用 `Sprite`(SLICED, 9-slice)；否则 Graphics 回退。
   面板默认 skin = `panel_cream`。
-- `makeButton({ primary, icon })`：按 enabled/primary 取 `btn_disabled|btn_primary|btn_normal`；
+- `makeButton({ primary, icon })`：只有两种样子：主行动用 `btn_primary`，其余用 `btn_normal`；禁用 = normal 降低不透明度，没有第三张贴图；
   有图 → 9-slice Sprite，否则 Graphics 回退。`icon` 有对应图才画。
 - 首次用到贴图时 `UiSkin` 异步加载 bundle，加载成功后派发 `ui-skin-ready` 事件，
   `AppShell` 收到后重刷当前页，让贴图即时生效（无素材则不派发、保持回退）。

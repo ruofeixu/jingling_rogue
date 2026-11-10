@@ -1,4 +1,4 @@
-import { Sprite, SpriteFrame, Texture2D, TTFFont, assetManager, director, type AssetManager } from "cc";
+import { Label, Sprite, SpriteFrame, Texture2D, TTFFont, assetManager, director, type AssetManager } from "cc";
 import { UI_SKIN_READY_EVENT } from "./skin-event.ts";
 
 /**
@@ -24,7 +24,6 @@ const SLICE_TABLE: Readonly<Record<string, SliceInsets>> = Object.freeze({
   panel_board: { left: 48, right: 48, top: 48, bottom: 48 },
   btn_primary: { left: 60, right: 60, top: 40, bottom: 40 },
   btn_normal: { left: 60, right: 60, top: 40, bottom: 40 },
-  btn_disabled: { left: 60, right: 60, top: 40, bottom: 40 },
   chip: { left: 36, right: 36, top: 36, bottom: 36 },
   nameplate: { left: 36, right: 36, top: 36, bottom: 36 },
   topbar: { left: 60, right: 60, top: 45, bottom: 45 },
@@ -150,5 +149,19 @@ export class UiSkin {
       sf.insetTop = inset.top;
       sf.insetBottom = inset.bottom;
     }
+  }
+}
+
+/**
+ * 全界面统一字体：所有产品界面的 Label 都走这里，用马善政楷书子集（含全部界面用字，见 tools/title_font.py）。
+ * 字体还没加载或加载失败时用系统字体，不留空白；加载完成后 AppShell 会收到 ready 事件重刷当前页。
+ */
+export function applyUiFont(label: Label): void {
+  const font = UiSkin.shared().getTitleFont();
+  if (font) {
+    label.useSystemFont = false;
+    label.font = font;
+  } else {
+    label.useSystemFont = true;
   }
 }

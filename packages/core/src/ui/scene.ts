@@ -110,7 +110,7 @@ const MODE_ICON: Record<string, ItemIconId> = {
   经典: "map",
   今日试炼: "gold",
   无尽长夜: "lure",
-  "长夜·合体": "charm",
+  "长夜•合体": "charm",
   苛令: "atk",
 };
 
@@ -365,7 +365,7 @@ function starterSlips(app: PreviewApp, ui: ScreenLayout): Slip[] {
   const lobby = ui.lobby;
   const offers = offerRelics(app.account, "scene-relic");
   const relics = app.labels().slice(0, offers.length);
-  const candy = ["灵糖·降费", "灵糖·魂契", "灵糖·专卵"];
+  const candy = ["灵糖•降费", "灵糖•魂契", "灵糖•专卵"];
   return [
     ...relics.map((label, index) => ({
       label,
@@ -377,7 +377,7 @@ function starterSlips(app: PreviewApp, ui: ScreenLayout): Slip[] {
       label,
       x: (index - 1) * lobby.shopDx,
       y: lobby.starterCandyY,
-      icon: (label === "灵糖·专卵" ? "egg" : "candy") as ItemIconId,
+      icon: (label === "灵糖•专卵" ? "egg" : "candy") as ItemIconId,
     })),
     { label: "返回", x: 0, y: lobby.starterBackY },
   ];

@@ -8,6 +8,7 @@ import {
 } from "../../vendor/jinglingPresentation";
 import { makeButton } from "./Button.ts";
 import { makePanel } from "./Panel.ts";
+import { applyUiFont } from "./UiSkin.ts";
 
 function color(token: Rgb, alpha = 255): Color {
   return new Color(token[0], token[1], token[2], alpha);
@@ -28,6 +29,7 @@ function addText(parent: Node, text: string, y: number, size: number, token: Rgb
   label.horizontalAlign = Label.HorizontalAlign.CENTER;
   label.verticalAlign = Label.VerticalAlign.CENTER;
   label.overflow = Label.Overflow.RESIZE_HEIGHT;
+  applyUiFont(label);
 }
 
 /** 状态标签：normal / loading / empty / error / locked 五态各自的说明文案键。 */

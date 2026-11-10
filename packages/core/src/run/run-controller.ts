@@ -30,7 +30,7 @@ import {
   type KvStore,
 } from "../save/local-store.ts";
 
-/** 发货入口的自动存档槽：每局都写这里（界面显示为"槽1 · 当前旅途"）。 */
+/** 发货入口的自动存档槽：每局都写这里（界面显示为"槽1 • 当前旅途"）。 */
 export const CURRENT_RUN_SLOT = 0;
 import { stockForWave } from "../shop/shop.ts";
 import { formatBoonHint } from "../ui/copy.ts";

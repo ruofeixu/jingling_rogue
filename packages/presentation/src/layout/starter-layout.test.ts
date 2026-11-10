@@ -53,14 +53,40 @@ describe("starter layout", () => {
     expect(layout.detail.height).toBeGreaterThanOrEqual(TYPE.body * TYPE.lineHeightRatio * 2 + SPACE.md * 2);
   });
 
-  it("gives portrait cards at least 30% of the screen height", () => {
-    const frame = buildResponsiveFrame(buildViewport({ width: 750, height: 1334 }));
+  it("stacks portrait cards as wide horizontal cards with a large portrait on the left (B5c)", () => {
+    for (const size of [{ width: 390, height: 844 }, { width: 750, height: 1334 }, { width: 768, height: 1024 }]) {
+      const frame = buildResponsiveFrame(buildViewport(size));
+      const layout = starterLayout(frame, 3);
+
+      expect(layout.cards).toHaveLength(3);
+      expect(layout.arts).toHaveLength(3);
+      layout.cards.forEach((card, index) => {
+        const art = layout.arts[index]!;
+        // 竖屏：三张卡上下排，同宽，比高度更宽
+        expect(card.width).toBe(layout.cards[0]!.width);
+        expect(card.width).toBeGreaterThan(card.height);
+        if (index > 0) {
+          expect(card.y).toBeLessThan(layout.cards[index - 1]!.y);
+        }
+        // 立绘边长 ≥ 卡片短边的 80%，在卡片左侧，且完全在卡片内。
+        expect(art.width).toBeGreaterThanOrEqual(Math.min(card.width, card.height) * 0.8);
+        expect(art.width).toBe(art.height);
+        expect(art.x).toBeLessThan(card.x);
+        const rel = { x: art.x - card.x, y: art.y - card.y, width: art.width, height: art.height };
+        expect(inside(rel, card.width, card.height)).toBe(true);
+      });
+      expect(layout.cards[0]!.y).toBeGreaterThan(layout.detail.y);
+      expect(layout.detail.y).toBeGreaterThan(layout.confirm.y);
+    }
+  });
+
+  it("keeps three columns in landscape with a portrait filling most of the card width (B5c)", () => {
+    const frame = buildResponsiveFrame(buildViewport({ width: 1280, height: 720 }));
     const layout = starterLayout(frame, 3);
 
-    for (const card of layout.cards) {
-      expect(card.height).toBeGreaterThanOrEqual(frame.content.height * 0.3);
-    }
-    expect(layout.cards[0]!.y).toBeGreaterThan(layout.detail.y);
-    expect(layout.detail.y).toBeGreaterThan(layout.confirm.y);
+    expect(new Set(layout.cards.map((card) => card.y)).size).toBe(1);
+    layout.cards.forEach((card, index) => {
+      expect(layout.arts[index]!.width).toBeGreaterThanOrEqual(card.width * 0.6);
+    });
   });
 });

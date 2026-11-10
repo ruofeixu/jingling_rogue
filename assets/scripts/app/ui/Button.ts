@@ -1,4 +1,4 @@
-import { Color, Graphics, Label, Node, Sprite, Tween, UITransform, Vec3, tween } from "cc";
+import { Color, Graphics, Label, Node, Sprite, Tween, UIOpacity, UITransform, Vec3, tween } from "cc";
 import {
   COLOR,
   MIN_HIT_SIZE,
@@ -9,7 +9,7 @@ import {
   type Rgb,
   type ScreenAction,
 } from "../../vendor/jinglingPresentation";
-import { UiSkin } from "./UiSkin.ts";
+import { UiSkin, applyUiFont } from "./UiSkin.ts";
 
 function color(token: Rgb, alpha = 255): Color {
   return new Color(token[0], token[1], token[2], alpha);
@@ -34,6 +34,8 @@ function scaleTo(node: Node, scale: number, seconds: number): void {
 
 export interface ButtonOptions {
   readonly action: ScreenAction;
+  /** 禁用时是否在按钮下半显示原因。列表行原因往往相同，关掉避免重复；缺省显示。 */
+  readonly showReason?: boolean;
   readonly x: number;
   readonly y: number;
   readonly width: number;
@@ -63,7 +65,9 @@ export function makeButton(parent: Node, opts: ButtonOptions, onTap?: () => void
   transform.setContentSize(Math.max(opts.width, MIN_HIT_SIZE), Math.max(opts.height, MIN_HIT_SIZE));
   node.setPosition(opts.x, opts.y, 0);
 
-  const skinName = !opts.action.enabled ? "btn_disabled" : opts.primary ? "btn_primary" : "btn_normal";
+  // 只有两种按钮：主行动（朱砂）和普通（宣纸）。禁用 = 普通态降不透明度，不是第三种画法。
+  const vermilion = opts.primary === true && opts.action.enabled;
+  const skinName = vermilion ? "btn_primary" : "btn_normal";
   const frame = UiSkin.shared().getFrame(skinName);
   if (frame) {
     const sprite = node.addComponent(Sprite);
@@ -73,19 +77,41 @@ export function makeButton(parent: Node, opts: ButtonOptions, onTap?: () => void
     // 赋 spriteFrame 会把节点重设成贴图原尺寸，CUSTOM 之后再把按钮尺寸设回来。
     transform.setContentSize(Math.max(opts.width, MIN_HIT_SIZE), Math.max(opts.height, MIN_HIT_SIZE));
   } else {
-    // 回退：水墨程序化画法 —— 平涂主体 + 细描边（朱砂按钮边同色，像一方印）。笔触由贴图提供（I2b）。
+    // 回退：水墨程序化画法。朱砂按钮像一方印（实心、同色边）；普通按钮是宣纸签条：
+    // 浅纸底，上下两道浓墨横线（上细下粗，像毛笔起收笔），左右只留淡墨短竖，不画网页式的均匀灰框。
     const half = { w: opts.width / 2, h: opts.height / 2 };
-    // 禁用的一级按钮退到 slip 底：淡墨字压朱砂看不清。
-    const vermilion = opts.primary && opts.action.enabled;
-    const bodyTok = vermilion ? COLOR.accent : COLOR.slip;
-    const edgeTok = vermilion ? COLOR.accent : COLOR.edge;
     const g = node.addComponent(Graphics);
     g.roundRect(-half.w, -half.h, opts.width, opts.height, RADIUS.control);
-    g.fillColor = color(bodyTok);
+    g.fillColor = vermilion ? color(COLOR.accent) : color(COLOR.panel, 235);
     g.fill();
-    g.strokeColor = shade(edgeTok, 0.85);
-    g.lineWidth = SPACE.xs / 2;
-    g.stroke();
+    const ink = node.addComponent(Graphics);
+    if (vermilion) {
+      ink.roundRect(-half.w, -half.h, opts.width, opts.height, RADIUS.control);
+      ink.strokeColor = shade(COLOR.accent, 0.78);
+      ink.lineWidth = SPACE.xs / 2;
+      ink.stroke();
+    } else {
+      const inset = RADIUS.control;
+      ink.strokeColor = color(COLOR.ink, 200);
+      ink.lineWidth = 2;
+      ink.moveTo(-half.w + inset, half.h);
+      ink.lineTo(half.w - inset, half.h);
+      ink.stroke();
+      ink.lineWidth = 3;
+      ink.moveTo(-half.w + inset, -half.h);
+      ink.lineTo(half.w - inset, -half.h);
+      ink.stroke();
+      ink.strokeColor = color(COLOR.edge, 150);
+      ink.lineWidth = 1.5;
+      ink.moveTo(-half.w, half.h * 0.5);
+      ink.lineTo(-half.w, -half.h * 0.5);
+      ink.moveTo(half.w, half.h * 0.5);
+      ink.lineTo(half.w, -half.h * 0.5);
+      ink.stroke();
+    }
+  }
+  if (!opts.action.enabled) {
+    node.addComponent(UIOpacity).opacity = 140;
   }
 
   // 可选图标（有素材才画）
@@ -115,7 +141,7 @@ export function makeButton(parent: Node, opts: ButtonOptions, onTap?: () => void
   labelNode.setPosition(labelX, 0, 0);
   const label = labelNode.addComponent(Label);
   // 按钮上只写动作名；禁用原因放在按钮里下半部一行小字，不和动作名挤在一行。
-  const reason = opts.action.enabled ? "" : (opts.action.disabledReason ?? "");
+  const reason = opts.action.enabled || opts.showReason === false ? "" : (opts.action.disabledReason ?? "");
   label.string = opts.action.label;
   label.fontSize = TYPE.body * (opts.textScale ?? 1);
   label.lineHeight = label.fontSize * TYPE.lineHeightRatio;
@@ -134,11 +160,13 @@ export function makeButton(parent: Node, opts: ButtonOptions, onTap?: () => void
     reasonLabel.horizontalAlign = Label.HorizontalAlign.CENTER;
     reasonLabel.verticalAlign = Label.VerticalAlign.CENTER;
     reasonLabel.overflow = Label.Overflow.SHRINK;
+    applyUiFont(reasonLabel);
   }
   // 朱砂底配宣纸色字（墨字压朱砂只有 2.29:1），其余墨字；禁用淡墨。
-  label.color = !opts.action.enabled ? color(COLOR.muted) : opts.primary ? color(COLOR.paper) : color(COLOR.ink);
+  label.color = vermilion ? color(COLOR.paper) : color(COLOR.ink);
   label.horizontalAlign = Label.HorizontalAlign.CENTER;
   label.verticalAlign = Label.VerticalAlign.CENTER;
+  applyUiFont(label);
 
   if (onTap && opts.action.enabled) {
     node.on(Node.EventType.TOUCH_START, () => scaleTo(node, PRESS_SCALE, PRESS_IN_SEC), node);

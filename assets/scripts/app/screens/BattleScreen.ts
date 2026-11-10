@@ -260,7 +260,7 @@ function headerText(lines: readonly string[]): string {
   const wave = lines.find((line) => line.startsWith("第")) ?? "";
   const gold = lines.find((line) => line.startsWith("金")) ?? "";
   const party = lines.find((line) => line.startsWith("队伍")) ?? "";
-  return [wave, gold, party].filter((line) => line.length > 0).join(" · ");
+  return [wave, gold, party].filter((line) => line.length > 0).join(" • ");
 }
 
 function logLine(lines: readonly string[]): string {

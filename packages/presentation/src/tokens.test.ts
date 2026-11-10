@@ -48,6 +48,9 @@ describe("design tokens", () => {
 
   it("has radius and motion tokens with a reduced-motion cap", () => {
     expect(RADIUS.panel).toBeGreaterThan(0);
+    // B5c：水墨界面用小圆角，大圆角像网页表单。
+    expect(RADIUS.panel).toBeLessThanOrEqual(8);
+    expect(RADIUS.control).toBeLessThanOrEqual(8);
     expect(RADIUS.control).toBeGreaterThan(0);
     expect(MOTION.fast).toBeLessThan(MOTION.normal);
     expect(MOTION.reducedMaxMs).toBe(150);

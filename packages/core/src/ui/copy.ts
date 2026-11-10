@@ -42,14 +42,14 @@ export function formatArtHint(effects: ArtEffect[], power: number): string {
     }
     return "护符";
   });
-  return parts.join(" · ") || "术";
+  return parts.join(" • ") || "术";
 }
 
 export function formatArtPlay(userName: string, art: ArtRow | null): string {
   if (!art) {
     return `${userName} 竭力一击。无灵力时的挣扎。`;
   }
-  return `${userName} 使出 ${art.name}。${AFFINITY_CN[art.affinity as Affinity]} · ${formatArtHint(art.effects, art.power)}`;
+  return `${userName} 使出 ${art.name}。${AFFINITY_CN[art.affinity as Affinity]} • ${formatArtHint(art.effects, art.power)}`;
 }
 
 export function formatSealResult(name: string, caught: boolean, chance: number): string {
@@ -294,7 +294,7 @@ export function formatCodexSheet(id: string): { headline: string; stats: string;
   const spirit = getSpirit(id);
   const pact = tables.pacts.find((row) => row.id === spirit.pactId);
   const realm = tables.realms.find((row) => row.id === spirit.realm);
-  const aff = spirit.affinities.map((row) => AFFINITY_CN[row]).join("·");
+  const aff = spirit.affinities.map((row) => AFFINITY_CN[row]).join("•");
   const arts = spirit.artIds.map((artId) => tables.arts.find((row) => row.id === artId)?.name ?? artId);
   let evo = "";
   if (spirit.evolveTo) {

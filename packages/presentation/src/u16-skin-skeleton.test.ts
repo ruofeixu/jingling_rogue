@@ -36,11 +36,45 @@ describe("U16 skin skeleton: graceful fallback contract", () => {
     expect(/new Color\(\s*\d+\s*,\s*\d+\s*,\s*\d+/.test(src)).toBe(false);
   });
 
-  it("Button supports three skin states + optional icon, else Graphics", () => {
+  it("Panel fallback is translucent paper with ink corner marks, no grey border (B5c)", () => {
+    const src = read("Panel.ts");
+    // 85% 不透明度的宣纸底，让背景墨色淡淡透出。
+    expect(src).toMatch(/PANEL_ALPHA\s*=\s*217/);
+    expect(src).toContain("COLOR.ink");
+    // 不再用均匀灰描边
+    expect(src).not.toContain("COLOR.edge");
+    expect(src).not.toContain("roundRect");
+    expect(src).toContain("drawCornerMarks");
+  });
+
+  it("list rows stay readable: veiled panel, merged count line, no repeated reasons (B5c)", () => {
+    const list = readFileSync(resolve(REPO, "assets/scripts/app/ui/ListView.ts"), "utf8");
+    const button = read("Button.ts");
+    const panel = read("Panel.ts");
+
+    expect(panel).toContain("alpha?: number");
+    expect(list).toMatch(/alpha:\s*LIST_PANEL_ALPHA/);
+    expect(list).toContain('.join(" • ")');
+    expect(button).toContain("showReason");
+    expect(list).toContain("showReason");
+  });
+
+  it("slots page keeps all five slots in one ordered list via primaryInList (B5c)", () => {
+    const list = readFileSync(resolve(REPO, "assets/scripts/app/ui/ListView.ts"), "utf8");
+    const lobby = readFileSync(resolve(REPO, "assets/scripts/app/screens/LobbyScreen.ts"), "utf8");
+    const shell = readFileSync(resolve(REPO, "assets/scripts/app/AppShell.ts"), "utf8");
+
+    expect(list).toContain("primaryInList");
+    expect(lobby).toContain("primaryInList");
+    expect(shell).toMatch(/primaryInList:\s*this\.routeId === "slots"/);
+  });
+
+  it("Button supports primary and normal skins + optional icon, else Graphics", () => {
     const src = read("Button.ts");
     expect(src).toContain("btn_primary");
     expect(src).toContain("btn_normal");
-    expect(src).toContain("btn_disabled");
+    // B5c：禁用不再是第三套皮，而是普通态降不透明度。
+    expect(src).not.toContain("btn_disabled");
     expect(src).toContain("opts.icon");
     expect(src).toContain("addComponent(Sprite)");
     expect(src).toContain("addComponent(Graphics)");
@@ -64,21 +98,29 @@ describe("U16 skin skeleton: graceful fallback contract", () => {
     expect(iconSize, "icon size must be set after the frame").toBeGreaterThan(iconFrame);
   });
 
-  it("headings use the calligraphy title font from the skin bundle, body text stays system (I2b)", () => {
+  it("every label in the product UI uses the one brush font through applyUiFont (B5c)", () => {
     const skin = read("UiSkin.ts");
     expect(skin).toContain("getTitleFont");
     expect(skin).toContain("fonts/title");
-    const text = read("Text.ts");
-    expect(text).toContain("heading");
-    expect(text).toContain("getTitleFont");
+    expect(skin).toContain("export function applyUiFont");
     // 没有字体时回退系统字体，不能空白。
-    expect(text).toContain("useSystemFont");
-    // 页面大标题都标成 heading。
-    for (const screen of ["TitleScreen.ts", "ModeScreen.ts", "StarterScreen.ts"]) {
-      const src = readFileSync(resolve(REPO, "assets/scripts/app/screens", screen), "utf8");
-      expect(src, screen).toContain("heading: true");
+    expect(skin).toContain("useSystemFont");
+    // 文字组件、按钮（含禁用原因）、状态页都走同一个入口，不再标题一种字、正文另一种字。
+    for (const file of ["Text.ts", "Button.ts", "StateView.ts"]) {
+      const src = read(file);
+      const labels = (src.match(/addComponent\(Label\)/g) ?? []).length;
+      const applied = (src.match(/applyUiFont\(/g) ?? []).length;
+      expect(applied, file).toBeGreaterThanOrEqual(labels);
     }
-    expect(read("ListView.ts")).toContain("heading: true");
+  });
+
+  it("has exactly two button looks: primary (vermilion) and normal (paper) (B5c)", () => {
+    const src = read("Button.ts");
+    // 列表行、弹层行、模式按钮都用 normal；禁用是 normal 降低不透明度，不是第三种灰条。
+    expect(src).toContain("UIOpacity");
+    expect(src).not.toContain("COLOR.slip");
+    expect(src).toContain("COLOR.panel");
+    expect(src).toContain("COLOR.accent");
   });
 
   it("keeps the disabled reason out of the button label (B5b)", () => {

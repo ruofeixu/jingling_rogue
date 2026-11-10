@@ -7,6 +7,7 @@ export interface LobbyRenderOptions {
   readonly textScale?: number;
   readonly onAction?: (actionId: string) => void;
   readonly maxRows?: number;
+  readonly primaryInList?: boolean;
 }
 
 /**
@@ -22,6 +23,7 @@ export class LobbyScreen {
       textScale: opts.textScale,
       onAction: opts.onAction,
       maxRows: opts.maxRows,
+      primaryInList: opts.primaryInList,
     });
   }
 

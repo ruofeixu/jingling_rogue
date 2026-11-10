@@ -345,8 +345,8 @@ var SPACE = Object.freeze({
   xl: 40
 });
 var RADIUS = Object.freeze({
-  control: 12,
-  panel: 16
+  control: 6,
+  panel: 6
 });
 var MOTION = Object.freeze({
   fast: 120,
@@ -584,10 +584,17 @@ var LOBBY_ACTIONS = Object.freeze({
 function progressLine(done, total) {
   return `\u8FDB\u5EA6 ${done} / ${total}`;
 }
+var SETTINGS_TAB_NAMES = {
+  general: "\u901A\u7528",
+  display: "\u663E\u793A",
+  audio: "\u58F0\u97F3",
+  play: "\u73A9\u6CD5",
+  controls: "\u64CD\u4F5C"
+};
 function buildSettingsModel(input) {
   const tabs = input.view.tabs.map((tab) => ({
     id: `settings.tab.${tab}`,
-    label: String(tab)
+    label: SETTINGS_TAB_NAMES[String(tab)] ?? String(tab)
   }));
   return buildStateModel({
     screenId: "settings",
@@ -610,11 +617,11 @@ function buildCodexListModel(input) {
     state: input.state,
     accessibleName: "\u5951\u5F55",
     reason: input.reason,
-    emptyHint: input.state === "empty" ? `\u8FD8\u6CA1\u6709\u6536\u5951\u3002${progressLine(0, input.view.total)}` : void 0,
+    emptyHint: input.state === "empty" ? "\u8FD8\u6CA1\u6709\u6536\u5951" : void 0,
     primaryAction: { id: LOBBY_ACTIONS.openCodexEntry, label: "\u67E5\u770B\u8BE6\u60C5" },
-    secondaryActions: slice.map((row) => ({
+    secondaryActions: slice.map((row, index) => ({
       id: `${LOBBY_ACTIONS.openCodexEntry}.${row.id}`,
-      label: row.name,
+      label: row.status === "unknown" ? `\uFF1F\uFF1F\uFF1F \u7B2C${page * pageSize + index + 1}\u53F7` : row.name,
       ...row.status === "unknown" ? { enabled: false, disabledReason: "\u5C1A\u672A\u89C1\u8FC7\u8FD9\u53EA\u7CBE\u602A" } : {}
     })),
     lines: [
@@ -655,7 +662,7 @@ function buildEggsModel(input) {
     },
     secondaryActions: input.view.slots.map((slot) => ({
       id: `${LOBBY_ACTIONS.hatchEgg}.${slot.id}`,
-      label: `${slot.tier} \xB7 ${slot.steps} \u6B65`
+      label: `${slot.tier} \u2022 ${slot.steps} \u6B65`
     })),
     lines: [`\u5375\u69FD ${input.view.slots.length}`, `\u5B75\u5238 ${voucherTotal}`]
   });
@@ -721,7 +728,9 @@ function buildSlotsModel(input) {
     secondaryActions: rest,
     lines: [
       `\u5360\u7528 ${input.view.slots.filter((s) => s.occupied).length} / ${input.view.slots.length}`,
-      "\u6BCF\u8FC7\u4E00\u6CE2\u81EA\u52A8\u5B58\u5230\u69FD1\uFF0C\u5F00\u65B0\u5C40\u4F1A\u8986\u76D6\u5B83\uFF1B\u6218\u6597\u4E2D\u9014\u9000\u51FA\uFF0C\u8BFB\u6863\u540E\u91CD\u6253\u8FD9\u4E00\u6CE2\u3002"
+      "\u6BCF\u8FC7\u4E00\u6CE2\u81EA\u52A8\u5B58\u5230\u69FD1",
+      "\u5F00\u65B0\u5C40\u4F1A\u8986\u76D6\u69FD1",
+      "\u6218\u4E2D\u9000\u51FA\u5219\u91CD\u6253\u8FD9\u4E00\u6CE2"
     ]
   });
 }
@@ -1280,17 +1289,40 @@ function starterLayout(frame, cardCount) {
   const bandTop = title.y - TITLE_H2 / 2 - gap;
   const bandBottom = detail.y + DETAIL_H / 2 + gap;
   const band = Math.max(0, bandTop - bandBottom);
-  const cardH = Math.min(band, Math.max(height * 0.3, Math.min(height * 0.48, band)));
-  const cardY = (bandTop + bandBottom) / 2;
   const count = Math.max(0, cardCount);
-  const cardW = count > 0 ? (contentW - cardGap * (count - 1)) / count : 0;
+  const inset = SPACE.sm;
+  const btnH = SPACE.xl + SPACE.md;
   const cards = [];
-  for (let index = 0; index < count; index++) {
-    const rowW = count * cardW + (count - 1) * cardGap;
-    const x = -rowW / 2 + cardW / 2 + index * (cardW + cardGap);
-    cards.push(box3(x, cardY, cardW, cardH));
+  const arts = [];
+  const buttons = [];
+  if (width < height) {
+    const cardH = count > 0 ? Math.min((band - cardGap * (count - 1)) / count, contentW * 0.6) : 0;
+    const stackH = count * cardH + Math.max(0, count - 1) * cardGap;
+    const top = (bandTop + bandBottom) / 2 + stackH / 2;
+    const side = cardH - inset * 2;
+    for (let index = 0; index < count; index++) {
+      const y = top - cardH / 2 - index * (cardH + cardGap);
+      cards.push(box3(0, y, contentW, cardH));
+      const artX = -contentW / 2 + inset + side / 2;
+      arts.push(box3(artX, y, side, side));
+      const textLeft = artX + side / 2 + inset;
+      const textW = contentW / 2 - inset - textLeft;
+      buttons.push(box3(textLeft + textW / 2, y, textW, btnH));
+    }
+  } else {
+    const cardH = band;
+    const cardY = (bandTop + bandBottom) / 2;
+    const cardW = count > 0 ? (contentW - cardGap * (count - 1)) / count : 0;
+    const side = Math.max(0, Math.min(cardW - inset * 2, cardH - btnH - inset * 3));
+    for (let index = 0; index < count; index++) {
+      const rowW = count * cardW + (count - 1) * cardGap;
+      const x = -rowW / 2 + cardW / 2 + index * (cardW + cardGap);
+      cards.push(box3(x, cardY, cardW, cardH));
+      arts.push(box3(x, cardY + cardH / 2 - inset - side / 2, side, side));
+      buttons.push(box3(x, cardY - cardH / 2 + inset + btnH / 2, cardW - inset * 2, btnH));
+    }
   }
-  return { title, cards, detail, confirm, back };
+  return { title, cards, arts, buttons, detail, confirm, back };
 }
 
 // src/layout/hp.ts

@@ -6,7 +6,7 @@ const modes = [
   { id: "classic", label: "经典" },
   { id: "daily", label: "今日试炼" },
   { id: "endless", label: "无尽长夜" },
-  { id: "spliced", label: "长夜·合体" },
+  { id: "spliced", label: "长夜•合体" },
   { id: "challenge", label: "苛令" },
 ];
 
@@ -44,7 +44,7 @@ describe("mode screen model", () => {
     expect(() =>
       buildModeModel({
         state: "normal",
-        modes: [{ id: "spliced", label: "长夜·合体", locked: true }],
+        modes: [{ id: "spliced", label: "长夜•合体", locked: true }],
       }),
     ).toThrow(/reason/);
   });

@@ -1,7 +1,6 @@
 import { Color, Graphics, Node, Sprite, SpriteFrame, UIOpacity, UITransform } from "cc";
 import {
   COLOR,
-  RADIUS,
   SPACE,
   TYPE,
   buildResponsiveFrame,
@@ -82,7 +81,7 @@ export class StarterScreen {
         const outline = card.addComponent(Graphics);
         const halfW = slot.width / 2;
         const halfH = slot.height / 2;
-        outline.roundRect(-halfW, -halfH, slot.width, slot.height, RADIUS.panel);
+        outline.rect(-halfW, -halfH, slot.width, slot.height);
         outline.lineWidth = SPACE.xs;
         outline.strokeColor = color(COLOR.accent);
         outline.stroke();
@@ -92,13 +91,15 @@ export class StarterScreen {
       }
 
       const injected = opts.frames?.[spiritId];
-      const boxW = slot.width - SPACE.lg;
-      const boxH = slot.height - SPACE.xl * 2;
+      const artSlot = layout.arts[index] ?? slot;
+      const btnSlot = layout.buttons[index] ?? slot;
+      const boxW = artSlot.width;
+      const boxH = artSlot.height;
       const artHolder = new Node("art-holder");
       artHolder.layer = root.layer;
       card.addChild(artHolder);
       artHolder.addComponent(UITransform);
-      artHolder.setPosition(0, SPACE.md, 0);
+      artHolder.setPosition(artSlot.x - slot.x, artSlot.y - slot.y, 0);
       if (injected) {
         const sprite = artHolder.addComponent(Sprite);
         sprite.sizeMode = Sprite.SizeMode.CUSTOM;
@@ -116,10 +117,10 @@ export class StarterScreen {
         card,
         {
           action,
-          x: 0,
-          y: -slot.height / 2 + SPACE.xl,
-          width: slot.width - SPACE.md,
-          height: SPACE.xl + SPACE.md,
+          x: btnSlot.x - slot.x,
+          y: btnSlot.y - slot.y,
+          width: btnSlot.width,
+          height: btnSlot.height,
           textScale: scale,
           primary: selected,
         },

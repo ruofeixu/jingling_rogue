@@ -55,7 +55,7 @@ const MODE_NAME: Record<RunMode, string> = {
   classic: "经典",
   daily: "今日试炼",
   endless: "无尽长夜",
-  spliced: "长夜·合体",
+  spliced: "长夜•合体",
   challenge: "苛令",
 };
 
@@ -134,15 +134,15 @@ export class PreviewApp {
       const offers = offerRelics(this.account, `${this.seed}-relic`);
       return [
         ...offers.map((row) => ({
-          label: `${row.name}${row.id === this.relicId ? "·选" : ""}`,
+          label: `${row.name}${row.id === this.relicId ? "•选" : ""}`,
           run: () => {
             this.relicId = row.id;
             this.log = `已选 ${row.name}`;
           },
         })),
-        { label: "灵糖·降费", run: () => this.spendStarterCandy("cost") },
-        { label: "灵糖·魂契", run: () => this.spendStarterCandy("pact") },
-        { label: "灵糖·专卵", run: () => this.spendStarterCandy("egg") },
+        { label: "灵糖•降费", run: () => this.spendStarterCandy("cost") },
+        { label: "灵糖•魂契", run: () => this.spendStarterCandy("pact") },
+        { label: "灵糖•专卵", run: () => this.spendStarterCandy("egg") },
         ...["zao_li", "jing_zhu", "tao_geng"].map((id) => ({
           label: getSpirit(id).name,
           run: () => this.startRun(id),
@@ -161,7 +161,7 @@ export class PreviewApp {
       }));
       if (this.settingsTab === "general") {
         rows.push({
-          label: settings.general.skipSeenDialog ? "跳过已见·开" : "跳过已见·关",
+          label: settings.general.skipSeenDialog ? "跳过已见•开" : "跳过已见•关",
           run: () => {
             settings.general.skipSeenDialog = !settings.general.skipSeenDialog;
             this.openSettings();
@@ -170,14 +170,14 @@ export class PreviewApp {
       }
       if (this.settingsTab === "display") {
         rows.push({
-          label: settings.display.showGold ? "金钱·开" : "金钱·关",
+          label: settings.display.showGold ? "金钱•开" : "金钱•关",
           run: () => {
             settings.display.showGold = !settings.display.showGold;
             this.openSettings();
           },
         });
         rows.push({
-          label: settings.display.showDamage ? "伤害数字·开" : "伤害数字·关",
+          label: settings.display.showDamage ? "伤害数字•开" : "伤害数字•关",
           run: () => {
             settings.display.showDamage = !settings.display.showDamage;
             this.openSettings();
@@ -195,7 +195,7 @@ export class PreviewApp {
       }
       if (this.settingsTab === "controls") {
         rows.push({
-          label: settings.controls.layout === "touch" ? "布局·触控" : "布局·键位",
+          label: settings.controls.layout === "touch" ? "布局•触控" : "布局•键位",
           run: () => {
             settings.controls.layout = settings.controls.layout === "touch" ? "keys" : "touch";
             this.openSettings();
@@ -514,7 +514,7 @@ export class PreviewApp {
   }
 
   private openSettings(): void {
-    this.setScreen("settings", "设置", `设置 · ${TAB_NAME[this.settingsTab]}`);
+    this.setScreen("settings", "设置", `设置 • ${TAB_NAME[this.settingsTab]}`);
   }
 
   private openCodex(): void {
@@ -665,7 +665,7 @@ export class PreviewApp {
   private harvestLog(prefix: string): string {
     const account = this.slice?.account ?? this.account;
     const candy = Object.values(account.candy).reduce((sum, n) => sum + n, 0);
-    return `${prefix} · ${formatRunHarvest({
+    return `${prefix} • ${formatRunHarvest({
       seen: account.seenIds.length,
       caught: account.codex.length,
       candy,
@@ -951,15 +951,15 @@ export function runUiSmoke(seed: string): { screens: string[]; taps: string[]; d
 
   const lobby = new PreviewApp({ seed: `${seed}-lobby` });
   tap(lobby, "设置");
-  tap(lobby, "跳过已见·关");
+  tap(lobby, "跳过已见•关");
   tap(lobby, "显示");
-  tap(lobby, "金钱·开");
-  tap(lobby, "伤害数字·开");
+  tap(lobby, "金钱•开");
+  tap(lobby, "伤害数字•开");
   tap(lobby, "音频");
   tap(lobby, "玩法");
   tap(lobby, "倍速 1");
   tap(lobby, "触控");
-  tap(lobby, "布局·触控");
+  tap(lobby, "布局•触控");
   tap(lobby, "返回");
   tap(lobby, "契录");
   tap(lobby, "返回");
@@ -979,7 +979,7 @@ export function runUiSmoke(seed: string): { screens: string[]; taps: string[]; d
   tap(lobby, GLOSSARY[0]?.term ?? "精怪");
   tap(lobby, "返回");
 
-  for (const mode of ["短征", "经典", "今日试炼", "无尽长夜", "长夜·合体", "苛令"]) {
+  for (const mode of ["短征", "经典", "今日试炼", "无尽长夜", "长夜•合体", "苛令"]) {
     const app = new PreviewApp({ seed: `${seed}-${mode}` });
     tap(app, "新的旅途");
     tap(app, mode);
@@ -1144,7 +1144,7 @@ export function runUiSmoke(seed: string): { screens: string[]; taps: string[]; d
 }
 
 const STARTER_IDS = ["zao_li", "jing_zhu", "tao_geng"] as const;
-const MODE_LABELS = ["短征", "经典", "今日试炼", "无尽长夜", "长夜·合体", "苛令"] as const;
+const MODE_LABELS = ["短征", "经典", "今日试炼", "无尽长夜", "长夜•合体", "苛令"] as const;
 
 export function walkPlayableUi(seed: string): { screens: string[]; taps: string[]; battles: number; dead: number } {
   const acc = { screens: new Set<string>(), taps: [] as string[], dead: 0 };

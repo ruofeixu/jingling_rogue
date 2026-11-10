@@ -12,12 +12,17 @@ import { makeButton } from "./Button.ts";
 import { makePanel } from "./Panel.ts";
 import { addLabel } from "./Text.ts";
 
+/** 列表底板底色不透明度：比普通面板更透，让不透明的行按钮浮出来。 */
+const LIST_PANEL_ALPHA = 140;
+
 export interface ListShellOptions {
   readonly viewport: Viewport;
   readonly textScale?: number;
   readonly onAction?: (actionId: string) => void;
   /** 每屏最多渲染多少个条目；超出部分由模型自己的分页行说明。 */
   readonly maxRows?: number;
+  /** 把主行动当作列表第一行显示（普通样式），而不是列表下方的朱砂大按钮。用于主行动本身就是列表项的页面。 */
+  readonly primaryInList?: boolean;
 }
 
 /**
@@ -32,6 +37,11 @@ export class ListView {
     const scale = opts.textScale ?? 1;
     const frame: ResponsiveFrame = buildResponsiveFrame(opts.viewport);
     const maxRows = opts.maxRows ?? 8;
+    const inList = opts.primaryInList === true && model.primaryAction !== null;
+    const listActions: ScreenAction[] = inList
+      ? [model.primaryAction as ScreenAction, ...model.secondaryActions]
+      : [...model.secondaryActions];
+    const bottomPrimary = inList ? null : model.primaryAction;
 
     const root = new Node("list-view");
     root.layer = parent.layer;
@@ -41,13 +51,14 @@ export class ListView {
     // 预估内容总高，让整块内容在纵向居中偏上，避免全部贴顶、底部大片空白。
     const titleBlock = TYPE.title * scale * TYPE.lineHeightRatio + SPACE.sm;
     const reasonBlock = model.reason ? TYPE.body * scale * TYPE.lineHeightRatio + SPACE.sm : 0;
-    const linesBlock = model.lines.length * (TYPE.caption * scale * TYPE.lineHeightRatio + SPACE.xs);
-    const rowsCount = Math.min(model.secondaryActions.length, opts.maxRows ?? 8);
+    const summary = model.lines.join(" • ");
+    const linesBlock = summary ? TYPE.caption * scale * TYPE.lineHeightRatio * 2 + SPACE.xs : 0;
+    const rowsCount = Math.min(listActions.length, maxRows);
     const colsForEst = frame.columns;
     const listRowsEst = Math.ceil(rowsCount / colsForEst);
     const btnH = SPACE.xl + SPACE.md;
     const panelBlockEst = Math.max(btnH + SPACE.lg, listRowsEst * (btnH + SPACE.sm) + SPACE.lg);
-    const primaryBlock = model.primaryAction ? SPACE.lg + btnH : 0;
+    const primaryBlock = bottomPrimary ? SPACE.lg + btnH : 0;
     const contentTotal = titleBlock + reasonBlock + linesBlock + panelBlockEst + primaryBlock;
     // 居中偏上：内容块中心落在屏幕中心略上方（+content.height*0.06）。
     const startTop = Math.min(
@@ -79,19 +90,22 @@ export class ListView {
       });
       cursor -= TYPE.body * scale * TYPE.lineHeightRatio + SPACE.sm;
     }
-    for (const line of model.lines) {
+    if (summary) {
+      // 计数、说明合成一段小字（最多两行），不再三四行堆在标题下。
+      const summaryH = TYPE.caption * scale * TYPE.lineHeightRatio * 2;
       addLabel(root, {
-        text: line,
+        text: summary,
         x: 0,
-        y: cursor,
+        y: cursor - summaryH / 2 + TYPE.caption * scale * TYPE.lineHeightRatio / 2,
         width: frame.content.width - SPACE.xl,
         fontSize: TYPE.caption * scale,
         tone: "muted",
+        wrap: true,
       });
-      cursor -= TYPE.caption * scale * TYPE.lineHeightRatio + SPACE.xs;
+      cursor -= summaryH + SPACE.xs;
     }
 
-    const rows: ScreenAction[] = model.secondaryActions.slice(0, maxRows);
+    const rows: ScreenAction[] = listActions.slice(0, maxRows);
     const cols = frame.columns;
     const buttonHeight = SPACE.xl * 2;
     const listRows = Math.ceil(rows.length / cols);
@@ -104,6 +118,7 @@ export class ListView {
       y: panelY,
       width: panelWidth,
       height: panelHeight,
+      alpha: LIST_PANEL_ALPHA,
     });
 
     const buttonWidth = (panelWidth - SPACE.lg * (cols + 1)) / cols;
@@ -119,19 +134,20 @@ export class ListView {
           width: buttonWidth,
           height: buttonHeight,
           textScale: scale,
+          showReason: false,
         },
         action.enabled && opts.onAction ? () => opts.onAction?.(action.id) : undefined,
       );
     });
 
-    if (model.primaryAction) {
+    if (bottomPrimary) {
       // 主行动紧跟列表面板下方，而不是钉在屏幕最底，避免中间大片空白，
       // 也让"主行动"在视觉动线上紧接内容、层级清晰。
       const primaryY = panelY - panelHeight / 2 - SPACE.lg - buttonHeight / 2;
       makeButton(
         root,
         {
-          action: model.primaryAction,
+          action: bottomPrimary,
           x: 0,
           y: primaryY,
           width: Math.min(panelWidth * 0.72, frame.content.width - SPACE.xl),
@@ -139,8 +155,8 @@ export class ListView {
           primary: true,
           textScale: scale,
         },
-        model.primaryAction.enabled && opts.onAction
-          ? () => opts.onAction?.(model.primaryAction?.id ?? "")
+        bottomPrimary.enabled && opts.onAction
+          ? () => opts.onAction?.(bottomPrimary.id)
           : undefined,
       );
     }

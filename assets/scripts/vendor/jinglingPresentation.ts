@@ -691,13 +691,14 @@ function buildStatsModel(input) {
     reason: input.reason,
     emptyHint: input.state === "empty" ? "\u8FD8\u6CA1\u6709\u65C5\u9014\u8BB0\u5F55\uFF0C\u5F00\u5C40\u540E\u8FD9\u91CC\u4F1A\u6709\u6570\u5B57\u3002" : void 0,
     primaryAction: { id: LOBBY_ACTIONS.refreshStats, label: "\u5237\u65B0" },
-    lines: [
-      `\u89C1 ${input.view.seen}`,
-      `\u6536 ${input.view.caught}`,
-      `\u7F0E ${input.view.ribbons}`,
-      `\u4ECA\u65E5\u6700\u9AD8\u6CE2 ${input.view.bestDaily}`,
-      input.view.hasHistory ? "\u6709\u5386\u53F2\u8BB0\u5F55" : "\u65E0\u5386\u53F2\u8BB0\u5F55"
-    ]
+    // 数字作为面板里的行展示（不可点），而不是标题下的一串小字。
+    secondaryActions: [
+      { id: "stats.row.seen", label: `\u89C1 ${input.view.seen}` },
+      { id: "stats.row.caught", label: `\u6536 ${input.view.caught}` },
+      { id: "stats.row.ribbons", label: `\u7F0E ${input.view.ribbons}` },
+      { id: "stats.row.daily", label: `\u4ECA\u65E5\u6700\u9AD8\u6CE2 ${input.view.bestDaily}` }
+    ].map((row) => ({ ...row, enabled: false, disabledReason: "\u4EC5\u5C55\u793A" })),
+    lines: [input.view.hasHistory ? "\u6709\u5386\u53F2\u8BB0\u5F55" : "\u65E0\u5386\u53F2\u8BB0\u5F55"]
   });
 }
 function buildSlotsModel(input) {

@@ -184,13 +184,14 @@ export function buildStatsModel(input: StatsModelInput): ScreenModel {
     reason: input.reason,
     emptyHint: input.state === "empty" ? "还没有旅途记录，开局后这里会有数字。" : undefined,
     primaryAction: { id: LOBBY_ACTIONS.refreshStats, label: "刷新" },
-    lines: [
-      `见 ${input.view.seen}`,
-      `收 ${input.view.caught}`,
-      `缎 ${input.view.ribbons}`,
-      `今日最高波 ${input.view.bestDaily}`,
-      input.view.hasHistory ? "有历史记录" : "无历史记录",
-    ],
+    // 数字作为面板里的行展示（不可点），而不是标题下的一串小字。
+    secondaryActions: [
+      { id: "stats.row.seen", label: `见 ${input.view.seen}` },
+      { id: "stats.row.caught", label: `收 ${input.view.caught}` },
+      { id: "stats.row.ribbons", label: `缎 ${input.view.ribbons}` },
+      { id: "stats.row.daily", label: `今日最高波 ${input.view.bestDaily}` },
+    ].map((row) => ({ ...row, enabled: false, disabledReason: "仅展示" })),
+    lines: [input.view.hasHistory ? "有历史记录" : "无历史记录"],
   });
 }
 

@@ -124,6 +124,22 @@ describe("lobby screen models", () => {
     expect(model.lines.join("")).toMatch(/./);
   });
 
+  it("stats shows its numbers as panel rows, not as tiny text above an empty box (B5c)", () => {
+    const model = buildStatsModel({ state: "normal", view: selectStats(caught, "2026-09-01") });
+    const labels = model.secondaryActions.map((a) => a.label);
+
+    expect(labels).toHaveLength(4);
+    expect(labels[0]).toMatch(/^见 \d+$/);
+    expect(labels[1]).toMatch(/^收 \d+$/);
+    expect(labels[2]).toMatch(/^缎 \d+$/);
+    expect(labels[3]).toMatch(/^今日最高波 \d+$/);
+    // 数字行只是展示，不可点。
+    for (const action of model.secondaryActions) {
+      expect(action.enabled).toBe(false);
+    }
+    expect(model.lines.join(" ")).not.toMatch(/见 \d/);
+  });
+
   it("slots exposes five idempotent actions", () => {
     const view = selectSlots(account, [{ slot: 0, wave: 2, mode: "classic" }]);
     const a = buildSlotsModel({ state: "normal", view });

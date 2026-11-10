@@ -4,8 +4,8 @@ import {
   MOTION,
   SPACE,
   TYPE,
-  battleArtsLayout,
   battleLayout,
+  battlePanelLayout,
   buildResponsiveFrame,
   hpRatio,
   hpTone,
@@ -14,8 +14,9 @@ import {
   type Viewport,
 } from "../../vendor/jinglingPresentation";
 import { attachPortraitSprite } from "../../ui/portrait";
-import { portraitFacesLeft } from "../../vendor/jinglingCore";
+import { portraitFacesLeft, type BattleItemView } from "../../vendor/jinglingCore";
 import { makeButton } from "../ui/Button.ts";
+import { mountItemStrip } from "../ui/ItemStrip.ts";
 import { makeHpBar, type HpBarHandle, type HpBarTone } from "../ui/HpBar.ts";
 import { playInkSplash } from "../ui/InkSplash.ts";
 import { makePanel } from "../ui/Panel.ts";
@@ -29,10 +30,10 @@ export interface BattleRenderOptions {
   /** 战斗里换页（选术再回战斗）时不要再整页淡入，否则每点一下都闪一次。缺省淡入。 */
   readonly fadeIn?: boolean;
   /**
-   * 选术面板：有它就把命令区就地换成术列表（立绘、名牌、血条都不动，不切整页）。
-   * 模型来自 overlay 页（arts.pick.<id> … + arts.pick.confirm + overlay.cancel）。
+   * 战斗选择面板（术、换位、队伍、囊、目标、镇物）：有它就把命令区就地换成选项列表
+   * （立绘、名牌、血条、物品栏都不动，不切整页）。模型来自 overlay 页。
    */
-  readonly artsPanel?: {
+  readonly panel?: {
     readonly model: ScreenModel;
     readonly selectedId: string | null;
   };
@@ -49,6 +50,7 @@ interface Plate {
 
 /** ScreenModel 加上战斗名牌。渲染层只读这些字段，不从文案里拆血量。 */
 interface BattleMountModel extends ScreenModel {
+  readonly items: readonly BattleItemView[];
   readonly plates: {
     readonly foe: Plate;
     readonly ally: Plate;
@@ -104,7 +106,7 @@ export class BattleScreen {
     this.placeFighter(root, "foe", model.plates.foe, layout.foeArt, layout.foePlate, flipFoe, scale, reduceMotion);
     this.placeFighter(root, "ally", model.plates.ally, layout.allyArt, layout.allyPlate, flipAlly, scale, reduceMotion);
 
-    const logText = opts.artsPanel ? "" : (model.reason ?? logLine(model.lines));
+    const logText = opts.panel ? "" : (model.reason ?? logLine(model.lines));
     if (logText) {
       const log = makePanel(root, {
         name: "log",
@@ -125,11 +127,13 @@ export class BattleScreen {
       });
     }
 
-    if (opts.artsPanel) {
-      this.mountArtsPanel(root, opts.artsPanel, battleArtsLayout(frame), scale, opts.onAction);
+    mountItemStrip(root, { frame, items: model.items, textScale: scale, layout });
+
+    if (opts.panel) {
+      this.mountPanel(root, opts.panel, frame, scale, opts.onAction);
     }
 
-    const actions = opts.artsPanel
+    const actions = opts.panel
       ? []
       : model.primaryAction
         ? [model.primaryAction, ...model.secondaryActions]
@@ -168,15 +172,26 @@ export class BattleScreen {
     return root;
   }
 
-  /** 把术列表画在命令区：四个术 + 出术 + 返回。选中的术描朱砂边。 */
-  private mountArtsPanel(
+  /**
+   * 把选择列表画在命令区：最多一屏能放的选项 + 操作行（确认/返回/放过）。选中的选项描朱砂边。
+   * 术、换位、队伍、囊、目标、镇物都走这一条，不再切整页。
+   */
+  private mountPanel(
     root: Node,
-    panel: NonNullable<BattleRenderOptions["artsPanel"]>,
-    layout: ReturnType<typeof battleArtsLayout>,
+    panel: NonNullable<BattleRenderOptions["panel"]>,
+    frame: ReturnType<typeof buildResponsiveFrame>,
     scale: number,
     onAction?: (actionId: string) => void,
   ): void {
-    const rows = panel.model.secondaryActions.filter((action) => action.id.includes(".pick."));
+    const model = panel.model;
+    const confirm = model.primaryAction;
+    const others = model.secondaryActions.filter(
+      (action) => !action.id.includes(".pick.") && !action.id.includes(".inspect.") && !action.id.includes(".use.") && !action.id.includes(".throw."),
+    );
+    const rows = model.secondaryActions.filter((action) => !others.includes(action));
+    const actions = [...(confirm ? [confirm] : []), ...others];
+    const layout = battlePanelLayout(frame, rows.length, actions.length);
+
     rows.slice(0, layout.skills.length).forEach((action, index) => {
       const slot = layout.skills[index];
       if (!slot) {
@@ -204,37 +219,25 @@ export class BattleScreen {
         outline.stroke();
       }
     });
-    const confirm = panel.model.primaryAction;
-    if (confirm) {
+    actions.forEach((action, index) => {
+      const slot = layout.actions[index];
+      if (!slot) {
+        return;
+      }
       makeButton(
         root,
         {
-          action: confirm,
-          x: layout.confirm.x,
-          y: layout.confirm.y,
-          width: layout.confirm.width,
-          height: layout.confirm.height,
-          primary: confirm.enabled,
+          action,
+          x: slot.x,
+          y: slot.y,
+          width: slot.width,
+          height: slot.height,
+          primary: index === 0 && confirm !== null && action.enabled,
           textScale: scale,
         },
-        confirm.enabled && onAction ? () => onAction(confirm.id) : undefined,
+        action.enabled && onAction ? () => onAction(action.id) : undefined,
       );
-    }
-    const back = panel.model.secondaryActions.find((action) => action.id === "overlay.cancel");
-    if (back) {
-      makeButton(
-        root,
-        {
-          action: back,
-          x: layout.back.x,
-          y: layout.back.y,
-          width: layout.back.width,
-          height: layout.back.height,
-          textScale: scale,
-        },
-        onAction ? () => onAction(back.id) : undefined,
-      );
-    }
+    });
   }
 
   unmount(): void {

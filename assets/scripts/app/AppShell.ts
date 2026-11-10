@@ -116,6 +116,8 @@ export interface RunControllerLike {
 /** 没有战斗时的占位投影，只用于 battle 页 empty 态。 */
 const EMPTY_PLATE = { id: "", name: "—", level: 0, hp: 0, maxHp: 0, down: false, ailment: null };
 const OVERLAY_KINDS: ReadonlySet<string> = new Set(["arts", "switch", "party", "bag", "target", "catch"]);
+/** 战斗中就地显示在战斗画面上的选择面板，不切整页。 */
+const BATTLE_PANELS: ReadonlySet<string> = new Set(["arts", "switch", "party", "bag", "target", "catch"]);
 const OUTCOME_KINDS: ReadonlySet<string> = new Set(["defeat", "victory", "hatch"]);
 const EMPTY_OUTCOME: OutcomeView = {
   won: false, wave: 0, gold: 0, details: [], committed: false, hatched: [], art: "ready",
@@ -797,35 +799,36 @@ export class AppShell extends Component {
       return;
     }
 
-    // 选术不切整页：有战斗视图且有术可选时，战斗画面留着，命令区就地换成术列表（artsPanel）。
-    //  没有战斗视图或没有可选的术时，回退到原来的整页，不会露出空面板。
-    const artsView = this.overlayView ?? EMPTY_OVERLAYS;
+    // 战斗里的所有选择（术、换位、队伍、囊、目标、镇物）都不切整页：有战斗视图且有选项时，
+    // 战斗画面留着，命令区就地换成选项列表（panel）。没有战斗视图（比如战后收契）或没有选项时，
+    // 回退到原来的整页，不会露出空面板。
+    const panelView = this.overlayView ?? EMPTY_OVERLAYS;
     if (
       renderer === "presentation" &&
-      this.routeId === "arts" &&
+      BATTLE_PANELS.has(this.routeId) &&
       this.battleView &&
-      OVERLAY_ITEMS.arts(artsView).length > 0
+      OVERLAY_ITEMS[this.routeId](panelView).length > 0
     ) {
       const battleModel = buildBattleModel({
         state: this.resolveState("normal") as "normal",
         reason: this.resolveReason(),
         view: this.battleView,
       });
-      const artsModel = buildOverlayModel({
-        kind: "arts",
+      const panelModel = buildOverlayModel({
+        kind: this.routeId as "arts",
         state: this.resolveState("normal") as "normal",
         reason: this.resolveReason(),
-        view: artsView,
+        view: panelView,
         selectedId: this.overlaySelectedId,
       });
-      this.model = artsModel;
+      this.model = panelModel;
       this.battleScreen.mount(host, battleModel, {
         viewport: this.viewport,
         textScale: this.textScale,
         reduceMotion: this.reduceMotion,
         // 已经在战斗里，不再整页淡入
         fadeIn: false,
-        artsPanel: { model: artsModel, selectedId: this.overlaySelectedId },
+        panel: { model: panelModel, selectedId: this.overlaySelectedId },
         onAction: (id) => this.dispatch(id),
       });
       return;

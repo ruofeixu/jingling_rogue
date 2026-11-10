@@ -112,7 +112,15 @@ export {
   type TitleModelInput,
 } from "./screens/index.ts";
 export { inside, overlaps, type LayoutBox } from "./layout/box.ts";
-export { battleArtsLayout, battleLayout, type BattleArtsLayout, type BattleLayout } from "./layout/battle-layout.ts";
+export {
+  battleItemSlots,
+  battleLayout,
+  battlePanelLayout,
+  battlePanelRowCapacity,
+  itemTooltipBox,
+  type BattleLayout,
+  type BattlePanelLayout,
+} from "./layout/battle-layout.ts";
 export { titleLayout, type TitleLayout } from "./layout/title-layout.ts";
 export { starterLayout, type StarterLayout } from "./layout/starter-layout.ts";
 export { hpRatio, hpTone, type HpTone } from "./layout/hp.ts";

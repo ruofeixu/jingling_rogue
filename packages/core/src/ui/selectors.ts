@@ -12,11 +12,11 @@ import {
   type AccountProgress,
 } from "../run/run-session.ts";
 import { SETTINGS_TABS, type SettingsTab } from "../meta/settings.ts";
-import { GLOSSARY } from "./copy.ts";
+import { GLOSSARY, boonKindLabel, formatBoonHint } from "./copy.ts";
 import { AFFINITY_CN } from "./layout.ts";
 import { getSpirit, loadTables } from "../tables/load-tables.ts";
 import { currentCost } from "../meta/candy.ts";
-import { offerRelics, pickStartRelic } from "../meta/relics.ts";
+import { listRelics, offerRelics, pickStartRelic } from "../meta/relics.ts";
 
 function freeze<T>(value: T): T {
   if (value === null || typeof value !== "object") {
@@ -307,6 +307,19 @@ export interface BattleCommandView {
   readonly lockedReason: string | null;
 }
 
+/** 战斗界面上展示的已获得物品（遗物和本局机缘）。这里不含颜色和图标，图标由渲染层按 id 取。 */
+export interface BattleItemView {
+  readonly id: string;
+  readonly name: string;
+  /** 默认图标上的一个字：类别简称。有了真图标之后不再显示。 */
+  readonly tag: string;
+  /** 悬浮说明。 */
+  readonly hint: string;
+  readonly source: "relic" | "boon";
+  /** 同一件获得了几次。 */
+  readonly count: number;
+}
+
 export interface BattleView {
   readonly wave: number;
   readonly gold: number;
@@ -315,6 +328,7 @@ export interface BattleView {
   readonly foe: NameplateView;
   readonly partySize: number;
   readonly commands: readonly BattleCommandView[];
+  readonly items: readonly BattleItemView[];
   readonly log: string;
 }
 
@@ -331,6 +345,37 @@ interface RunLike {
   readonly wave: number;
   readonly gold: number;
   readonly realmId: string;
+  readonly relicIds?: readonly string[];
+  readonly boonIds?: readonly string[];
+}
+
+function itemRows(
+  ids: readonly string[] | undefined,
+  rows: readonly { id: string; name: string; kind: string; value: number }[],
+  source: BattleItemView["source"],
+): BattleItemView[] {
+  // 微信/抖音小游戏的构建会把 [...map] 转译成 [].concat(map)，得到的不是条目列表。
+  // 这里不用展开运算符、不迭代 Map，用普通数组和对象，转译后行为一致。
+  const order: string[] = [];
+  const counts: Record<string, number> = {};
+  for (const id of ids ?? []) {
+    if (counts[id] === undefined) {
+      counts[id] = 0;
+      order.push(id);
+    }
+    counts[id] += 1;
+  }
+  return order.map((id) => {
+    const row = rows.find((candidate) => candidate.id === id);
+    return {
+      id,
+      name: row?.name ?? id,
+      tag: row ? boonKindLabel(row.kind) : "?",
+      hint: row ? formatBoonHint(row.kind, row.value) : "本局机缘",
+      source,
+      count: counts[id] as number,
+    };
+  });
 }
 
 function nameplate(entity: BattleLike["active"] | BattleLike["foe"]): NameplateView {
@@ -374,6 +419,10 @@ export function selectBattle(battle: BattleLike, run: RunLike, log = ""): Battle
     foe: nameplate(battle.foe),
     partySize: aliveParty,
     commands,
+    items: [
+      ...itemRows(run.relicIds, listRelics(), "relic"),
+      ...itemRows(run.boonIds, loadTables().boons as never, "boon"),
+    ],
     log,
   });
 }

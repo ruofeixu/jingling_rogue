@@ -14690,6 +14690,42 @@ function formatBattleNudge(opts) {
   }
   return `\u53EF\u70B9\u300C${parts.join("\u300D\u6216\u300C")}\u300D\u3002`;
 }
+var BOON_KIND_CN = {
+  atk: "\u653B",
+  def: "\u5B88",
+  spd: "\u8FC5",
+  hp: "\u4F53",
+  catch: "\u5951",
+  gold: "\u91D1",
+  exp: "\u609F",
+  potion: "\u4E39",
+  map: "\u9014",
+  lure: "\u8BF1",
+  candy: "\u7CD6",
+  charm: "\u4F69",
+  cleanse: "\u51C0",
+  ether: "\u6CC9",
+  evolve: "\u8715",
+  form: "\u76F8",
+  formItem: "\u76F8\u5668",
+  fruit: "\u679C",
+  hiddenPact: "\u9690\u5951",
+  mint: "\u79D8",
+  passive: "\u5E38",
+  ppMax: "\u7B7E\u5BB9",
+  ppUp: "\u7B7E\u8865",
+  revive: "\u82CF",
+  sealPack: "\u9547",
+  speciesBoost: "\u65CF",
+  tm: "\u672F\u5377",
+  typeBoost: "\u5C5E",
+  vitamin: "\u8865",
+  voucher: "\u5238",
+  warToken: "\u6218\u7B26"
+};
+function boonKindLabel(kind) {
+  return BOON_KIND_CN[kind] ?? "\u589E\u76CA";
+}
 function formatBoonHint(kind, value) {
   if (kind === "atk") {
     return `\u672C\u5C40\u5168\u961F\u653B+${value}`;
@@ -16442,6 +16478,28 @@ function selectStarter(account, seed) {
     chosenRelicId: pickStartRelic(account, "", seed)
   });
 }
+function itemRows(ids, rows, source) {
+  const order = [];
+  const counts = {};
+  for (const id of ids ?? []) {
+    if (counts[id] === void 0) {
+      counts[id] = 0;
+      order.push(id);
+    }
+    counts[id] += 1;
+  }
+  return order.map((id) => {
+    const row = rows.find((candidate) => candidate.id === id);
+    return {
+      id,
+      name: row?.name ?? id,
+      tag: row ? boonKindLabel(row.kind) : "?",
+      hint: row ? formatBoonHint(row.kind, row.value) : "\u672C\u5C40\u673A\u7F18",
+      source,
+      count: counts[id]
+    };
+  });
+}
 function nameplate(entity) {
   return {
     id: entity.id,
@@ -16481,6 +16539,10 @@ function selectBattle(battle, run, log = "") {
     foe: nameplate(battle.foe),
     partySize: aliveParty,
     commands,
+    items: [
+      ...itemRows(run.relicIds, listRelics(), "relic"),
+      ...itemRows(run.boonIds, loadTables().boons, "boon")
+    ],
     log
   });
 }

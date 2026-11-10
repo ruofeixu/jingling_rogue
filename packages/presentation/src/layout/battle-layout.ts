@@ -10,6 +10,9 @@ const TOP_H = 64;
 const COMMAND_H = 100;
 const LOG_H = 84;
 const PLATE_H = 112;
+/** 物品栏高度：一行图标，图标边长不低于最小点击区。 */
+const ITEM_BAR_H = 52;
+const ITEM_SIZE = 48;
 
 export interface BattleLayout {
   readonly topBar: LayoutBox;
@@ -17,6 +20,8 @@ export interface BattleLayout {
   readonly foeArt: LayoutBox;
   readonly allyArt: LayoutBox;
   readonly allyPlate: LayoutBox;
+  /** 已获得物品栏，在顶栏下面。没有物品时也留着，避免第一件物品出现时整个战场跳一下。 */
+  readonly items: LayoutBox;
   readonly log: LayoutBox;
   /** 顺序 术 / 队伍 / 囊 / 走，2×2。 */
   readonly commands: readonly [LayoutBox, LayoutBox, LayoutBox, LayoutBox];
@@ -82,12 +87,14 @@ export function battleLayout(frame: ResponsiveFrame): BattleLayout {
     const commands = commandGrid(rightX, columnW, -height / 2, pad);
     const commandTop = commands[0].y + COMMAND_H / 2;
     const log = box(rightX, commandTop + pad + LOG_H / 2, columnW, LOG_H);
-    const fieldTop = topBar.y - TOP_H / 2 - pad;
+    const items = box(0, topBar.y - TOP_H / 2 - SPACE.sm - ITEM_BAR_H / 2, width - pad * 2, ITEM_BAR_H);
+    const fieldTop = items.y - ITEM_BAR_H / 2 - SPACE.sm;
     const fieldBottom = -height / 2 + pad;
     const fieldLeft = -width / 2 + pad;
     const fieldRight = fieldLeft + columnW;
     return {
       topBar,
+      items,
       log,
       commands,
       ...fieldActors(fieldLeft, fieldRight, fieldTop, fieldBottom, columnW),
@@ -97,39 +104,120 @@ export function battleLayout(frame: ResponsiveFrame): BattleLayout {
   const commands = commandGrid(0, width - pad * 2, -height / 2, pad);
   const commandTop = commands[0].y + COMMAND_H / 2;
   const log = box(0, commandTop + pad + LOG_H / 2, width - pad * 2, LOG_H);
-  const fieldTop = topBar.y - TOP_H / 2 - pad;
+  const items = box(0, topBar.y - TOP_H / 2 - SPACE.sm - ITEM_BAR_H / 2, width - pad * 2, ITEM_BAR_H);
+  const fieldTop = items.y - ITEM_BAR_H / 2 - SPACE.sm;
   const fieldBottom = log.y + LOG_H / 2 + pad;
   return {
     topBar,
+    items,
     log,
     commands,
     ...fieldActors(-width / 2 + pad, width / 2 - pad, fieldTop, fieldBottom, width),
   };
 }
 
-export interface BattleArtsLayout {
-  /** 最多四个术，占原来四个命令的位置：看起来是「命令区变成了术列表」，立绘和名牌不动。 */
-  readonly skills: readonly [LayoutBox, LayoutBox, LayoutBox, LayoutBox];
-  /** 「出术」确认，在原来战况栏的位置，占大半。 */
-  readonly confirm: LayoutBox;
-  /** 「返回」，在战况栏的右半。 */
-  readonly back: LayoutBox;
+export interface BattlePanelLayout {
+  /** 选项行，左→右、上→下排。前四个占原来四个命令的位置，其余往上再加行。 */
+  readonly skills: readonly LayoutBox[];
+  /** 底部操作行（确认、返回、放过等），在原来战况栏的位置。 */
+  readonly actions: readonly LayoutBox[];
 }
 
 /**
- * 选术面板几何。不切换整页，只把命令区换成术列表，战况栏换成「出术 / 返回」。
- * 所有盒子都沿用 battleLayout 的命令区和战况栏，所以不会压到立绘、名牌、顶栏上。
+ * 战斗里所有选择面板（术、换位、队伍、囊、目标、镇物）的几何。不切整页：
+ * 命令区原地变成选项列表，战况栏变成操作行。前四个选项和原来的四个命令重合。
+ * 选项超过四个时向上加行，但永远不会压到立绘、名牌、顶栏和物品栏：
+ * 放不下的部分由调用方截掉（rowCapacity 给出能放几个）。
  */
-export function battleArtsLayout(frame: ResponsiveFrame): BattleArtsLayout {
+export function battlePanelLayout(frame: ResponsiveFrame, rowCount: number, actionCount: number): BattlePanelLayout {
   const layout = battleLayout(frame);
+  const cap = battlePanelRowCapacity(frame);
+  const count = Math.max(0, Math.min(rowCount, cap));
+  const gridCols = 2;
+  const base = layout.commands;
+  const colW = base[0].width;
+  const rowH = COMMAND_H;
+  const rowGap = SPACE.md;
+  // 以原命令区的下行为最后一行、往上堆：选项少于等于四个时，第一行就落在原命令区的上行（与旧位置重合）；
+  // 超过四个时第一行往上移。这样一定没有两行重叠。
+  const totalRows = Math.ceil(count / gridCols);
+  const bottomRowY = base[2].y;
+  const skills: LayoutBox[] = [];
+  for (let index = 0; index < count; index++) {
+    const col = index % gridCols;
+    const row = Math.floor(index / gridCols);
+    const y = bottomRowY + (totalRows - 1 - row) * (rowH + rowGap);
+    skills.push(box(col === 0 ? base[0].x : base[1].x, y, colW, rowH));
+  }
+  // 操作行始终在选项的正上方一行：选项≤四个时它就落在原战况栏的位置，
+  // 选项更多时跟着往上推，不会和选项行重叠。
   const log = layout.log;
   const gap = SPACE.md;
-  const backW = (log.width - gap) * 0.4;
-  const confirmW = log.width - gap - backW;
+  const actionY = log.y + Math.max(0, totalRows - 2) * (rowH + rowGap);
+  const actions: LayoutBox[] = [];
   const left = log.x - log.width / 2;
-  return {
-    skills: layout.commands,
-    confirm: box(left + confirmW / 2, log.y, confirmW, log.height),
-    back: box(left + confirmW + gap + backW / 2, log.y, backW, log.height),
-  };
+  if (actionCount <= 1) {
+    actions.push(box(log.x, actionY, log.width, log.height));
+  } else {
+    const first = (log.width - gap * (actionCount - 1)) * (actionCount === 2 ? 0.6 : 0.4);
+    const rest = (log.width - gap * (actionCount - 1) - first) / (actionCount - 1);
+    let x = left;
+    for (let index = 0; index < actionCount; index++) {
+      const width = index === 0 ? first : rest;
+      actions.push(box(x + width / 2, actionY, width, log.height));
+      x += width + gap;
+    }
+  }
+  return { skills, actions };
+}
+
+/**
+ * 面板一屏最多能放几个选项（按两列、至少两行算）。上限以「不压到立绘/名牌/物品栏」为准：
+ * 竖屏时面板在立绘正下方，空间是命令区底边到我方立绘/名牌底边之间（这段空间已包括操作行）；
+ * 横屏时面板在右列，空间是命令区底边到物品栏底边。
+ */
+export function battlePanelRowCapacity(frame: ResponsiveFrame): number {
+  const layout = battleLayout(frame);
+  const gridCols = 2;
+  const rowH = COMMAND_H;
+  const rowGap = SPACE.md;
+  const bottomEdge = layout.commands[2].y - rowH / 2;
+  const ceiling =
+    frame.mode === "landscape"
+      ? layout.items.y - layout.items.height / 2 - SPACE.sm
+      : Math.min(
+          layout.allyArt.y - layout.allyArt.height / 2,
+          layout.allyPlate.y - layout.allyPlate.height / 2,
+        ) - SPACE.sm;
+  // 一行操作行（高 LOG_H）要占在最上面。
+  const usable = ceiling - bottomEdge - LOG_H - rowGap;
+  const rows = Math.max(2, Math.floor((usable + rowGap) / (rowH + rowGap)));
+  return rows * gridCols;
+}
+
+/**
+ * 物品栏里每个图标的格子。从左往右排。放不下时最后一格换成「+N」，
+ * N 是被折起来的件数（点「+N」可以展开，由调用方决定）。
+ */
+export function battleItemSlots(frame: ResponsiveFrame, count: number): { slots: LayoutBox[]; overflow: number } {
+  const bar = battleLayout(frame).items;
+  const gap = SPACE.xs;
+  const perRow = Math.max(1, Math.floor((bar.width + gap) / (ITEM_SIZE + gap)));
+  const shown = count <= perRow ? count : perRow;
+  const slots: LayoutBox[] = [];
+  const left = bar.x - bar.width / 2;
+  for (let index = 0; index < shown; index++) {
+    slots.push(box(left + ITEM_SIZE / 2 + index * (ITEM_SIZE + gap), bar.y, ITEM_SIZE, ITEM_SIZE));
+  }
+  return { slots, overflow: count <= perRow ? 0 : count - perRow + 1 };
+}
+
+/** 悬浮说明框：在图标下方，横向尽量居中到图标上但不出屏。 */
+export function itemTooltipBox(anchor: LayoutBox, frame: ResponsiveFrame): LayoutBox {
+  const width = Math.min(frame.content.width - SPACE.lg * 2, 360);
+  const height = 96;
+  const half = frame.content.width / 2;
+  const x = Math.max(-half + SPACE.lg + width / 2, Math.min(half - SPACE.lg - width / 2, anchor.x));
+  const y = anchor.y - anchor.height / 2 - SPACE.sm - height / 2;
+  return box(x, y, width, height);
 }

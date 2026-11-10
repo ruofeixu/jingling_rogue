@@ -150,6 +150,7 @@ export {
   type OutcomeArtState,
   type OutcomeLineView,
   type OutcomeView,
+  type BattleItemView,
   type BattleView,
   type NameplateView,
   type AchievementsView,

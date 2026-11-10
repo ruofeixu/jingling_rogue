@@ -895,6 +895,7 @@ function buildBattleModel(input) {
         input.view.log
       ].filter((line) => line.length > 0)
     }),
+    items: input.view.items,
     plates: Object.freeze({
       foe: plateModel(input.view.foe),
       ally: plateModel(input.view.ally)
@@ -1153,6 +1154,8 @@ var TOP_H = 64;
 var COMMAND_H = 100;
 var LOG_H = 84;
 var PLATE_H = 112;
+var ITEM_BAR_H = 52;
+var ITEM_SIZE = 48;
 function box(x, y, width, height) {
   return { x, y, width, height };
 }
@@ -1195,12 +1198,14 @@ function battleLayout(frame) {
     const commands2 = commandGrid(rightX, columnW, -height / 2, pad);
     const commandTop2 = commands2[0].y + COMMAND_H / 2;
     const log2 = box(rightX, commandTop2 + pad + LOG_H / 2, columnW, LOG_H);
-    const fieldTop2 = topBar.y - TOP_H / 2 - pad;
+    const items2 = box(0, topBar.y - TOP_H / 2 - SPACE.sm - ITEM_BAR_H / 2, width - pad * 2, ITEM_BAR_H);
+    const fieldTop2 = items2.y - ITEM_BAR_H / 2 - SPACE.sm;
     const fieldBottom2 = -height / 2 + pad;
     const fieldLeft = -width / 2 + pad;
     const fieldRight = fieldLeft + columnW;
     return {
       topBar,
+      items: items2,
       log: log2,
       commands: commands2,
       ...fieldActors(fieldLeft, fieldRight, fieldTop2, fieldBottom2, columnW)
@@ -1209,27 +1214,87 @@ function battleLayout(frame) {
   const commands = commandGrid(0, width - pad * 2, -height / 2, pad);
   const commandTop = commands[0].y + COMMAND_H / 2;
   const log = box(0, commandTop + pad + LOG_H / 2, width - pad * 2, LOG_H);
-  const fieldTop = topBar.y - TOP_H / 2 - pad;
+  const items = box(0, topBar.y - TOP_H / 2 - SPACE.sm - ITEM_BAR_H / 2, width - pad * 2, ITEM_BAR_H);
+  const fieldTop = items.y - ITEM_BAR_H / 2 - SPACE.sm;
   const fieldBottom = log.y + LOG_H / 2 + pad;
   return {
     topBar,
+    items,
     log,
     commands,
     ...fieldActors(-width / 2 + pad, width / 2 - pad, fieldTop, fieldBottom, width)
   };
 }
-function battleArtsLayout(frame) {
+function battlePanelLayout(frame, rowCount, actionCount) {
   const layout = battleLayout(frame);
+  const cap = battlePanelRowCapacity(frame);
+  const count = Math.max(0, Math.min(rowCount, cap));
+  const gridCols = 2;
+  const base = layout.commands;
+  const colW = base[0].width;
+  const rowH = COMMAND_H;
+  const rowGap = SPACE.md;
+  const totalRows = Math.ceil(count / gridCols);
+  const bottomRowY = base[2].y;
+  const skills = [];
+  for (let index = 0; index < count; index++) {
+    const col = index % gridCols;
+    const row = Math.floor(index / gridCols);
+    const y = bottomRowY + (totalRows - 1 - row) * (rowH + rowGap);
+    skills.push(box(col === 0 ? base[0].x : base[1].x, y, colW, rowH));
+  }
   const log = layout.log;
   const gap = SPACE.md;
-  const backW = (log.width - gap) * 0.4;
-  const confirmW = log.width - gap - backW;
+  const actionY = log.y + Math.max(0, totalRows - 2) * (rowH + rowGap);
+  const actions = [];
   const left = log.x - log.width / 2;
-  return {
-    skills: layout.commands,
-    confirm: box(left + confirmW / 2, log.y, confirmW, log.height),
-    back: box(left + confirmW + gap + backW / 2, log.y, backW, log.height)
-  };
+  if (actionCount <= 1) {
+    actions.push(box(log.x, actionY, log.width, log.height));
+  } else {
+    const first = (log.width - gap * (actionCount - 1)) * (actionCount === 2 ? 0.6 : 0.4);
+    const rest = (log.width - gap * (actionCount - 1) - first) / (actionCount - 1);
+    let x = left;
+    for (let index = 0; index < actionCount; index++) {
+      const width = index === 0 ? first : rest;
+      actions.push(box(x + width / 2, actionY, width, log.height));
+      x += width + gap;
+    }
+  }
+  return { skills, actions };
+}
+function battlePanelRowCapacity(frame) {
+  const layout = battleLayout(frame);
+  const gridCols = 2;
+  const rowH = COMMAND_H;
+  const rowGap = SPACE.md;
+  const bottomEdge = layout.commands[2].y - rowH / 2;
+  const ceiling = frame.mode === "landscape" ? layout.items.y - layout.items.height / 2 - SPACE.sm : Math.min(
+    layout.allyArt.y - layout.allyArt.height / 2,
+    layout.allyPlate.y - layout.allyPlate.height / 2
+  ) - SPACE.sm;
+  const usable = ceiling - bottomEdge - LOG_H - rowGap;
+  const rows = Math.max(2, Math.floor((usable + rowGap) / (rowH + rowGap)));
+  return rows * gridCols;
+}
+function battleItemSlots(frame, count) {
+  const bar = battleLayout(frame).items;
+  const gap = SPACE.xs;
+  const perRow = Math.max(1, Math.floor((bar.width + gap) / (ITEM_SIZE + gap)));
+  const shown = count <= perRow ? count : perRow;
+  const slots = [];
+  const left = bar.x - bar.width / 2;
+  for (let index = 0; index < shown; index++) {
+    slots.push(box(left + ITEM_SIZE / 2 + index * (ITEM_SIZE + gap), bar.y, ITEM_SIZE, ITEM_SIZE));
+  }
+  return { slots, overflow: count <= perRow ? 0 : count - perRow + 1 };
+}
+function itemTooltipBox(anchor, frame) {
+  const width = Math.min(frame.content.width - SPACE.lg * 2, 360);
+  const height = 96;
+  const half = frame.content.width / 2;
+  const x = Math.max(-half + SPACE.lg + width / 2, Math.min(half - SPACE.lg - width / 2, anchor.x));
+  const y = anchor.y - anchor.height / 2 - SPACE.sm - height / 2;
+  return box(x, y, width, height);
 }
 
 // src/layout/title-layout.ts
@@ -1843,8 +1908,10 @@ export {
   auditMatrix,
   backActionFor,
   backButtonLayout,
-  battleArtsLayout,
+  battleItemSlots,
   battleLayout,
+  battlePanelLayout,
+  battlePanelRowCapacity,
   buildAchievementsModel,
   buildBattleModel,
   buildCodexEntryModel,
@@ -1877,6 +1944,7 @@ export {
   inside,
   isPresentationOwned,
   isScreenId,
+  itemTooltipBox,
   motionDurationMs,
   openOverlay,
   overlaps,

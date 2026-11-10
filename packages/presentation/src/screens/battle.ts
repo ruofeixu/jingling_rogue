@@ -2,7 +2,7 @@
  * battle 页模型。命令顺序固定为 术 / 队伍 / 囊 / 走；
  * 名牌与战况来自 selector 投影。presentation 不算伤害、不改状态。
  */
-import type { BattleView, NameplateView } from "@jingling/core";
+import type { BattleItemView, BattleView, NameplateView } from "@jingling/core";
 import { buildStateModel, type StateId } from "../states.ts";
 import type { ScreenActionInput, ScreenModel } from "../screen-model.ts";
 
@@ -16,6 +16,8 @@ export interface PlateModel {
 }
 
 export interface BattleScreenModel extends ScreenModel {
+  /** 已获得物品（遗物在前，机缘在后），战斗界面显示成一排图标。空列表也要给，不要省略。 */
+  readonly items: readonly BattleItemView[];
   readonly plates: {
     readonly foe: PlateModel;
     readonly ally: PlateModel;
@@ -88,6 +90,7 @@ export function buildBattleModel(input: BattleModelInput): BattleScreenModel {
         input.view.log,
       ].filter((line) => line.length > 0),
     }),
+    items: input.view.items,
     plates: Object.freeze({
       foe: plateModel(input.view.foe),
       ally: plateModel(input.view.ally),

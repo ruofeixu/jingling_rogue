@@ -14,8 +14,9 @@ function read(rel: string): string {
 
 describe("ink wash transition (B5d)", () => {
   it("keeps the wash short enough not to slow the game down", () => {
-    expect(INK_FX.washSeconds).toBeGreaterThanOrEqual(0.2);
-    expect(INK_FX.washSeconds).toBeLessThanOrEqual(0.8);
+    // 过短（0.6 秒）试玩反馈“一闪就过”，过长会拖慢节奏。
+    expect(INK_FX.washSeconds).toBeGreaterThanOrEqual(1.0);
+    expect(INK_FX.washSeconds).toBeLessThanOrEqual(2.0);
     // 减少动效下不播洗墨：上限仍以 MOTION.reducedMaxMs 为准。
     expect(MOTION.reducedMaxMs).toBeLessThanOrEqual(150);
   });

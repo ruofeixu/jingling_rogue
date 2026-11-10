@@ -67,8 +67,8 @@ export const MOTION = Object.freeze({
 
 /** 水墨动效。shader 由 assets/ui-art/effects/ink-wash.effect 给出，这里只管时长和浓度。 */
 export const INK_FX = Object.freeze({
-  /** 整页洗墨转场全长（秒）。原型先走偏慢、看清效果，定稿后再调。 */
-  washSeconds: 0.6,
+  /** 整页洗墨转场全长（秒）。负责人试玩反馈 0.6 秒“一闪就过”，改为 1.4 秒：落墨洇开 + 慢慢洗掉。 */
+  washSeconds: 1.4,
   /** 最浓时的墨色不透明度。 */
   washAlpha: 0.94,
 });

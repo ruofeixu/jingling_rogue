@@ -107,8 +107,11 @@ CCProgram ink-fs %{
     field = field * 0.78 + (1.0 - uv.y) * 0.22;
 
     // 进度先快后慢：前段墨团迅速铺开，后段慢慢洗净；前后端留出余量，保证 0 时全无、1 时全净。
+    // 两段：0~0.38 一团墨从落点向外洇开铺满；0.38~1 再慢慢洗掉。
     float prog = inkParams.x;
-    float t = mix(-0.30, 1.20, prog);
+    float spreadP = clamp(prog / 0.38, 0.0, 1.0);
+    float washP = clamp((prog - 0.38) / 0.62, 0.0, 1.0);
+    float t = mix(-0.30, 1.20, washP);
     float d = field - t;
 
     // 毛边：高频小噪声扭动边界。
@@ -116,16 +119,30 @@ CCProgram ink-fs %{
     // 覆盖范围比原来更窄、更锐：墨有明确的“团”的边，不是均匀雾。
     float cover = smoothstep(-0.01, 0.03, d + rough);
 
+    // 落墨：以偏上的一点为心，距离被噪声扭动，扇形毛边向外扩。超过半径的地方还没被墨到。
+    vec2 c0 = vec2(0.5 * inkParams.z + (hash(vec2(inkParams.y, 1.0)) - 0.5) * 0.4, 0.35 + hash(vec2(inkParams.y, 2.0)) * 0.3);
+    float dist = length(p - c0) + (fbm(p * 4.0 + warp * 2.5 + s) - 0.5) * 0.55;
+    float reach = spreadP * (1.25 + inkParams.z);
+    float inkSpread = 1.0 - smoothstep(reach - 0.06, reach + 0.02, dist);
+    // 落墨时只显示扩散范围里的部分；进入洗掉阶段后已经铺满，这一项恒为 1。
+    cover *= inkSpread;
+
     // 边上积墨：靠近边界处最浓，往里迅速变淡（里面是已经渗开的淡墨），
     // 这样同一时刻既有浓黑的边，又有透出纸面的灰，浓淡反差大。
-    float rim = exp(-pow(max(d, 0.0) / 0.07, 2.0));
+    float rimWash = exp(-pow(max(d, 0.0) / 0.07, 2.0));
+    // 落墨阶段的浓边跟着洇开的前沿（reach），里面较淡。
+    float rimSpread = exp(-pow(max(reach - dist, 0.0) / 0.10, 2.0));
+    float rim = mix(rimSpread, rimWash, step(0.001, washP));
     float tone = fbm(p * 3.5 + s * 1.7);
     // 边界以外仍有一层很淡的渗开墨晕，距边越远越淡，最多压到 0；这样“块”之外不是一片混沌的灰。
-    float halo = exp(-pow(max(-d, 0.0) / 0.10, 1.5)) * 0.30;
+    // 落墨阶段（washP=0） d 整屏为正，所以光晕只能跟着落墨边缘（dist 接近 reach）走，不然就会把还没被墨到的地方盖成灰雾。
+    float haloWash = exp(-pow(max(-d, 0.0) / 0.10, 1.5)) * 0.30;
+    float haloSpread = exp(-pow(max(dist - reach, 0.0) / 0.12, 1.5)) * 0.34 * step(0.001, spreadP);
+    float halo = mix(haloSpread, haloWash, step(0.001, washP));
     float body = mix(0.38, 0.78, tone);
     float alpha = max(cover * inkColor.a * mix(body, 1.0, rim), halo * inkColor.a * (1.0 - cover));
     // 整体包络：开头和结尾都平滑淡入淡出，避免一帧突然出现或消失。
-    alpha *= smoothstep(0.0, 0.08, prog) * (1.0 - smoothstep(0.92, 1.0, prog));
+    alpha *= (1.0 - smoothstep(0.93, 1.0, prog));
 
     // 飞穽：边界附近的横向条纹漏白，像干笔扣过。
     // 笔触纹沿横向拉长（x 低频、y 高频），且跟着扭曲场走，边上一缕一缕漏白。

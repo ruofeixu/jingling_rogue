@@ -106,19 +106,26 @@ CCProgram ink-fs %{
     // 略微自上向下洗，让运动有方向感。
     field = field * 0.78 + (1.0 - uv.y) * 0.22;
 
-    float t = mix(-0.25, 1.15, inkParams.x);
+    // 进度先快后慢：前段墨团迅速铺开，后段慢慢洗净；前后端留出余量，保证 0 时全无、1 时全净。
+    float prog = inkParams.x;
+    float t = mix(-0.30, 1.20, prog);
     float d = field - t;
 
     // 毛边：高频小噪声扭动边界。
-    float rough = (fbm(p * 14.0 + warp * 2.0 + s) - 0.5) * 0.10;
-    float cover = smoothstep(-0.02, 0.05, d + rough);
+    float rough = (fbm(p * 14.0 + warp * 2.0 + s) - 0.5) * 0.12;
+    // 覆盖范围比原来更窄、更锐：墨有明确的“团”的边，不是均匀雾。
+    float cover = smoothstep(-0.01, 0.03, d + rough);
 
-    // 边上积墨：靠近边界处更浓，往里变淡。
-    float rim = exp(-pow(max(d, 0.0) / 0.09, 2.0));
-    // 内部浓淡。
+    // 边上积墨：靠近边界处最浓，往里迅速变淡（里面是已经渗开的淡墨），
+    // 这样同一时刻既有浓黑的边，又有透出纸面的灰，浓淡反差大。
+    float rim = exp(-pow(max(d, 0.0) / 0.07, 2.0));
     float tone = fbm(p * 3.5 + s * 1.7);
-    float alpha = cover * inkColor.a * mix(0.72, 1.0, tone);
-    alpha *= mix(0.86, 1.0, rim);
+    // 边界以外仍有一层很淡的渗开墨晕，距边越远越淡，最多压到 0；这样“块”之外不是一片混沌的灰。
+    float halo = exp(-pow(max(-d, 0.0) / 0.10, 1.5)) * 0.30;
+    float body = mix(0.38, 0.78, tone);
+    float alpha = max(cover * inkColor.a * mix(body, 1.0, rim), halo * inkColor.a * (1.0 - cover));
+    // 整体包络：开头和结尾都平滑淡入淡出，避免一帧突然出现或消失。
+    alpha *= smoothstep(0.0, 0.08, prog) * (1.0 - smoothstep(0.92, 1.0, prog));
 
     // 飞穽：边界附近的横向条纹漏白，像干笔扣过。
     // 笔触纹沿横向拉长（x 低频、y 高频），且跟着扭曲场走，边上一缕一缕漏白。

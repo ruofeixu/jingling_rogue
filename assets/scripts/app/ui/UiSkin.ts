@@ -1,4 +1,4 @@
-import { Label, Sprite, SpriteFrame, Texture2D, TTFFont, assetManager, director, type AssetManager } from "cc";
+import { EffectAsset, Label, Material, Sprite, SpriteFrame, Texture2D, TTFFont, assetManager, director, type AssetManager } from "cc";
 import { UI_SKIN_READY_EVENT } from "./skin-event.ts";
 
 /**
@@ -45,6 +45,8 @@ export class UiSkin {
   private readonly frames = new Map<string, SpriteFrame | null>();
   /** 标题书法字（马善政楷书子集，OFL）。undefined = 还没请求；null = 没有或加载失败。 */
   private titleFont: TTFFont | null | undefined = undefined;
+  /** 水墨洗散 effect。undefined = 还没请求；null = 没有或加载失败。 */
+  private inkEffect: EffectAsset | null | undefined = undefined;
 
   static shared(): UiSkin {
     if (!UiSkin.instance) {
@@ -107,6 +109,29 @@ export class UiSkin {
       director.emit(UI_SKIN_READY_EVENT);
     });
     return null;
+  }
+
+  /**
+   * 水墨洗散材质。规则同 getFrame：effect 已加载就返回一个新材质；没加载触发一次异步加载并返回 null，
+   * 调用方走无转场的回退，页面照常切换。
+   */
+  getInkMaterial(): Material | null {
+    if (this.inkEffect === undefined) {
+      if (!this.bundle) {
+        return null;
+      }
+      this.inkEffect = null;
+      this.bundle.load("effects/ink-wash", EffectAsset, (err, effect) => {
+        this.inkEffect = err || !effect ? null : effect;
+      });
+      return null;
+    }
+    if (!this.inkEffect) {
+      return null;
+    }
+    const material = new Material();
+    material.initialize({ effectAsset: this.inkEffect, defines: { USE_TEXTURE: true } });
+    return material;
   }
 
   /**

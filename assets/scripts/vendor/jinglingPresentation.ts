@@ -354,6 +354,12 @@ var MOTION = Object.freeze({
   /** 减少动效下的硬上限，规格第 6 节。 */
   reducedMaxMs: 150
 });
+var INK_FX = Object.freeze({
+  /** 整页洗墨转场全长（秒）。原型先走偏慢、看清效果，定稿后再调。 */
+  washSeconds: 0.6,
+  /** 最浓时的墨色不透明度。 */
+  washAlpha: 0.94
+});
 var HP_COLOR = Object.freeze({
   track: rgb(THEME.hpBack),
   ally: rgb(THEME.hpHigh),
@@ -1759,6 +1765,7 @@ export {
   DESIGN_WIDTH,
   DIAGNOSTICS_SCREEN_ID,
   HP_COLOR,
+  INK_FX,
   LOBBY_ACTIONS,
   MATRIX_SIZE,
   MIN_HIT_SIZE,

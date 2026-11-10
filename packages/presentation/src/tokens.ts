@@ -65,6 +65,14 @@ export const MOTION = Object.freeze({
   reducedMaxMs: 150,
 });
 
+/** 水墨动效。shader 由 assets/ui-art/effects/ink-wash.effect 给出，这里只管时长和浓度。 */
+export const INK_FX = Object.freeze({
+  /** 整页洗墨转场全长（秒）。原型先走偏慢、看清效果，定稿后再调。 */
+  washSeconds: 0.6,
+  /** 最浓时的墨色不透明度。 */
+  washAlpha: 0.94,
+});
+
 /** 血条色。不进 COLOR：COLOR 与 core THEME 一一对应。水墨版：松烟绿 / 赭红 / 深朱，对血槽都 ≥3:1。 */
 export const HP_COLOR = Object.freeze({
   track: rgb(THEME.hpBack),

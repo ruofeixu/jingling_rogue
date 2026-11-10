@@ -33,6 +33,7 @@ export { DIAGNOSTICS_SCREEN_ID, buildDiagnosticsModel, type DiagnosticsInput } f
 export {
   COLOR,
   HP_COLOR,
+  INK_FX,
   MOTION,
   RADIUS,
   SPACE,

@@ -1,0 +1,136 @@
+// 水墨洗散：一层墨色盖在页面上，用经过扭曲的噪声场和一个推进的阈值把它“洗”掉。
+// 边缘毛糙、边上积墨、边上有飞白；内部墨色有浓淡。只在转场时创建、用完销毁。
+// inkParams: x = 进度 0..1（越大洗得越多）, y = 种子, z = 宽高比, w = 保留
+// inkColor : rgb = 墨色，a = 最浓时的不透明度
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: ink-vs:vert
+      frag: ink-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        inkParams: { value: [0.0, 1.0, 1.0, 0.0] }
+        inkColor: { value: [0.15, 0.13, 0.12, 0.94] }
+}%
+
+CCProgram ink-vs %{
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  #if USE_LOCAL
+    #include <builtin/uniforms/cc-local>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+    pos = cc_matViewProj * pos;
+    uv0 = a_texCoord;
+    color = a_color;
+    return pos;
+  }
+}%
+
+CCProgram ink-fs %{
+  precision highp float;
+  #include <builtin/internal/embedded-alpha>
+
+  in vec4 color;
+  in vec2 uv0;
+
+  uniform InkConstants {
+    vec4 inkParams;
+    vec4 inkColor;
+  };
+
+  #if USE_TEXTURE
+    #pragma builtin(local)
+    layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
+  #endif
+
+  float hash (vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+  }
+
+  float vnoise (vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+  }
+
+  // 四层就够看；以后要省性能先从这里减层。
+  float fbm (vec2 p) {
+    float v = 0.0;
+    float a = 0.5;
+    for (int i = 0; i < 4; i++) {
+      v += a * vnoise(p);
+      p = p * 2.03 + vec2(17.1, 9.2);
+      a *= 0.5;
+    }
+    return v;
+  }
+
+  vec4 frag () {
+    vec2 uv = uv0;
+    vec2 p = vec2(uv.x * inkParams.z, uv.y);
+    vec2 s = vec2(inkParams.y * 7.31, inkParams.y * 3.17);
+
+    // 域扭曲：墨在纸纤维里渗开的不规则流向。
+    vec2 warp = vec2(fbm(p * 1.6 + s), fbm(p * 1.6 + s + vec2(5.2, 1.3)));
+    float field = fbm(p * 2.2 + warp * 1.5 + s);
+    field = clamp((field - 0.2) / 0.6, 0.0, 1.0);
+    // 略微自上向下洗，让运动有方向感。
+    field = field * 0.78 + (1.0 - uv.y) * 0.22;
+
+    float t = mix(-0.25, 1.15, inkParams.x);
+    float d = field - t;
+
+    // 毛边：高频小噪声扭动边界。
+    float rough = (fbm(p * 14.0 + warp * 2.0 + s) - 0.5) * 0.10;
+    float cover = smoothstep(-0.02, 0.05, d + rough);
+
+    // 边上积墨：靠近边界处更浓，往里变淡。
+    float rim = exp(-pow(max(d, 0.0) / 0.09, 2.0));
+    // 内部浓淡。
+    float tone = fbm(p * 3.5 + s * 1.7);
+    float alpha = cover * inkColor.a * mix(0.72, 1.0, tone);
+    alpha *= mix(0.86, 1.0, rim);
+
+    // 飞穽：边界附近的横向条纹漏白，像干笔扣过。
+    // 笔触纹沿横向拉长（x 低频、y 高频），且跟着扭曲场走，边上一缕一缕漏白。
+    float streak = fbm(vec2(p.x * 3.0, p.y * 17.0) + warp * 5.0 + s);
+    float dry = smoothstep(0.0, 0.08, d) * (1.0 - smoothstep(0.08, 0.22, d));
+    alpha *= mix(1.0, smoothstep(0.30, 0.75, streak), dry * 0.6);
+
+    vec4 o = vec4(inkColor.rgb, alpha);
+    #if USE_TEXTURE
+      o *= CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
+    #endif
+    o *= color;
+    return o;
+  }
+}%

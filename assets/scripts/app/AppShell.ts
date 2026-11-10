@@ -45,6 +45,7 @@ import { ProgressScreen } from "./screens/ProgressScreen";
 import { OutcomeScreen } from "./screens/OutcomeScreen";
 import { makeBackdrop } from "./ui/Backdrop";
 import { UI_SKIN_READY_EVENT } from "./ui/skin-event.ts";
+import { playInkWash } from "./ui/InkWash";
 import {
   emptyAccount,
   selectAchievements,
@@ -175,6 +176,9 @@ export class AppShell extends Component {
 
   /** 当前挂载的 renderer 与其宿主节点；同一时刻只允许一个。 */
   private mountedRenderer: RendererKind | null = null;
+  private inkWash: Node | null = null;
+  /** 上一次挂载的页 id；换页判断的唯一依据。 */
+  private lastMountedRoute: string | null = null;
   private host: Node | null = null;
   private routeId: string = DIAGNOSTICS_SCREEN_ID;
   private model: ScreenModel | null = null;
@@ -572,8 +576,24 @@ export class AppShell extends Component {
 
   /** 切路由：先卸载旧 renderer，再挂载新 renderer，禁止同时存在两个。 */
   route(screenId: string): void {
+    // 只在换页时洗墨：同一页的刷新、改窗口重排不播；「减少动效」下不播。
+    // 不能拿 this.routeId 对比：afterCommand 会先把 routeId 改成目标页再调 route。
+    const changed = this.lastMountedRoute !== null && screenId !== this.lastMountedRoute;
+    this.lastMountedRoute = screenId;
     this.refreshLobbyData(screenId);
     this.mountRoute(screenId);
+    if (this.inkWash?.isValid) {
+      this.inkWash.removeFromParent();
+      this.inkWash.destroy();
+    }
+    this.inkWash = null;
+    if (changed && !this.reduceMotion && this.host) {
+      // 挂在页面宿主下：宿主在 UI_2D 层且 z=0；挂在 Boot 节点下会继承 DEFAULT 层，UI 相机不画。
+      this.inkWash = playInkWash(this.host, {
+        width: this.viewport.design.width,
+        height: this.viewport.design.height,
+      });
+    }
   }
 
   private mountRoute(screenId: string): void {

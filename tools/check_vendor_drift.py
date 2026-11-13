@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import shutil
 import subprocess
 import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+PNPM = shutil.which("pnpm") or "pnpm"
 VENDOR = ROOT / "assets" / "scripts" / "vendor"
 HOOKS = ("forceOutcomeForTest", "openShopForTest")
 
@@ -25,7 +27,7 @@ def assert_no_test_hooks(text: str) -> None:
 def _build(package: str, entry: str, outfile: Path, banner: str) -> None:
     subprocess.run(
         [
-            "pnpm",
+            PNPM,
             "--filter",
             package,
             "exec",

@@ -111,3 +111,30 @@ Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ Comma
 让 `cocos-js` 回到 1.7MB 量级、主包回到 4MiB 以内，再谈其余验收。
 
 在此之前，内测主线继续锁 **3.8.2**。
+
+## 七、T1 已修好（2026-11-14，Windows `-388` 克隆）
+
+手工把 `settings/v2/packages/engine.json` 写成 3.8.8 的 `modules.configs.defaultConfig` schema
+（抄 `empty-2d` 模板 + cocos-test-projects v3.8.8 的 1.0.12 字段），
+`includeModules` 保持原 12 项，并补上 3.8.8 拆出去的 `graphics` 和 `3d` 依赖的 `meshopt`。
+`__version__` 维持 `1.0.12`，避免再跑坏掉的 `engine(1.0.10)` 迁移。
+
+实测（`debug=false` + `pack_subpackages.py` + `check_cocos_build.py`）：
+
+| 项 | 3.8.8 全模块（修前） | 3.8.8 裁剪后 | 3.8.2 对照 |
+|---|---|---|---|
+| 微信主包 | 5,853,482 | **3,200,506** | 3,387,679 |
+| 抖音主包 | — | **3,186,159** | — |
+| `cocos-js` | 3,716,180 | **1,521,544** | 1,745,300 |
+
+产物里没有 `TiledMap` / `VideoPlayer` / `Terrain` / `ammo.js`。门禁 `main ≤ 4,194,304` 通过。
+基线：`docs/ui/baselines/3.8.8-build.json`（在 `-388` 克隆）。
+
+抖音侧还补了 `build-templates/bytedance-mini-game/game.ejs` 的 `project:` SystemJS handler
+（3.8.8 官方模板有，本仓库 3.8.2 模板没有），否则模拟器报
+`Unable to instantiate project://src/chunks/bundle.js from undefined`。
+
+抖音模拟器已跑通标题「契灵志怪」和「新的旅途」，转场到选模式 / 选契灵 / 战斗，无黑屏、无残墨。
+微信开发者工具 CLI 服务端口未开，未做微信模拟器导入。受击溅墨动画太短没截到帧，但敌方 HP 36→25，战斗能打。
+
+**主线仍不要直接在 `jingling_rogue` 上升级。** 把 `-388` 上的独立提交审过再换。

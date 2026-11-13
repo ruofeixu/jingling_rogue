@@ -1,0 +1,2 @@
+# 统一用 LF 入库与检出：Cocos vendor 产物是逐字节比对的，CRLF 会造成假漂移。
+* text=auto eol=lf

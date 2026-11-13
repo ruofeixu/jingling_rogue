@@ -9,7 +9,7 @@
 | Windows 11（i7-1165G7 / RTX 2060 / D 盘 1.1TB） | `desktop-9p7mff1` | **主工作副本 + Cocos 编辑器 + 双平台构建 + 真机预览** |
 | Ubuntu（MacBook Pro 2015） | `xuruofei-macbookpro` | 可选副节点，只跑纯 CPU 任务（`pnpm test` / `pnpm shot`） |
 
-选 Windows 当主节点是因为 Cocos Creator 3.8.2、微信开发者工具、抖音开发者工具**都只有 Windows/macOS 版**，Ubuntu 上开不了 7456 预览、也出不了真机预览包。代码只在一台改，靠 GitHub 同步（`git@github.com:ruofeixu/jingling_rogue.git`），两边都编译产物必然漂移。
+选 Windows 当主节点是因为 Cocos Creator 3.8.8、微信开发者工具、抖音开发者工具**都只有 Windows/macOS 版**，Ubuntu 上开不了 7456 预览、也出不了真机预览包。代码只在一台改，靠 GitHub 同步（`git@github.com:ruofeixu/jingling_rogue.git`），两边都编译产物必然漂移。
 
 ## Windows 上的现状（已配好）
 
@@ -43,8 +43,8 @@ pnpm pack:minigame   build/wechatgame、build/bytedance-mini-game
 
 ## 还没做的（需要人来操作）
 
-- [ ] Cocos Dashboard + **Creator 3.8.2**（要 Cocos 账号登录）+ `extensions/funplay-cocos-mcp`
-- [ ] 微信开发者工具、抖音开发者工具
+- [x] Cocos Dashboard + **Creator 3.8.8**（构建不需要登录；GUI/OTA 仍要）+ `extensions/funplay-cocos-mcp`
+- [x] 微信开发者工具已装（CLI 服务端口未开）；抖音开发者工具已装并登录
 - [ ] `gh auth login` 或 PAT（Windows 上才能 push）
 - [ ] 关掉 SSH 密码登录（`PasswordAuthentication no`），只留公钥
 - [ ] 确认 RTX 2060 驱动下的编辑器/预览帧率，再决定 B5/B6 的观感验收是否在这台跑

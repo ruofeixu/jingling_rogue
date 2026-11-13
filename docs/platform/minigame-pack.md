@@ -13,11 +13,11 @@ pnpm pack:minigame
 1. 微信开发者工具：导入 `build/wechatgame`（小游戏 / `compileType: game`）。
 2. 抖音开发者工具：导入 `build/bytedance-mini-game`。
 
-开发者工具里应能看到大厅标题与「新的旅途」。完整引擎包仍用 Cocos Creator 3.8.2「构建发布」，模板在 `build-templates/`。
+开发者工具里应能看到大厅标题与「新的旅途」。完整引擎包仍用 Cocos Creator 3.8.8「构建发布」，模板在 `build-templates/`。
 
 ## 完整构建
 
-1. Cocos Creator 3.8.2 打开仓库根目录（不是只开 `game/`）。
+1. Cocos Creator 3.8.8 打开仓库根目录（不是只开 `game/`）。
 2. 构建发布：微信小游戏、抖音小游戏，参考 `game/templates/wx/game.json` 与 `game/templates/bytedance/game.json` 的分包名。
 3. 真机在对应开发者工具里预览。
 

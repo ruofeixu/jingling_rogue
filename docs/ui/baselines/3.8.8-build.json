@@ -1,0 +1,26 @@
+{
+  "builds": [
+    {
+      "platform": "wechatgame",
+      "root": "build-rel\\wechatgame",
+      "main_bytes": 3200506,
+      "subpackage_bytes": {
+        "portraits": 13137948,
+        "ui-art": 5827529
+      },
+      "remote_bytes": 0,
+      "file_count": 141
+    },
+    {
+      "platform": "bytedance-mini-game",
+      "root": "build-rel\\bytedance-mini-game",
+      "main_bytes": 3186159,
+      "subpackage_bytes": {
+        "portraits": 13137948,
+        "ui-art": 5827529
+      },
+      "remote_bytes": 0,
+      "file_count": 139
+    }
+  ]
+}

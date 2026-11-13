@@ -19,6 +19,9 @@ import {
 const CJK_FONTS = [
   "/System/Library/Fonts/PingFang.ttc",
   "/System/Library/Fonts/Hiragino Sans GB.ttc",
+  "C:/Windows/Fonts/msyh.ttc",
+  "C:/Windows/Fonts/simhei.ttf",
+  "C:/Windows/Fonts/simsun.ttc",
   "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
   "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
 ];

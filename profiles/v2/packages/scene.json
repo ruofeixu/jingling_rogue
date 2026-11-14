@@ -1,11 +1,21 @@
 {
-  "__version__": "1.0.0",
+  "__version__": "1.0.3",
   "builder": {},
   "gizmos-infos": {
     "is2D": false,
     "is3DIcon": false,
     "iconSize": 2,
     "gridVisible": true,
+    "originAxis2D": {
+      "x_visible": true,
+      "y_visible": true,
+      "z_visible": false
+    },
+    "originAxis3D": {
+      "x_visible": true,
+      "y_visible": false,
+      "z_visible": true
+    },
     "gridColor": [
       166,
       166,

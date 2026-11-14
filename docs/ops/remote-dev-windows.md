@@ -44,34 +44,16 @@ pnpm pack:minigame   build/wechatgame、build/bytedance-mini-game
 ## 还没做的（需要人来操作）
 
 - [x] Cocos Dashboard + **Creator 3.8.8**（构建不需要登录；GUI/OTA 仍要）+ `extensions/funplay-cocos-mcp`
-- [x] 微信开发者工具已装（CLI 服务端口未开）；抖音开发者工具已装并登录
-- [ ] `gh auth login` 或 PAT（Windows 上才能 push）
+- [x] 微信开发者工具已装（CLI 服务端口已开）；抖音开发者工具已装并登录
+- [x] `gh auth login`
 - [ ] 关掉 SSH 密码登录（`PasswordAuthentication no`），只留公钥
 - [ ] 确认 RTX 2060 驱动下的编辑器/预览帧率，再决定 B5/B6 的观感验收是否在这台跑
-## 引擎版本：全仓锁 3.8.8（2026-11-14 起）
 
-`package.json` 与 `game/package.json` 的 `creator.version` 都是 **3.8.8**；
-`settings/v2/packages/engine.json` 是 1.0.12 的 `modules.configs.defaultConfig` schema；
-`assets/**/*.meta` 的 importer `ver` 已经是 3.8.8 写出的版本（如 image `1.0.27`）。
+## 引擎版本与开发者工具
 
-**不要用 Cocos Creator 3.8.2 打开这个仓库。** 老编辑器读不懂新 schema，会把
-`engine.json` 的模块裁剪配置写坏（曾导致主包 3.2MB 涨到 5.6MB、击穿 4MiB 预算），
-并把 `.meta` 降级写回、在两台机器之间制造漂移。Dashboard 打开工程时确认引擎选 3.8.8。
+细节见 `docs/ops/cocos-3.8.8.md`（升级记录、模块裁剪、CLI 流程、验收状态）。三条硬规则：
 
-历史文档（`docs/ui/baselines/2026-08-31*`、`docs/superpowers/plans/*`）里出现的 3.8.2
-是当时的验收记录，属于历史事实，不要据此选引擎版本。
-
-## 微信开发者工具
-
-CLI 服务端口已开（`http://127.0.0.1:17978`），但**登录票据会过期**；
-过期后 `cli open` 报 `code 10 需要重新登录`。重新登录：
-
-```powershell
-# 终端二维码（会阻塞等待扫码）
-& "C:\Program Files (x86)\Tencent\微信web开发者工具\cli.bat" login
-# 或出图给对方扫
-& "...\cli.bat" login -f image -o D:\projects\wx-login-qr.png
-```
-
-小游戏 AppID 用接口测试号 `wxef87c1a7a5e18bbf`（`xuruofei289516`）。
-构建产物里的 `project.config.json` 默认 `appid` 是空串，CLI 导入前要填这个值。
+1. **只能用 Cocos Creator 3.8.8 打开本仓库**，3.8.2 会把 `engine.json` 的新 schema 写坏。
+2. **起 Cocos 必须用 WMI 脱离 SSH 会话**，否则 SSH 一断进程就没了；预览要走 RDP。
+3. 微信 CLI 导入前先把产物 `project.config.json` 的 `appid` 填成 `wxef87c1a7a5e18bbf`，
+   并用接口测试号；登录票据过期后报 `code 10 需要重新登录`，重新扫码即可。

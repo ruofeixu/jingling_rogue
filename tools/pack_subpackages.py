@@ -1,6 +1,6 @@
 """Turn built Cocos Asset Bundles into real mini-game subpackages.
 
-Creator 3.8.2 在本项目里不接受 `.meta` 里的 `compressionType: subpackage`（实测两平台都仍把
+Creator 3.8.x 在本项目里不接受 `.meta` 里的 `compressionType: subpackage`（3.8.2 与 3.8.8 实测两平台都仍把
 bundle 放进 `assets/<name>`，`game.json` 也没有 subpackages 字段），所以分包在构建后一步完成。
 
 引擎侧契约来自 Cocos 自己的适配层：

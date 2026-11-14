@@ -81,7 +81,7 @@ describe("remote asset manifest", () => {
     };
     expect(meta.userData?.isBundle).toBe(true);
     expect(meta.userData?.bundleName).toBe(PORTRAIT_BUNDLE);
-    // Creator 3.8.2 实测忽略 meta 里的 compressionType，分包由构建后步骤落地，见 tools/pack_subpackages.py
+    // Creator 3.8.x 实测忽略 meta 里的 compressionType，分包由构建后步骤落地，见 tools/pack_subpackages.py
     expect(existsSync(resolve(repo, "tools/pack_subpackages.py")), "subpackage packer").toBe(true);
   });
 

@@ -14,7 +14,7 @@
     {
       "platform": "bytedance-mini-game",
       "root": "build-rel\\bytedance-mini-game",
-      "main_bytes": 3186159,
+      "main_bytes": 3186315,
       "subpackage_bytes": {
         "portraits": 13137948,
         "ui-art": 5827529

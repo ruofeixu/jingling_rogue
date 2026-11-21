@@ -4,7 +4,7 @@
 
 本文件是 **F1–F12 系统对标完成之后** 的验收真源：交互易用、可玩、表现、平台质量。
 
-系统覆盖仍以 [2026-08-17-full-feature-parity.md](./2026-08-17-full-feature-parity.md) 第 16 节为准（已全部勾完）。难度数字仍以 [2026-08-19-playability-bar.md](./2026-08-19-playability-bar.md) 为准。实施按 [../plans/2026-08-20-quality-roadmap.md](../plans/2026-08-20-quality-roadmap.md) 的 Q0→Q5，一次只做一个阶段。
+系统覆盖仍以 [2026-08-17-full-feature-parity.md](./2026-08-17-full-feature-parity.md) 第 16 节为准（已全部勾完）。难度数字仍以 [2026-08-19-playability-bar.md](./2026-08-19-playability-bar.md) 为准。实施按 [../plans/2026-08-20-quality-roadmap.md](../plans/archive/2026-08-20-quality-roadmap.md) 的 Q0→Q5，一次只做一个阶段。
 
 **第 16 节勾完 ≠ 可玩已验收。** 机制在 core 里，不等于人能顺手打完、点了有反馈、立绘不是黑框。
 

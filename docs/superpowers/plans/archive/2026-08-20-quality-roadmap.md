@@ -1,6 +1,6 @@
 # 质量与可玩路线图
 
-> **For agentic workers:** 每个 Q 阶段开工前另写该阶段细计划（含失败测试与文件路径）。推荐 `superpowers:subagent-driven-development` 或 `executing-plans`。规格真源：[../specs/2026-08-20-quality-bar.md](../specs/2026-08-20-quality-bar.md)。系统对标：[../specs/2026-08-17-full-feature-parity.md](../specs/2026-08-17-full-feature-parity.md) 第 16 节（已勾完）。难度数字：[../specs/2026-08-19-playability-bar.md](../specs/2026-08-19-playability-bar.md)。
+> **For agentic workers:** 每个 Q 阶段开工前另写该阶段细计划（含失败测试与文件路径）。推荐 `superpowers:subagent-driven-development` 或 `executing-plans`。规格真源：[../specs/2026-08-20-quality-bar.md](../../specs/2026-08-20-quality-bar.md)。系统对标：[../specs/2026-08-17-full-feature-parity.md](../../specs/2026-08-17-full-feature-parity.md) 第 16 节（已勾完）。难度数字：[../specs/2026-08-19-playability-bar.md](../../specs/2026-08-19-playability-bar.md)。
 
 **Goal:** 把「系统有了」变成「能测、能玩、能点」。先把门焊进 CI，再改易用与难度，最后补表现与真机。
 

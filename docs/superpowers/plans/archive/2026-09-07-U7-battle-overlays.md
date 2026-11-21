@@ -1,6 +1,6 @@
 # U7：战斗子界面（2026-09-07）
 
-**上游：** [路线图 U7](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../specs/2026-08-31-ui-productization.md)
+**上游：** [路线图 U7](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../../specs/2026-08-31-ui-productization.md)
 
 **前置：** U1–U6 已完成。
 

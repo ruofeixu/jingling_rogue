@@ -1,8 +1,8 @@
 # U1：presentation 与 AppShell 骨架（2026-09-01）
 
-**上游：** [路线图 U1](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../specs/2026-08-31-ui-productization.md) · [ADR-0001](../../adr/0001-ui-presentation-shell.md) · [页面矩阵](../../ui/screen-matrix.json)
+**上游：** [路线图 U1](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../../specs/2026-08-31-ui-productization.md) · [ADR-0001](../../../adr/0001-ui-presentation-shell.md) · [页面矩阵](../../../ui/screen-matrix.json)
 
-**前置：** U0 已完成；V0 构建/运行阻塞已修复（见 [V0 结果](../../ui/baselines/2026-09-01-V0-results.md)）。
+**前置：** U0 已完成；V0 构建/运行阻塞已修复（见 [V0 结果](../../../ui/baselines/2026-09-01-V0-results.md)）。
 
 ## 目标
 

@@ -6,7 +6,7 @@
 系统覆盖仍以 [2026-08-17-full-feature-parity.md](./2026-08-17-full-feature-parity.md) 第 16 节为准（已勾完）。  
 难度数字仍以 [2026-08-19-playability-bar.md](./2026-08-19-playability-bar.md) 为准。  
 Q 阶段门仍以 [2026-08-20-quality-bar.md](./2026-08-20-quality-bar.md) 为准（不拆、不加勾）。  
-实施按 [../plans/2026-08-20-optimize-roadmap.md](../plans/2026-08-20-optimize-roadmap.md) 的 R0→R5，一次只做一个阶段。
+实施按 [../plans/2026-08-20-optimize-roadmap.md](../plans/archive/2026-08-20-optimize-roadmap.md) 的 R0→R5，一次只做一个阶段。
 
 **Q 勾完 ≠ 人能顺手打完一局。** 黑屏、画布留边、高档 200 波通关 0%、精怪 240 里大量剪影，都是本规格要收的债。
 

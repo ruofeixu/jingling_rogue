@@ -8,7 +8,7 @@
 系统覆盖仍以 [2026-08-17-full-feature-parity.md](./2026-08-17-full-feature-parity.md) 第 16 节为准（已勾完）。  
 难度数字仍以 [2026-08-19-playability-bar.md](./2026-08-19-playability-bar.md) 为准（本规格不拧通关率）。  
 Q / R / S 门不拆、不加勾。  
-实施按 [../plans/2026-08-21-cartoon-roadmap.md](../plans/2026-08-21-cartoon-roadmap.md) 的 A0→A2，一次只做一个阶段。
+实施按 [../plans/2026-08-21-cartoon-roadmap.md](../plans/archive/2026-08-21-cartoon-roadmap.md) 的 A0→A2，一次只做一个阶段。
 
 **气质参考国产儿童向卡通：浅底、圆角、平涂、勾线。** 抄的是「亮、圆、好认」，不是某款已有游戏的角色、UI 切图或商标。文案与文件里不要写别家游戏名。
 

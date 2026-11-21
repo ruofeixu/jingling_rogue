@@ -8,7 +8,7 @@
 
 **Tech Stack:** TypeScript / Vitest / Cocos Creator 3.8.2 / Python 3.11+ / pytest / Jujutsu
 
-**真源：** [产品规格](../specs/2026-08-31-ui-productization.md) · [ADR-0001](../../adr/0001-ui-presentation-shell.md) · [参考矩阵](../../ui/reference-matrix.md)
+**真源：** [产品规格](../../specs/2026-08-31-ui-productization.md) · [ADR-0001](../../../adr/0001-ui-presentation-shell.md) · [参考矩阵](../../../ui/reference-matrix.md)
 
 ## 全局纪律
 

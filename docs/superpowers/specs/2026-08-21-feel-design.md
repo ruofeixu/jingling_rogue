@@ -7,7 +7,7 @@
 难度数字仍以 [2026-08-19-playability-bar.md](./2026-08-19-playability-bar.md) 为准（本规格不拧通关率）。  
 Q 门仍以 [2026-08-20-quality-bar.md](./2026-08-20-quality-bar.md) 为准（不拆、不加勾）。  
 R 轮仍以 [2026-08-20-optimize-design.md](./2026-08-20-optimize-design.md) 为准（已完成）。  
-实施按 [../plans/2026-08-21-feel-roadmap.md](../plans/2026-08-21-feel-roadmap.md) 的 S0→S3，一次只做一个阶段。
+实施按 [../plans/2026-08-21-feel-roadmap.md](../plans/archive/2026-08-21-feel-roadmap.md) 的 S0→S3，一次只做一个阶段。
 
 **R 勾完 ≠ 第一局像在玩游戏。** 空地点了只有一句「点空处」；受击 tween 有函数但时长未钉进 core；败北只写契录条数，看不出这局见了谁、拿了什么。
 

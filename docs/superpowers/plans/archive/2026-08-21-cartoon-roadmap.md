@@ -1,6 +1,6 @@
 # 卡通观感路线图（A0–A2）
 
-> **For agentic workers:** 每个 A 阶段开工前另写该阶段细计划（含失败测试与文件路径）。规格真源：[../specs/2026-08-21-cartoon-design.md](../specs/2026-08-21-cartoon-design.md)。Q / R / S 已完成，不拆、不加勾。
+> **For agentic workers:** 每个 A 阶段开工前另写该阶段细计划（含失败测试与文件路径）。规格真源：[../specs/2026-08-21-cartoon-design.md](../../specs/2026-08-21-cartoon-design.md)。Q / R / S 已完成，不拆、不加勾。
 
 **Goal:** 立绘不变形、精怪无垫底；整套界面换成浅底卡通皮；三初始先出卡通样品。不开新系统。
 

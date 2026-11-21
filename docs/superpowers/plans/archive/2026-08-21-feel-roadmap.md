@@ -1,6 +1,6 @@
 # 第一局手感路线图（S0–S3）
 
-> **For agentic workers:** 每个 S 阶段开工前另写该阶段细计划（含失败测试与文件路径）。规格真源：[../specs/2026-08-21-feel-design.md](../specs/2026-08-21-feel-design.md)。Q 门与 R 轮已完成，不拆、不加勾。
+> **For agentic workers:** 每个 S 阶段开工前另写该阶段细计划（含失败测试与文件路径）。规格真源：[../specs/2026-08-21-feel-design.md](../../specs/2026-08-21-feel-design.md)。Q 门与 R 轮已完成，不拆、不加勾。
 
 **Goal:** 点了知道下一步，打中有回声，死局能看见收获。不开新系统。
 

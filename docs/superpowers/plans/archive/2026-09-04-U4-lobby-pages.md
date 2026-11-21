@@ -1,6 +1,6 @@
 # U4：大厅资料与管理页（2026-09-04）
 
-**上游：** [路线图 U4](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../specs/2026-08-31-ui-productization.md) · [ADR-0001](../../adr/0001-ui-presentation-shell.md)
+**上游：** [路线图 U4](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../../specs/2026-08-31-ui-productization.md) · [ADR-0001](../../../adr/0001-ui-presentation-shell.md)
 
 **前置：** U1/U2/U3 已完成（见各计划完成记录）。
 

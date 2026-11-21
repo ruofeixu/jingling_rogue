@@ -1,6 +1,6 @@
 # U2：设计系统与五态基础组件（2026-09-02）
 
-**上游：** [路线图 U2](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../specs/2026-08-31-ui-productization.md) · [ADR-0001](../../adr/0001-ui-presentation-shell.md)
+**上游：** [路线图 U2](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../../specs/2026-08-31-ui-productization.md) · [ADR-0001](../../../adr/0001-ui-presentation-shell.md)
 
 **前置：** U1 已完成（见 `2026-09-01-U1-presentation-shell.md` 的完成记录）。
 

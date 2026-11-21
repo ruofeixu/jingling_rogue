@@ -1,6 +1,6 @@
 # U10：全局横屏、可访问性、性能与包体（2026-09-10）
 
-**上游：** [路线图 U10](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../specs/2026-08-31-ui-productization.md)
+**上游：** [路线图 U10](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../../specs/2026-08-31-ui-productization.md)
 
 **前置：** U1–U9 完成，25/25 产品面已迁移到 presentation。
 

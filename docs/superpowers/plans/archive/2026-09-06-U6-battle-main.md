@@ -1,6 +1,6 @@
 # U6：战斗主界面（2026-09-06）
 
-**上游：** [路线图 U6](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../specs/2026-08-31-ui-productization.md) · [关键帧](../../ui/keyframes/battle.svg)
+**上游：** [路线图 U6](./2026-08-31-ui-productization-roadmap.md) · [产品规格](../../specs/2026-08-31-ui-productization.md) · [关键帧](../../../ui/keyframes/battle.svg)
 
 **前置：** U1–U5 已完成。
 

@@ -1,6 +1,6 @@
 # U11：产品化总验收与旧呈现退役决策（2026-09-11）
 
-**上游：** [路线图 U11](./2026-08-31-ui-productization-roadmap.md) · [产品规格 9.3](../specs/2026-08-31-ui-productization.md)
+**上游：** [路线图 U11](./2026-08-31-ui-productization-roadmap.md) · [产品规格 9.3](../../specs/2026-08-31-ui-productization.md)
 
 **前置：** V0、U1–U10 全部完成，25/25 产品面已迁移，250 组合矩阵零缺口，两平台主包 ≤4 MiB。
 

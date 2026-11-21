@@ -1,6 +1,6 @@
 # 优化落地路线图（R0–R5）
 
-> **For agentic workers:** 每个 R 阶段开工前另写该阶段细计划（含失败测试与文件路径）。规格真源：[../specs/2026-08-20-optimize-design.md](../specs/2026-08-20-optimize-design.md)。Q 门：[../specs/2026-08-20-quality-bar.md](../specs/2026-08-20-quality-bar.md)。难度：[../specs/2026-08-19-playability-bar.md](../specs/2026-08-19-playability-bar.md)。
+> **For agentic workers:** 每个 R 阶段开工前另写该阶段细计划（含失败测试与文件路径）。规格真源：[../specs/2026-08-20-optimize-design.md](../../specs/2026-08-20-optimize-design.md)。Q 门：[../specs/2026-08-20-quality-bar.md](../../specs/2026-08-20-quality-bar.md)。难度：[../specs/2026-08-19-playability-bar.md](../../specs/2026-08-19-playability-bar.md)。
 
 **Goal:** 预览能看能点，高档能通关，观感与配表再收一块。不开新系统。
 

@@ -4,7 +4,7 @@
 
 > 机制对齐公开肉鸽玩法（wiki 级描述）。代码、类名、文案、美术、物种全部原创。  
 > **禁止**读上游源码、禁止 AGPL 片段、禁止官方物种/技能/球种名。先读 [docs/legal/clean-room.md](../../legal/clean-room.md)。  
-> 本文件是功能验收真源。实施路线图：[../plans/2026-08-17-full-parity-roadmap.md](../plans/2026-08-17-full-parity-roadmap.md)。
+> 本文件是功能验收真源。实施路线图：[../plans/2026-08-17-full-parity-roadmap.md](../plans/archive/2026-08-17-full-parity-roadmap.md)。
 
 ## 对标原则
 
@@ -400,7 +400,7 @@
 
 实施时按路线图阶段勾选。未勾 = 未完成。
 
-> 2026-08-20：本节系统项已全部勾完。后续易用 / 可玩 / 表现 / 真机不在此节加勾，见 [2026-08-20-quality-bar.md](./2026-08-20-quality-bar.md) 与 [../plans/2026-08-20-quality-roadmap.md](../plans/2026-08-20-quality-roadmap.md)。
+> 2026-08-20：本节系统项已全部勾完。后续易用 / 可玩 / 表现 / 真机不在此节加勾，见 [2026-08-20-quality-bar.md](./2026-08-20-quality-bar.md) 与 [../plans/2026-08-20-quality-roadmap.md](../plans/archive/2026-08-20-quality-roadmap.md)。
 
 ### 模式与进度
 

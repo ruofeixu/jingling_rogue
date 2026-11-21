@@ -1,7 +1,7 @@
 # 精怪肉鸽全功能对标 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.  
-> 本文件是总路线图。每个 F 阶段开工前另写该阶段的细计划（含失败测试与文件路径）。规格真源：[../specs/2026-08-17-full-feature-parity.md](../specs/2026-08-17-full-feature-parity.md)。
+> 本文件是总路线图。每个 F 阶段开工前另写该阶段的细计划（含失败测试与文件路径）。规格真源：[../specs/2026-08-17-full-feature-parity.md](../../specs/2026-08-17-full-feature-parity.md)。
 
 **Goal:** 在现有 30 波切片上，按规格把公开肉鸽的全部**系统**做完（机制对齐，内容原创）。
 

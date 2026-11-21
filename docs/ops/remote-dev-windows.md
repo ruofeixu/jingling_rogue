@@ -20,20 +20,23 @@
 - 电源：AC 下不睡眠、不关盘；合盖不动作（`powercfg /change standby-timeout-ac 0`）
 - npm：`~/.npmrc` 里的 `proxy=127.0.0.1:10809` 已注释掉（那个代理平时不开，pnpm 会直接 ECONNREFUSED），备份在 `~/.npmrc.bak-20261114`
 
-## 基线（2026-11-14，两台一致）
+## 基线（2026-11-21 复测）
 
 ```
-pnpm test           core 284 / presentation 758 / platform 17 全绿，vendor 无漂移
+pnpm test           core 297 / presentation 773 / platform 17 全绿，vendor 无漂移
+pnpm test:py        tools 62 / server 9 全绿
 pnpm check:forbidden  forbidden-term scan: clean
 pnpm shot            48 张图到 .shots/
 pnpm pack:minigame   build/wechatgame、build/bytedance-mini-game
 ```
 
-## 跨平台三个坑（已修）
+## 跨平台五个坑（已修）
 
 1. `tools/check_vendor_drift.py` 里直接 `subprocess.run(["pnpm", ...])`，Windows 上 pnpm 是 `.cmd` 别名 → `FileNotFoundError`。改成 `shutil.which("pnpm")`。
 2. 仓库没有 `.gitattributes`，Windows 的 `core.autocrlf=true` 把检出的 `assets/scripts/vendor/*.ts` 变成 CRLF，而校验是逐字节比对 → 假漂移。已加 `* text=auto eol=lf`，Windows 侧同时 `git config core.autocrlf false`。
 3. `packages/platform/src/scene-png.ts` 的中文字体候选只有 macOS/Linux 路径，Windows 上退到 `sans-serif` 画不出汉字（截图和 `scene-png` 测试都受影响）。已加 `msyh.ttc` / `simhei.ttf` / `simsun.ttc`。
+4. `pnpm sync:core` / `sync:presentation` 把 esbuild 的 banner 写进命令行，`cmd.exe` 不认单引号，`--banner:js='/* … — … */'` 被空格拆成多个输入文件 → `Must use "outdir" when there are multiple input files`。改成 `tools/sync_vendor.py` 复用 `check_vendor_drift` 的 argv 列表调用，两个平台一致（另有 `pnpm sync:vendor` 一次同步两个）。
+5. 测试里 `Path.read_text()` 不传 `encoding`，Windows 默认 cp936/gbk，读到 UTF-8 的 svg/json 直接 `UnicodeDecodeError`（`test_check_ui_productization` 曾两条必红）。`tools/tests` 下已全部显式 `encoding="utf-8"`。
 
 ## 手机指挥的三条链路
 

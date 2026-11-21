@@ -30,6 +30,8 @@ describe("ink wash transition (B5d)", () => {
     expect(effect).toContain("blendSrc: src_alpha");
     // 噪声层数要有上限，给以后调性能留余地。
     expect(effect).toMatch(/i\s*<\s*[1-4]\s*;/);
+    // 落墨三次缓入，避免进度 25% 时已经铺成整页灰雾。
+    expect(effect).toContain("spreadLin * spreadLin * spreadLin");
   });
 
   it("loads the effect from ui-art and falls back to no wash when missing", () => {
@@ -60,5 +62,6 @@ describe("ink wash transition (B5d)", () => {
     // 战斗和它的弹层之间来回切换不洗墨：灰雾会盖住受击反馈，而且每出一招蒙一次很烦。
     expect(shell).toMatch(/BATTLE_BG\.has\(prev\)\s*&&\s*BATTLE_BG\.has\(screenId\)/);
     expect(shell).toMatch(/!this\.reduceMotion/);
+    expect(shell).toMatch(/settings\.display\.reduceMotion/);
   });
 });

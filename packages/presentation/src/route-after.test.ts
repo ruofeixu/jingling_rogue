@@ -63,6 +63,13 @@ describe("routeAfterCommand", () => {
     expect(routeAfterCommand({ command: "slots.load", phase: "none", current: "slots" })).toBe("slots");
   });
 
+  it("opens a codex entry and returns to the list", () => {
+    expect(routeAfterCommand({ command: "codex-list.open-entry", phase: "none", current: "codex-list" })).toBe(
+      "codex-entry",
+    );
+    expect(routeAfterCommand({ command: "codex-entry.back", phase: "none", current: "codex-entry" })).toBe("codex-list");
+  });
+
   it("returns from an overlay to the live fight", () => {
     expect(routeAfterCommand({ command: "overlay.cancel", phase: "battle", current: "arts" })).toBe("battle");
     expect(routeAfterCommand({ command: "overlay.cancel", phase: "catch", current: "catch" })).toBe("catch");

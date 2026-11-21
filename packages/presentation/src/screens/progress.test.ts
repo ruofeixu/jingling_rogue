@@ -107,8 +107,46 @@ describe("run progress models", () => {
     const model = buildProgressModel({ kind: "summary", state: "normal", view });
     const rows = model.secondaryActions.map((a) => a.id);
 
-    expect(rows).toEqual([`${PROGRESS_ACTIONS.summaryPick}.b1`, `${PROGRESS_ACTIONS.summaryPick}.b2`]);
+    expect(rows.slice(0, 2)).toEqual([
+      `${PROGRESS_ACTIONS.summaryPick}.b1`,
+      `${PROGRESS_ACTIONS.summaryPick}.b2`,
+    ]);
     expect(model.secondaryActions[0].label).toBe("淬火 本局全队攻+2");
+  });
+
+  it("summary offers an omen door when the run allows it", () => {
+    const model = buildProgressModel({
+      kind: "summary",
+      state: "normal",
+      view: { ...view, canOpenOmen: true },
+    });
+
+    expect(model.secondaryActions.some((a) => a.id === "omen.open")).toBe(true);
+  });
+
+  it("summary and shop offer a reroll when the cost is known", () => {
+    const rich = { ...view, gold: 300, rerollCost: 250 };
+    const poor = { ...view, gold: 10, rerollCost: 250 };
+    const hidden = buildProgressModel({ kind: "summary", state: "normal", view });
+    const paid = buildProgressModel({ kind: "summary", state: "normal", view: rich });
+    const short = buildProgressModel({ kind: "summary", state: "normal", view: poor });
+    const stall = buildProgressModel({ kind: "shop", state: "normal", view: rich });
+
+    expect(hidden.secondaryActions.some((a) => a.id === PROGRESS_ACTIONS.shopReroll)).toBe(false);
+    expect(paid.secondaryActions.find((a) => a.id === PROGRESS_ACTIONS.shopReroll)?.label).toBe("再择 250 钱");
+    expect(paid.secondaryActions.find((a) => a.id === PROGRESS_ACTIONS.shopReroll)?.enabled).toBe(true);
+    expect(short.secondaryActions.find((a) => a.id === PROGRESS_ACTIONS.shopReroll)?.enabled).toBe(false);
+    expect(short.secondaryActions.find((a) => a.id === PROGRESS_ACTIONS.shopReroll)?.disabledReason).toBe("还差 240 钱");
+    expect(stall.secondaryActions.some((a) => a.id === PROGRESS_ACTIONS.shopReroll)).toBe(true);
+  });
+
+  it("summary also lists shop stock so the stall is on the same page", () => {
+    const model = buildProgressModel({ kind: "summary", state: "normal", view });
+    const rows = model.secondaryActions.map((a) => a.id);
+
+    expect(rows).toContain(`${PROGRESS_ACTIONS.shopBuy}.s1`);
+    expect(rows).toContain(`${PROGRESS_ACTIONS.shopBuy}.s2`);
+    expect(model.secondaryActions.find((a) => a.id.endsWith(".s2"))?.enabled).toBe(false);
   });
 
   it("summary continue says it skips the reward when boons are on offer", () => {

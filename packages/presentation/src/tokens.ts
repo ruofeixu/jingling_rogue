@@ -71,8 +71,8 @@ export const INK_FX = Object.freeze({
   washSeconds: 1.4,
   /** 最浓时的墨色不透明度。 */
   washAlpha: 0.94,
-  /** 受击溅墨全长（秒），比闪白稍长一点，让墨迹能被看清。 */
-  splashSeconds: 0.55,
+  /** 受击溅墨全长（秒），比闪白稍长，真机构建里 0.55 秒截不到帧。 */
+  splashSeconds: 0.8,
   /** 溅墨最浓时的不透明度。 */
   splashAlpha: 0.88,
 });

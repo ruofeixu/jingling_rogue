@@ -339,8 +339,8 @@ var INK_FX = Object.freeze({
   washSeconds: 1.4,
   /** 最浓时的墨色不透明度。 */
   washAlpha: 0.94,
-  /** 受击溅墨全长（秒），比闪白稍长一点，让墨迹能被看清。 */
-  splashSeconds: 0.55,
+  /** 受击溅墨全长（秒），比闪白稍长，真机构建里 0.55 秒截不到帧。 */
+  splashSeconds: 0.8,
   /** 溅墨最浓时的不透明度。 */
   splashAlpha: 0.88
 });
@@ -611,16 +611,50 @@ function buildModeModel(input) {
 // src/screens/lobby.ts
 var LOBBY_ACTIONS = Object.freeze({
   saveSettings: "settings.save",
+  toggleSetting: "settings.toggle",
   openCodexEntry: "codex-list.open-entry",
+  pageCodex: "codex-list.page",
   backToList: "codex-entry.back",
   hatchEgg: "eggs.hatch",
+  redeemVoucher: "eggs.redeem",
+  useMachine: "eggs.machine",
   claimAchievement: "achievements.claim",
+  pageAchievements: "achievements.page",
   refreshStats: "stats.refresh",
   loadSlot: "slots.load",
-  openTerm: "glossary.open-term"
+  openTerm: "glossary.open-term",
+  pageGlossary: "glossary.page"
 });
 function progressLine(done, total) {
   return `\u8FDB\u5EA6 ${done} / ${total}`;
+}
+function pageSlice(rows, page, pageSize) {
+  const size = Math.max(1, pageSize);
+  const pages = Math.max(1, Math.ceil(rows.length / size));
+  const safe = Math.min(Math.max(0, page), pages - 1);
+  return {
+    slice: rows.slice(safe * size, safe * size + size),
+    page: safe,
+    pages,
+    size
+  };
+}
+function pagerRows(prefix, page, pages) {
+  if (pages <= 1) {
+    return [];
+  }
+  return [
+    {
+      id: `${prefix}.prev`,
+      label: "\u4E0A\u4E00\u9875",
+      ...page <= 0 ? { enabled: false, disabledReason: "\u5DF2\u7ECF\u662F\u7B2C\u4E00\u9875" } : {}
+    },
+    {
+      id: `${prefix}.next`,
+      label: "\u4E0B\u4E00\u9875",
+      ...page + 1 >= pages ? { enabled: false, disabledReason: "\u5DF2\u7ECF\u662F\u6700\u540E\u4E00\u9875" } : {}
+    }
+  ];
 }
 var SETTINGS_TAB_NAMES = {
   general: "\u901A\u7528",
@@ -629,11 +663,71 @@ var SETTINGS_TAB_NAMES = {
   play: "\u73A9\u6CD5",
   controls: "\u64CD\u4F5C"
 };
+function onOff(on) {
+  return on ? "\u5F00" : "\u5173";
+}
+function settingsOptionRows(tab, values) {
+  const general = values.general ?? {};
+  const display = values.display ?? {};
+  const audio = values.audio ?? {};
+  const play = values.play ?? {};
+  const controls = values.controls ?? {};
+  if (tab === "general") {
+    return [
+      {
+        id: "settings.toggle.skipSeenDialog",
+        label: `\u8DF3\u8FC7\u5DF2\u89C1 ${onOff(Boolean(general.skipSeenDialog))}`,
+        enabled: false,
+        disabledReason: "\u73B0\u5728\u8DF3\u4E0D\u5230"
+      }
+    ];
+  }
+  if (tab === "display") {
+    return [
+      { id: "settings.toggle.showGold", label: `\u91D1\u94B1 ${onOff(display.showGold !== false)}` },
+      { id: "settings.toggle.showDamage", label: `\u4F24\u5BB3\u6570\u5B57 ${onOff(display.showDamage !== false)}` },
+      { id: "settings.toggle.reduceMotion", label: `\u5C11\u52A8\u6548 ${onOff(display.reduceMotion === true)}` }
+    ];
+  }
+  if (tab === "audio") {
+    return [
+      {
+        id: "settings.toggle.music",
+        label: `\u97F3 ${audio.music ?? 1}`,
+        enabled: false,
+        disabledReason: "\u73B0\u5728\u6CA1\u6709\u97F3"
+      },
+      {
+        id: "settings.toggle.sfx",
+        label: `\u6548 ${audio.sfx ?? 1}`,
+        enabled: false,
+        disabledReason: "\u73B0\u5728\u6CA1\u6709\u97F3"
+      }
+    ];
+  }
+  if (tab === "play") {
+    return [{ id: "settings.toggle.battleSpeed", label: `\u500D\u901F ${play.battleSpeed ?? 1}` }];
+  }
+  if (tab === "controls") {
+    return [
+      {
+        id: "settings.toggle.layout",
+        label: controls.layout === "keys" ? "\u5E03\u5C40 \u952E\u4F4D" : "\u5E03\u5C40 \u89E6\u63A7",
+        enabled: false,
+        disabledReason: "\u53EA\u7528\u89E6\u63A7"
+      }
+    ];
+  }
+  return [];
+}
 function buildSettingsModel(input) {
-  const tabs = input.view.tabs.map((tab) => ({
-    id: `settings.tab.${tab}`,
-    label: SETTINGS_TAB_NAMES[String(tab)] ?? String(tab)
+  const tab = input.tab && input.view.tabs.includes(input.tab) ? input.tab : "general";
+  const tabs = input.view.tabs.map((name) => ({
+    id: `settings.tab.${name}`,
+    label: SETTINGS_TAB_NAMES[String(name)] ?? String(name),
+    ...name === tab ? { enabled: false, disabledReason: "\u5F53\u524D\u9879" } : {}
   }));
+  const options = settingsOptionRows(tab, input.view.values);
   return buildStateModel({
     screenId: "settings",
     state: input.state,
@@ -641,31 +735,37 @@ function buildSettingsModel(input) {
     reason: input.reason,
     emptyHint: input.state === "empty" ? "\u6CA1\u6709\u53EF\u8C03\u6574\u7684\u9879\u76EE" : void 0,
     primaryAction: { id: LOBBY_ACTIONS.saveSettings, label: "\u4FDD\u5B58" },
-    secondaryActions: tabs,
-    lines: [`\u5171 ${input.view.tabs.length} \u7EC4\u8BBE\u7F6E`]
+    secondaryActions: [...tabs, ...options],
+    lines: [`${SETTINGS_TAB_NAMES[tab] ?? tab} ${options.length} \u9879`]
   });
 }
 function buildCodexListModel(input) {
-  const pageSize = input.pageSize ?? input.view.rows.length;
-  const page = input.page ?? 0;
-  const pages = Math.max(1, Math.ceil(input.view.rows.length / Math.max(1, pageSize)));
-  const slice = input.view.rows.slice(page * pageSize, page * pageSize + pageSize);
+  const paged = pageSlice(input.view.rows, input.page ?? 0, input.pageSize ?? input.view.rows.length);
+  const openable = paged.slice.find((row) => row.status !== "unknown");
   return buildStateModel({
     screenId: "codex-list",
     state: input.state,
     accessibleName: "\u5951\u5F55",
     reason: input.reason,
     emptyHint: input.state === "empty" ? "\u8FD8\u6CA1\u6709\u6536\u5951" : void 0,
-    primaryAction: { id: LOBBY_ACTIONS.openCodexEntry, label: "\u67E5\u770B\u8BE6\u60C5" },
-    secondaryActions: slice.map((row, index) => ({
-      id: `${LOBBY_ACTIONS.openCodexEntry}.${row.id}`,
-      label: row.status === "unknown" ? `\uFF1F\uFF1F\uFF1F \u7B2C${page * pageSize + index + 1}\u53F7` : row.name,
-      ...row.status === "unknown" ? { enabled: false, disabledReason: "\u5C1A\u672A\u89C1\u8FC7\u8FD9\u53EA\u7CBE\u602A" } : {}
-    })),
+    primaryAction: openable ? { id: `${LOBBY_ACTIONS.openCodexEntry}.${openable.id}`, label: "\u67E5\u770B\u8BE6\u60C5" } : {
+      id: LOBBY_ACTIONS.openCodexEntry,
+      label: "\u67E5\u770B\u8BE6\u60C5",
+      enabled: false,
+      disabledReason: "\u8FD8\u6CA1\u6709\u89C1\u8FC7\u7684\u7CBE\u602A"
+    },
+    secondaryActions: [
+      ...paged.slice.map((row, index) => ({
+        id: `${LOBBY_ACTIONS.openCodexEntry}.${row.id}`,
+        label: row.status === "unknown" ? `\uFF1F\uFF1F\uFF1F \u7B2C${paged.page * paged.size + index + 1}\u53F7` : row.name,
+        ...row.status === "unknown" ? { enabled: false, disabledReason: "\u5C1A\u672A\u89C1\u8FC7\u8FD9\u53EA\u7CBE\u602A" } : {}
+      })),
+      ...pagerRows(LOBBY_ACTIONS.pageCodex, paged.page, paged.pages)
+    ],
     lines: [
       progressLine(input.view.caught, input.view.total),
       `\u5DF2\u89C1 ${input.view.seen} / ${input.view.total}`,
-      `\u7B2C ${page + 1} / ${pages} \u9875`
+      `\u7B2C ${paged.page + 1} / ${paged.pages} \u9875`
     ]
   });
 }
@@ -685,40 +785,81 @@ function buildCodexEntryModel(input) {
     ]
   });
 }
+var VOUCHER_CN = {
+  fan: "\u51E1",
+  shang: "\u4E0A",
+  te: "\u7279",
+  jin: "\u91D1"
+};
+var EGG_MACHINES = [
+  { kind: "lineage", label: "\u79CD\u65CF\u673A" },
+  { kind: "eggArt", label: "\u5375\u672F\u673A" },
+  { kind: "form", label: "\u5F02\u76F8\u673A" }
+];
 function buildEggsModel(input) {
   const voucherTotal = Object.values(input.view.vouchers).reduce((sum, n) => sum + n, 0);
+  const ready = input.view.slots.some((slot) => slot.steps <= 0);
+  const redeemRows = Object.entries(input.view.vouchers).filter(([, count]) => (count ?? 0) > 0).map(([tier, count]) => ({
+    id: `${LOBBY_ACTIONS.redeemVoucher}.${tier}`,
+    label: `\u5151${VOUCHER_CN[tier] ?? tier}\u5238 ${count}`
+  }));
+  const fan = input.view.vouchers.fan ?? 0;
+  const machineRows = EGG_MACHINES.map((machine) => ({
+    id: `${LOBBY_ACTIONS.useMachine}.${machine.kind}`,
+    label: machine.label,
+    ...fan > 0 ? {} : { enabled: false, disabledReason: "\u6CA1\u6709\u51E1\u5238" }
+  }));
   return buildStateModel({
     screenId: "eggs",
     state: input.state,
     accessibleName: "\u5375\u623F",
     reason: input.reason,
-    emptyHint: input.state === "empty" ? `\u5375\u69FD\u662F\u7A7A\u7684\u3002\u5B75\u5238 ${voucherTotal} \u5F20\uFF0C\u53EF\u5148\u6362\u4E00\u9897\u5375\u3002` : void 0,
+    emptyHint: input.state === "empty" ? `\u5375\u69FD\u662F\u7A7A\u7684\u3002\u5B75\u5238 ${voucherTotal} \u5F20\uFF0C\u53EF\u5148\u5151\u4E00\u9897\u5375\u3002` : void 0,
     primaryAction: {
       id: LOBBY_ACTIONS.hatchEgg,
       label: "\u5B75\u5316",
-      ...input.view.isEmpty ? { enabled: false, disabledReason: "\u5375\u69FD\u91CC\u6CA1\u6709\u5375" } : {}
+      ...input.view.isEmpty ? { enabled: false, disabledReason: "\u5375\u69FD\u91CC\u6CA1\u6709\u5375" } : ready ? {} : { enabled: false, disabledReason: "\u8FD8\u6CA1\u6709\u5B75\u597D\u7684\u5375" }
     },
-    secondaryActions: input.view.slots.map((slot) => ({
-      id: `${LOBBY_ACTIONS.hatchEgg}.${slot.id}`,
-      label: `${slot.tier} \u2022 ${slot.steps} \u6B65`
-    })),
+    secondaryActions: [
+      ...input.view.slots.map((slot) => ({
+        id: `${LOBBY_ACTIONS.hatchEgg}.${slot.id}`,
+        label: slot.steps <= 0 ? `${slot.tier}\u5375 \u53EF\u5B75` : `${slot.tier}\u5375 \u8FD8\u8981 ${slot.steps} \u6B65`,
+        ...slot.steps > 0 ? { enabled: false, disabledReason: `\u8FD8\u8981\u8D70 ${slot.steps} \u6B65` } : {}
+      })),
+      ...redeemRows,
+      ...machineRows
+    ],
     lines: [`\u5375\u69FD ${input.view.slots.length}`, `\u5B75\u5238 ${voucherTotal}`]
   });
 }
 function buildAchievementsModel(input) {
+  const paged = pageSlice(input.view.rows, input.page ?? 0, input.pageSize ?? input.view.rows.length);
+  const selected = input.view.rows.find((row) => row.id === input.selectedId);
+  const selectedLine = selected ? selected.earned ? `${selected.name}\u3002\u5DF2\u7ECF\u8BB0\u4E0B\u3002` : `${selected.name}\u3002\u5C1A\u672A\u8FBE\u6210\u3002` : null;
   return buildStateModel({
     screenId: "achievements",
     state: input.state,
     accessibleName: "\u6210\u5C31",
-    reason: input.reason,
+    reason: input.reason ?? selectedLine ?? void 0,
     emptyHint: input.state === "empty" ? `\u8FD8\u6CA1\u6709\u6210\u5C31\u3002${progressLine(0, input.view.total)}\uFF0C\u901A\u5173\u4E0E\u6536\u5951\u540E\u4F1A\u51FA\u73B0\u3002` : void 0,
-    primaryAction: { id: LOBBY_ACTIONS.claimAchievement, label: "\u9886\u53D6" },
-    secondaryActions: input.view.rows.map((row) => ({
-      id: `${LOBBY_ACTIONS.claimAchievement}.${row.id}`,
-      label: row.name,
-      ...row.earned ? {} : { enabled: false, disabledReason: row.hidden ? "\u9690\u85CF\u6210\u5C31" : "\u5C1A\u672A\u8FBE\u6210" }
-    })),
-    lines: [progressLine(input.view.earned, input.view.total)]
+    primaryAction: {
+      id: LOBBY_ACTIONS.claimAchievement,
+      label: "\u9886\u53D6",
+      enabled: false,
+      disabledReason: "\u8FBE\u6210\u540E\u4F1A\u81EA\u52A8\u51FA\u73B0\u5728\u8FD9\u91CC"
+    },
+    secondaryActions: [
+      ...paged.slice.map((row) => ({
+        id: `${LOBBY_ACTIONS.claimAchievement}.${row.id}`,
+        label: row.name,
+        ...row.id === input.selectedId ? { enabled: false, disabledReason: "\u5F53\u524D\u6761\u76EE" } : row.earned ? {} : { enabled: false, disabledReason: row.hidden ? "\u9690\u85CF\u6210\u5C31" : "\u5C1A\u672A\u8FBE\u6210" }
+      })),
+      ...pagerRows(LOBBY_ACTIONS.pageAchievements, paged.page, paged.pages)
+    ],
+    lines: [
+      progressLine(input.view.earned, input.view.total),
+      `\u7B2C ${paged.page + 1} / ${paged.pages} \u9875`
+    ]
   });
 }
 function buildStatsModel(input) {
@@ -728,7 +869,12 @@ function buildStatsModel(input) {
     accessibleName: "\u7EDF\u8BA1",
     reason: input.reason,
     emptyHint: input.state === "empty" ? "\u8FD8\u6CA1\u6709\u65C5\u9014\u8BB0\u5F55\uFF0C\u5F00\u5C40\u540E\u8FD9\u91CC\u4F1A\u6709\u6570\u5B57\u3002" : void 0,
-    primaryAction: { id: LOBBY_ACTIONS.refreshStats, label: "\u5237\u65B0" },
+    primaryAction: {
+      id: LOBBY_ACTIONS.refreshStats,
+      label: "\u5237\u65B0",
+      enabled: false,
+      disabledReason: "\u4EC5\u5C55\u793A"
+    },
     // 数字作为面板里的行展示（不可点），而不是标题下的一串小字。
     secondaryActions: [
       { id: "stats.row.seen", label: `\u89C1 ${input.view.seen}` },
@@ -774,20 +920,28 @@ function buildSlotsModel(input) {
   });
 }
 function buildGlossaryModel(input) {
-  const pageSize = input.pageSize ?? input.view.terms.length;
-  const slice = input.view.terms.slice(0, pageSize);
+  const paged = pageSlice(input.view.terms, input.page ?? 0, input.pageSize ?? input.view.terms.length);
+  const selected = input.view.terms.find((term) => term.term === input.selectedTerm);
   return buildStateModel({
     screenId: "glossary",
     state: input.state,
     accessibleName: "\u540D\u8BCD",
-    reason: input.reason,
+    reason: input.reason ?? selected?.explain,
     emptyHint: input.state === "empty" ? "\u540D\u8BCD\u8868\u662F\u7A7A\u7684" : void 0,
-    primaryAction: { id: LOBBY_ACTIONS.openTerm, label: "\u67E5\u770B" },
-    secondaryActions: slice.map((term) => ({
-      id: `${LOBBY_ACTIONS.openTerm}.${term.term}`,
-      label: term.term
-    })),
-    lines: [`\u5171 ${input.view.terms.length} \u6761`]
+    primaryAction: {
+      id: LOBBY_ACTIONS.openTerm,
+      label: "\u67E5\u770B",
+      ...selected ? { enabled: false, disabledReason: "\u8BF4\u660E\u5728\u4E0A\u65B9" } : { enabled: false, disabledReason: "\u5148\u70B9\u4E00\u6761\u540D\u8BCD" }
+    },
+    secondaryActions: [
+      ...paged.slice.map((term) => ({
+        id: `${LOBBY_ACTIONS.openTerm}.${term.term}`,
+        label: term.term,
+        ...term.term === input.selectedTerm ? { enabled: false, disabledReason: "\u5F53\u524D\u8BCD\u6761" } : {}
+      })),
+      ...pagerRows(LOBBY_ACTIONS.pageGlossary, paged.page, paged.pages)
+    ],
+    lines: [`\u5171 ${input.view.terms.length} \u6761`, `\u7B2C ${paged.page + 1} / ${paged.pages} \u9875`]
   });
 }
 
@@ -888,7 +1042,7 @@ function buildBattleModel(input) {
       secondaryActions: rest,
       lines: [
         `\u7B2C ${input.view.wave} \u6CE2`,
-        `\u91D1 ${input.view.gold}`,
+        input.showGold === false ? "" : `\u91D1 ${input.view.gold}`,
         plateLine("\u654C", input.view.foe),
         plateLine("\u6211", input.view.ally),
         `\u961F\u4F0D ${input.view.partySize}`,
@@ -1003,6 +1157,7 @@ var PROGRESS_ACTIONS = Object.freeze({
   summaryContinue: "summary.continue",
   summaryPick: "summary.pick",
   shopBuy: "shop.buy",
+  shopReroll: "shop.reroll",
   shopLeave: "shop.leave",
   omenPick: "omen.pick",
   omenSkip: "omen.skip",
@@ -1043,6 +1198,17 @@ var SPECS2 = Object.freeze({
     select: (v) => v.nodes
   }
 });
+function rerollAction(view) {
+  if (view.rerollCost <= 0) {
+    return null;
+  }
+  const short = view.rerollCost - view.gold;
+  return {
+    id: PROGRESS_ACTIONS.shopReroll,
+    label: `\u518D\u62E9 ${view.rerollCost} \u94B1`,
+    ...short > 0 ? { enabled: false, disabledReason: `\u8FD8\u5DEE ${short} \u94B1` } : {}
+  };
+}
 function buildProgressModel(input) {
   const spec = SPECS2[input.kind];
   if (!spec) {
@@ -1054,6 +1220,24 @@ function buildProgressModel(input) {
     label: row.detail ? `${row.label} ${row.detail}` : row.label,
     ...row.lockedReason ? { enabled: false, disabledReason: row.lockedReason } : {}
   })) : [];
+  if (input.kind === "summary") {
+    for (const item of input.view.shop) {
+      rowActions.push({
+        id: `${PROGRESS_ACTIONS.shopBuy}.${item.id}`,
+        label: item.detail ? `${item.label} ${item.detail}` : item.label,
+        ...item.lockedReason ? { enabled: false, disabledReason: item.lockedReason } : {}
+      });
+    }
+    if (input.view.canOpenOmen) {
+      rowActions.push({ id: "omen.open", label: "\u5947\u9047" });
+    }
+  }
+  if (input.kind === "summary" || input.kind === "shop") {
+    const reroll = rerollAction(input.view);
+    if (reroll) {
+      rowActions.push(reroll);
+    }
+  }
   const lines = [
     `\u6CE2 ${input.view.wave}`,
     `\u94B1 ${input.view.gold}`,
@@ -1063,7 +1247,7 @@ function buildProgressModel(input) {
     screenId: input.kind,
     state: input.state,
     accessibleName: spec.accessibleName,
-    reason: input.reason,
+    reason: input.reason ?? input.view.note,
     emptyHint: input.state === "empty" ? spec.emptyHint : void 0,
     // 主行动就是安全继续路径，永不禁用（loading 由状态层统一压禁）。
     // 结算页有机缘可选时，「继续」等于放弃领取，文案要说清楚。
@@ -1511,7 +1695,9 @@ function resolveLiveRunAction(actionId) {
     "battle.flee",
     "summary.continue",
     "shop.leave",
+    "shop.reroll",
     "omen.skip",
+    "omen.open",
     "map.rest",
     "outcome.commit",
     "outcome.lobby",
@@ -1621,6 +1807,10 @@ function routeAfterCommand(input) {
       return "mode";
     case "outcome.lobby":
       return "title";
+    case "codex-list.open-entry":
+      return "codex-entry";
+    case "codex-entry.back":
+      return "codex-list";
     case "battle.art":
       return input.phase === "battle" ? "arts" : nextScreen[input.phase] ?? input.current;
     case "battle.party":

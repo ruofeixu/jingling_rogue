@@ -129,7 +129,7 @@ const LOBBY_DATA_SCREENS: ReadonlySet<string> = new Set([
   "title", "starter", "settings", "codex-list", "codex-entry", "eggs", "achievements", "stats", "slots",
 ]);
 const EMPTY_PROGRESS: RunProgressView = {
-  gold: 0, wave: 0, deltas: [], offers: [], shop: [], omens: [], nodes: [],
+  gold: 0, wave: 0, deltas: [], offers: [], shop: [], omens: [], nodes: [], canOpenOmen: false, rerollCost: 0,
 };
 const PROGRESS_ITEMS: Record<string, (v: RunProgressView) => readonly unknown[]> = {
   summary: (v) => [...v.deltas, ...v.offers],
@@ -165,6 +165,16 @@ const EMPTY_BATTLE_VIEW: BattleView = {
   ],
   log: "",
 };
+
+function stepPage(page: number, dir: string | undefined): number {
+  if (dir === "next") {
+    return page + 1;
+  }
+  if (dir === "prev" && page > 0) {
+    return page - 1;
+  }
+  return page;
+}
 
 /**
  * 组合根。职责边界见 docs/adr/0001-ui-presentation-shell.md：
@@ -342,11 +352,18 @@ export class AppShell extends Component {
    */
   private account: AccountProgress = emptyAccount();
   private savedSlots: SlotSummary[] = [];
+  private settingsTab = "general";
+  private glossaryTerm: string | null = null;
+  private glossaryPage = 0;
+  private achievementId: string | null = null;
+  private achievementPage = 0;
   private codexId: string | null = null;
+  private codexPage = 0;
 
   setAccount(account: AccountProgress, savedSlots: SlotSummary[] = []): void {
     this.account = account;
     this.savedSlots = savedSlots;
+    this.syncReduceMotion();
     this.route(this.routeId);
   }
 
@@ -359,6 +376,7 @@ export class AppShell extends Component {
           state: this.resolveState("normal") as "normal",
           reason: this.resolveReason(),
           view: selectSettings(this.account),
+          tab: this.settingsTab,
         });
       case "codex-list": {
         const view = selectCodexList(this.account);
@@ -366,7 +384,8 @@ export class AppShell extends Component {
           state: this.resolveState(view.isEmpty ? "empty" : "normal") as "normal",
           reason: this.resolveReason(),
           view,
-          pageSize: 8,
+          pageSize: 6,
+          page: this.codexPage,
         });
       }
       case "codex-entry": {
@@ -396,6 +415,9 @@ export class AppShell extends Component {
           state: this.resolveState(view.isEmpty ? "empty" : "normal") as "normal",
           reason: this.resolveReason(),
           view,
+          selectedId: this.achievementId,
+          pageSize: 6,
+          page: this.achievementPage,
         });
       }
       case "stats": {
@@ -419,7 +441,9 @@ export class AppShell extends Component {
           state: this.resolveState("normal") as "normal",
           reason: this.resolveReason(),
           view: selectGlossary(),
-          pageSize: 8,
+          pageSize: 6,
+          page: this.glossaryPage,
+          selectedTerm: this.glossaryTerm,
         });
       default:
         return null;
@@ -462,6 +486,9 @@ export class AppShell extends Component {
       this.route(intent.to);
       return;
     }
+    if (this.applyLobbyUi(intent.command, intent.payload)) {
+      return;
+    }
     // command 意图：接真实回合驱动。有 controller 就执行并重投影；否则退回演示日志。
     if (intent.command === "starter.pick" && intent.payload.id) {
       this.starterSelectedId = intent.payload.id;
@@ -497,6 +524,62 @@ export class AppShell extends Component {
     console.log("[AppShell] command", intent.command, JSON.stringify(intent.payload));
   }
 
+  /** 大厅里只改瞬时 UI 的动作：分组、词条、契录详情、翻页。不进 core。 */
+  private applyLobbyUi(command: string, payload: Readonly<Record<string, string>>): boolean {
+    if (command === "settings.select-tab") {
+      if (payload.tab) {
+        this.settingsTab = payload.tab;
+      }
+      this.route("settings");
+      return true;
+    }
+    if (command === "glossary.open-term") {
+      if (payload.arg) {
+        this.glossaryTerm = payload.arg;
+      }
+      this.route("glossary");
+      return true;
+    }
+    if (command === "glossary.page") {
+      this.glossaryPage = stepPage(this.glossaryPage, payload.arg);
+      this.route("glossary");
+      return true;
+    }
+    if (command === "achievements.claim") {
+      if (payload.arg) {
+        this.achievementId = payload.arg;
+      }
+      this.route("achievements");
+      return true;
+    }
+    if (command === "achievements.page") {
+      this.achievementPage = stepPage(this.achievementPage, payload.arg);
+      this.route("achievements");
+      return true;
+    }
+    if (command === "codex-list.open-entry") {
+      if (payload.arg) {
+        this.codexId = payload.arg;
+      }
+      this.route("codex-entry");
+      return true;
+    }
+    if (command === "codex-list.page") {
+      this.codexPage = stepPage(this.codexPage, payload.arg);
+      this.route("codex-list");
+      return true;
+    }
+    if (command === "codex-entry.back") {
+      this.route("codex-list");
+      return true;
+    }
+    if (command === "stats.refresh") {
+      this.route("stats");
+      return true;
+    }
+    return false;
+  }
+
   /** 命令落地后：按相位决定下一页，重投影，挂载。 */
   private afterCommand(command: string): void {
     if (!this.runController) {
@@ -515,9 +598,13 @@ export class AppShell extends Component {
     this.refreshFromController();
     this.route(next);
   }
-  /** 显示偏好属于瞬时 UI 状态，由壳层拥有；不进 core。 */
+  /** 文本缩放是壳层瞬时状态；减少动效跟账号设置走，陈列页仍可临时覆盖。 */
   private textScale = 1;
   private reduceMotion = false;
+
+  private syncReduceMotion(): void {
+    this.reduceMotion = this.account.settings.display.reduceMotion === true;
+  }
 
   /** 供陈列页演示：文本缩放到 200%、开关减少动效。 */
   setDisplayPreferences(prefs: { textScale?: number; reduceMotion?: boolean }): void {
@@ -571,6 +658,7 @@ export class AppShell extends Component {
     }
     if (c.account) {
       this.account = c.account();
+      this.syncReduceMotion();
     }
     if (screenId === "slots" && c.slots) {
       void c.slots().then((rows) => {
@@ -813,6 +901,7 @@ export class AppShell extends Component {
         state: this.resolveState("normal") as "normal",
         reason: this.resolveReason(),
         view: this.battleView,
+        showGold: this.account.settings.display.showGold,
       });
       const panelModel = buildOverlayModel({
         kind: this.routeId as "arts",
@@ -826,6 +915,8 @@ export class AppShell extends Component {
         viewport: this.viewport,
         textScale: this.textScale,
         reduceMotion: this.reduceMotion,
+        showDamage: this.account.settings.display.showDamage,
+        battleSpeed: this.account.settings.play.battleSpeed,
         // 已经在战斗里，不再整页淡入
         fadeIn: false,
         panel: { model: panelModel, selectedId: this.overlaySelectedId },
@@ -858,17 +949,21 @@ export class AppShell extends Component {
             state: this.resolveState("empty") as "normal",
             reason: this.resolveReason(),
             view: EMPTY_BATTLE_VIEW,
+            showGold: this.account.settings.display.showGold,
           })
         : buildBattleModel({
             state: this.resolveState("normal") as "normal",
             reason: this.resolveReason(),
             view: this.battleView,
+            showGold: this.account.settings.display.showGold,
           });
       this.model = battleModel;
       this.battleScreen.mount(host, battleModel, {
         viewport: this.viewport,
         textScale: this.textScale,
         reduceMotion: this.reduceMotion,
+        showDamage: this.account.settings.display.showDamage,
+        battleSpeed: this.account.settings.play.battleSpeed,
         // 从选术面板、弹层回来，或同页重挂，都已经在战斗里，不再整页淡入
         fadeIn: this.cameFromBattle ? false : true,
         onAction: (id) => this.dispatch(id),

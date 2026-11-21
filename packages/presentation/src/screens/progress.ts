@@ -11,6 +11,7 @@ export const PROGRESS_ACTIONS = Object.freeze({
   summaryContinue: "summary.continue",
   summaryPick: "summary.pick",
   shopBuy: "shop.buy",
+  shopReroll: "shop.reroll",
   shopLeave: "shop.leave",
   omenPick: "omen.pick",
   omenSkip: "omen.skip",
@@ -72,6 +73,18 @@ export interface ProgressModelInput {
   readonly reason?: string;
 }
 
+function rerollAction(view: RunProgressView): ScreenActionInput | null {
+  if (view.rerollCost <= 0) {
+    return null;
+  }
+  const short = view.rerollCost - view.gold;
+  return {
+    id: PROGRESS_ACTIONS.shopReroll,
+    label: `再择 ${view.rerollCost} 钱`,
+    ...(short > 0 ? { enabled: false, disabledReason: `还差 ${short} 钱` } : {}),
+  };
+}
+
 export function buildProgressModel(input: ProgressModelInput): ScreenModel {
   const spec = SPECS[input.kind];
   if (!spec) {
@@ -85,6 +98,24 @@ export function buildProgressModel(input: ProgressModelInput): ScreenModel {
         ...(row.lockedReason ? { enabled: false, disabledReason: row.lockedReason } : {}),
       }))
     : [];
+  if (input.kind === "summary") {
+    for (const item of input.view.shop) {
+      rowActions.push({
+        id: `${PROGRESS_ACTIONS.shopBuy}.${item.id}`,
+        label: item.detail ? `${item.label} ${item.detail}` : item.label,
+        ...(item.lockedReason ? { enabled: false, disabledReason: item.lockedReason } : {}),
+      });
+    }
+    if (input.view.canOpenOmen) {
+      rowActions.push({ id: "omen.open", label: "奇遇" });
+    }
+  }
+  if (input.kind === "summary" || input.kind === "shop") {
+    const reroll = rerollAction(input.view);
+    if (reroll) {
+      rowActions.push(reroll);
+    }
+  }
 
   const lines = [
     `波 ${input.view.wave}`,
@@ -96,7 +127,7 @@ export function buildProgressModel(input: ProgressModelInput): ScreenModel {
     screenId: input.kind,
     state: input.state,
     accessibleName: spec.accessibleName,
-    reason: input.reason,
+    reason: input.reason ?? input.view.note,
     emptyHint: input.state === "empty" ? spec.emptyHint : undefined,
     // 主行动就是安全继续路径，永不禁用（loading 由状态层统一压禁）。
     // 结算页有机缘可选时，「继续」等于放弃领取，文案要说清楚。

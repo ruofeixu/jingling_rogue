@@ -14,8 +14,8 @@ function read(rel: string): string {
 
 describe("ink splash on hit (B5d)", () => {
   it("keeps the splash short enough to read as hit feedback", () => {
-    expect(INK_FX.splashSeconds).toBeGreaterThanOrEqual(0.3);
-    expect(INK_FX.splashSeconds).toBeLessThanOrEqual(0.8);
+    expect(INK_FX.splashSeconds).toBeGreaterThanOrEqual(0.6);
+    expect(INK_FX.splashSeconds).toBeLessThanOrEqual(1.0);
     expect(INK_FX.splashAlpha).toBeGreaterThan(0);
     expect(INK_FX.splashAlpha).toBeLessThanOrEqual(1);
   });

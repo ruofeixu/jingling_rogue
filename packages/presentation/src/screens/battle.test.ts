@@ -71,6 +71,18 @@ describe("battle screen model", () => {
     expect(text).toMatch(/Lv\s*5/);
   });
 
+  it("shows a readable ailment instead of leaking the object", () => {
+    const burned = selectBattle(
+      { ...battle, foe: { ...battle.foe, ailment: { kind: "burn" } } },
+      run,
+    );
+    const model = buildBattleModel({ state: "normal", view: burned });
+
+    expect(model.plates.foe.status).toBe("灼");
+    expect(model.lines.join(" ")).toContain("灼");
+    expect(model.lines.join(" ")).not.toMatch(/object Object/);
+  });
+
   it("marks a fainted fighter as down", () => {
     const downed = selectBattle(
       { ...battle, foe: { ...battle.foe, hp: 0 } },
@@ -132,5 +144,11 @@ describe("battle screen model", () => {
 
     expect(text).toMatch(/第\s*1\s*波/);
     expect(text).toContain("1000");
+  });
+
+  it("hides the gold line when the display setting is off", () => {
+    const model = buildBattleModel({ state: "normal", view, showGold: false });
+
+    expect(model.lines.some((line) => line.startsWith("金"))).toBe(false);
   });
 });

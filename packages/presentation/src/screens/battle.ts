@@ -37,6 +37,8 @@ export interface BattleModelInput {
   readonly state: StateId;
   readonly view: BattleView;
   readonly reason?: string;
+  /** 设置「金钱」关掉时不在战况行里写金数。缺省显示。 */
+  readonly showGold?: boolean;
 }
 
 function plateStatus(plate: NameplateView): string {
@@ -83,7 +85,7 @@ export function buildBattleModel(input: BattleModelInput): BattleScreenModel {
       secondaryActions: rest,
       lines: [
         `第 ${input.view.wave} 波`,
-        `金 ${input.view.gold}`,
+        input.showGold === false ? "" : `金 ${input.view.gold}`,
         plateLine("敌", input.view.foe),
         plateLine("我", input.view.ally),
         `队伍 ${input.view.partySize}`,

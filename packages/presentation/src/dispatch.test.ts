@@ -93,10 +93,30 @@ describe("action dispatch — live run namespaces (U12)", () => {
       command: "map.enter",
       payload: { id: "n1" },
     });
+    expect(resolveAction("shop.reroll")).toEqual({
+      kind: "command",
+      command: "shop.reroll",
+      payload: {},
+    });
     expect(resolveAction("omen.skip")).toEqual({
       kind: "command",
       command: "omen.skip",
       payload: {},
+    });
+    expect(resolveAction("omen.open")).toEqual({
+      kind: "command",
+      command: "omen.open",
+      payload: {},
+    });
+    expect(resolveAction("eggs.redeem.fan")).toEqual({
+      kind: "command",
+      command: "eggs.redeem",
+      payload: { arg: "fan" },
+    });
+    expect(resolveAction("eggs.machine.lineage")).toEqual({
+      kind: "command",
+      command: "eggs.machine",
+      payload: { arg: "lineage" },
     });
   });
 
@@ -123,6 +143,44 @@ describe("action dispatch — live run namespaces (U12)", () => {
       kind: "command",
       command: "starter.confirm",
       payload: {},
+    });
+  });
+
+  it("maps lobby settings, glossary, and codex actions", () => {
+    expect(resolveAction("settings.tab.display")).toEqual({
+      kind: "command",
+      command: "settings.select-tab",
+      payload: { tab: "display" },
+    });
+    expect(resolveAction("settings.toggle.showGold")).toEqual({
+      kind: "command",
+      command: "settings.toggle",
+      payload: { arg: "showGold" },
+    });
+    expect(resolveAction("settings.save")).toEqual({
+      kind: "command",
+      command: "settings.save",
+      payload: {},
+    });
+    expect(resolveAction("glossary.open-term.术法")).toEqual({
+      kind: "command",
+      command: "glossary.open-term",
+      payload: { arg: "术法" },
+    });
+    expect(resolveAction("codex-list.open-entry.zao_li")).toEqual({
+      kind: "command",
+      command: "codex-list.open-entry",
+      payload: { arg: "zao_li" },
+    });
+    expect(resolveAction("codex-list.page.next")).toEqual({
+      kind: "command",
+      command: "codex-list.page",
+      payload: { arg: "next" },
+    });
+    expect(resolveAction("achievements.claim.catch_1")).toEqual({
+      kind: "command",
+      command: "achievements.claim",
+      payload: { arg: "catch_1" },
     });
   });
 

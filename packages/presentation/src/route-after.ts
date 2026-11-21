@@ -31,6 +31,10 @@ export function routeAfterCommand(input: {
       return "mode";
     case "outcome.lobby":
       return "title";
+    case "codex-list.open-entry":
+      return "codex-entry";
+    case "codex-entry.back":
+      return "codex-list";
     case "battle.art":
       return input.phase === "battle" ? "arts" : (nextScreen[input.phase] ?? input.current);
     case "battle.party":

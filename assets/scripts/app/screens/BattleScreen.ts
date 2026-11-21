@@ -37,6 +37,10 @@ export interface BattleRenderOptions {
     readonly model: ScreenModel;
     readonly selectedId: string | null;
   };
+  /** 设置「伤害数字」关掉时不飘字。缺省显示。 */
+  readonly showDamage?: boolean;
+  /** 设置倍速，缩短血条缓降。缺省 1。 */
+  readonly battleSpeed?: number;
 }
 
 interface Plate {
@@ -70,10 +74,16 @@ export class BattleScreen {
   private root: Node | null = null;
   private readonly lastRatio = new Map<string, number>();
   private readonly ratioStates: RatioState[] = [];
+  private showDamage = true;
+  private battleSpeed = 1;
+  private textScale = 1;
 
   mount(parent: Node, model: BattleMountModel, opts: BattleRenderOptions): Node {
     this.unmount();
     const scale = opts.textScale ?? 1;
+    this.textScale = scale;
+    this.showDamage = opts.showDamage !== false;
+    this.battleSpeed = Math.max(1, opts.battleSpeed ?? 1);
     const reduceMotion = opts.reduceMotion ?? false;
     const frame = buildResponsiveFrame(opts.viewport);
     const layout = battleLayout(frame);
@@ -314,7 +324,7 @@ export class BattleScreen {
       fontSize: TYPE.caption * scale,
       tone: "muted",
     });
-    this.animateRatio(`${side}:${plate.spiritId}`, bar, ratio, side, reduceMotion, holder);
+    this.animateRatio(`${side}:${plate.spiritId}`, bar, ratio, side, reduceMotion, holder, plate.maxHp);
   }
 
   private animateRatio(
@@ -324,6 +334,7 @@ export class BattleScreen {
     side: "ally" | "foe",
     reduceMotion: boolean,
     art: Node,
+    maxHp: number,
   ): void {
     const from = this.lastRatio.get(key) ?? ratio;
     this.lastRatio.set(key, ratio);
@@ -333,7 +344,7 @@ export class BattleScreen {
     }
     const state: RatioState = { ratio: from };
     this.ratioStates.push(state);
-    const seconds = motionDurationMs(MOTION.normal, reduceMotion) / 1000;
+    const seconds = motionDurationMs(MOTION.normal, reduceMotion) / 1000 / this.battleSpeed;
     tween(state)
       .to(seconds, { ratio }, {
         onUpdate: () => bar.setRatio(state.ratio, hpTone(side, state.ratio)),
@@ -351,10 +362,31 @@ export class BattleScreen {
           tone: side === "ally" ? COLOR.accent : COLOR.ink,
         });
       }
+      if (this.showDamage && art.parent) {
+        const lost = Math.max(1, Math.round((from - ratio) * maxHp));
+        const mark = addLabel(art.parent, {
+          text: `-${lost}`,
+          x: art.position.x,
+          y: art.position.y + SPACE.xl,
+          width: SPACE.xl * 2,
+          fontSize: TYPE.body * this.textScale,
+          tone: side === "ally" ? "accent" : "ink",
+        });
+        const fade = mark.addComponent(UIOpacity);
+        fade.opacity = 255;
+        tween(fade)
+          .to(seconds, { opacity: 0 })
+          .call(() => {
+            if (mark.isValid) {
+              mark.destroy();
+            }
+          })
+          .start();
+      }
       const opacity = art.getComponent(UIOpacity) ?? art.addComponent(UIOpacity);
       Tween.stopAllByTarget(opacity);
       opacity.opacity = 255;
-      const flash = motionDurationMs(MOTION.fast, reduceMotion) / 1000;
+      const flash = motionDurationMs(MOTION.fast, reduceMotion) / 1000 / this.battleSpeed;
       tween(opacity).to(flash / 2, { opacity: 120 }).to(flash / 2, { opacity: 255 }).start();
     }
   }

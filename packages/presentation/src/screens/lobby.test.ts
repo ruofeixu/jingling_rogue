@@ -118,6 +118,45 @@ describe("lobby screen models", () => {
     expect(model.lines.join("")).toMatch(/./);
   });
 
+  it("eggs offers a redeem row when the account has a voucher", () => {
+    const model = buildEggsModel({ state: "empty", view: selectEggs(account) });
+    const redeem = model.secondaryActions.find((a) => a.id.startsWith("eggs.redeem."));
+
+    expect(redeem?.label).toMatch(/兑凡券/);
+    expect(redeem?.id).toBe("eggs.redeem.fan");
+  });
+
+  it("eggs offers three machines that spend a fan voucher", () => {
+    const model = buildEggsModel({ state: "empty", view: selectEggs(account) });
+    const machines = model.secondaryActions.filter((a) => a.id.startsWith("eggs.machine."));
+
+    expect(machines.map((a) => a.label)).toEqual(["种族机", "卵术机", "异相机"]);
+    expect(machines.every((a) => a.enabled)).toBe(true);
+
+    const broke = {
+      ...emptyAccount(),
+      vouchers: { fan: 0, shang: 0, te: 0, jin: 0 },
+    };
+    const locked = buildEggsModel({ state: "empty", view: selectEggs(broke) });
+    expect(locked.secondaryActions.filter((a) => a.id.startsWith("eggs.machine.")).every((a) => !a.enabled)).toBe(
+      true,
+    );
+  });
+
+  it("eggs disables hatch until a slot has finished walking", () => {
+    const withEggs = {
+      ...emptyAccount(),
+      eggs: [{ id: "e1", spiritId: "zao_li", tier: "fan" as const, steps: 40 }],
+    };
+    const model = buildEggsModel({ state: "normal", view: selectEggs(withEggs) });
+
+    expect(model.primaryAction?.enabled).toBe(false);
+    expect(model.primaryAction?.disabledReason).toMatch(/孵好/);
+    expect(model.secondaryActions[0]?.enabled).toBe(false);
+    expect(model.secondaryActions[0]?.label).toMatch(/凡卵/);
+    expect(model.secondaryActions[0]?.label).not.toMatch(/\bfan\b/);
+  });
+
   it("stats says there is no history instead of showing zeros only", () => {
     const model = buildStatsModel({ state: "empty", view: selectStats(account, "2026-09-01") });
 
@@ -181,6 +220,38 @@ describe("lobby screen models", () => {
     expect(model.secondaryActions.length).toBeGreaterThan(0);
   });
 
+  it("glossary puts the selected term's explanation in the reason", () => {
+    const view = selectGlossary();
+    const term = view.terms[0];
+    const model = buildGlossaryModel({ state: "normal", view, selectedTerm: term.term });
+
+    expect(model.reason).toBe(term.explain);
+    expect(model.primaryAction?.enabled).toBe(false);
+  });
+
+  it("glossary and codex can turn the page", () => {
+    const glossary = buildGlossaryModel({ state: "normal", view: selectGlossary(), pageSize: 6, page: 0 });
+    const codex = buildCodexListModel({ state: "normal", view: selectCodexList(account), pageSize: 6, page: 0 });
+
+    expect(glossary.secondaryActions.some((a) => a.id === "glossary.page.next")).toBe(true);
+    expect(codex.secondaryActions.some((a) => a.id === "codex-list.page.next")).toBe(true);
+    expect(codex.lines.join(" ")).toMatch(/第 1 \/ \d+ 页/);
+  });
+
+  it("achievements inspect a selected row instead of claiming it", () => {
+    const view = selectAchievements(account);
+    const row = view.rows[0];
+    const model = buildAchievementsModel({
+      state: "normal",
+      view,
+      selectedId: row.id,
+      pageSize: 6,
+    });
+
+    expect(model.primaryAction?.enabled).toBe(false);
+    expect(model.reason).toMatch(/尚未达成|已经记下/);
+  });
+
   it("rejects error and locked without a reason", () => {
     expect(() =>
       buildStatsModel({ state: "error", view: selectStats(account, "2026-09-01") }),
@@ -193,12 +264,34 @@ describe('B5c copy: nothing English or internal leaks into the lobby pages', () 
     const model = buildSettingsModel({ state: 'normal', view: selectSettings(account) });
     const labels = model.secondaryActions.map((a) => a.label);
 
-    expect(labels).toEqual(['通用', '显示', '声音', '玩法', '操作']);
+    expect(labels.slice(0, 5)).toEqual(['通用', '显示', '声音', '玩法', '操作']);
+    expect(labels[5]).toMatch(/跳过已见/);
     for (const label of labels) {
       expect(label, label).not.toMatch(/[a-z]/i);
     }
     // 动作 id 仍用内部名，只有显示的字是中文。
     expect(model.secondaryActions[0].id).toBe('settings.tab.general');
+  });
+
+  it('settings rows toggle the current group instead of only listing tab names', () => {
+    const model = buildSettingsModel({ state: 'normal', view: selectSettings(account), tab: 'display' });
+    const labels = model.secondaryActions.map((a) => a.label);
+
+    expect(labels).toContain('金钱 开');
+    expect(labels).toContain('伤害数字 开');
+    expect(labels).toContain('少动效 关');
+    expect(model.secondaryActions.find((a) => a.id === 'settings.tab.display')?.enabled).toBe(false);
+  });
+
+  it('settings that have no shipping effect stay visible but disabled', () => {
+    const general = buildSettingsModel({ state: 'normal', view: selectSettings(account), tab: 'general' });
+    const audio = buildSettingsModel({ state: 'normal', view: selectSettings(account), tab: 'audio' });
+    const controls = buildSettingsModel({ state: 'normal', view: selectSettings(account), tab: 'controls' });
+
+    expect(general.secondaryActions.find((a) => a.id === 'settings.toggle.skipSeenDialog')?.enabled).toBe(false);
+    expect(audio.secondaryActions.find((a) => a.id === 'settings.toggle.music')?.enabled).toBe(false);
+    expect(audio.secondaryActions.find((a) => a.id === 'settings.toggle.sfx')?.enabled).toBe(false);
+    expect(controls.secondaryActions.find((a) => a.id === 'settings.toggle.layout')?.enabled).toBe(false);
   });
 
   it('unseen spirits show a numbered silhouette instead of eight identical rows', () => {

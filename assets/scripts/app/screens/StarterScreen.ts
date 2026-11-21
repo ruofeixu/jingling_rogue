@@ -77,7 +77,6 @@ export class StarterScreen {
         height: slot.height,
       });
       if (selected) {
-        card.setScale(1.04, 1.04, 1);
         const outline = card.addComponent(Graphics);
         const halfW = slot.width / 2;
         const halfH = slot.height / 2;

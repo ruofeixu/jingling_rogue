@@ -14,7 +14,7 @@ export { getOmen, listOmens } from "./run/omen-event.ts";
 export { saveAccountLocal, saveRunLocal, loadAccountLocal, loadRunLocal } from "./save/local-store.ts";
 export type { KvStore } from "./save/local-store.ts";
 export type { AccountProgress } from "./run/run-session.ts";
-export { defaultSettings, SETTINGS_TABS } from "./meta/settings.ts";
+export { defaultSettings, SETTINGS_TABS, toggleSetting } from "./meta/settings.ts";
 export type { GameSettings, SettingsTab } from "./meta/settings.ts";
 export { LOBBY_SCREENS, RUN_SCREENS, START_PATH } from "./ui/screens.ts";
 export { beginUiRun, runUiSmoke, walkPlayableUi } from "./ui/preview-app.ts";
@@ -37,7 +37,7 @@ export {
   codexCell,
 } from "./ui/layout.ts";
 export type { ScreenLayout, ScreenKind } from "./ui/layout.ts";
-export { formatArtHint, formatArtPlay, formatBattleNudge, formatBoonHint, formatBoonTaken, formatCodexEntry, formatCodexLog, formatCodexSheet, formatRunHarvest, formatRunSummary, formatSealResult, formatNextHint, formatMiss, formatSpentArt, GLOSSARY, CODEX_PAGE_SIZE, listCodexSpirits } from "./ui/copy.ts";
+export { formatAilment, formatArtHint, formatArtPlay, formatBattleNudge, formatBoonHint, formatBoonTaken, formatCodexEntry, formatCodexLog, formatCodexSheet, formatEggTier, formatRunHarvest, formatRunSummary, formatSealResult, formatNextHint, formatMiss, formatSpentArt, GLOSSARY, CODEX_PAGE_SIZE, listCodexSpirits } from "./ui/copy.ts";
 export { CATCH_FX, catchFxDuration, catchFxPhase } from "./ui/catch-fx.ts";
 export { HIT_FX, hitFxDuration } from "./ui/hit-fx.ts";
 export { portraitFit } from "./ui/portrait-fit.ts";

@@ -272,6 +272,15 @@ export class ClassicSlice {
     }
     applyOmenOption(this.run, this.account, this.omen.id, optionIndex);
     this.omen = null;
-    this.openBoon();
+    this.phase = "boon";
+  }
+
+  /** 不理这件奇遇：不改奖励，回到战后结算。 */
+  dismissOmen(): void {
+    if (!this.omen) {
+      return;
+    }
+    this.omen = null;
+    this.phase = "boon";
   }
 }

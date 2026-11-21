@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getArt } from "../tables/load-tables.ts";
-import { boonKindLabel, formatArtHint, formatArtPlay, formatBattleNudge, formatBoonHint, formatBoonTaken, formatCodexEntry, formatCodexLog, formatCodexSheet, formatFooter, formatMiss, formatNextHint, formatRunHarvest, formatRunSummary, formatSealResult, formatSpentArt, GLOSSARY, CODEX_PAGE_SIZE, listCodexSpirits } from "./copy.ts";
+import { boonKindLabel, formatAilment, formatArtHint, formatArtPlay, formatBattleNudge, formatBoonHint, formatBoonTaken, formatCodexEntry, formatCodexLog, formatCodexSheet, formatEggTier, formatFooter, formatMiss, formatNextHint, formatRunHarvest, formatRunSummary, formatSealResult, formatSpentArt, GLOSSARY, CODEX_PAGE_SIZE, listCodexSpirits } from "./copy.ts";
 import { PORTRAIT_IDS } from "../assets/manifest.ts";
 import { loadTables } from "../tables/load-tables.ts";
 
@@ -14,6 +14,29 @@ describe("boon kind labels", () => {
       expect([kind, label]).not.toEqual([kind, "增益"]);
       expect(label.length).toBeLessThanOrEqual(2);
     }
+  });
+});
+
+describe("egg tier copy", () => {
+  it("names egg tiers in Chinese instead of leaking fan/shang ids", () => {
+    expect(formatEggTier("fan")).toBe("凡");
+    expect(formatEggTier("shang")).toBe("上");
+    expect(formatEggTier("te")).toBe("特");
+    expect(formatEggTier("epic")).toBe("奇");
+  });
+});
+
+describe("ailment copy", () => {
+  it("names known ailments in Chinese and never stringifies the object", () => {
+    expect(formatAilment(null)).toBeNull();
+    expect(formatAilment({ kind: "burn" })).toBe("灼");
+    expect(formatAilment({ kind: "poison" })).toBe("毒");
+    expect(formatAilment({ kind: "paralyze" })).toBe("麻");
+    expect(formatAilment({ kind: "toxic", layers: 1 })).toBe("剧毒");
+    expect(formatAilment({ kind: "toxic", layers: 3 })).toBe("剧毒×3");
+    expect(formatAilment({ kind: "sleep", turns: 2 })).toBe("歇");
+    expect(formatAilment({ kind: "freeze" })).toBe("冰");
+    expect(formatAilment({ kind: "burn" })).not.toMatch(/object Object/);
   });
 });
 

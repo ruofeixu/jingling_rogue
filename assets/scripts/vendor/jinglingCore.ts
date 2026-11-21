@@ -11369,11 +11369,41 @@ var SETTINGS_TABS = ["general", "display", "audio", "play", "controls"];
 function defaultSettings() {
   return {
     general: { skipSeenDialog: false },
-    display: { showGold: true, showDamage: true },
+    display: { showGold: true, showDamage: true, reduceMotion: false },
     audio: { music: 1, sfx: 1 },
     play: { battleSpeed: 1 },
     controls: { layout: "touch" }
   };
+}
+function toggleSetting(settings, key) {
+  switch (key) {
+    case "skipSeenDialog":
+      settings.general.skipSeenDialog = !settings.general.skipSeenDialog;
+      return true;
+    case "showGold":
+      settings.display.showGold = !settings.display.showGold;
+      return true;
+    case "showDamage":
+      settings.display.showDamage = !settings.display.showDamage;
+      return true;
+    case "reduceMotion":
+      settings.display.reduceMotion = !settings.display.reduceMotion;
+      return true;
+    case "music":
+      settings.audio.music = (settings.audio.music + 1) % 4;
+      return true;
+    case "sfx":
+      settings.audio.sfx = (settings.audio.sfx + 1) % 4;
+      return true;
+    case "battleSpeed":
+      settings.play.battleSpeed = settings.play.battleSpeed % 3 + 1;
+      return true;
+    case "layout":
+      settings.controls.layout = settings.controls.layout === "touch" ? "keys" : "touch";
+      return true;
+    default:
+      return false;
+  }
 }
 
 // src/run/modes/types.ts
@@ -13981,7 +14011,15 @@ var ClassicSlice = class _ClassicSlice {
     }
     applyOmenOption(this.run, this.account, this.omen.id, optionIndex);
     this.omen = null;
-    this.openBoon();
+    this.phase = "boon";
+  }
+  /** 不理这件奇遇：不改奖励，回到战后结算。 */
+  dismissOmen() {
+    if (!this.omen) {
+      return;
+    }
+    this.omen = null;
+    this.phase = "boon";
   }
 };
 
@@ -14587,8 +14625,43 @@ var STATUS_CN = {
   burn: "\u707C",
   poison: "\u6BD2",
   toxic: "\u5267\u6BD2",
-  paralyze: "\u9EBB"
+  paralyze: "\u9EBB",
+  sleep: "\u6B47",
+  freeze: "\u51B0"
 };
+var EGG_TIER_CN = {
+  fan: "\u51E1",
+  shang: "\u4E0A",
+  te: "\u7279",
+  epic: "\u5947",
+  jin: "\u91D1"
+};
+function formatEggTier(tier) {
+  return EGG_TIER_CN[tier] ?? tier;
+}
+function formatAilment(ailment) {
+  if (ailment == null || ailment === "") {
+    return null;
+  }
+  if (typeof ailment === "string") {
+    return STATUS_CN[ailment] ?? ailment;
+  }
+  if (typeof ailment !== "object") {
+    return null;
+  }
+  const kind = ailment.kind;
+  if (typeof kind !== "string" || kind.length === 0) {
+    return null;
+  }
+  const label = STATUS_CN[kind] ?? kind;
+  if (kind === "toxic") {
+    const layers = ailment.layers;
+    if (typeof layers === "number" && layers > 1) {
+      return `${label}\xD7${layers}`;
+    }
+  }
+  return label;
+}
 var STAT_CN = {
   atk: "\u653B",
   def: "\u5B88",
@@ -16356,7 +16429,8 @@ function freeze(value) {
 function selectSettings(account) {
   return freeze({
     tabs: Array.from(SETTINGS_TABS),
-    values: { ...account.settings }
+    // 深拷贝后再冻，避免把账号上正在用的 settings 对象冻住。
+    values: JSON.parse(JSON.stringify(account.settings))
   });
 }
 function selectCodexList(account) {
@@ -16395,7 +16469,7 @@ function selectEggs(account) {
   const slots = account.eggs.map((egg) => ({
     id: egg.id,
     spiritId: egg.spiritId,
-    tier: String(egg.tier),
+    tier: formatEggTier(String(egg.tier)),
     steps: egg.steps
   }));
   return freeze({
@@ -16508,7 +16582,7 @@ function nameplate(entity) {
     hp: entity.hp,
     maxHp: entity.maxHp,
     down: entity.hp <= 0,
-    ailment: entity.ailment ? String(entity.ailment) : null
+    ailment: formatAilment(entity.ailment)
   };
 }
 function selectBattle(battle, run, log = "") {
@@ -16631,7 +16705,10 @@ function selectRunProgress(source) {
     offers,
     shop,
     omens,
-    nodes
+    nodes,
+    canOpenOmen: source.canOpenOmen === true,
+    rerollCost: source.rerollCost ?? 0,
+    ...source.note ? { note: source.note } : {}
   });
 }
 function selectOutcome(source) {
@@ -16789,6 +16866,12 @@ function formatBench(rows) {
 
 // src/run/run-controller.ts
 var CURRENT_RUN_SLOT = 0;
+function isVoucherTier(value) {
+  return value === "fan" || value === "shang" || value === "te" || value === "jin";
+}
+function isEggMachineKind(value) {
+  return value === "lineage" || value === "eggArt" || value === "form";
+}
 function sealTierOf(id) {
   const match = /^seal-(\d+)$/.exec(id ?? "");
   return match ? Number(match[1]) : null;
@@ -16898,23 +16981,44 @@ var RunController = class {
       case "shop.buy":
         this.buy(payload.id ?? "");
         return;
+      case "shop.reroll":
+        this.rerollShopFromCommand();
+        return;
       case "omen.pick":
         this.pickOmen(payload.id ?? "");
         return;
       case "omen.skip":
         this.skipOmen();
         return;
+      case "omen.open":
+        this.openOmenFromCommand();
+        return;
       case "map.enter":
         this.enterNode(payload.id ?? "");
         return;
       case "map.rest":
+        this.restHere();
         return;
-      // 原地歇脚：不推进，保持安全继续路径
       case "outcome.commit":
         this.commitOutcome();
         return;
       case "outcome.lobby":
         this.toLobby();
+        return;
+      case "eggs.hatch":
+        this.hatchEggFromCommand(payload.arg ?? payload.id ?? "");
+        return;
+      case "eggs.redeem":
+        this.redeemVoucherFromCommand(payload.arg ?? payload.id ?? "");
+        return;
+      case "eggs.machine":
+        this.useEggMachineFromCommand(payload.arg ?? payload.id ?? "");
+        return;
+      case "settings.toggle":
+        this.toggleSettingFromCommand(payload.arg ?? payload.key ?? "");
+        return;
+      case "settings.save":
+        this.saveSettingsFromCommand();
         return;
       default:
         return;
@@ -17047,12 +17151,99 @@ var RunController = class {
     this.log = `\u9886\u4E86${offer.name}\u3002`;
     this.afterAdvance();
   }
+  rerollShopFromCommand() {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "boon" || !slice.shop) {
+      return;
+    }
+    slice.shop.gold = slice.run.gold;
+    try {
+      slice.rerollShop();
+      this.log = "\u91CD\u65B0\u62E9\u8FC7\u4E86\u3002";
+    } catch {
+      return;
+    }
+  }
   buy(id) {
     const slice = this.slice;
     if (!slice || slice.phase !== "boon" || !id) {
       return;
     }
-    slice.buyStock(id);
+    try {
+      slice.buyStock(id);
+    } catch {
+    }
+  }
+  /** 大厅设置：没有进行中的局时也改账号。 */
+  mutableAccount() {
+    if (this.slice) {
+      return this.slice.account;
+    }
+    if (!this.keptAccount) {
+      this.keptAccount = emptyAccount();
+    }
+    return this.keptAccount;
+  }
+  toggleSettingFromCommand(key) {
+    if (!key) {
+      return;
+    }
+    const account = this.mutableAccount();
+    if (!toggleSetting(account.settings, key)) {
+      return;
+    }
+    this.log = "\u8BBE\u7F6E\u5DF2\u6539\u3002";
+    this.persistAccount(account);
+  }
+  saveSettingsFromCommand() {
+    const account = this.mutableAccount();
+    this.log = "\u8BBE\u7F6E\u5DF2\u8BB0\u4E0B\u3002";
+    this.persistAccount(account);
+  }
+  /** 孵一颗已走完步数的卵。没指定 id 就孵第一颗就绪的。 */
+  hatchEggFromCommand(id) {
+    const account = this.slice?.account ?? this.keptAccount;
+    if (!account) {
+      return;
+    }
+    const target = id || hatchReady(account)[0]?.id;
+    if (!target) {
+      return;
+    }
+    try {
+      const spiritId = hatchEgg(account, target);
+      const name = getSpirit(spiritId).name;
+      this.log = `\u5B75\u51FA\u4E86${name}\u3002`;
+      this.persistAccount(account);
+    } catch {
+      return;
+    }
+  }
+  redeemVoucherFromCommand(tier) {
+    if (!isVoucherTier(tier)) {
+      return;
+    }
+    const account = this.mutableAccount();
+    try {
+      redeemVoucher(account, tier, `egg-${account.revision}-${account.eggs.length}-${tier}`);
+      this.log = "\u5151\u4E86\u4E00\u5F20\u5B75\u5238\u3002";
+      this.persistAccount(account);
+    } catch {
+      return;
+    }
+  }
+  useEggMachineFromCommand(kind) {
+    if (!isEggMachineKind(kind)) {
+      return;
+    }
+    const account = this.mutableAccount();
+    try {
+      const egg = useEggMachine(account, kind, `egg-${account.revision}-${account.eggs.length}-${kind}`, utcDateStamp());
+      this.log = `\u4E09\u673A\u5F97\u4E86${getSpirit(egg.spiritId).name}\u3002`;
+      this.persistAccount(account);
+    } catch {
+      return;
+    }
   }
   pickOmen(id) {
     const slice = this.slice;
@@ -17068,9 +17259,26 @@ var RunController = class {
   skipOmen() {
     const slice = this.slice;
     if (slice && slice.phase === "omen") {
-      slice.pickOmen(0);
-      this.afterAdvance();
+      slice.dismissOmen();
+      this.log = "\u6CA1\u6709\u7406\u4F1A\u3002";
     }
+  }
+  openOmenFromCommand() {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "boon" || slice.run.mode === "endless") {
+      return;
+    }
+    const rows = listOmens();
+    if (rows.length === 0) {
+      return;
+    }
+    const rng = new RngStream(`${slice.run.seed}-omen-${slice.run.wave}`);
+    const picked = rows[rng.int(rows.length)];
+    if (!picked) {
+      return;
+    }
+    slice.openOmen(picked.id);
+    this.log = slice.omen?.body ?? "\u9047\u5230\u5947\u9047\u3002";
   }
   enterNode(id) {
     const slice = this.slice;
@@ -17078,6 +17286,16 @@ var RunController = class {
       return;
     }
     slice.pickRealm(id);
+    this.afterAdvance();
+  }
+  /** 原地歇脚：不换境域，按当前境域开下一波。空命令会让玩家以为卡死。 */
+  restHere() {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "map") {
+      return;
+    }
+    slice.pickRealm(slice.run.realmId);
+    this.log = "\u539F\u5730\u6B47\u811A\uFF0C\u7EE7\u7EED\u8D76\u8DEF\u3002";
     this.afterAdvance();
   }
   /** 奖励/机缘结束后，若回到 battle 相位就开下一场。 */
@@ -17140,6 +17358,15 @@ var RunController = class {
     const snapshot = decodeRun(encodeRun(slice.run));
     void saveRunLocal(store, CURRENT_RUN_SLOT, snapshot).catch(() => {
       this.log = "\u5B58\u6863\u6CA1\u6709\u5199\u8FDB\u53BB\uFF0C\u672C\u5C40\u4ECD\u53EF\u7EE7\u7EED\u3002";
+    });
+  }
+  persistAccount(account) {
+    const store = this.store;
+    if (!store) {
+      return;
+    }
+    void saveAccountLocal(store, account).catch(() => {
+      this.log = "\u8D26\u53F7\u8FDB\u5EA6\u6CA1\u6709\u5199\u8FDB\u53BB\uFF0C\u4E0B\u6B21\u5F00\u5C40\u524D\u4F1A\u518D\u8BD5\u3002";
     });
   }
   /** 局结束：账号落库，当前旅途槽清空（打完的局不能读回再打）。 */
@@ -17281,7 +17508,7 @@ var RunController = class {
     if (!slice) {
       return selectRunProgress({ gold: 0, wave: 0 });
     }
-    const stock = kind === "shop" ? stockForWave(slice.run.wave) : [];
+    const stock = kind === "shop" || kind === "summary" ? stockForWave(slice.run.wave) : [];
     const shop = stock.map((item) => ({ id: item.id, name: item.name, cost: item.cost }));
     const realms = loadTables().realms;
     const nodes = slice.realmChoices.map((realmId) => ({
@@ -17290,12 +17517,26 @@ var RunController = class {
       reachable: true
     }));
     const offers = kind === "summary" && slice.phase === "boon" ? slice.boonChoices.map((boon) => ({ id: boon.id, name: boon.name, hint: formatBoonHint(boon.kind, boon.value) })) : [];
+    const omen = slice.omen;
+    const omens = kind === "omen" && omen ? omen.options.map((option, index) => ({
+      id: String(index),
+      name: option.label
+    })) : [];
+    const shopState = slice.shop;
     return selectRunProgress({
       gold: slice.run.gold,
       wave: slice.run.wave,
       offers,
       shop,
-      nodes
+      nodes,
+      omens,
+      canOpenOmen: kind === "summary" && slice.phase === "boon" && slice.run.mode !== "endless",
+      rerollCost: (kind === "summary" || kind === "shop") && slice.phase === "boon" && shopState ? rerollCost(
+        shopState.wave,
+        shopState.rerolls,
+        shopState.lock ? shopState.offers.map((row) => row.tier) : void 0
+      ) : 0,
+      ...kind === "omen" && omen ? { note: `${omen.name}\u3002${omen.body}` } : {}
     });
   }
   outcomeView(kind) {
@@ -17384,6 +17625,7 @@ export {
   emptyAccount,
   encounterLevel,
   foeEncounterLevel,
+  formatAilment,
   formatArtHint,
   formatArtPlay,
   formatArtSlip,
@@ -17394,6 +17636,7 @@ export {
   formatCodexEntry,
   formatCodexLog,
   formatCodexSheet,
+  formatEggTier,
   formatHpText,
   formatMiss,
   formatNextHint,
@@ -17465,6 +17708,7 @@ export {
   statsLog,
   sumBoonStats,
   sumRunStats,
+  toggleSetting,
   trainerName,
   useEggMachine,
   utcDateStamp,

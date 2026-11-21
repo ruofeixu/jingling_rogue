@@ -12,7 +12,7 @@ import {
   type AccountProgress,
 } from "../run/run-session.ts";
 import { SETTINGS_TABS, type SettingsTab } from "../meta/settings.ts";
-import { GLOSSARY, boonKindLabel, formatBoonHint } from "./copy.ts";
+import { GLOSSARY, boonKindLabel, formatAilment, formatBoonHint, formatEggTier } from "./copy.ts";
 import { AFFINITY_CN } from "./layout.ts";
 import { getSpirit, loadTables } from "../tables/load-tables.ts";
 import { currentCost } from "../meta/candy.ts";
@@ -40,7 +40,8 @@ export interface SettingsView {
 export function selectSettings(account: AccountProgress): SettingsView {
   return freeze({
     tabs: Array.from(SETTINGS_TABS),
-    values: { ...(account.settings as unknown as Record<string, unknown>) },
+    // 深拷贝后再冻，避免把账号上正在用的 settings 对象冻住。
+    values: JSON.parse(JSON.stringify(account.settings)) as Record<string, unknown>,
   });
 }
 
@@ -120,7 +121,7 @@ export function selectEggs(account: AccountProgress): EggsView {
   const slots = account.eggs.map((egg) => ({
     id: egg.id,
     spiritId: egg.spiritId,
-    tier: String(egg.tier),
+    tier: formatEggTier(String(egg.tier)),
     steps: egg.steps,
   }));
   return freeze({
@@ -386,7 +387,7 @@ function nameplate(entity: BattleLike["active"] | BattleLike["foe"]): NameplateV
     hp: entity.hp,
     maxHp: entity.maxHp,
     down: entity.hp <= 0,
-    ailment: entity.ailment ? String(entity.ailment) : null,
+    ailment: formatAilment(entity.ailment),
   };
 }
 
@@ -549,6 +550,12 @@ export interface RunProgressView {
   readonly shop: readonly ProgressRowView[];
   readonly omens: readonly ProgressRowView[];
   readonly nodes: readonly ProgressRowView[];
+  /** 结算页可否点「奇遇」。无尽长夜没有奇遇。 */
+  readonly canOpenOmen: boolean;
+  /** 奇遇正文等一句话说明。 */
+  readonly note?: string;
+  /** 再择花费。0 表示这一页不能再择。 */
+  readonly rerollCost: number;
 }
 
 interface ShopEntrySource {
@@ -586,6 +593,9 @@ interface RunProgressSource {
   readonly shop?: readonly ShopEntrySource[];
   readonly omens?: readonly OmenSource[];
   readonly nodes?: readonly MapNodeSource[];
+  readonly canOpenOmen?: boolean;
+  readonly note?: string;
+  readonly rerollCost?: number;
 }
 
 export function selectRunProgress(source: RunProgressSource): RunProgressView {
@@ -633,6 +643,9 @@ export function selectRunProgress(source: RunProgressSource): RunProgressView {
     shop,
     omens,
     nodes,
+    canOpenOmen: source.canOpenOmen === true,
+    rerollCost: source.rerollCost ?? 0,
+    ...(source.note ? { note: source.note } : {}),
   });
 }
 

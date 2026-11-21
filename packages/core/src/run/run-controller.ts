@@ -32,9 +32,14 @@ import {
 
 /** 发货入口的自动存档槽：每局都写这里（界面显示为"槽1 • 当前旅途"）。 */
 export const CURRENT_RUN_SLOT = 0;
-import { stockForWave } from "../shop/shop.ts";
+import { stockForWave, rerollCost } from "../shop/shop.ts";
 import { formatBoonHint } from "../ui/copy.ts";
-import { loadTables } from "../tables/load-tables.ts";
+import { hatchEgg, hatchReady, redeemVoucher, useEggMachine, type EggMachineKind, type VoucherTier } from "../meta/eggs.ts";
+import { utcDateStamp } from "./modes/daily.ts";
+import { toggleSetting } from "../meta/settings.ts";
+import { listOmens } from "./omen-event.ts";
+import { RngStream } from "../rng/rng-stream.ts";
+import { getSpirit, loadTables } from "../tables/load-tables.ts";
 import {
   selectBattle,
   selectBattleOverlays,
@@ -62,6 +67,14 @@ export interface SlotInfo {
   readonly mode: string;
   /** 槽里有数据但读不出来（JSON 坏、版本不对）。按空槽处理，界面标明。 */
   readonly corrupt: boolean;
+}
+
+function isVoucherTier(value: string): value is VoucherTier {
+  return value === "fan" || value === "shang" || value === "te" || value === "jin";
+}
+
+function isEggMachineKind(value: string): value is EggMachineKind {
+  return value === "lineage" || value === "eggArt" || value === "form";
 }
 
 /** 收契弹层的行 id 形如 `seal-<档位>`（见 selectBattleOverlays）。 */
@@ -193,22 +206,44 @@ export class RunController {
       case "shop.buy":
         this.buy(payload.id ?? "");
         return;
+      case "shop.reroll":
+        this.rerollShopFromCommand();
+        return;
       case "omen.pick":
         this.pickOmen(payload.id ?? "");
         return;
       case "omen.skip":
         this.skipOmen();
         return;
+      case "omen.open":
+        this.openOmenFromCommand();
+        return;
       case "map.enter":
         this.enterNode(payload.id ?? "");
         return;
       case "map.rest":
-        return; // 原地歇脚：不推进，保持安全继续路径
+        this.restHere();
+        return;
       case "outcome.commit":
         this.commitOutcome();
         return;
       case "outcome.lobby":
         this.toLobby();
+        return;
+      case "eggs.hatch":
+        this.hatchEggFromCommand(payload.arg ?? payload.id ?? "");
+        return;
+      case "eggs.redeem":
+        this.redeemVoucherFromCommand(payload.arg ?? payload.id ?? "");
+        return;
+      case "eggs.machine":
+        this.useEggMachineFromCommand(payload.arg ?? payload.id ?? "");
+        return;
+      case "settings.toggle":
+        this.toggleSettingFromCommand(payload.arg ?? payload.key ?? "");
+        return;
+      case "settings.save":
+        this.saveSettingsFromCommand();
         return;
       default:
         return;
@@ -355,12 +390,107 @@ export class RunController {
     this.afterAdvance();
   }
 
+  private rerollShopFromCommand(): void {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "boon" || !slice.shop) {
+      return;
+    }
+    slice.shop.gold = slice.run.gold;
+    try {
+      slice.rerollShop();
+      this.log = "重新择过了。";
+    } catch {
+      return;
+    }
+  }
+
   buy(id: string): void {
     const slice = this.slice;
     if (!slice || slice.phase !== "boon" || !id) {
       return;
     }
-    slice.buyStock(id);
+    try {
+      slice.buyStock(id);
+    } catch {
+      // 钱不够或卖光：界面会禁用，误点不能把游戏打崩。
+    }
+  }
+
+  /** 大厅设置：没有进行中的局时也改账号。 */
+  private mutableAccount(): AccountProgress {
+    if (this.slice) {
+      return this.slice.account;
+    }
+    if (!this.keptAccount) {
+      this.keptAccount = emptyAccount();
+    }
+    return this.keptAccount;
+  }
+
+  private toggleSettingFromCommand(key: string): void {
+    if (!key) {
+      return;
+    }
+    const account = this.mutableAccount();
+    if (!toggleSetting(account.settings, key)) {
+      return;
+    }
+    this.log = "设置已改。";
+    this.persistAccount(account);
+  }
+
+  private saveSettingsFromCommand(): void {
+    const account = this.mutableAccount();
+    this.log = "设置已记下。";
+    this.persistAccount(account);
+  }
+
+  /** 孵一颗已走完步数的卵。没指定 id 就孵第一颗就绪的。 */
+  hatchEggFromCommand(id: string): void {
+    const account = this.slice?.account ?? this.keptAccount;
+    if (!account) {
+      return;
+    }
+    const target = id || hatchReady(account)[0]?.id;
+    if (!target) {
+      return;
+    }
+    try {
+      const spiritId = hatchEgg(account, target);
+      const name = getSpirit(spiritId).name;
+      this.log = `孵出了${name}。`;
+      this.persistAccount(account);
+    } catch {
+      return;
+    }
+  }
+
+  private redeemVoucherFromCommand(tier: string): void {
+    if (!isVoucherTier(tier)) {
+      return;
+    }
+    const account = this.mutableAccount();
+    try {
+      redeemVoucher(account, tier, `egg-${account.revision}-${account.eggs.length}-${tier}`);
+      this.log = "兑了一张孵券。";
+      this.persistAccount(account);
+    } catch {
+      return;
+    }
+  }
+
+  private useEggMachineFromCommand(kind: string): void {
+    if (!isEggMachineKind(kind)) {
+      return;
+    }
+    const account = this.mutableAccount();
+    try {
+      const egg = useEggMachine(account, kind, `egg-${account.revision}-${account.eggs.length}-${kind}`, utcDateStamp());
+      this.log = `三机得了${getSpirit(egg.spiritId).name}。`;
+      this.persistAccount(account);
+    } catch {
+      return;
+    }
   }
 
   pickOmen(id: string): void {
@@ -379,9 +509,27 @@ export class RunController {
   skipOmen(): void {
     const slice = this.slice;
     if (slice && slice.phase === "omen") {
-      slice.pickOmen(0);
-      this.afterAdvance();
+      slice.dismissOmen();
+      this.log = "没有理会。";
     }
+  }
+
+  private openOmenFromCommand(): void {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "boon" || slice.run.mode === "endless") {
+      return;
+    }
+    const rows = listOmens();
+    if (rows.length === 0) {
+      return;
+    }
+    const rng = new RngStream(`${slice.run.seed}-omen-${slice.run.wave}`);
+    const picked = rows[rng.int(rows.length)];
+    if (!picked) {
+      return;
+    }
+    slice.openOmen(picked.id);
+    this.log = slice.omen?.body ?? "遇到奇遇。";
   }
 
   enterNode(id: string): void {
@@ -390,6 +538,17 @@ export class RunController {
       return;
     }
     slice.pickRealm(id);
+    this.afterAdvance();
+  }
+
+  /** 原地歇脚：不换境域，按当前境域开下一波。空命令会让玩家以为卡死。 */
+  restHere(): void {
+    const slice = this.slice;
+    if (!slice || slice.phase !== "map") {
+      return;
+    }
+    slice.pickRealm(slice.run.realmId);
+    this.log = "原地歇脚，继续赶路。";
     this.afterAdvance();
   }
 
@@ -464,6 +623,16 @@ export class RunController {
     const snapshot = decodeRun(encodeRun(slice.run));
     void saveRunLocal(store, CURRENT_RUN_SLOT, snapshot).catch(() => {
       this.log = "存档没有写进去，本局仍可继续。";
+    });
+  }
+
+  private persistAccount(account: AccountProgress): void {
+    const store = this.store;
+    if (!store) {
+      return;
+    }
+    void saveAccountLocal(store, account).catch(() => {
+      this.log = "账号进度没有写进去，下次开局前会再试。";
     });
   }
 
@@ -625,7 +794,7 @@ export class RunController {
       return selectRunProgress({ gold: 0, wave: 0 });
     }
     // 商店定价来自真实 stock 表；只列当前波次实际在售的条目。
-    const stock = kind === "shop" ? stockForWave(slice.run.wave) : [];
+    const stock = kind === "shop" || kind === "summary" ? stockForWave(slice.run.wave) : [];
     const shop = stock.map((item) => ({ id: item.id, name: item.name, cost: item.cost }));
     const realms = loadTables().realms;
     const nodes = slice.realmChoices.map((realmId) => ({
@@ -637,12 +806,32 @@ export class RunController {
       kind === "summary" && slice.phase === "boon"
         ? slice.boonChoices.map((boon) => ({ id: boon.id, name: boon.name, hint: formatBoonHint(boon.kind, boon.value) }))
         : [];
+    const omen = slice.omen;
+    const omens =
+      kind === "omen" && omen
+        ? omen.options.map((option, index) => ({
+            id: String(index),
+            name: option.label,
+          }))
+        : [];
+    const shopState = slice.shop;
     return selectRunProgress({
       gold: slice.run.gold,
       wave: slice.run.wave,
       offers,
       shop,
       nodes,
+      omens,
+      canOpenOmen: kind === "summary" && slice.phase === "boon" && slice.run.mode !== "endless",
+      rerollCost:
+        (kind === "summary" || kind === "shop") && slice.phase === "boon" && shopState
+          ? rerollCost(
+              shopState.wave,
+              shopState.rerolls,
+              shopState.lock ? shopState.offers.map((row) => row.tier) : undefined,
+            )
+          : 0,
+      ...(kind === "omen" && omen ? { note: `${omen.name}。${omen.body}` } : {}),
     });
   }
 

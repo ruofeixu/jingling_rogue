@@ -13,3 +13,15 @@ export function openShopForTest(controller: RunController): void {
   }
   slice.phase = "boon";
 }
+
+/** 测试专用：把相位拨到境域图，用来核对歇脚会推进。 */
+export function openMapForTest(controller: RunController, realms: readonly string[] = ["wilds", "woods"]): void {
+  const slice = (
+    controller as unknown as { slice: { phase: string; realmChoices: string[] } | null }
+  ).slice;
+  if (!slice) {
+    throw new Error("run not started");
+  }
+  slice.phase = "map";
+  slice.realmChoices = [...realms];
+}

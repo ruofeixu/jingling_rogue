@@ -54,11 +54,14 @@ describe("ui selectors", () => {
   });
 
   it("exposes settings tabs and current values without leaking the mutable object", () => {
-    const view = selectSettings(account);
+    const local = emptyAccount();
+    const view = selectSettings(local);
 
     expect(view.tabs.length).toBeGreaterThan(0);
-    expect(view.values).not.toBe(account.settings);
+    expect(view.values).not.toBe(local.settings);
     expect(Object.isFrozen(view.values)).toBe(true);
+    local.settings.general.skipSeenDialog = true;
+    expect(local.settings.general.skipSeenDialog).toBe(true);
   });
 
   it("keeps every codex row's status from core, never guessed", () => {

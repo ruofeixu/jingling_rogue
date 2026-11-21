@@ -9,7 +9,47 @@ const STATUS_CN: Record<string, string> = {
   poison: "毒",
   toxic: "剧毒",
   paralyze: "麻",
+  sleep: "歇",
+  freeze: "冰",
 };
+
+/** 把战斗异常投影成短中文。对象不能 String()，否则名牌会写成 `[object Object]`。 */
+const EGG_TIER_CN: Record<string, string> = {
+  fan: "凡",
+  shang: "上",
+  te: "特",
+  epic: "奇",
+  jin: "金",
+};
+
+/** 卵与孵券档位。禁止把 fan/shang 这种内部 id 画到界面上。 */
+export function formatEggTier(tier: string): string {
+  return EGG_TIER_CN[tier] ?? tier;
+}
+
+export function formatAilment(ailment: unknown): string | null {
+  if (ailment == null || ailment === "") {
+    return null;
+  }
+  if (typeof ailment === "string") {
+    return STATUS_CN[ailment] ?? ailment;
+  }
+  if (typeof ailment !== "object") {
+    return null;
+  }
+  const kind = (ailment as { kind?: unknown }).kind;
+  if (typeof kind !== "string" || kind.length === 0) {
+    return null;
+  }
+  const label = STATUS_CN[kind] ?? kind;
+  if (kind === "toxic") {
+    const layers = (ailment as { layers?: unknown }).layers;
+    if (typeof layers === "number" && layers > 1) {
+      return `${label}×${layers}`;
+    }
+  }
+  return label;
+}
 
 const STAT_CN: Record<string, string> = {
   atk: "攻",

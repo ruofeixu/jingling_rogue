@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { forceOutcomeForTest, openShopForTest } from "./run-controller-testkit.ts";
+import { forceOutcomeForTest, openMapForTest, openShopForTest } from "./run-controller-testkit.ts";
 import { RunController } from "./run-controller.ts";
 import { emptyAccount } from "./run-session.ts";
 import { resolveProductStart } from "./product-start.ts";
@@ -296,6 +296,32 @@ describe("RunController rewards (B3 #2)", () => {
     expect(controller.snapshot().run.boonIds).toEqual(before);
     expect(controller.phase()).not.toBe("boon");
   });
+
+  it("lists shop stock on the summary so the stall is reachable from the shipping path", () => {
+    const controller = winToReward("b3-catch");
+    const view = controller.progressView("summary");
+
+    expect(view.shop.length).toBeGreaterThan(0);
+    for (const row of view.shop) {
+      expect(row.label).toMatch(/[一-鿿]/);
+      expect(row.detail).toMatch(/钱/);
+    }
+  });
+});
+
+describe("RunController map rest", () => {
+  it("stays in the current realm and opens the next battle instead of doing nothing", () => {
+    const controller = newRun();
+    const realm = controller.snapshot().run.realmId;
+    openMapForTest(controller);
+    expect(controller.phase()).toBe("map");
+
+    controller.execute("map.rest", {});
+
+    expect(controller.phase()).toBe("battle");
+    expect(controller.snapshot().run.realmId).toBe(realm);
+    expect(controller.battleView()).not.toBeNull();
+  });
 });
 
 describe("RunController arts flow (B3 #3, #6)", () => {
@@ -350,6 +376,116 @@ describe("RunController lobby return (B3 #5)", () => {
     expect(controller.phase()).toBe("battle");
     expect(controller.snapshot().run.starterId).toBe("jing_zhu");
     expect(controller.outcomeView("victory").committed).toBe(false);
+  });
+});
+
+describe("RunController lobby settings", () => {
+  it("toggles account settings before a run starts", () => {
+    const controller = new RunController();
+
+    controller.execute("settings.toggle", { arg: "skipSeenDialog" });
+    expect(controller.account().settings.general.skipSeenDialog).toBe(true);
+
+    controller.execute("settings.toggle", { arg: "skipSeenDialog" });
+    expect(controller.account().settings.general.skipSeenDialog).toBe(false);
+
+    controller.execute("settings.save", {});
+    expect(controller.account().settings.general.skipSeenDialog).toBe(false);
+
+    controller.execute("settings.toggle", { arg: "reduceMotion" });
+    expect(controller.account().settings.display.reduceMotion).toBe(true);
+  });
+});
+
+describe("RunController lobby hatch", () => {
+  it("uses an egg machine from the lobby", () => {
+    const controller = new RunController();
+    expect(controller.account().vouchers.fan).toBe(1);
+
+    controller.execute("eggs.machine", { arg: "lineage" });
+
+    expect(controller.account().vouchers.fan).toBe(0);
+    expect(controller.account().eggs.length).toBe(1);
+  });
+
+  it("redeems a voucher into eggs from the lobby", () => {
+    const controller = new RunController();
+    expect(controller.account().vouchers.fan).toBe(1);
+
+    controller.execute("eggs.redeem", { arg: "fan" });
+
+    expect(controller.account().vouchers.fan).toBe(0);
+    expect(controller.account().eggs.length).toBeGreaterThan(0);
+  });
+
+  it("hatches a ready egg and records it in the codex", () => {
+    const account = emptyAccount();
+    account.eggs.push({ id: "egg-ready", spiritId: "jing_zhu", tier: "fan", steps: 0 });
+    const controller = new RunController();
+    controller.startRun({ seed: "hatch-ready", starterId: "zao_li", mode: "classic", account });
+
+    controller.execute("eggs.hatch", { arg: "egg-ready" });
+
+    expect(controller.account().eggs.find((egg) => egg.id === "egg-ready")).toBeUndefined();
+    expect(controller.account().codex).toContain("jing_zhu");
+  });
+
+  it("ignores an egg that still has steps left", () => {
+    const account = emptyAccount();
+    account.eggs.push({ id: "egg-wait", spiritId: "jing_zhu", tier: "fan", steps: 80 });
+    const controller = new RunController();
+    controller.startRun({ seed: "hatch-wait", starterId: "zao_li", mode: "classic", account });
+
+    controller.execute("eggs.hatch", { arg: "egg-wait" });
+
+    expect(controller.account().eggs).toHaveLength(1);
+  });
+});
+
+describe("RunController shop reroll on the shipping path", () => {
+  it("pays gold to reroll the boon offers from the summary", () => {
+    const controller = winToReward("reroll-pay");
+    const view = controller.progressView("summary");
+    expect(view.rerollCost).toBeGreaterThan(0);
+
+    controller.snapshot().run.gold = view.rerollCost;
+    const before = view.offers.map((row) => row.id).join(",");
+
+    controller.execute("shop.reroll", {});
+
+    expect(controller.phase()).toBe("boon");
+    expect(controller.snapshot().run.gold).toBe(0);
+    const after = controller.progressView("summary");
+    expect(after.rerollCost).toBeGreaterThan(view.rerollCost);
+    expect(after.offers.map((row) => row.id).join(",")).not.toBe(before);
+  });
+
+  it("ignores a reroll when gold is short", () => {
+    const controller = winToReward("reroll-poor");
+    const view = controller.progressView("summary");
+    controller.snapshot().run.gold = 0;
+    const before = view.offers.map((row) => row.id).join(",");
+
+    controller.execute("shop.reroll", {});
+
+    expect(controller.phase()).toBe("boon");
+    expect(controller.progressView("summary").offers.map((row) => row.id).join(",")).toBe(before);
+  });
+});
+
+describe("RunController omen on the shipping path", () => {
+  it("opens a seeded omen from the summary and skip returns to the reward", () => {
+    const controller = winToReward("omen-open");
+    expect(controller.progressView("summary").canOpenOmen).toBe(true);
+
+    controller.execute("omen.open", {});
+
+    expect(controller.phase()).toBe("omen");
+    expect(controller.progressView("omen").omens.length).toBeGreaterThan(0);
+
+    controller.execute("omen.skip", {});
+
+    expect(controller.phase()).toBe("boon");
   });
 });
 

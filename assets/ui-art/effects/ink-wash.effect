@@ -106,11 +106,12 @@ CCProgram ink-fs %{
     // 略微自上向下洗，让运动有方向感。
     field = field * 0.78 + (1.0 - uv.y) * 0.22;
 
-    // 进度先快后慢：前段墨团迅速铺开，后段慢慢洗净；前后端留出余量，保证 0 时全无、1 时全净。
-    // 两段：0~0.38 一团墨从落点向外洇开铺满；0.38~1 再慢慢洗掉。
+    // 进度两段：0~0.42 一团墨从落点向外洇开铺满；0.42~1 再慢慢洗掉。
+    // 落墨用三次缓入：前 25% 进度还是一小团，不会整页灰雾。
     float prog = inkParams.x;
-    float spreadP = clamp(prog / 0.38, 0.0, 1.0);
-    float washP = clamp((prog - 0.38) / 0.62, 0.0, 1.0);
+    float spreadLin = clamp(prog / 0.42, 0.0, 1.0);
+    float spreadP = spreadLin * spreadLin * spreadLin;
+    float washP = clamp((prog - 0.42) / 0.58, 0.0, 1.0);
     float t = mix(-0.30, 1.20, washP);
     float d = field - t;
 
@@ -142,7 +143,7 @@ CCProgram ink-fs %{
     float body = mix(0.38, 0.78, tone);
     float alpha = max(cover * inkColor.a * mix(body, 1.0, rim), halo * inkColor.a * (1.0 - cover));
     // 整体包络：开头和结尾都平滑淡入淡出，避免一帧突然出现或消失。
-    alpha *= (1.0 - smoothstep(0.93, 1.0, prog));
+    alpha *= smoothstep(0.0, 0.06, prog) * (1.0 - smoothstep(0.93, 1.0, prog));
 
     // 飞穽：边界附近的横向条纹漏白，像干笔扣过。
     // 笔触纹沿横向拉长（x 低频、y 高频），且跟着扭曲场走，边上一缕一缕漏白。

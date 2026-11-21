@@ -9,6 +9,7 @@ library/
 temp/
 local/
 build/
+build-rel/
 game/library/
 game/temp/
 game/local/

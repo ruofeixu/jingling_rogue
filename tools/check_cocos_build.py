@@ -270,6 +270,9 @@ def main(argv: list[str] | None = None) -> int:
             args.json_out.write_text(
                 json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",
+                # 显式 LF：这份基线入库，Windows 默认会把 \n 转成 CRLF，
+                # 每次重生成都多出一片行尾噪声（.gitattributes 要求 eol=lf）。
+                newline="\n",
             )
         except OSError as exc:
             print(f"cannot write JSON baseline {args.json_out}: {exc}", file=sys.stderr)

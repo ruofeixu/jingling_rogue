@@ -1,7 +1,7 @@
 {
   "platform": "bytedance-mini-game",
   "debug": false,
-  "buildPath": "project://.u0-build3/bytedance",
+  "buildPath": "project://build-rel",
   "bundleConfigs": [
     {
       "root": "db://assets/portraits",
@@ -17,5 +17,11 @@
       "isRemote": false,
       "output": true
     }
-  ]
+  ],
+  "packages": {
+    "bytedance-mini-game": {
+      "appid": "testappId",
+      "orientation": "portrait"
+    }
+  }
 }

@@ -1,7 +1,13 @@
 {
   "platform": "wechatgame",
   "debug": false,
-  "buildPath": "project://.u0-build3/wechat",
+  "buildPath": "project://build-rel",
+  "packages": {
+    "wechatgame": {
+      "appid": "wxef87c1a7a5e18bbf",
+      "orientation": "portrait"
+    }
+  },
   "bundleConfigs": [
     {
       "root": "db://assets/portraits",

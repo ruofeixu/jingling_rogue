@@ -18,13 +18,17 @@
 
 | 项 | 3.8.2 | 3.8.8 全模块（修前） | 3.8.8 裁剪后（现状） |
 |---|---|---|---|
-| 微信主包 | 3,387,679 | 5,853,482 | **3,200,506** |
-| 抖音主包 | — | — | **3,186,315** |
+| 微信主包 | 3,387,679 | 5,853,482 | **3,206,430** |
+| 抖音主包 | — | — | **3,192,240** |
 | `cocos-js` | 1,745,300 | 3,716,180 | **1,521,544** |
 | 门禁 `main ≤ 4,194,304` | 过 | **超** | 过 |
 
-分包：`portraits` 13,137,948 + `ui-art` 5,827,529，均在单包 20MiB / 合计 40MiB 上限内。
+分包：`portraits` 13,137,948 + `ui-art` 5,832,523，均在单包 20MiB / 合计 40MiB 上限内。
 基线文件 `docs/ui/baselines/3.8.8-build.json`（微信 + 抖音双平台）。
+
+2026-11-22 用当前代码重建过一次（B3 的命令接线、设置页、图鉴、卵机、墨洗都合进去了）：
+主包比 11-14 那次各涨约 6KB（微信 +5,924、抖音 +5,925），全部来自新增界面文案与分支，
+引擎 `cocos-js` 没变；离 4MiB 还有约 980KB 余量。
 
 ## 2. 为什么升
 
@@ -105,6 +109,11 @@ Terrain 0   TiledMap 0   VideoPlayer 0   AmmoPhysics 0   SkeletonData 0   dragon
 uv run --project tools python tools/check_cocos_build.py --wechat build-rel\wechatgame --bytedance build-rel\bytedance-mini-game --json-out docs\ui\baselines\3.8.8-build.json
 ```
 
+建产物用 `build-configs/*.json`（`--build "configPath=..."`），不要手拼参数：
+`buildPath`、`appid`、`orientation` 都在配置里，构建结果才可重现。以前 appid 只能构建后
+手改产物 `project.config.json`，每次重建都得重改一遍（`--build "...;appid=..."` 这种顶层
+参数**不生效**，它对 `packages.wechatgame.appid` 无能为力）。
+
 ## 5. 抖音模板的 `project:` handler
 
 3.8.8 的官方抖音模板用 SystemJS 的 `project:` 协议加载 `src/chunks/*.js`，我们 3.8.2 时代的
@@ -120,11 +129,19 @@ uv run --project tools python tools/check_cocos_build.py --wechat build-rel\wech
 # 命令写进 .bat（引号和 > 重定向直接塞 CommandLine 会报 filename syntax 错误）
 Set-Content D:\projects\cc-build.bat -Encoding ascii -Value @"
 @echo off
-"C:\ProgramData\cocos\editors\Creator\3.8.8\CocosCreator.exe" --project D:\projects\jingling_rogue --build "platform=wechatgame;debug=false;buildPath=D:\projects\jingling_rogue\build-rel" > D:\projects\cc-build.log 2>&1
+"C:\ProgramData\cocos\editors\Creator\3.8.8\CocosCreator.exe" --project D:\projects\jingling_rogue --build "configPath=D:\projects\jingling_rogue\build-configs\wechatgame.json" > D:\projects\cc-build.log 2>&1
 echo EXITCODE=%ERRORLEVEL% >> D:\projects\cc-build.log
 "@
 
 Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ CommandLine = "cmd.exe /c D:\projects\cc-build.bat" }
+```
+
+抖音把 `wechatgame.json` 换成 `bytedance-mini-game.json`。建完还要两步才算可上传：
+
+```powershell
+pnpm pack:subpackages build-rel\wechatgame            # assets/portraits、ui-art 转真分包
+pnpm pack:subpackages build-rel\bytedance-mini-game
+pnpm check:cocos-build --wechat build-rel\wechatgame --bytedance build-rel\bytedance-mini-game
 ```
 
 其他实测结论：
@@ -141,9 +158,10 @@ Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ Comma
 
 ### 微信
 
-- 小游戏 AppID 用接口测试号 **`wxef87c1a7a5e18bbf`**（`xuruofei289516`）
-- 产物 `project.config.json` 的 `appid` 默认是空串，**CLI 导入前必须先填**，否则报
-  `code 10 不存在此 AppID`。该 appid 与原 demo appid 等长，填了不影响主包字节基线
+- 小游戏 AppID 用接口测试号 **`wxef87c1a7a5e18bbf`**（`xuruofei289516`），已写进
+  `build-configs/wechatgame.json` 的 `packages.wechatgame.appid`，构建产物直接带对；
+  以前产物默认是 Creator 模板里的 `wx6ac3f5090a6b99c5`，开发者工具报
+  `code 10 不存在此 AppID`，只能手动改产物。仍然**没有正式号**，换成正式号时改这一处即可
 - CLI 服务端口需在 IDE「设置 → 安全设置」里打开；**登录票据会过期**，过期后报
   `code 10 需要重新登录`，重新扫码即可（`cli login -f image -o out.png` 可出图给对方扫）
 - 流程：`cli open --project <build>` → `cli auto --project <build> --auto-port 9420`

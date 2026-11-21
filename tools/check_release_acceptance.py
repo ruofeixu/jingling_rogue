@@ -29,6 +29,9 @@ REQUIRED_META_FIELDS = ("platform", "orientation", "width", "height", "dpr", "ca
 
 EXPECTED_SCREENS = 25
 
+# 默认读取的包体基线：由 `pnpm check:cocos-build ... --json-out` 从新鲜产物生成。
+# 命令行不给 `--wechat-bytes` / `--bytedance-bytes` 时用它，避免手抄旧数字。
+DEFAULT_BASELINE = ROOT / "docs" / "ui" / "baselines" / "3.8.8-build.json"
 
 class AcceptanceError(Exception):
     """Raised when a hard release blocker is found."""
@@ -43,6 +46,45 @@ class AcceptanceReport:
 
 def _fail(msg: str) -> None:
     raise AcceptanceError(msg)
+
+
+def baseline_main_bytes(path: Path) -> dict[str, int]:
+    """从 check_cocos_build 生成的基线里取各平台主包字节数。
+
+    发布门不接受手填数字，所以缺了哪个平台就直接阻断，不猜。
+    """
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise AcceptanceError(f"cannot read main-pack baseline {path}: {exc}") from exc
+    builds = payload.get("builds") if isinstance(payload, dict) else None
+    if not isinstance(builds, list) or not builds:
+        raise AcceptanceError(f"main-pack baseline {path} has no builds")
+    sizes: dict[str, int] = {}
+    for entry in builds:
+        if not isinstance(entry, dict):
+            raise AcceptanceError(f"main-pack baseline {path} has a non-object build entry")
+        platform = entry.get("platform")
+        main_bytes = entry.get("main_bytes")
+        if not isinstance(platform, str) or not isinstance(main_bytes, int):
+            raise AcceptanceError(f"main-pack baseline {path} entry is missing platform/main_bytes")
+        sizes[platform] = main_bytes
+    return sizes
+
+
+def resolve_main_pack_bytes(
+    platform: str,
+    *,
+    explicit: int | None,
+    baseline: Path,
+) -> int:
+    """显式参数优先，否则读基线。两个来源都没有就算阻断，不默认放行。"""
+    if explicit is not None:
+        return explicit
+    sizes = baseline_main_bytes(baseline)
+    if platform not in sizes:
+        raise AcceptanceError(f"main-pack baseline {baseline} has no {platform} entry")
+    return sizes[platform]
 
 
 def check_acceptance(
@@ -122,17 +164,39 @@ def check_acceptance(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--evidence", type=Path, default=ROOT / "docs/ui/baselines/evidence/2026-09-01")
-    parser.add_argument("--wechat-bytes", type=int, required=True)
-    parser.add_argument("--bytedance-bytes", type=int, required=True)
+    parser.add_argument(
+        "--baseline",
+        type=Path,
+        default=DEFAULT_BASELINE,
+        help="check:cocos-build 生成的包体基线，仅在未显式给字节数时使用",
+    )
+    parser.add_argument(
+        "--wechat-bytes",
+        type=int,
+        default=None,
+        help="微信主包字节数；不给则读 --baseline",
+    )
+    parser.add_argument(
+        "--bytedance-bytes",
+        type=int,
+        default=None,
+        help="抖音主包字节数；不给则读 --baseline",
+    )
     parser.add_argument("--forbidden-hits", type=int, default=0)
     argv = [a for a in (argv if argv is not None else sys.argv[1:]) if a != "--"]
     args = parser.parse_args(argv)
 
     try:
+        wechat_bytes = resolve_main_pack_bytes(
+            "wechatgame", explicit=args.wechat_bytes, baseline=args.baseline
+        )
+        bytedance_bytes = resolve_main_pack_bytes(
+            "bytedance-mini-game", explicit=args.bytedance_bytes, baseline=args.baseline
+        )
         report = check_acceptance(
             args.evidence,
-            wechat_bytes=args.wechat_bytes,
-            bytedance_bytes=args.bytedance_bytes,
+            wechat_bytes=wechat_bytes,
+            bytedance_bytes=bytedance_bytes,
             forbidden_hits=args.forbidden_hits,
         )
     except AcceptanceError as exc:

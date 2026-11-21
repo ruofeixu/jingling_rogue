@@ -12,6 +12,8 @@ import pytest
 from check_release_acceptance import (
     AcceptanceError,
     check_acceptance,
+    main,
+    resolve_main_pack_bytes,
 )
 
 ROOT = Path(__file__).resolve().parent.parent.parent
@@ -122,3 +124,75 @@ def test_double_mount_blocks(tmp_path):
     (ev / "u11-acceptance.json").write_text(json.dumps(acc))
     with pytest.raises(AcceptanceError, match="mount|host"):
         check_acceptance(ev, wechat_bytes=1, bytedance_bytes=1, forbidden_hits=0)
+
+
+# --- 包体数字来源：pnpm check:release 不带 --*-bytes 时必须自己读基线 ---
+
+
+def _baseline(tmp_path: Path, builds: list[dict]) -> Path:
+    path = tmp_path / "baseline.json"
+    path.write_text(json.dumps({"builds": builds}, ensure_ascii=False), encoding="utf-8")
+    return path
+
+
+def _build_entry(platform: str, main_bytes: int) -> dict:
+    return {"platform": platform, "main_bytes": main_bytes}
+
+
+def test_resolve_bytes_reads_baseline_when_not_given(tmp_path):
+    path = _baseline(
+        tmp_path,
+        [_build_entry("wechatgame", 111), _build_entry("bytedance-mini-game", 222)],
+    )
+
+    assert resolve_main_pack_bytes("wechatgame", explicit=None, baseline=path) == 111
+    assert resolve_main_pack_bytes("bytedance-mini-game", explicit=None, baseline=path) == 222
+
+
+def test_resolve_bytes_prefers_explicit_flag(tmp_path):
+    path = _baseline(tmp_path, [_build_entry("wechatgame", 111)])
+
+    assert resolve_main_pack_bytes("wechatgame", explicit=999, baseline=path) == 999
+
+
+def test_resolve_bytes_blocks_when_platform_missing(tmp_path):
+    path = _baseline(tmp_path, [_build_entry("wechatgame", 111)])
+
+    with pytest.raises(AcceptanceError, match="no bytedance"):
+        resolve_main_pack_bytes("bytedance-mini-game", explicit=None, baseline=path)
+
+
+def test_resolve_bytes_blocks_when_baseline_missing(tmp_path):
+    with pytest.raises(AcceptanceError, match="cannot read"):
+        resolve_main_pack_bytes("wechatgame", explicit=None, baseline=tmp_path / "nope.json")
+
+
+def test_resolve_bytes_blocks_on_malformed_baseline_entry(tmp_path):
+    path = _baseline(tmp_path, [{"platform": "wechatgame"}])
+
+    with pytest.raises(AcceptanceError, match="platform/main_bytes"):
+        resolve_main_pack_bytes("wechatgame", explicit=None, baseline=path)
+
+
+def test_main_runs_without_pack_byte_flags(tmp_path):
+    ev = _valid_acceptance(tmp_path)
+    path = _baseline(
+        tmp_path,
+        [_build_entry("wechatgame", 1000), _build_entry("bytedance-mini-game", 1000)],
+    )
+
+    assert main(["--evidence", str(ev), "--baseline", str(path)]) == 0
+
+
+def test_main_blocks_on_oversize_baseline(tmp_path, capsys):
+    ev = _valid_acceptance(tmp_path)
+    path = _baseline(
+        tmp_path,
+        [
+            _build_entry("wechatgame", 4 * 1024 * 1024 + 1),
+            _build_entry("bytedance-mini-game", 1000),
+        ],
+    )
+
+    assert main(["--evidence", str(ev), "--baseline", str(path)]) == 1
+    assert "BLOCKED" in capsys.readouterr().err

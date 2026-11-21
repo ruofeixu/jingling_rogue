@@ -36,7 +36,7 @@ def test_required_keyframes_are_original_portrait_svg_artifacts() -> None:
     assert report.keyframe_count == 3
     assert report.invalid_keyframes == []
     for name in ("title", "starter", "battle"):
-        body = (ROOT / "docs" / "ui" / "keyframes" / f"{name}.svg").read_text()
+        body = (ROOT / "docs" / "ui" / "keyframes" / f"{name}.svg").read_text(encoding="utf-8")
         assert 'viewBox="0 0 750 1334"' in body
         assert "<image" not in body
         assert 'href="http://' not in body
@@ -46,7 +46,7 @@ def test_required_keyframes_are_original_portrait_svg_artifacts() -> None:
 def test_screen_matrix_has_five_states_and_matches_roadmap_phases() -> None:
     import json
 
-    entries = json.loads((ROOT / "docs" / "ui" / "screen-matrix.json").read_text())
+    entries = json.loads((ROOT / "docs" / "ui" / "screen-matrix.json").read_text(encoding="utf-8"))
     required_states = {"normal", "loading", "empty", "error", "locked"}
     expected_phases = {
         "title": "U3", "mode": "U3",

@@ -54,9 +54,9 @@ def test_moves_bundle_and_declares_subpackage(tmp_path: Path) -> None:
     assert (build / "subpackages" / "portraits" / "config.json").is_file()
     assert (build / "subpackages" / "portraits" / "index.js").is_file()
     assert not (build / "assets" / "portraits").exists()
-    settings = json.loads((build / "src" / "settings.json").read_text())
+    settings = json.loads((build / "src" / "settings.json").read_text(encoding="utf-8"))
     assert settings["assets"]["subpackages"] == ["portraits"]
-    game = json.loads((build / "game.json").read_text())
+    game = json.loads((build / "game.json").read_text(encoding="utf-8"))
     assert game["subpackages"] == [{"name": "portraits", "root": "subpackages/portraits/"}]
     assert report["moved"]["portraits"] > 0
 
@@ -69,9 +69,9 @@ def test_is_idempotent(tmp_path: Path) -> None:
     module.pack_subpackages(build, ["portraits"])
     report = module.pack_subpackages(build, ["portraits"])
 
-    settings = json.loads((build / "src" / "settings.json").read_text())
+    settings = json.loads((build / "src" / "settings.json").read_text(encoding="utf-8"))
     assert settings["assets"]["subpackages"] == ["portraits"]
-    game = json.loads((build / "game.json").read_text())
+    game = json.loads((build / "game.json").read_text(encoding="utf-8"))
     assert game["subpackages"] == [{"name": "portraits", "root": "subpackages/portraits/"}]
     assert report["moved"]["portraits"] == 0
 
@@ -85,7 +85,7 @@ def test_writes_platform_entry_script_for_each_subpackage(tmp_path: Path) -> Non
 
     entry = build / "subpackages" / "portraits" / "game.js"
     assert entry.is_file(), "mini-game platforms require game.js in every subpackage root"
-    assert "index.js" in entry.read_text()
+    assert "index.js" in entry.read_text(encoding="utf-8")
 
 
 def test_keeps_existing_platform_entry_script(tmp_path: Path) -> None:
@@ -97,7 +97,7 @@ def test_keeps_existing_platform_entry_script(tmp_path: Path) -> None:
     module.pack_subpackages(build, ["portraits"])
 
     entry = build / "subpackages" / "portraits" / "game.js"
-    assert entry.read_text() == "// creator provided\n"
+    assert entry.read_text(encoding="utf-8") == "// creator provided\n"
 
 
 def test_rejects_missing_bundle(tmp_path: Path) -> None:
@@ -144,7 +144,7 @@ def test_preserves_existing_subpackage_declarations(tmp_path: Path) -> None:
 
     module.pack_subpackages(build, ["portraits"])
 
-    game = json.loads((build / "game.json").read_text())
+    game = json.loads((build / "game.json").read_text(encoding="utf-8"))
     assert game["subpackages"] == [
         {"name": "existing", "root": "subpackages/existing/"},
         {"name": "portraits", "root": "subpackages/portraits/"},
@@ -164,5 +164,5 @@ def test_packs_portraits_and_ui_art_together(tmp_path: Path) -> None:
 
     assert report["bundles"] == ["portraits", "ui-art"]
     assert (build / "subpackages" / "ui-art" / "game.js").is_file()
-    settings = json.loads((build / "src" / "settings.json").read_text())
+    settings = json.loads((build / "src" / "settings.json").read_text(encoding="utf-8"))
     assert settings["assets"]["subpackages"] == ["portraits", "ui-art"]

@@ -79,7 +79,7 @@ def test_missing_runtime_doc_blocks(tmp_path):
 
 def test_missing_screenshot_metadata_blocks(tmp_path):
     ev = _valid_acceptance(tmp_path)
-    acc = json.loads((ev / "u11-acceptance.json").read_text())
+    acc = json.loads((ev / "u11-acceptance.json").read_text(encoding="utf-8"))
     del acc["journeys"]["portrait"]["steps"][0]["meta"]["dpr"]
     (ev / "u11-acceptance.json").write_text(json.dumps(acc))
     with pytest.raises(AcceptanceError, match="metadata"):
@@ -88,7 +88,7 @@ def test_missing_screenshot_metadata_blocks(tmp_path):
 
 def test_missing_screenshot_file_blocks(tmp_path):
     ev = _valid_acceptance(tmp_path)
-    step = json.loads((ev / "u11-acceptance.json").read_text())["journeys"]["portrait"]["steps"][0]
+    step = json.loads((ev / "u11-acceptance.json").read_text(encoding="utf-8"))["journeys"]["portrait"]["steps"][0]
     (ev / step["screenshot"]).unlink()
     with pytest.raises(AcceptanceError, match="screenshot"):
         check_acceptance(ev, wechat_bytes=1, bytedance_bytes=1, forbidden_hits=0)
@@ -96,7 +96,7 @@ def test_missing_screenshot_file_blocks(tmp_path):
 
 def test_incomplete_reachability_blocks(tmp_path):
     ev = _valid_acceptance(tmp_path)
-    acc = json.loads((ev / "u11-acceptance.json").read_text())
+    acc = json.loads((ev / "u11-acceptance.json").read_text(encoding="utf-8"))
     acc["reachability"]["legacy"] = ["battle"]
     (ev / "u11-acceptance.json").write_text(json.dumps(acc))
     with pytest.raises(AcceptanceError, match="legacy|reachab"):
@@ -117,7 +117,7 @@ def test_forbidden_term_hit_blocks(tmp_path):
 
 def test_double_mount_blocks(tmp_path):
     ev = _valid_acceptance(tmp_path)
-    acc = json.loads((ev / "u11-acceptance.json").read_text())
+    acc = json.loads((ev / "u11-acceptance.json").read_text(encoding="utf-8"))
     acc["journeys"]["portrait"]["steps"][0]["hostCount"] = 2
     (ev / "u11-acceptance.json").write_text(json.dumps(acc))
     with pytest.raises(AcceptanceError, match="mount|host"):
